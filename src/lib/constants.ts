@@ -147,7 +147,7 @@ const SHIFT_MAP = {
 // ─── Platform — 6 gestes du sommelier (descriptions raccourcies) ───
 const PLATFORM_MAP = {
   en: {
-    title: 'The companion. Six gestures.',
+    title: 'A sommelier, six functions.',
     subtitle: 'Each one removes a friction. Together, they change the evening.',
     flowDescription:
       'See · Suggest · Pair · Scan · Search · Calibrate.',
@@ -209,9 +209,9 @@ const PLATFORM_MAP = {
     ],
   },
   fr: {
-    title: 'Le compagnon. Six gestes.',
+    title: 'Un sommelier, six fonctions.',
     subtitle:
-      'Chacun retire une friction. Ensemble, ils changent la soirée.',
+      'Chacune retire une friction. Ensemble, elles changent la soirée.',
     flowDescription:
       'Voir · Suggérer · Accorder · Scanner · Chercher · Calibrer.',
     modules: [
@@ -283,7 +283,7 @@ const DIFFERENT_MAP = {
 // ─── Impact — 4 micro-récits éditoriaux (DNA §1.3) ───
 const IMPACT_MAP = {
   en: {
-    title: 'What your cellar can say.',
+    title: 'At last, your cellar can speak.',
     outcomes: [
       {
         icon: 'GlassWater' as const,
@@ -312,7 +312,7 @@ const IMPACT_MAP = {
     ],
   },
   fr: {
-    title: 'Ce que votre cave peut dire.',
+    title: 'Maintenant, votre cave peut s\'exprimer.',
     outcomes: [
       {
         icon: 'GlassWater' as const,

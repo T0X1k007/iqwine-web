@@ -63,10 +63,10 @@
   --color-maturity-decline: #a56a48;   /* déclin */
   --color-maturity-past: #6b5d55;      /* passé */
 
-  /* ── Module/feature accents ──────────────────────── */
-  --color-cellier: #c9a36a;     /* or — cellier vivant */
-  --color-sommelier: #b5403f;   /* bordeaux clair — sommelier IA */
-  --color-decouverte: #a56a48;  /* cuivre — découverte/scanner */
+  /* ── Module/feature accents — trois nuances chaudes harmonieuses ── */
+  --color-cellier: #c9a36a;     /* OR signature — cellier vivant + recherche */
+  --color-sommelier: #8c6f44;   /* OR-deep / laiton patiné — sommelier (Tonight + Restaurant) */
+  --color-decouverte: #c97b47;  /* CUIVRE — scanner + calibration */
 
   /* ── Wine semantic — couleur d'un vin (jamais UI) ── */
   --color-wine-rouge: #7a1f1f;
