@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+/* ─────────────────────────────────────────────────
+   iQWine — Design System officiel (cellier-vin v1)
+   Source : docs/foundations/02-design-system.md
+   Bordeaux + Or laiton + Noir cave (warm, jamais pur).
+   ───────────────────────────────────────────────── */
+
+@theme {
+  /* ── Surfaces (warm — jamais noir pur) ───────────── */
+  --color-background: #0F0A08;     /* noir-cave — viewport */
+  --color-sunk: #0A0705;            /* deeper — inputs */
+  --color-elev: #1A130F;            /* noir-fumee — surfaces niveau 1 */
+  --color-card: #1A130F;            /* card */
+  --color-hi: #28201B;              /* noir-vapeur — élevé */
+  --color-overlay: #3A2F28;         /* noir-ombre — popover */
+
+  /* ── Bordeaux family — CTA principaux ────────────── */
+  --color-bordeaux-50: #f8e5e2;
+  --color-bordeaux-100: #efc7c0;
+  --color-bordeaux-200: #dc9189;
+  --color-bordeaux-400: #b5403f;
+  --color-bordeaux-600: #7a1f1f;    /* PRIMARY CTA */
+  --color-bordeaux-800: #4a1116;    /* deep accent */
+  --color-bordeaux-900: #2a0a0e;    /* hero backgrounds */
+
+  /* ── Or family — accent métallique signature ─────── */
+  --color-or-50: #faf4e6;
+  --color-or-100: #f0e0ba;
+  --color-or-300: #dcbe85;
+  --color-or-500: #c9a36a;          /* OR SIGNATURE */
+  --color-or-700: #8c6f44;
+  --color-or-900: #4d3c24;
+
+  /* ── Text family — Ivoire/Sable/Cendre ──────────── */
+  --color-foreground: #f5efe6;                       /* ivoire */
+  --color-foreground-dim: rgba(245, 239, 230, 0.74); /* sable proche */
+  --color-muted-foreground: #b8ac9c;                 /* sable */
+  --color-foreground-faint: #6b5d55;                 /* cendre */
+
+  /* ── Accent primary (bordeaux pour CTA) ──────────── */
+  --color-primary: #7a1f1f;
+  --color-primary-hot: #b5403f;       /* hover */
+  --color-primary-dim: #4a1116;       /* press */
+  --color-primary-soft: #dc9189;
+  --color-primary-foreground: #f5efe6;
+
+  /* ── Accent or (signal premium fort, parcimonieux) ─ */
+  --color-or: #c9a36a;
+  --color-or-soft: #dcbe85;
+  --color-or-deep: #8c6f44;
+
+  /* ── Borders quasi-invisibles, ivoire alpha ──────── */
+  --color-border: rgba(245, 239, 230, 0.06);
+  --color-border-strong: rgba(245, 239, 230, 0.10);
+  --color-border-hot: rgba(201, 163, 106, 0.32); /* or pour focus actif */
+
+  /* ── Maturity (apogée) — sémantique vivante ──────── */
+  --color-maturity-young: #4a6e8a;     /* jeune */
+  --color-maturity-plateau: #5c8a60;   /* plateau optimal */
+  --color-maturity-peak: #c9a36a;      /* apogée = or signature */
+  --color-maturity-decline: #a56a48;   /* déclin */
+  --color-maturity-past: #6b5d55;      /* passé */
+
+  /* ── Module/feature accents ──────────────────────── */
+  --color-cellier: #c9a36a;     /* or — cellier vivant */
+  --color-sommelier: #b5403f;   /* bordeaux clair — sommelier IA */
+  --color-decouverte: #a56a48;  /* cuivre — découverte/scanner */
+
+  /* ── Wine semantic — couleur d'un vin (jamais UI) ── */
+  --color-wine-rouge: #7a1f1f;
+  --color-wine-blanc: #ddc179;
+  --color-wine-rose: #d88b8b;
+  --color-wine-mousseux: #e5d8b8;
+  --color-wine-fortifie: #6f2d1f;
+
+  /* ── Feedback (subtils, jamais saturés) ──────────── */
+  --color-signal: #6fa670;
+  --color-info: #6e8aac;
+  --color-warn: #d9a55c;
+  --color-danger: #c25450;
+
+  /* ── Type families (Inter = brand officielle) ────── */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* ── Radii (md/lg 90% du temps) ──────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-pill: 9999px;
+
+  /* ── Shadows (rares, toujours teintées or) ───────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-glow-or: 0 0 0 1px rgba(201, 163, 106, 0.16), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-glow-bordeaux: 0 0 60px rgba(122, 31, 31, 0.35);
+
+  /* ── Motion (iOS-like) ───────────────────────────── */
+  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-feature-settings: 'ss01' on, 'tnum' on, 'lnum' on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* main au-dessus du layer fixed body::before/after.
+     Sans ça, certains screenshot tools capturent noir car body::after
+     crée un stacking context qui masque le contenu en dépit du pointer-events:none. */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Selection — or signature */
+  ::selection {
+    background: rgba(201, 163, 106, 0.32);
+    color: var(--color-foreground);
+  }
+
+  /* Display headings — Inter Display weight, tight tracking */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  h1 { letter-spacing: -0.04em; }
+
+  /* Numerals tabulaires sur tout chiffre */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on;
+  }
+
+  /* Texture luxe — grille subtile + glow bordeaux/or */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle at center, rgba(245, 239, 230, 0.03) 1px, transparent 1px);
+    background-size: 96px 96px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  }
+
+  /* Vignette chaude — bordeaux profond + or subtil */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(122, 31, 31, 0.18), transparent 65%),
+      radial-gradient(ellipse 50% 30% at 85% 80%, rgba(201, 163, 106, 0.06), transparent 70%);
+  }
+}
+
+/* ─────────────────────────────────────────────────
+   Semantic type utilities (iq-*)
+   Inter Display scale — éditoriale magazine premium.
+   Letter-spacing serré -0.02em à -0.04em (luxe signal).
+   ───────────────────────────────────────────────── */
+@layer utilities {
+  .iq-hero {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 9vw, 128px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+  }
+  .iq-display {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 7vw, 96px);
+    font-weight: 600;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+  }
+  .iq-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.5vw, 72px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+  .iq-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4.2vw, 52px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .iq-h3 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+  }
+  .iq-h4 {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.2vw, 26px);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+  }
+  .iq-lead {
+    font-family: var(--font-body);
+    font-size: clamp(17px, 1.5vw, 22px);
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    color: var(--color-foreground-dim);
+  }
+  .iq-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+  .iq-small {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .iq-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-or);
+  }
+  .iq-eyebrow-mute {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+  .iq-mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  /* Période or signature — clôt les titres luxe */
+  .iq-period {
+    color: var(--color-or);
+  }
+
+  /* Glass — toujours sur fond image/gradient (cf §6.1) */
+  .glass {
+    background: rgba(245, 239, 230, 0.04);
+    backdrop-filter: blur(28px) saturate(1.2);
+    -webkit-backdrop-filter: blur(28px) saturate(1.2);
+    border: 1px solid rgba(245, 239, 230, 0.06);
+    box-shadow: inset 0 1px 0 rgba(245, 239, 230, 0.08);
+  }
+}
+
+/* ─────────────────────────────────────────────────
+   CSS animations — entrée fade + translate.
+   Plus fiable que IntersectionObserver pour les
+   chargements directs à mid-page (reload, deep link).
+   ───────────────────────────────────────────────── */
+@keyframes iq-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes iq-fade-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes iq-fade-left {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes iq-fade-right {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.iq-fade-up,
+.iq-fade-down,
+.iq-fade-left,
+.iq-fade-right {
+  opacity: 0;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  animation-duration: 0.42s;
+}
+.iq-fade-up    { animation-name: iq-fade-up; }
+.iq-fade-down  { animation-name: iq-fade-down; }
+.iq-fade-left  { animation-name: iq-fade-left; }
+.iq-fade-right { animation-name: iq-fade-right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .iq-fade-up,
+  .iq-fade-down,
+  .iq-fade-left,
+  .iq-fade-right {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
