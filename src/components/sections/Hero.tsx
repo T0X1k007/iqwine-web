@@ -66,7 +66,7 @@ export default function Hero() {
         <FadeInOnScroll delay={0.55}>
           <div className="mt-12 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <a href="#beta" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto">
+              <Button variant="or" size="lg" className="w-full sm:w-auto">
                 {hero.ctaPrimary}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
