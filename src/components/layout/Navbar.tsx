@@ -23,9 +23,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[240ms] ease-[cubic-bezier(.32,.72,0,1)] ${
+      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-colors duration-[240ms] ease-[cubic-bezier(.32,.72,0,1)] ${
         scrolled
-          ? 'bg-background/80 backdrop-blur-[14px] border-b border-border'
+          ? 'bg-background/75 backdrop-blur-[20px] backdrop-saturate-150 border-b border-border'
           : 'bg-transparent'
       }`}
     >

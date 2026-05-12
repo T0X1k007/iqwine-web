@@ -2,6 +2,8 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   accentColor?: 'cellier' | 'sommelier' | 'decouverte' | 'primary';
+  /** Glassmorphism Apple VisionOS — matte, presque invisible (utiliser sur cards Suite) */
+  glass?: boolean;
 }
 
 // Accent — gradient top bar fade-out + glow subtil au hover.
@@ -28,10 +30,23 @@ export default function Card({
   children,
   className = '',
   accentColor,
+  glass = false,
 }: CardProps) {
+  // Glassmorphism Apple VisionOS — matte, soft, presque invisible.
+  // Background ivoire 2.5%, blur 24px (pas 40+), pas de saturation forte.
+  const glassStyle: React.CSSProperties = glass
+    ? {
+        background: 'rgba(245, 239, 230, 0.025)',
+        backdropFilter: 'blur(24px) saturate(1.1)',
+        WebkitBackdropFilter: 'blur(24px) saturate(1.1)',
+        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.04)',
+      }
+    : {};
+
   return (
     <div
-      className={`group relative bg-card rounded-xl border border-border p-6 sm:p-8
+      style={glassStyle}
+      className={`group relative ${glass ? '' : 'bg-card'} rounded-xl border border-border p-6 sm:p-8
         transition-all duration-[200ms] ease-[cubic-bezier(.32,.72,0,1)]
         hover:bg-hi hover:border-or/20
         ${accentColor ? `before:absolute before:top-0 before:inset-x-4 before:h-[2px] before:rounded-full ${accentGradient[accentColor]} ${accentHoverGlow[accentColor]}` : ''}

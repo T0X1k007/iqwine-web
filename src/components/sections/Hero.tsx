@@ -1,6 +1,8 @@
 'use client';
 
+import { useRef } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import Logo from '@/components/ui/Logo';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
@@ -14,24 +16,37 @@ export default function Hero() {
   const hero = getHero(locale);
   const content = VARIANT === 'A' ? hero.variantA : hero.variantB;
 
+  // Parallax ultra-subtil — uniquement sur le glow, jamais sur le contenu.
+  // Si on remarque, c'est déjà trop fort. Translation max ~40px sur tout le hero.
+  const sectionRef = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const glowY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, 60]);
+  const glowOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.6]);
+
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative min-h-[100dvh] flex items-center justify-center pt-24 pb-16 overflow-hidden"
     >
-      {/* Glow bordeaux derrière le logo — accent dramatique */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Glow bordeaux — parallax subconscient sur scroll, GPU transform only */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ y: glowY, opacity: glowOpacity, willChange: 'transform' }}
+      >
         <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[640px] h-[640px] rounded-full bg-primary/20 blur-[120px]" />
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[min(720px,90%)] h-px bg-gradient-to-r from-transparent via-or/40 to-transparent" />
-      </div>
+      </motion.div>
 
       <div className="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
-        {/* Eyebrow — mono uppercase or */}
         <FadeInOnScroll delay={0}>
           <div className="iq-eyebrow mb-10">{hero.badge}</div>
         </FadeInOnScroll>
 
-        {/* Logo officiel — verre à vin doré, hero element */}
         <FadeInOnScroll delay={0.1}>
           <div className="flex flex-col items-center gap-6 mb-10">
             <Logo size={140} glow />
@@ -43,7 +58,6 @@ export default function Hero() {
           </div>
         </FadeInOnScroll>
 
-        {/* Two-line headline — Inter Display, accent or sur ligne 2 */}
         <FadeInOnScroll delay={0.25}>
           <h1 className="iq-h1 mx-auto max-w-4xl">
             <span className="block text-foreground">{content.headlineTop ?? content.headline}</span>
@@ -55,14 +69,12 @@ export default function Hero() {
           </h1>
         </FadeInOnScroll>
 
-        {/* Lead — Inter body, dim ivoire */}
         <FadeInOnScroll delay={0.4}>
           <p className="iq-lead mt-8 max-w-2xl mx-auto">
             {content.subheadline}
           </p>
         </FadeInOnScroll>
 
-        {/* Anchor concret — preuve tangible avant les CTA, hairline or */}
         <FadeInOnScroll delay={0.5}>
           <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
             <div className="flex-1 h-px bg-or/25" />
@@ -73,7 +85,6 @@ export default function Hero() {
           </div>
         </FadeInOnScroll>
 
-        {/* CTA row — primary bordeaux, secondary outlined */}
         <FadeInOnScroll delay={0.65}>
           <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <a href="#beta" className="w-full sm:w-auto">
@@ -91,7 +102,6 @@ export default function Hero() {
           </div>
         </FadeInOnScroll>
 
-        {/* Tagline éditoriale en bas du hero — la phrase fondatrice */}
         <FadeInOnScroll delay={0.8}>
           <p className="mt-16 font-[family-name:var(--font-display)] italic text-foreground-faint text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
             {locale === 'fr'

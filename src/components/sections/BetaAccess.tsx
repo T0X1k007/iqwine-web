@@ -4,12 +4,14 @@ import { Lock } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import TitleAccent from '@/components/ui/TitleAccent';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
+import CountUp from '@/components/motion/CountUp';
 import { useLocale } from '@/lib/i18n';
 import { getBeta, getEyebrows } from '@/lib/constants';
 
 /**
- * BetaAccess — Coming Soon, no form.
- * Pas d'inscription publique. Sur invitation, accueil personnel.
+ * BetaAccess — Cercle des fondateurs.
+ * Display number « 100 » en grand format avec count-up atmosphérique.
+ * UNE SEULE animation count-up de tout le site (DNA §6 — extremely limited).
  */
 export default function BetaAccess() {
   const { locale } = useLocale();
@@ -28,7 +30,6 @@ export default function BetaAccess() {
             </div>
 
             <div className="relative text-center">
-              {/* Eyebrow */}
               <div className="iq-eyebrow mb-6">{eyebrows.beta}</div>
 
               {/* Lock icon discret */}
@@ -44,9 +45,22 @@ export default function BetaAccess() {
               </h2>
 
               {/* Description */}
-              <p className="iq-lead mb-8 max-w-xl mx-auto">
+              <p className="iq-lead mb-10 max-w-xl mx-auto">
                 {beta.description}
               </p>
+
+              {/* Display number 100 — count-up atmosphérique discret */}
+              <div className="flex flex-col items-center gap-2 my-10">
+                <p className="font-mono text-[10px] tracking-[0.32em] uppercase text-muted-foreground">
+                  {locale === 'fr' ? 'Première vague' : 'First wave'}
+                </p>
+                <p className="font-[family-name:var(--font-display)] font-semibold text-or text-[88px] sm:text-[112px] leading-none tracking-[-0.04em]">
+                  <CountUp to={100} duration={2400} />
+                </p>
+                <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-or">
+                  {locale === 'fr' ? 'Celliers' : 'Cellars'}
+                </p>
+              </div>
 
               {/* Detail italique éditoriale */}
               <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-base sm:text-lg max-w-xl mx-auto leading-relaxed mb-10">

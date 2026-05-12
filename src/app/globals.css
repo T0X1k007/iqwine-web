@@ -111,6 +111,9 @@
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
+    /* Mobile native iOS smoothness — momentum scroll + no rubber band overscroll */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
   }
 
   body {
@@ -120,6 +123,13 @@
     font-feature-settings: 'ss01' on, 'tnum' on, 'lnum' on;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* iOS tap highlight — invisible (luxe tactile, pas un flash bleu) */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Touch action default — pan-y pour scroll naturel mobile */
+  body, main {
+    touch-action: manipulation;
   }
 
   /* main au-dessus du layer fixed body::before/after.
@@ -128,6 +138,25 @@
   main {
     position: relative;
     z-index: 1;
+  }
+
+  /* Safe area iOS — notch + home indicator. Padding adapté pour PWA installable. */
+  @supports (padding: max(0px)) {
+    .pt-safe {
+      padding-top: max(env(safe-area-inset-top), 16px);
+    }
+    .pb-safe {
+      padding-bottom: max(env(safe-area-inset-bottom), 16px);
+    }
+  }
+
+  /* Hide scrollbar pour le carrousel mobile CeSoir (iOS-like clean) */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
   /* Selection — or signature */

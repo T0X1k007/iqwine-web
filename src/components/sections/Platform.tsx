@@ -56,7 +56,7 @@ export default function Platform() {
       <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {platform.modules.map((mod) => (
           <motion.div key={mod.name} variants={staggerItemVariants}>
-            <Card accentColor={mod.color} className="h-full">
+            <Card accentColor={mod.color} glass className="h-full">
               <div className="flex items-start gap-4 mb-6">
                 {/* Glyph — pastille gradient avec lettre serif italique */}
                 <div
