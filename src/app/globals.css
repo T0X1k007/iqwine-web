@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import 'tailwindcss';
+/* Fonts auto-self-host via next/font (cf. layout.tsx) — zéro @import google bloquant. */
 
 /* ─────────────────────────────────────────────────
    iQWine — Design System officiel (cellier-vin v1)
@@ -81,10 +81,10 @@
   --color-warn: #d9a55c;
   --color-danger: #c25450;
 
-  /* ── Type families (Inter = brand officielle) ────── */
-  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  /* ── Type families — variables CSS injectées par next/font (cf. layout.tsx) ── */
+  --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
 
   /* ── Radii (md/lg 90% du temps) ──────────────────── */
   --radius-xs: 4px;
@@ -157,6 +157,22 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Mobile-first GPU efficiency :
+     Sur touch devices, réduire le blur backdrop-filter (coût GPU élevé)
+     et désactiver les hover effects (inutiles + double-tap iOS). */
+  @media (pointer: coarse) {
+    [class*="backdrop-blur"] {
+      backdrop-filter: blur(12px) saturate(1.1) !important;
+      -webkit-backdrop-filter: blur(12px) saturate(1.1) !important;
+    }
+    /* Active states tactiles — feedback léger sur tap */
+    .group:active,
+    button:active,
+    a:active {
+      transition-duration: 80ms;
+    }
   }
 
   /* Selection — or signature */

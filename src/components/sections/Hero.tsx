@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Button from '@/components/ui/Button';
@@ -16,16 +16,24 @@ export default function Hero() {
   const hero = getHero(locale);
   const content = VARIANT === 'A' ? hero.variantA : hero.variantB;
 
-  // Parallax ultra-subtil — uniquement sur le glow, jamais sur le contenu.
-  // Si on remarque, c'est déjà trop fort. Translation max ~40px sur tout le hero.
+  // Parallax désactivé sur :
+  //   - prefers-reduced-motion (a11y)
+  //   - touch devices (souvent jankier, GPU thermal cost mobile)
   const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+  const parallaxOff = reduced || isTouch;
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
-  const glowY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, 60]);
-  const glowOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.6]);
+  const glowY = useTransform(scrollYProgress, [0, 1], parallaxOff ? [0, 0] : [0, 60]);
+  const glowOpacity = useTransform(scrollYProgress, [0, 1], parallaxOff ? [1, 1] : [1, 0.6]);
 
   return (
     <section
@@ -49,7 +57,7 @@ export default function Hero() {
 
         <FadeInOnScroll delay={0.1}>
           <div className="flex flex-col items-center gap-6 mb-10">
-            <Logo size={140} glow />
+            <Logo size={140} glow priority />
             <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-semibold tracking-[-0.04em] leading-none">
               <span className="text-foreground">iQ</span>
               <span className="text-or">Wine</span>

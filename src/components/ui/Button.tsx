@@ -10,14 +10,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
 }
 
-// Brand motion : 120ms ios easing. Press = primary-dim. No bounce, no glow décoratif.
+// Brand motion : 140ms ios easing. Press = active state + scale subtil tactile.
+// No bounce, no glow décoratif. Active state critical pour feedback mobile.
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-primary text-primary-foreground hover:bg-primary-hot active:bg-primary-dim shadow-[0_8px_24px_rgba(122,31,31,0.35)]',
+    'bg-primary text-primary-foreground hover:bg-primary-hot active:bg-primary-dim active:scale-[0.98] shadow-[0_8px_24px_rgba(122,31,31,0.35)]',
   secondary:
-    'border border-border-strong text-foreground hover:bg-elev hover:border-or/50',
-  ghost: 'text-muted-foreground hover:text-foreground',
-  or: 'bg-or text-primary-foreground hover:bg-or-soft active:bg-or-deep',
+    'border border-border-strong text-foreground hover:bg-elev hover:border-or/50 active:bg-elev active:scale-[0.98]',
+  ghost: 'text-muted-foreground hover:text-foreground active:text-foreground',
+  or: 'bg-or text-primary-foreground hover:bg-or-soft active:bg-or-deep active:scale-[0.98]',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
