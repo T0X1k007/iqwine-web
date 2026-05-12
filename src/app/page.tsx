@@ -7,6 +7,7 @@ import Hero from '@/components/sections/Hero';
 import TheProblem from '@/components/sections/TheProblem';
 import Platform from '@/components/sections/Platform';
 import Impact from '@/components/sections/Impact';
+import LeCercle from '@/components/sections/LeCercle';
 import BetaAccess from '@/components/sections/BetaAccess';
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <TheProblem />
         <Platform />
         <Impact />
+        <LeCercle />
         <BetaAccess />
       </main>
       <Footer />

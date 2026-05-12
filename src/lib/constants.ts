@@ -2,9 +2,13 @@ import type { Locale } from './i18n';
 
 /**
  * Copywriting iQWine — voix sommelier d'hôtel particulier.
- * Vouvoiement éditorial luxe (FR) · same elevation in EN.
- * Phrases 8-14 mots. Voix active. Pas d'exclamation. Pas de marketing-speak.
- * Vocabulaire œnologique permis : apogée, plateau, garde, finale, élevage, équilibre.
+ * Positionnement : « Le système d'intelligence privé de votre cave. »
+ * (OS du collectionneur, semé subtilement — pas d'acronyme tech en clair.)
+ *
+ * Voix : vouvoiement éditorial luxe (FR) · same elevation in EN.
+ * Phrases 8-14 mots. Voix active. Pas d'exclamation. Pas de SaaS-speak.
+ * Vocabulaire collectionneur permis : collection, réserve, garde,
+ * dégustation, millésime, apogée, plateau, finale, élevage.
  */
 
 // ─── Eyebrows (mono uppercase, ouvre chaque section) ───
@@ -12,129 +16,133 @@ const EYEBROWS_MAP = {
   en: {
     problem: '01 · Reality',
     platform: '02 · The Suite',
-    impact: '03 · What Is Felt',
-    beta: '04 · By Invitation',
+    impact: '03 · Intelligence',
+    circle: '04 · The Circle',
+    beta: '05 · Access',
   },
   fr: {
     problem: '01 · Constat',
     platform: '02 · La suite',
-    impact: '03 · Ce qui se vit',
-    beta: '04 · Sur invitation',
+    impact: '03 · Intelligence',
+    circle: '04 · Le cercle',
+    beta: '05 · L\'accès',
   },
 };
 
-// ─── Navigation ───
+// ─── Navigation (4 ancres) ───
 const NAV_LINKS_MAP = {
   en: [
     { label: 'Vision', href: '#problem' },
     { label: 'Suite', href: '#platform' },
-    { label: 'Felt', href: '#impact' },
+    { label: 'Circle', href: '#circle' },
     { label: 'Access', href: '#beta' },
   ],
   fr: [
     { label: 'Vision', href: '#problem' },
     { label: 'Suite', href: '#platform' },
-    { label: 'Ressenti', href: '#impact' },
+    { label: 'Cercle', href: '#circle' },
     { label: 'Accès', href: '#beta' },
   ],
 } as const;
 
 // ─── Hero ───
+// Positionnement OS d'entrée + anchor concret + signal exclusivité subtil.
 const HERO_MAP = {
   en: {
-    badge: 'Private Preview · By Invitation',
+    badge: 'First Wave · 100 Cellars · By Invitation',
     variantA: {
-      headlineTop: 'Your cellar deserves',
-      headlineBottom: 'more than a list.',
-      headline: 'Your cellar deserves more than a list.',
+      headlineTop: 'The private intelligence',
+      headlineBottom: 'of your cellar.',
+      headline: 'The private intelligence of your cellar.',
       subheadline:
-        'The private sommelier for your cellar. Discreet. Precise. Always at the table.',
+        'Private sommelier. Tasting memory. A living cellar.',
+      anchor: 'Scan. Understand. Open at the right moment.',
     },
     variantB: {
-      headlineTop: 'A sommelier in your pocket.',
-      headlineBottom: 'Always at the right moment.',
-      headline: 'A sommelier in your pocket. Always at the right moment.',
+      headlineTop: 'Your collection,',
+      headlineBottom: 'finally alive.',
+      headline: 'Your collection, finally alive.',
       subheadline:
-        'Discover, pair, scan, decide — with the calm of a great house.',
+        'Designed for collectors. Not for inventory.',
+      anchor: 'Scan. Understand. Open at the right moment.',
     },
     ctaPrimary: 'Request Access',
     ctaSecondary: 'See the Suite',
   },
   fr: {
-    badge: 'Avant-première privée · Sur invitation',
+    badge: 'Première vague · 100 celliers · Sur invitation',
     variantA: {
-      headlineTop: 'Votre cellier mérite',
-      headlineBottom: 'mieux qu\'une liste.',
-      headline: 'Votre cellier mérite mieux qu\'une liste.',
+      headlineTop: 'L\'intelligence privée',
+      headlineBottom: 'de votre cave.',
+      headline: 'L\'intelligence privée de votre cave.',
       subheadline:
-        'Le sommelier privé de votre cave. Discret. Précis. Toujours à table.',
+        'Sommelier privé. Mémoire de dégustation. Cellier vivant.',
+      anchor: 'Scannez. Comprenez. Ouvrez au bon moment.',
     },
     variantB: {
-      headlineTop: 'Un sommelier dans la poche.',
-      headlineBottom: 'Toujours au bon moment.',
-      headline: 'Un sommelier dans la poche. Toujours au bon moment.',
+      headlineTop: 'Votre collection,',
+      headlineBottom: 'enfin vivante.',
+      headline: 'Votre collection, enfin vivante.',
       subheadline:
-        'Découvrir, accorder, scanner, décider — avec le calme d\'une grande maison.',
+        'Pensé pour les collectionneurs. Pas pour des inventaires.',
+      anchor: 'Scannez. Comprenez. Ouvrez au bon moment.',
     },
     ctaPrimary: 'Demander l\'accès',
     ctaSecondary: 'Voir la suite',
   },
 };
 
-// ─── Problem (3 douleurs tranchantes) ───
+// ─── Problem (3 douleurs, cadrage collectionneur) ───
 const PROBLEM_MAP = {
   en: {
-    title: 'Owning a cellar is not the same as living with it.',
+    title: 'A collection is not an inventory.',
     points: [
       {
         icon: 'Clock' as const,
-        title: 'Peaks pass in silence',
+        title: 'Great bottles peak silently',
         description:
-          'A great wine reaches its plateau, then declines — without a word.',
+          'Vintage charts in books. Plateau windows uncertain. The cellar remembers — and tells you nothing.',
       },
       {
         icon: 'Utensils' as const,
-        title: 'Pairing remains a guess',
+        title: 'Pairings stay approximate',
         description:
-          'Tonight\'s menu meets last week\'s instinct. The match stays approximate.',
+          'Tonight\'s menu meets last week\'s instinct. The right bottle dies on a shelf, two rows away.',
       },
       {
         icon: 'Camera' as const,
-        title: 'Unknown labels stay strangers',
+        title: 'Memorable bottles disappear',
         description:
-          'A gift, a discovery, a bottle from a trip. You meant to look it up.',
+          'A gift. A discovery. A bottle from a trip. You meant to look it up. It became a memory.',
       },
     ],
   },
   fr: {
-    title: 'Posséder une cave et y vivre, ce n\'est pas la même chose.',
+    title: 'Une collection n\'est pas un inventaire.',
     points: [
       {
         icon: 'Clock' as const,
-        title: 'Les apogées passent en silence',
+        title: 'Les grands vins atteignent leur apogée en silence',
         description:
-          'Un grand vin atteint son plateau, puis décline — sans un mot.',
+          'Les tables de millésime restent dans les livres. Les plateaux restent flous. Votre cave retient — et ne dit rien.',
       },
       {
         icon: 'Utensils' as const,
-        title: 'L\'accord reste un pari',
+        title: 'Les accords restent approximatifs',
         description:
-          'Le menu du soir rencontre l\'intuition de la semaine dernière. L\'accord reste approximatif.',
+          'Le menu du soir rencontre l\'intuition de la semaine dernière. La bonne bouteille meurt sur une étagère, deux rangs plus loin.',
       },
       {
         icon: 'Camera' as const,
-        title: 'Les étiquettes inconnues restent muettes',
+        title: 'Les bouteilles marquantes disparaissent',
         description:
-          'Un cadeau, une découverte, une bouteille de voyage. Vous vouliez vous renseigner.',
+          'Un cadeau. Une découverte. Une bouteille de voyage. Vous vouliez vous renseigner. C\'est devenu un souvenir.',
       },
     ],
   },
 };
 
-// ─── Solution / WhatIsIQWine — RETIRÉ (redondant avec Platform) ───
-// ─── Shift — RETIRÉ (redondant avec Hero subheadline + tagline) ───
-
-// Conservé pour compat type system (les fichiers legacy l'importent encore le temps de la migration)
+// ─── Compat types (sections retirées) ───
 const SOLUTION_MAP = {
   en: { title: '', subtitle: '', pillars: [] as Array<{ icon: 'Eye' | 'Sparkles' | 'Compass'; title: string; description: string }> },
   fr: { title: '', subtitle: '', pillars: [] as Array<{ icon: 'Eye' | 'Sparkles' | 'Compass'; title: string; description: string }> },
@@ -144,20 +152,20 @@ const SHIFT_MAP = {
   fr: { title: '', lines: [] as string[] },
 };
 
-// ─── Platform — 6 gestes du sommelier (descriptions raccourcies) ───
+// ─── Platform / La Suite — 6 gestes en langage collectionneur ───
 const PLATFORM_MAP = {
   en: {
     title: 'A sommelier, six functions.',
     subtitle: 'Each one removes a friction. Together, they change the evening.',
     flowDescription:
-      'See · Suggest · Pair · Scan · Search · Calibrate.',
+      'See · Pair · Discover · Scan · Search · Calibrate.',
     modules: [
       {
         name: 'Living Cellar',
         color: 'cellier' as const,
         glyph: 'C',
         tagline: 'Visual plan & heatmap',
-        description: 'The living plan of your cellar.',
+        description: 'The living plan of your collection.',
         details: 'Peaks pulse this week. Regions speak.',
         phase: 'See',
       },
@@ -165,10 +173,10 @@ const PLATFORM_MAP = {
         name: 'Tonight Mode',
         color: 'sommelier' as const,
         glyph: 'T',
-        tagline: 'The pairing engine',
+        tagline: 'Pairing intelligence',
         description: 'The menu on one side. The cellar on the other.',
         details: 'Three bottles, with their reasoning.',
-        phase: 'Suggest',
+        phase: 'Pair',
       },
       {
         name: 'Restaurant Mode',
@@ -177,7 +185,7 @@ const PLATFORM_MAP = {
         tagline: 'A discreet sommelier at the table',
         description: 'Photograph the wine list. Receive the right choice.',
         details: 'Without anyone seeing.',
-        phase: 'Pair',
+        phase: 'Discover',
       },
       {
         name: 'Label Scanner',
@@ -201,7 +209,7 @@ const PLATFORM_MAP = {
         name: 'Palate Calibration',
         color: 'decouverte' as const,
         glyph: 'P',
-        tagline: 'Tasting notes that learn',
+        tagline: 'Tasting memory that learns',
         description: 'Thirty tastings. A palate, mapped.',
         details: 'Wines you did not know you wanted.',
         phase: 'Calibrate',
@@ -213,14 +221,14 @@ const PLATFORM_MAP = {
     subtitle:
       'Chacune retire une friction. Ensemble, elles changent la soirée.',
     flowDescription:
-      'Voir · Suggérer · Accorder · Scanner · Chercher · Calibrer.',
+      'Voir · Accorder · Découvrir · Scanner · Chercher · Calibrer.',
     modules: [
       {
         name: 'Cellier vivant',
         color: 'cellier' as const,
         glyph: 'C',
         tagline: 'Plan visuel & heatmap',
-        description: 'Le plan vivant de votre cave.',
+        description: 'Le plan vivant de votre collection.',
         details: 'Les apogées pulsent cette semaine. Les régions parlent.',
         phase: 'Voir',
       },
@@ -228,10 +236,10 @@ const PLATFORM_MAP = {
         name: 'Mode Tonight',
         color: 'sommelier' as const,
         glyph: 'T',
-        tagline: 'Le moteur d\'accords',
+        tagline: 'Intelligence d\'accord',
         description: 'Le menu d\'un côté. La cave de l\'autre.',
         details: 'Trois bouteilles, avec leur raisonnement.',
-        phase: 'Suggérer',
+        phase: 'Accorder',
       },
       {
         name: 'Mode Restaurant',
@@ -240,7 +248,7 @@ const PLATFORM_MAP = {
         tagline: 'Un sommelier discret à table',
         description: 'Photographiez la carte. Recevez le bon choix.',
         details: 'Sans qu\'il y paraisse.',
-        phase: 'Accorder',
+        phase: 'Découvrir',
       },
       {
         name: 'Scanner d\'étiquettes',
@@ -264,7 +272,7 @@ const PLATFORM_MAP = {
         name: 'Calibration du palais',
         color: 'decouverte' as const,
         glyph: 'P',
-        tagline: 'Notes de dégustation qui apprennent',
+        tagline: 'Mémoire de dégustation qui apprend',
         description: 'Trente dégustations. Un palais cartographié.',
         details: 'Des vins que vous ignoriez aimer.',
         phase: 'Calibrer',
@@ -273,92 +281,150 @@ const PLATFORM_MAP = {
   },
 };
 
-// ─── Different — RETIRÉ (anti-définition creuse) ───
-// Conservé pour compat type system
+// ─── Compat (retiré) ───
 const DIFFERENT_MAP = {
   en: { title: '', points: [] as string[], conclusion: '' },
   fr: { title: '', points: [] as string[], conclusion: '' },
 };
 
-// ─── Impact — 4 micro-récits éditoriaux (DNA §1.3) ───
+// ─── Intelligence — 4 messages AI contextuels (DNA §10) ───
+// Cette section démontre l'IA, pas la définit. Le système parle.
 const IMPACT_MAP = {
   en: {
-    title: 'At last, your cellar can speak.',
+    title: 'What your cellar can now say.',
+    subtitle: 'Four messages. One palate, listened to.',
     outcomes: [
       {
         icon: 'GlassWater' as const,
-        title: 'Anticipation',
+        title: 'Apogee',
         description:
-          'Tuesday. Your Brunello enters its plateau this week.',
+          'Your Brunello enters its plateau this week. Tuesday would be ideal.',
       },
       {
         icon: 'Heart' as const,
-        title: 'Gratitude',
+        title: 'Pairing',
         description:
-          'Three bottles, perfect for Saturday\'s dinner.',
+          'Three bottles, perfectly matched to the menu you just photographed.',
       },
       {
         icon: 'Sparkle' as const,
-        title: 'Self-knowledge',
+        title: 'Palate',
         description:
-          'Four months without a Burgundy. That is not by chance.',
+          'You increasingly favor mineral whites. Your last six choices confirm it.',
       },
       {
         icon: 'Library' as const,
         title: 'Opportunity',
         description:
-          'This bottle will not return. Now is the moment.',
+          'This bottle is becoming rare. Tonight would be a fine moment.',
       },
     ],
   },
   fr: {
-    title: 'Maintenant, votre cave peut s\'exprimer.',
+    title: 'Ce que votre cave peut désormais vous dire.',
+    subtitle: 'Quatre messages. Un palais, enfin écouté.',
     outcomes: [
       {
         icon: 'GlassWater' as const,
-        title: 'Anticipation',
+        title: 'Apogée',
         description:
-          'Mardi. Votre Brunello entre dans son plateau cette semaine.',
+          'Votre Brunello entre dans son plateau cette semaine. Mardi serait idéal.',
       },
       {
         icon: 'Heart' as const,
-        title: 'Gratitude',
+        title: 'Accord',
         description:
-          'Trois bouteilles, parfaites pour le souper de samedi.',
+          'Trois bouteilles, parfaitement accordées au menu que vous venez de photographier.',
       },
       {
         icon: 'Sparkle' as const,
-        title: 'Connaissance de soi',
+        title: 'Palais',
         description:
-          'Quatre mois sans Bourgogne. Ce n\'est pas un hasard.',
+          'Vous aimez de plus en plus les blancs minéraux. Vos six derniers choix le confirment.',
       },
       {
         icon: 'Library' as const,
         title: 'Opportunité',
         description:
-          'Cette bouteille ne revient pas. C\'est le moment.',
+          'Cette bouteille devient rare. Ce soir serait un beau moment.',
       },
     ],
   },
 };
 
-// ─── Beta — Coming Soon, fier et sobre ───
+// ─── Le Cercle — Manifesto + lifestyle collectionneur (NEW) ───
+const CIRCLE_MAP = {
+  en: {
+    title: 'For those who live with a collection.',
+    manifesto:
+      'iQWine was not built to catalogue bottles. It was built to live with a collection.',
+    facets: [
+      {
+        icon: 'BookOpen' as const,
+        title: 'Tasting memory',
+        description:
+          'Each evening is inscribed. The palate maps itself. The collection takes a shape.',
+      },
+      {
+        icon: 'Sparkles' as const,
+        title: 'Dinners that count',
+        description:
+          'Bottles opened, pairings remembered, moments you can revisit a year later.',
+      },
+      {
+        icon: 'Map' as const,
+        title: 'The journey found again',
+        description:
+          'Unknown labels archived. Travel bottles brought home. Nothing forgotten.',
+      },
+    ],
+  },
+  fr: {
+    title: 'Pour celles et ceux qui vivent avec une collection.',
+    manifesto:
+      'iQWine n\'a pas été conçu pour cataloguer des bouteilles. Il a été conçu pour vivre avec une collection.',
+    facets: [
+      {
+        icon: 'BookOpen' as const,
+        title: 'Mémoire de dégustation',
+        description:
+          'Chaque soirée s\'inscrit. Le palais se cartographie. La collection prend forme.',
+      },
+      {
+        icon: 'Sparkles' as const,
+        title: 'Les soirées qui comptent',
+        description:
+          'Bouteilles ouvertes, accords retenus, moments que vous pourrez revisiter un an plus tard.',
+      },
+      {
+        icon: 'Map' as const,
+        title: 'Le voyage retrouvé',
+        description:
+          'Étiquettes inconnues archivées. Bouteilles de voyage ramenées. Rien d\'oublié.',
+      },
+    ],
+  },
+};
+
+// ─── Beta — Cercle des fondateurs avec FOMO subtil élégant ───
 const BETA_MAP = {
   en: {
     overline: 'By Invitation',
-    title: 'Access opens by invitation.',
+    title: 'The first wave opens.',
     description:
-      'iQWine enters its first private wave in 2026. The companion is built quietly, by hand, for cellars that deserve more than a list.',
-    note: 'No public sign-up — by invitation only.',
-    detail: 'When the door opens, the first cellars will be welcomed personally.',
+      'First wave limited to 100 cellars. Private onboarding for founding members. No public sign-up.',
+    note: '100 cellars · By invitation only',
+    detail:
+      'Founders shape the suite. Their reserves enter first. Their feedback writes the next chapter.',
   },
   fr: {
     overline: 'Sur invitation',
-    title: 'L\'accès s\'ouvre sur invitation.',
+    title: 'La première vague s\'ouvre.',
     description:
-      'iQWine entre dans sa première vague privée en 2026. Le compagnon se construit en silence, à la main, pour des celliers qui méritent mieux qu\'une liste.',
-    note: 'Pas d\'inscription publique — sur invitation uniquement.',
-    detail: 'Quand la porte s\'ouvrira, les premiers celliers seront accueillis personnellement.',
+      'Première vague limitée à 100 celliers. Onboarding privé pour les fondateurs. Pas d\'inscription publique.',
+    note: '100 celliers · Sur invitation',
+    detail:
+      'Les fondateurs façonnent la suite. Leurs réserves entrent en premier. Leurs retours écrivent le chapitre suivant.',
   },
 };
 
@@ -392,6 +458,9 @@ export function getDifferent(locale: Locale) {
 }
 export function getImpact(locale: Locale) {
   return IMPACT_MAP[locale];
+}
+export function getCircle(locale: Locale) {
+  return CIRCLE_MAP[locale];
 }
 export function getBeta(locale: Locale) {
   return BETA_MAP[locale];

@@ -62,9 +62,20 @@ export default function Hero() {
           </p>
         </FadeInOnScroll>
 
+        {/* Anchor concret — preuve tangible avant les CTA, hairline or */}
+        <FadeInOnScroll delay={0.5}>
+          <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
+            <div className="flex-1 h-px bg-or/25" />
+            <p className="font-[family-name:var(--font-display)] italic text-or text-base sm:text-lg tracking-tight whitespace-nowrap">
+              {content.anchor}
+            </p>
+            <div className="flex-1 h-px bg-or/25" />
+          </div>
+        </FadeInOnScroll>
+
         {/* CTA row — primary bordeaux, secondary outlined */}
-        <FadeInOnScroll delay={0.55}>
-          <div className="mt-12 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+        <FadeInOnScroll delay={0.65}>
+          <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <a href="#beta" className="w-full sm:w-auto">
               <Button variant="or" size="lg" className="w-full sm:w-auto">
                 {hero.ctaPrimary}
@@ -81,7 +92,7 @@ export default function Hero() {
         </FadeInOnScroll>
 
         {/* Tagline éditoriale en bas du hero — la phrase fondatrice */}
-        <FadeInOnScroll delay={0.7}>
+        <FadeInOnScroll delay={0.8}>
           <p className="mt-16 font-[family-name:var(--font-display)] italic text-foreground-faint text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
             {locale === 'fr'
               ? '« Le compagnon œnologique qui comprend votre palais et votre cave mieux que vous-même. »'

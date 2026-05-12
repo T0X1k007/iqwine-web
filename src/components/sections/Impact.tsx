@@ -29,6 +29,9 @@ export default function Impact() {
           <h2 className="iq-h2 max-w-3xl mx-auto">
             <TitleAccent text={impact.title} />
           </h2>
+          <p className="iq-lead mt-5 italic max-w-2xl mx-auto">
+            {impact.subtitle}
+          </p>
         </div>
       </FadeInOnScroll>
 
