@@ -15,17 +15,19 @@ import type { Locale } from './i18n';
 const EYEBROWS_MAP = {
   en: {
     problem: '01 · Reality',
-    platform: '02 · The Suite',
-    impact: '03 · Intelligence',
-    circle: '04 · The Circle',
-    beta: '05 · Access',
+    ceSoir: '02 · Tonight',
+    platform: '03 · The Suite',
+    impact: '04 · Intelligence',
+    circle: '05 · The Circle',
+    beta: '06 · Access',
   },
   fr: {
     problem: '01 · Constat',
-    platform: '02 · La suite',
-    impact: '03 · Intelligence',
-    circle: '04 · Le cercle',
-    beta: '05 · L\'accès',
+    ceSoir: '02 · Ce soir',
+    platform: '03 · La suite',
+    impact: '04 · Intelligence',
+    circle: '05 · Le cercle',
+    beta: '06 · L\'accès',
   },
 };
 
@@ -352,6 +354,32 @@ const IMPACT_MAP = {
   },
 };
 
+// ─── Ce soir — section narrative immersive avec mockups iPhone (NEW) ───
+const CE_SOIR_MAP = {
+  en: {
+    title: 'Tonight is different.',
+    intro:
+      'You photograph the menu. Your cellar listens. Three bottles rise. A Brunello enters its plateau this week. You open. You know why.',
+    captions: {
+      tonight: 'A bottle, reasoned.',
+      scanner: 'A wine list, photographed.',
+      apogee: 'A peak, reached.',
+    },
+    closing: 'Tonight, your cellar takes part.',
+  },
+  fr: {
+    title: 'Ce soir, c\'est différent.',
+    intro:
+      'Vous photographiez le menu. Votre cave écoute. Trois bouteilles montent. Un Brunello entre dans son plateau cette semaine. Vous ouvrez. Vous savez pourquoi.',
+    captions: {
+      tonight: 'Une bouteille, raisonnée.',
+      scanner: 'Une carte, photographiée.',
+      apogee: 'Une apogée, atteinte.',
+    },
+    closing: 'Ce soir, votre cave participe.',
+  },
+};
+
 // ─── Le Cercle — Manifesto + lifestyle collectionneur (NEW) ───
 const CIRCLE_MAP = {
   en: {
@@ -461,6 +489,9 @@ export function getImpact(locale: Locale) {
 }
 export function getCircle(locale: Locale) {
   return CIRCLE_MAP[locale];
+}
+export function getCeSoir(locale: Locale) {
+  return CE_SOIR_MAP[locale];
 }
 export function getBeta(locale: Locale) {
   return BETA_MAP[locale];
