@@ -161,9 +161,10 @@
 
   /* Mobile-first GPU efficiency :
      Sur touch devices, réduire le blur backdrop-filter (coût GPU élevé)
-     et désactiver les hover effects (inutiles + double-tap iOS). */
+     SAUF la navbar (où on garde 20px car l'opacity background compense).
+     Désactiver les hover effects (inutiles + double-tap iOS). */
   @media (pointer: coarse) {
-    [class*="backdrop-blur"] {
+    [class*="backdrop-blur"]:not(header):not(header *) {
       backdrop-filter: blur(12px) saturate(1.1) !important;
       -webkit-backdrop-filter: blur(12px) saturate(1.1) !important;
     }
