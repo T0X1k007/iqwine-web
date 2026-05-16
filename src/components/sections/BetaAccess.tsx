@@ -19,7 +19,7 @@ export default function BetaAccess() {
   const eyebrows = getEyebrows(locale);
 
   return (
-    <SectionWrapper id="beta" withDivider>
+    <SectionWrapper id="beta" withDivider rhythm="editorial">
       <FadeInOnScroll>
         <div className="max-w-2xl mx-auto">
           <div className="relative bg-card border border-border-strong rounded-2xl p-8 sm:p-14 overflow-hidden">

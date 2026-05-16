@@ -31,7 +31,7 @@ export default function LeCercle() {
   const quoteClose = locale === 'fr' ? ' »' : '”';
 
   return (
-    <SectionWrapper id="circle" withDivider>
+    <SectionWrapper id="circle" withDivider rhythm="editorial">
       {/* Header sobre — ouverture éditoriale */}
       <FadeInOnScroll>
         <div className="text-center mb-20 sm:mb-28">
