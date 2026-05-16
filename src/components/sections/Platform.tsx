@@ -13,6 +13,7 @@ import { getPlatform, getEyebrows } from '@/lib/constants';
 
 type ModuleColor = 'cellier' | 'sommelier' | 'decouverte';
 type Module = ReturnType<typeof getPlatform>['modules'][number];
+type CardWeight = 'hero' | 'standard' | 'compact';
 
 const colorTextClass: Record<ModuleColor, string> = {
   cellier: 'text-cellier',
@@ -21,56 +22,74 @@ const colorTextClass: Record<ModuleColor, string> = {
 };
 
 const colorBorderClass: Record<ModuleColor, string> = {
-  cellier: 'border-cellier/40',
-  sommelier: 'border-sommelier/40',
-  decouverte: 'border-decouverte/40',
+  cellier: 'border-cellier/35',
+  sommelier: 'border-sommelier/35',
+  decouverte: 'border-decouverte/35',
 };
 
-// Glyph background — gradient diagonal subtil de la couleur du module.
+// Glyph background — gradient diagonal subtil, faible présence visuelle.
 const colorBgGradient: Record<ModuleColor, string> = {
   cellier:
-    'bg-[radial-gradient(circle_at_30%_30%,rgba(201,163,106,0.18),rgba(201,163,106,0.04))]',
+    'bg-[radial-gradient(circle_at_30%_30%,rgba(201,163,106,0.14),rgba(201,163,106,0.03))]',
   sommelier:
-    'bg-[radial-gradient(circle_at_30%_30%,rgba(140,111,68,0.20),rgba(140,111,68,0.05))]',
+    'bg-[radial-gradient(circle_at_30%_30%,rgba(140,111,68,0.16),rgba(140,111,68,0.04))]',
   decouverte:
-    'bg-[radial-gradient(circle_at_30%_30%,rgba(201,123,71,0.18),rgba(201,123,71,0.04))]',
+    'bg-[radial-gradient(circle_at_30%_30%,rgba(201,123,71,0.14),rgba(201,123,71,0.03))]',
+};
+
+// Padding uniforme pour les 6 cards (Phase 3 D2bis - Ajustement A).
+//
+// Les variations 6-8% par weight (hero/standard/compact) créaient une fausse
+// hiérarchie : le padding ne compensait pas la longueur variable du contenu,
+// résultat aléatoire (mesure DOM : Restaurant standard 244px > Tonight hero
+// 226px). On laisse les hauteurs venir naturellement du contenu, sans
+// tentative d'organique forcé.
+//
+// Suffix `!` (Tailwind 4 important modifier) requis pour override le
+// p-6 sm:p-8 baked-in de Card.tsx.
+const paddingByWeight: Record<CardWeight, string> = {
+  hero: 'p-7! sm:p-8!',
+  standard: 'p-7! sm:p-8!',
+  compact: 'p-7! sm:p-8!',
 };
 
 /**
- * Platform — Phase 3 D2 : composition asymétrique éditoriale.
+ * Platform — Section Suite, refonte finale post-D2 (validée Eric 2026-05-16).
  *
- * Layout desktop (Option β) :
- *   ┌────────────────────┬──────────────┐
- *   │                    │  Restaurant  │
- *   │   MODE TONIGHT     ├──────────────┤
- *   │   (hero 3/5)       │  Scanner     │
- *   │                    ├──────────────┤
- *   │                    │  Recherche   │
- *   └────────────────────┴──────────────┘
- *   ┌──────────┬──────────┐
- *   │ Cellier  │  Palais  │
- *   └──────────┴──────────┘
+ * Direction : Apple luxury / Aman Resorts / Monocle / magazine éditorial discret.
  *
- * Mobile : stack vertical, Tonight en premier.
+ * Architecture :
+ *   - 1 SEUL composant FeatureCard (suppression de HeroCard/CompactCard/StandardCard)
+ *   - Hiérarchie par typographie, pas par taille de card
+ *   - Variations subtiles 6-8% via padding interne (jamais row-span ni contenu)
+ *   - Grid items-start → cascade organique au lieu d'auto-rows-fr SaaS
+ *   - Glyph 32-34px lettrine éditoriale (faible dominance)
  *
- * Microcopy Phase 1B préservée. Mockups iPhone non touchés.
+ * Microcopy Phase 1B intacte. Mockups iPhone, Hero, Cercle, Accès, Footer
+ * non touchés. Card.tsx (glass + accentColor) réutilisé tel quel.
  */
 export default function Platform() {
   const { locale } = useLocale();
   const platform = getPlatform(locale);
   const eyebrows = getEyebrows(locale);
 
-  // Index par glyph — robuste vs réordonnancement futur du tableau modules.
+  // Index par glyph — robuste vs réordonnancement futur du tableau.
   const byGlyph = Object.fromEntries(
     platform.modules.map((m) => [m.glyph, m])
   ) as Record<string, Module>;
 
-  const tonight = byGlyph['T'];
-  const restaurant = byGlyph['R'];
-  const scanner = byGlyph['S'];
-  const recherche = byGlyph['Q'];
-  const cellier = byGlyph['C'];
-  const palais = byGlyph['P'];
+  // Composition row 1 / row 2 desktop. Cascade subtile des poids :
+  //   row 1 : hero · standard · compact
+  //   row 2 : compact · hero · standard
+  // → pattern alterné, pas de symétrie SaaS.
+  const cards: Array<{ module: Module; weight: CardWeight }> = [
+    { module: byGlyph['T'], weight: 'hero' },        // Tonight
+    { module: byGlyph['R'], weight: 'standard' },    // Restaurant
+    { module: byGlyph['S'], weight: 'compact' },     // Scanner
+    { module: byGlyph['Q'], weight: 'compact' },     // Recherche
+    { module: byGlyph['C'], weight: 'hero' },        // Cellier
+    { module: byGlyph['P'], weight: 'standard' },    // Palais
+  ];
 
   return (
     <SectionWrapper id="platform">
@@ -86,41 +105,18 @@ export default function Platform() {
         </div>
       </FadeInOnScroll>
 
-      <StaggerChildren>
-        {/* Top row — Tonight hero (3/5 gauche) + stack 3 compacts (2/5 droite) */}
-        <div className="flex flex-col lg:flex-row gap-5">
-          <motion.div
-            variants={staggerItemVariants}
-            className="lg:w-3/5 flex"
-          >
-            <HeroCard module={tonight} />
+      {/* Grid 3x2 raffinée : items-start permet aux cards de garder leur
+          hauteur naturelle, créant une cascade organique. Aucun auto-rows-fr
+          qui forcerait l'égalité SaaS. */}
+      <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-start">
+        {cards.map(({ module: mod, weight }) => (
+          <motion.div key={mod.name} variants={staggerItemVariants}>
+            <FeatureCard module={mod} weight={weight} />
           </motion.div>
-
-          <div className="lg:w-2/5 flex flex-col gap-4">
-            <motion.div variants={staggerItemVariants}>
-              <CompactCard module={restaurant} />
-            </motion.div>
-            <motion.div variants={staggerItemVariants}>
-              <CompactCard module={scanner} />
-            </motion.div>
-            <motion.div variants={staggerItemVariants}>
-              <CompactCard module={recherche} />
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Bottom row — Cellier + Palais (50/50) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-          <motion.div variants={staggerItemVariants}>
-            <StandardCard module={cellier} />
-          </motion.div>
-          <motion.div variants={staggerItemVariants}>
-            <StandardCard module={palais} />
-          </motion.div>
-        </div>
+        ))}
       </StaggerChildren>
 
-      {/* Flow line — 6 phases en mono uppercase or */}
+      {/* Flow line — 6 phases en mono uppercase or, hairlines latérales */}
       <FadeInOnScroll delay={0.3}>
         <div className="flex items-center justify-center mt-14">
           <div className="flex items-center gap-4">
@@ -137,136 +133,64 @@ export default function Platform() {
 }
 
 /* ───────────────────────────────────────────────────────────
- * HeroCard — Mode Tonight, présence éditoriale maximale.
- * Glyph 20×20 italique grand, padding généreux, description serif large.
- * Phase badge en bas + hairline = signature éditoriale magazine. */
-function HeroCard({ module: mod }: { module: Module }) {
+ * FeatureCard — composant unique unifié.
+ *
+ * Anatomie magazine éditorial :
+ *   [glyph] OVERLINE MONO TRÈS DISCRÈTE
+ *           Titre serif italique élégant
+ *   ────────────────  (hairline or ultra fine)
+ *   Description serif italique 18-20px medium-weight
+ *   Détails serif italique 14px foreground-dim
+ *
+ * Le glyph 32-34px agit comme lettrine éditoriale — accompagne, ne domine pas.
+ * Variations de hauteur via prop weight (padding seulement, jamais contenu). */
+function FeatureCard({ module: mod, weight }: { module: Module; weight: CardWeight }) {
   return (
-    <Card accentColor={mod.color} glass className="h-full flex flex-col p-8 sm:p-10 lg:p-12">
-      <div className="flex items-start gap-5 mb-8">
+    <Card
+      accentColor={mod.color}
+      glass
+      className={`h-full ${paddingByWeight[weight]}`}
+    >
+      <div className="flex items-start gap-3.5 mb-5">
+        {/* Glyph 32×32 mobile / 34×34 desktop — lettrine éditoriale,
+            faible glow, présence subtile. */}
         <div
-          className={`relative shrink-0 w-20 h-20 rounded-2xl flex items-center justify-center border ${colorBorderClass[mod.color]} ${colorBgGradient[mod.color]}`}
+          className={`shrink-0 w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-lg flex items-center justify-center border ${colorBorderClass[mod.color]} ${colorBgGradient[mod.color]}`}
         >
           <span
-            className={`font-[family-name:var(--font-display)] text-4xl font-semibold italic tracking-tight leading-none ${colorTextClass[mod.color]}`}
-          >
-            {mod.glyph}
-          </span>
-        </div>
-
-        <div className="min-w-0 pt-2">
-          <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-muted-foreground mb-2">
-            {mod.tagline}
-          </p>
-          <h3
-            className={`font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-semibold tracking-tight leading-tight ${colorTextClass[mod.color]}`}
-          >
-            {mod.name}
-          </h3>
-        </div>
-      </div>
-
-      {/* Hairline or fine — séparation éditoriale */}
-      <div className="h-px bg-or/20 mb-8" />
-
-      {/* Description hero — serif italique grand format */}
-      <p className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-medium italic text-foreground tracking-tight leading-snug mb-4">
-        {mod.description}
-      </p>
-
-      <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-base sm:text-lg leading-relaxed">
-        {mod.details}
-      </p>
-
-      {/* Phase badge bottom — signature éditoriale */}
-      <div className="mt-auto pt-8 flex items-center gap-3">
-        <div className="w-6 h-px bg-or/40" />
-        <p className="font-mono text-[10px] tracking-[0.32em] uppercase text-or">
-          {mod.phase}
-        </p>
-      </div>
-    </Card>
-  );
-}
-
-/* ───────────────────────────────────────────────────────────
- * CompactCard — Restaurant, Scanner, Recherche.
- * Layout horizontal compact : glyph gauche + contenu droite.
- * Pas de hairline interne ni details — densité éditoriale. */
-function CompactCard({ module: mod }: { module: Module }) {
-  return (
-    <Card accentColor={mod.color} glass className="h-full p-5 sm:p-6">
-      <div className="flex items-start gap-4">
-        <div
-          className={`relative shrink-0 w-11 h-11 rounded-lg flex items-center justify-center border ${colorBorderClass[mod.color]} ${colorBgGradient[mod.color]}`}
-        >
-          <span
-            className={`font-[family-name:var(--font-display)] text-lg font-semibold italic tracking-tight leading-none ${colorTextClass[mod.color]}`}
+            className={`font-[family-name:var(--font-display)] text-[15px] sm:text-base font-semibold italic tracking-tight leading-none ${colorTextClass[mod.color]}`}
           >
             {mod.glyph}
           </span>
         </div>
 
         <div className="min-w-0 pt-0.5 flex-1">
-          <div className="flex items-baseline justify-between gap-3 mb-1">
-            <h3
-              className={`font-[family-name:var(--font-display)] text-base sm:text-lg font-semibold tracking-tight leading-tight ${colorTextClass[mod.color]}`}
-            >
-              {mod.name}
-            </h3>
-            <p className="font-mono text-[9px] tracking-[0.28em] uppercase text-or/70 shrink-0">
-              {mod.phase}
-            </p>
-          </div>
-          <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-muted-foreground mb-2.5">
+          {/* Overline mono ultra discrète — signature éditoriale */}
+          <p className="font-mono text-[9.5px] tracking-[0.28em] uppercase text-muted-foreground/75 mb-1.5">
             {mod.tagline}
           </p>
-          <p className="font-[family-name:var(--font-display)] italic text-foreground text-base leading-snug">
-            {mod.description}
-          </p>
-        </div>
-      </div>
-    </Card>
-  );
-}
-
-/* ───────────────────────────────────────────────────────────
- * StandardCard — Cellier vivant, Palais.
- * Bottom row 50/50, plus de largeur que la grille 3-cols précédente.
- * Conserve le rendu vertical complet (titre + tagline + description + details). */
-function StandardCard({ module: mod }: { module: Module }) {
-  return (
-    <Card accentColor={mod.color} glass className="h-full p-7 sm:p-8">
-      <div className="flex items-start gap-4 mb-6">
-        <div
-          className={`relative shrink-0 w-14 h-14 rounded-xl flex items-center justify-center border ${colorBorderClass[mod.color]} ${colorBgGradient[mod.color]}`}
-        >
-          <span
-            className={`font-[family-name:var(--font-display)] text-2xl font-semibold italic tracking-tight leading-none ${colorTextClass[mod.color]}`}
-          >
-            {mod.glyph}
-          </span>
-        </div>
-
-        <div className="min-w-0 pt-1">
+          {/* Titre serif roman — ancrage visuel (Ajustement B).
+              L'italique est réservé à la voix éditoriale : glyph + description + details. */}
           <h3
-            className={`font-[family-name:var(--font-display)] text-lg sm:text-xl font-semibold tracking-tight ${colorTextClass[mod.color]}`}
+            className={`font-[family-name:var(--font-display)] text-[20px] sm:text-[22px] font-semibold tracking-tight leading-tight ${colorTextClass[mod.color]}`}
           >
             {mod.name}
           </h3>
-          <p className="font-mono text-[10px] tracking-[0.24em] uppercase text-muted-foreground mt-1.5">
-            {mod.tagline}
-          </p>
         </div>
       </div>
 
-      {/* Hairline or fine */}
-      <div className="h-px bg-or/15 mb-5" />
+      {/* Hairline or ultra fine — ligne magazine luxe (pas un divider SaaS) */}
+      <div className="h-px bg-or/10 mb-5" />
 
-      <p className="font-[family-name:var(--font-display)] text-lg font-medium italic leading-snug text-foreground tracking-tight mb-2">
+      {/* Description serif italique plus présente — la phrase signature */}
+      <p className="font-[family-name:var(--font-display)] italic text-foreground text-lg sm:text-[19px] font-medium tracking-tight leading-snug mb-3">
         {mod.description}
       </p>
-      <p className="iq-small text-foreground-dim italic">{mod.details}</p>
+
+      {/* Détails respirants et raffinés */}
+      <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-sm leading-relaxed">
+        {mod.details}
+      </p>
     </Card>
   );
 }
