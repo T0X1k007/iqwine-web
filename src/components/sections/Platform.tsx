@@ -40,10 +40,13 @@ const colorBgGradient: Record<ModuleColor, string> = {
 // Padding par poids — variations subtiles 6-8% pour rythme organique
 // sans casser la cohérence éditoriale. Tonight + Cellier respirent légèrement
 // plus, Scanner + Recherche sont légèrement plus compacts.
+//
+// Suffix `!` (Tailwind 4 important modifier) requis pour override le
+// p-6 sm:p-8 baked-in de Card.tsx — qui sinon gagne par CSS specificity.
 const paddingByWeight: Record<CardWeight, string> = {
-  hero: 'p-8 sm:p-9',
-  standard: 'p-7 sm:p-8',
-  compact: 'p-6 sm:p-7',
+  hero: 'p-8! sm:p-9!',
+  standard: 'p-7! sm:p-8!',
+  compact: 'p-6! sm:p-7!',
 };
 
 /**
