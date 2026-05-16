@@ -1,6 +1,6 @@
 'use client';
 
-import { GlassWater, Sparkle, Heart, Library } from 'lucide-react';
+import { GlassWater, Sparkle, Heart, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import TitleAccent from '@/components/ui/TitleAccent';
@@ -12,7 +12,7 @@ import StaggerChildren, {
 import { useLocale } from '@/lib/i18n';
 import { getImpact, getEyebrows } from '@/lib/constants';
 
-const iconMap = { GlassWater, Sparkle, Heart, Library } as const;
+const iconMap = { GlassWater, Sparkle, Heart, Compass } as const;
 
 export default function Impact() {
   const { locale } = useLocale();
