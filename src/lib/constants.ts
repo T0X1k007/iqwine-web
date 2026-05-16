@@ -168,7 +168,7 @@ const PLATFORM_MAP = {
         glyph: 'C',
         tagline: 'Visual plan & heatmap',
         description: 'The living plan of your collection.',
-        details: 'Peaks pulse this week. Regions speak.',
+        details: 'Peaks tracked. Regions organized.',
         phase: 'See',
       },
       {
@@ -202,9 +202,9 @@ const PLATFORM_MAP = {
         name: 'Natural Search',
         color: 'cellier' as const,
         glyph: 'Q',
-        tagline: 'Speak to your cellar',
-        description: '"A mineral white for tonight\'s fish."',
-        details: 'Your cellar answers in your words.',
+        tagline: 'Search your cellar',
+        description: 'Filter by region, palate, occasion.',
+        details: 'Your cellar, readable.',
         phase: 'Search',
       },
       {
@@ -231,7 +231,7 @@ const PLATFORM_MAP = {
         glyph: 'C',
         tagline: 'Plan visuel & heatmap',
         description: 'Le plan vivant de votre collection.',
-        details: 'Les apogées pulsent cette semaine. Les régions parlent.',
+        details: 'Les apogées sont suivies. Les régions, organisées.',
         phase: 'Voir',
       },
       {
@@ -265,9 +265,9 @@ const PLATFORM_MAP = {
         name: 'Recherche naturelle',
         color: 'cellier' as const,
         glyph: 'Q',
-        tagline: 'Parlez à votre cave',
-        description: '« Un blanc minéral pour le poisson de ce soir. »',
-        details: 'Votre cave répond dans vos mots.',
+        tagline: 'Cherchez votre cave',
+        description: 'Filtrer par région, palais, occasion.',
+        details: 'Votre cave devient lisible.',
         phase: 'Chercher',
       },
       {
@@ -315,10 +315,10 @@ const IMPACT_MAP = {
           'You increasingly favor mineral whites. Your last six choices confirm it.',
       },
       {
-        icon: 'Library' as const,
-        title: 'Opportunity',
+        icon: 'Compass' as const,
+        title: 'Signature',
         description:
-          'This bottle is becoming rare. Tonight would be a fine moment.',
+          'Your last six choices outline a palate.',
       },
     ],
   },
@@ -345,10 +345,10 @@ const IMPACT_MAP = {
           'Vous aimez de plus en plus les blancs minéraux. Vos six derniers choix le confirment.',
       },
       {
-        icon: 'Library' as const,
-        title: 'Opportunité',
+        icon: 'Compass' as const,
+        title: 'Signature',
         description:
-          'Cette bouteille devient rare. Ce soir serait un beau moment.',
+          'Vos six derniers choix dessinent un palais.',
       },
     ],
   },
@@ -363,7 +363,7 @@ const CE_SOIR_MAP = {
     captions: {
       tonight: 'A bottle, reasoned.',
       scanner: 'A wine list, photographed.',
-      apogee: 'A peak, reached.',
+      apogee: 'A peak, watched.',
     },
     closing: 'Tonight, your cellar takes part.',
   },
@@ -374,7 +374,7 @@ const CE_SOIR_MAP = {
     captions: {
       tonight: 'Une bouteille, raisonnée.',
       scanner: 'Une carte, photographiée.',
-      apogee: 'Une apogée, atteinte.',
+      apogee: 'Une apogée, suivie.',
     },
     closing: 'Ce soir, votre cave participe.',
   },
