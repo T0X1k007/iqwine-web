@@ -37,16 +37,20 @@ const colorBgGradient: Record<ModuleColor, string> = {
     'bg-[radial-gradient(circle_at_30%_30%,rgba(201,123,71,0.14),rgba(201,123,71,0.03))]',
 };
 
-// Padding par poids — variations subtiles 6-8% pour rythme organique
-// sans casser la cohérence éditoriale. Tonight + Cellier respirent légèrement
-// plus, Scanner + Recherche sont légèrement plus compacts.
+// Padding uniforme pour les 6 cards (Phase 3 D2bis - Ajustement A).
+//
+// Les variations 6-8% par weight (hero/standard/compact) créaient une fausse
+// hiérarchie : le padding ne compensait pas la longueur variable du contenu,
+// résultat aléatoire (mesure DOM : Restaurant standard 244px > Tonight hero
+// 226px). On laisse les hauteurs venir naturellement du contenu, sans
+// tentative d'organique forcé.
 //
 // Suffix `!` (Tailwind 4 important modifier) requis pour override le
-// p-6 sm:p-8 baked-in de Card.tsx — qui sinon gagne par CSS specificity.
+// p-6 sm:p-8 baked-in de Card.tsx.
 const paddingByWeight: Record<CardWeight, string> = {
-  hero: 'p-8! sm:p-9!',
+  hero: 'p-7! sm:p-8!',
   standard: 'p-7! sm:p-8!',
-  compact: 'p-6! sm:p-7!',
+  compact: 'p-7! sm:p-8!',
 };
 
 /**
@@ -165,9 +169,10 @@ function FeatureCard({ module: mod, weight }: { module: Module; weight: CardWeig
           <p className="font-mono text-[9.5px] tracking-[0.28em] uppercase text-muted-foreground/75 mb-1.5">
             {mod.tagline}
           </p>
-          {/* Titre serif italique élégant — élégant, pas dramatique */}
+          {/* Titre serif roman — ancrage visuel (Ajustement B).
+              L'italique est réservé à la voix éditoriale : glyph + description + details. */}
           <h3
-            className={`font-[family-name:var(--font-display)] text-[20px] sm:text-[22px] italic font-semibold tracking-tight leading-tight ${colorTextClass[mod.color]}`}
+            className={`font-[family-name:var(--font-display)] text-[20px] sm:text-[22px] font-semibold tracking-tight leading-tight ${colorTextClass[mod.color]}`}
           >
             {mod.name}
           </h3>
