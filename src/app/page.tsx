@@ -8,7 +8,7 @@ import Constat from '@/components/sections/Constat';
 import Platform from '@/components/sections/Platform';
 import Impact from '@/components/sections/Impact';
 import LeCercle from '@/components/sections/LeCercle';
-import BetaAccess from '@/components/sections/BetaAccess';
+import VagueFondateurs from '@/components/sections/VagueFondateurs';
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
         <Platform />
         <Impact />
         <LeCercle />
-        <BetaAccess />
+        <VagueFondateurs />
       </main>
       <Footer />
     </I18nProvider>
