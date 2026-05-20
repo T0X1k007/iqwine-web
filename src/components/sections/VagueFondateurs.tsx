@@ -82,26 +82,6 @@ export default function VagueFondateurs() {
     return null;
   }, [name, email, cellarSize, t]);
 
-  const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setError(null);
-      const err = validate();
-      if (err) {
-        setError(err);
-        return;
-      }
-      // Si Turnstile configuré → modal puis submit. Sinon → submit direct.
-      if (TURNSTILE_SITE_KEY) {
-        setTurnstileOpen(true);
-      } else {
-        void submitToApi(null);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [validate],
-  );
-
   const submitToApi = useCallback(
     async (captchaToken: string | null) => {
       setSubmitting(true);
@@ -151,6 +131,25 @@ export default function VagueFondateurs() {
       }
     },
     [name, email, cellarSize, note, planChoice, website, locale, t],
+  );
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setError(null);
+      const err = validate();
+      if (err) {
+        setError(err);
+        return;
+      }
+      // Si Turnstile configuré → modal puis submit. Sinon → submit direct.
+      if (TURNSTILE_SITE_KEY) {
+        setTurnstileOpen(true);
+      } else {
+        void submitToApi(null);
+      }
+    },
+    [validate, submitToApi],
   );
 
   const handleTurnstileVerified = useCallback(
