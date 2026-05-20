@@ -8,68 +8,82 @@
    ───────────────────────────────────────────────── */
 
 @theme {
-  /* ── Surfaces (warm — jamais noir pur) ───────────── */
-  --color-background: #0F0A08;     /* noir-cave — viewport */
-  --color-sunk: #0A0705;            /* deeper — inputs */
-  --color-elev: #1A130F;            /* noir-fumee — surfaces niveau 1 */
-  --color-card: #1A130F;            /* card */
-  --color-hi: #28201B;              /* noir-vapeur — élevé */
-  --color-overlay: #3A2F28;         /* noir-ombre — popover */
+  /* ── Surfaces espresso/walnut/oak (warm — jamais noir pur) ──────────
+     Aligné cellier-vin app/globals.css (CELLIER design tokens 2026-05-10).
+     Warmer + plus chaud que V3 (#0F0A08 → #161210 espresso). */
+  --color-background: #161210;     /* espresso noir-cave — viewport */
+  --color-sunk: #0F0A08;            /* deeper — inputs, sub-elev */
+  --color-elev: #1b1512;            /* walnut noir-fumee — surfaces niveau 1 */
+  --color-card: #1b1512;            /* card */
+  --color-hi: #211a16;              /* oak noir-vapeur — élevé */
+  --color-overlay: #2b211c;         /* charcoal warm noir-ombre — popover */
 
-  /* ── Bordeaux family — CTA principaux ────────────── */
+  /* ── Bordeaux family — CTA principaux (canonical wine-rouge cellier-vin) ── */
   --color-bordeaux-50: #f8e5e2;
   --color-bordeaux-100: #efc7c0;
   --color-bordeaux-200: #dc9189;
-  --color-bordeaux-400: #b5403f;
-  --color-bordeaux-600: #7a1f1f;    /* PRIMARY CTA */
-  --color-bordeaux-800: #4a1116;    /* deep accent */
-  --color-bordeaux-900: #2a0a0e;    /* hero backgrounds */
+  --color-bordeaux-400: #a83a39;
+  --color-bordeaux-600: #8e2a2a;    /* PRIMARY CTA — wine-rouge canonique */
+  --color-bordeaux-800: #4a1a1a;    /* deep accent */
+  --color-bordeaux-900: #2a0e0e;    /* hero backgrounds */
 
-  /* ── Or family — accent métallique signature ─────── */
-  --color-or-50: #faf4e6;
-  --color-or-100: #f0e0ba;
-  --color-or-300: #dcbe85;
-  --color-or-500: #c9a36a;          /* OR SIGNATURE */
-  --color-or-700: #8c6f44;
-  --color-or-900: #4d3c24;
+  /* ── Or family — accent métallique signature ──────
+     Aligné cellier-vin : bronze-or vif (Eric 2026-05-14, post-update
+     #c8a977 trop "washed out" → #d4a548 saturé lisible sur dark). */
+  --color-or-50: #f5ead0;
+  --color-or-100: #ecdcb1;
+  --color-or-200: #e0c9a1;
+  --color-or-300: #d4b889;
+  --color-or-500: #c8a977;          /* OR primary (laiton mat) */
+  --color-or-600: #b89562;          /* OR deep */
+  --color-or-700: #a07f4f;
+  --color-or-800: #8c6f44;
+  --color-or-900: #5a4628;
 
   /* ── Text family — Ivoire/Sable/Cendre ──────────── */
-  --color-foreground: #f5efe6;                       /* ivoire */
-  --color-foreground-dim: rgba(245, 239, 230, 0.74); /* sable proche */
-  --color-muted-foreground: #b8ac9c;                 /* sable */
-  --color-foreground-faint: #6b5d55;                 /* cendre */
+  --color-foreground: #f3ece7;                       /* ivoire */
+  --color-foreground-dim: rgba(243, 236, 231, 0.74); /* sable proche */
+  --color-muted-foreground: #b8aaa0;                 /* sable */
+  --color-foreground-faint: #8a7b70;                 /* cendre */
 
   /* ── Accent primary (bordeaux pour CTA) ──────────── */
-  --color-primary: #7a1f1f;
-  --color-primary-hot: #b5403f;       /* hover */
-  --color-primary-dim: #4a1116;       /* press */
+  --color-primary: #8e2a2a;
+  --color-primary-hot: #a83a39;       /* hover */
+  --color-primary-dim: #4a1a1a;       /* press */
   --color-primary-soft: #dc9189;
-  --color-primary-foreground: #f5efe6;
+  --color-primary-foreground: #f3ece7;
 
-  /* ── Accent or (signal premium fort, parcimonieux) ─ */
-  --color-or: #c9a36a;
-  --color-or-soft: #dcbe85;
-  --color-or-deep: #8c6f44;
+  /* ── Accent or vivant (bronze logo iQWine, signal premium fort, parcimonieux) ─
+     Eric 2026-05-14 : précédent #c9a36a trop washed out. Nouveau #d4a548
+     = bronze-or vif, clairement saturé, lisible sur dark. */
+  --color-or: #d4a548;
+  --color-or-soft: #e0b656;
+  --color-or-deep: #b8862a;
+
+  /* ── Showcase ivoire — fond chaud derrière bouteilles détourées éditoriales.
+     Spec : carte produit cellier (BottleGroupItem). JAMAIS comme couleur de
+     surface globale, uniquement pour vitrines de bouteilles / objets. */
+  --color-showcase-ivoire: #e8ded0;
 
   /* ── Borders quasi-invisibles, ivoire alpha ──────── */
-  --color-border: rgba(245, 239, 230, 0.06);
-  --color-border-strong: rgba(245, 239, 230, 0.10);
-  --color-border-hot: rgba(201, 163, 106, 0.32); /* or pour focus actif */
+  --color-border: rgba(243, 236, 231, 0.06);
+  --color-border-strong: rgba(243, 236, 231, 0.10);
+  --color-border-hot: rgba(212, 165, 72, 0.32); /* or vif pour focus actif */
 
   /* ── Maturity (apogée) — sémantique vivante ──────── */
   --color-maturity-young: #4a6e8a;     /* jeune */
   --color-maturity-plateau: #5c8a60;   /* plateau optimal */
-  --color-maturity-peak: #c9a36a;      /* apogée = or signature */
+  --color-maturity-peak: #c8a977;      /* apogée = or laiton mat */
   --color-maturity-decline: #a56a48;   /* déclin */
-  --color-maturity-past: #6b5d55;      /* passé */
+  --color-maturity-past: #8a7b70;      /* passé */
 
-  /* ── Module/feature accents — trois nuances chaudes harmonieuses ── */
-  --color-cellier: #c9a36a;     /* OR signature — cellier vivant + recherche */
-  --color-sommelier: #8c6f44;   /* OR-deep / laiton patiné — sommelier (Tonight + Restaurant) */
+  /* ── Module/feature accents — nuances chaudes harmonieuses ── */
+  --color-cellier: #d4a548;     /* OR vif — cellier vivant + recherche */
+  --color-sommelier: #b8862a;   /* OR-deep / laiton patiné — sommelier (Tonight + Restaurant) */
   --color-decouverte: #c97b47;  /* CUIVRE — scanner + calibration */
 
   /* ── Wine semantic — couleur d'un vin (jamais UI) ── */
-  --color-wine-rouge: #7a1f1f;
+  --color-wine-rouge: #8e2a2a;
   --color-wine-blanc: #ddc179;
   --color-wine-rose: #d88b8b;
   --color-wine-mousseux: #e5d8b8;
@@ -81,8 +95,10 @@
   --color-warn: #d9a55c;
   --color-danger: #c25450;
 
-  /* ── Type families — variables CSS injectées par next/font (cf. layout.tsx) ── */
-  --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* ── Type families — variables CSS injectées par next/font (cf. layout.tsx) ──
+     Display = Cormorant Garamond serif éditoriale magazine luxe (titres, italiques,
+     citations sommelier). Body = Inter sans-serif (lecture, boutons, UI). */
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
   --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
 
@@ -99,8 +115,13 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-glow-or: 0 0 0 1px rgba(201, 163, 106, 0.16), 0 8px 24px rgba(0, 0, 0, 0.3);
-  --shadow-glow-bordeaux: 0 0 60px rgba(122, 31, 31, 0.35);
+  --shadow-glow-or: 0 0 0 1px rgba(212, 165, 72, 0.16), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-glow-bordeaux: 0 0 60px rgba(142, 42, 42, 0.35);
+
+  /* ── Shadows éditoriales (chaudes, dimensionnelles) — captures screenshots V4 ── */
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.28), inset 0 1px rgba(255, 255, 255, 0.03);
+  --shadow-elevated: 0 24px 64px rgba(0, 0, 0, 0.36), inset 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-bottle: 0 32px 96px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.3);
 
   /* ── Motion (iOS-like) ───────────────────────────── */
   --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
@@ -176,19 +197,20 @@
     }
   }
 
-  /* Selection — or signature */
+  /* Selection — or vif signature (#d4a548 aligné cellier-vin) */
   ::selection {
-    background: rgba(201, 163, 106, 0.32);
+    background: rgba(212, 165, 72, 0.32);
     color: var(--color-foreground);
   }
 
-  /* Display headings — Inter Display weight, tight tracking */
+  /* Display headings — Cormorant Garamond serif éditorial, weights modérés.
+     Serif n'a pas besoin de tight tracking aussi agressif que Inter. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 500;
+    letter-spacing: -0.015em;
   }
-  h1 { letter-spacing: -0.04em; }
+  h1 { letter-spacing: -0.025em; }
 
   /* Numerals tabulaires sur tout chiffre */
   .tabular {
@@ -196,7 +218,7 @@
     font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on;
   }
 
-  /* Texture luxe — grille subtile + glow bordeaux/or */
+  /* Texture luxe — grille subtile ivoire */
   body::before {
     content: '';
     position: fixed;
@@ -204,13 +226,13 @@
     pointer-events: none;
     z-index: 0;
     background-image:
-      radial-gradient(circle at center, rgba(245, 239, 230, 0.03) 1px, transparent 1px);
+      radial-gradient(circle at center, rgba(243, 236, 231, 0.03) 1px, transparent 1px);
     background-size: 96px 96px;
     mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
   }
 
-  /* Vignette chaude — bordeaux profond + or subtil */
+  /* Vignette chaude — wine-rouge profond + or vif subtil */
   body::after {
     content: '';
     position: fixed;
@@ -218,58 +240,59 @@
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(122, 31, 31, 0.18), transparent 65%),
-      radial-gradient(ellipse 50% 30% at 85% 80%, rgba(201, 163, 106, 0.06), transparent 70%);
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(142, 42, 42, 0.18), transparent 65%),
+      radial-gradient(ellipse 50% 30% at 85% 80%, rgba(212, 165, 72, 0.06), transparent 70%);
   }
 }
 
 /* ─────────────────────────────────────────────────
    Semantic type utilities (iq-*)
-   Inter Display scale — éditoriale magazine premium.
-   Letter-spacing serré -0.02em à -0.04em (luxe signal).
+   Cormorant Garamond scale — éditoriale magazine luxe.
+   Weights 400-500 (italic disponible). Letter-spacing modéré
+   pour serif (-0.005em à -0.025em). Aligné cellier-vin spec.
    ───────────────────────────────────────────────── */
 @layer utilities {
   .iq-hero {
     font-family: var(--font-display);
     font-size: clamp(48px, 9vw, 128px);
-    font-weight: 700;
-    line-height: 0.95;
-    letter-spacing: -0.05em;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
   }
   .iq-display {
     font-family: var(--font-display);
     font-size: clamp(40px, 7vw, 96px);
-    font-weight: 600;
-    line-height: 1.0;
-    letter-spacing: -0.04em;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
   }
   .iq-h1 {
     font-family: var(--font-display);
     font-size: clamp(36px, 5.5vw, 72px);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.035em;
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
   }
   .iq-h2 {
     font-family: var(--font-display);
     font-size: clamp(28px, 4.2vw, 52px);
-    font-weight: 600;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
   }
   .iq-h3 {
     font-family: var(--font-display);
     font-size: clamp(22px, 3vw, 36px);
-    font-weight: 600;
-    line-height: 1.12;
-    letter-spacing: -0.022em;
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
   }
   .iq-h4 {
     font-family: var(--font-display);
     font-size: clamp(18px, 2.2vw, 26px);
-    font-weight: 600;
-    line-height: 1.18;
-    letter-spacing: -0.015em;
+    font-weight: 500;
+    line-height: 1.22;
+    letter-spacing: -0.005em;
   }
   .iq-lead {
     font-family: var(--font-body);
@@ -323,11 +346,11 @@
 
   /* Glass — toujours sur fond image/gradient (cf §6.1) */
   .glass {
-    background: rgba(245, 239, 230, 0.04);
+    background: rgba(243, 236, 231, 0.04);
     backdrop-filter: blur(28px) saturate(1.2);
     -webkit-backdrop-filter: blur(28px) saturate(1.2);
-    border: 1px solid rgba(245, 239, 230, 0.06);
-    box-shadow: inset 0 1px 0 rgba(245, 239, 230, 0.08);
+    border: 1px solid rgba(243, 236, 231, 0.06);
+    box-shadow: inset 0 1px 0 rgba(243, 236, 231, 0.08);
   }
 }
 
