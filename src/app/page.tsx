@@ -5,9 +5,11 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroV4 from '@/components/sections/HeroV4';
 import Constat from '@/components/sections/Constat';
-import Platform from '@/components/sections/Platform';
-import Impact from '@/components/sections/Impact';
+import SixGestes from '@/components/sections/SixGestes';
+import Palais from '@/components/sections/Palais';
 import LeCercle from '@/components/sections/LeCercle';
+import Difference from '@/components/sections/Difference';
+import Vision from '@/components/sections/Vision';
 import Pricing from '@/components/sections/Pricing';
 import VagueFondateurs from '@/components/sections/VagueFondateurs';
 
@@ -18,9 +20,11 @@ export default function Home() {
       <main>
         <HeroV4 />
         <Constat />
-        <Platform />
-        <Impact />
+        <SixGestes />
+        <Palais />
         <LeCercle />
+        <Difference />
+        <Vision />
         <Pricing />
         <VagueFondateurs />
       </main>
