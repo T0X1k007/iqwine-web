@@ -20,7 +20,7 @@ const cormorant = Cormorant_Garamond({
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-cormorant',
-  fallback: ['Georgia', '"Times New Roman"', 'serif'],
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
 });
 
 const inter = Inter({
