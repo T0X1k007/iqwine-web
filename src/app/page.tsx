@@ -5,7 +5,6 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import TheProblem from '@/components/sections/TheProblem';
-import CeSoir from '@/components/sections/CeSoir';
 import Platform from '@/components/sections/Platform';
 import Impact from '@/components/sections/Impact';
 import LeCercle from '@/components/sections/LeCercle';
@@ -18,7 +17,6 @@ export default function Home() {
       <main>
         <Hero />
         <TheProblem />
-        <CeSoir />
         <Platform />
         <Impact />
         <LeCercle />
