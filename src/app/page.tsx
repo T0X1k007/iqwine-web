@@ -8,6 +8,7 @@ import Constat from '@/components/sections/Constat';
 import Platform from '@/components/sections/Platform';
 import Impact from '@/components/sections/Impact';
 import LeCercle from '@/components/sections/LeCercle';
+import Pricing from '@/components/sections/Pricing';
 import VagueFondateurs from '@/components/sections/VagueFondateurs';
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <Platform />
         <Impact />
         <LeCercle />
+        <Pricing />
         <VagueFondateurs />
       </main>
       <Footer />
