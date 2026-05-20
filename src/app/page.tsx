@@ -4,7 +4,7 @@ import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroV4 from '@/components/sections/HeroV4';
-import TheProblem from '@/components/sections/TheProblem';
+import Constat from '@/components/sections/Constat';
 import Platform from '@/components/sections/Platform';
 import Impact from '@/components/sections/Impact';
 import LeCercle from '@/components/sections/LeCercle';
@@ -16,7 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroV4 />
-        <TheProblem />
+        <Constat />
         <Platform />
         <Impact />
         <LeCercle />
