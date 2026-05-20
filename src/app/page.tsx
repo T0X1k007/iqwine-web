@@ -3,7 +3,7 @@
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import Hero from '@/components/sections/Hero';
+import HeroV4 from '@/components/sections/HeroV4';
 import TheProblem from '@/components/sections/TheProblem';
 import Platform from '@/components/sections/Platform';
 import Impact from '@/components/sections/Impact';
@@ -15,7 +15,7 @@ export default function Home() {
     <I18nProvider>
       <Navbar />
       <main>
-        <Hero />
+        <HeroV4 />
         <TheProblem />
         <Platform />
         <Impact />
