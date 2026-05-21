@@ -1,23 +1,21 @@
 'use client';
 
+import Image from 'next/image';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import ScreenshotFrame from '@/components/screenshot/ScreenshotFrame';
 import { useLocale } from '@/lib/i18n';
 
 /**
  * SectionCaveWeb — « Votre cave, enfin vivante »
  *
- * V5 condensé : montre la cave en grand, capture réelle (05-cave-
- * visuelle.png — grid bouteilles fond ivoire showcase, apogées,
- * millésimes). Pas de dashboard SaaS, pas de tableur — un grid
- * éditorial magazine luxe.
+ * V5-quinquies Eric : capture desktop réelle (08-cellier-desktop.png
+ * 2974×1516 HD retina). Sidebar "La Cave Bigras" + grid 3 cols
+ * cards bouteilles. Plus de mobile iPhone — le desktop vend la
+ * puissance, l'app web complète.
  *
- * Capture mobile pour l'instant (iPhone frame width=400). Si plus
- * tard une capture desktop est fournie, swap pour mode="static"
- * frame="simple" en pleine largeur.
- *
- * Layout : titre LEFT + iPhone large RIGHT (lg+) / stack mobile.
+ * Layout : titre LEFT + capture desktop landscape RIGHT (lg+), stack
+ * mobile. Frame éditorial : cadre fin or alpha + shadow chaud +
+ * subtle rotation pour ne pas être trop "screenshot brut".
  */
 
 export default function SectionCaveWeb() {
@@ -25,9 +23,9 @@ export default function SectionCaveWeb() {
 
   return (
     <SectionWrapper id="cave-web" withDivider rhythm="standard">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 max-w-6xl mx-auto items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 max-w-7xl mx-auto items-center">
         {/* LEFT — typo */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-4">
           <FadeInOnScroll>
             <div className="iq-eyebrow mb-6">
               {locale === 'fr' ? 'La cave' : 'The cellar'}
@@ -53,22 +51,39 @@ export default function SectionCaveWeb() {
           </FadeInOnScroll>
         </div>
 
-        {/* RIGHT — iPhone grand format avec capture cave */}
-        <div className="lg:col-span-7 flex justify-center">
+        {/* RIGHT — capture desktop landscape (cockpit / mission control) */}
+        <div className="lg:col-span-8">
           <FadeInOnScroll delay={0.2} direction="left">
-            <ScreenshotFrame
-              mode="static"
-              frame="iphone"
-              src="/screenshots/05-cave-visuelle.png"
-              alt={
-                locale === 'fr'
-                  ? 'La cave en grille — bouteilles avec photos et apogées'
-                  : 'The cellar grid — bottles with photos and drinking windows'
-              }
-              width={340}
-              rotation={-1.5}
-              glow
-            />
+            <div
+              className="relative rounded-xl overflow-hidden border border-or/15"
+              style={{
+                boxShadow:
+                  '0 32px 96px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(243, 236, 231, 0.05)',
+                transform: 'rotate(-0.5deg)',
+              }}
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 z-10"
+                style={{
+                  background:
+                    'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(212, 165, 72, 0.08), transparent 70%)',
+                }}
+              />
+              <Image
+                src="/screenshots/08-cellier-desktop.png"
+                alt={
+                  locale === 'fr'
+                    ? 'La cave Bigras — vue desktop complète avec sidebar et grid bouteilles'
+                    : 'Bigras cellar — full desktop view with sidebar and bottles grid'
+                }
+                width={1487}
+                height={758}
+                sizes="(min-width: 1024px) 64vw, 100vw"
+                className="block w-full h-auto"
+                priority={false}
+              />
+            </div>
           </FadeInOnScroll>
         </div>
       </div>
