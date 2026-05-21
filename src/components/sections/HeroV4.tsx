@@ -56,8 +56,8 @@ export default function HeroV4() {
 
   const placeholderCaption =
     locale === 'fr'
-      ? 'Fiche · Pomerol 1995'
-      : 'Bottle · Pomerol 1995';
+      ? 'Brunello · Pian delle Vigne 2010'
+      : 'Brunello · Pian delle Vigne 2010';
 
   return (
     <section
@@ -144,11 +144,11 @@ export default function HeroV4() {
                 <ScreenshotFrame
                   mode="static"
                   frame="iphone"
-                  src="placeholder:Fiche · Pomerol 1995"
+                  src="/screenshots/01-fiche-vin.png"
                   alt={
                     locale === 'fr'
-                      ? 'Fiche de bouteille — application iQWine'
-                      : 'Bottle profile — iQWine application'
+                      ? 'Fiche de bouteille Brunello — application iQWine'
+                      : 'Brunello bottle profile — iQWine application'
                   }
                   width={300}
                   rotation={-2}
