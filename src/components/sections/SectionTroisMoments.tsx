@@ -26,6 +26,7 @@ type Moment = {
   alt: Record<Locale, string>;
 };
 
+// V5-quater Eric : textes plus courts, impact immédiat, pas lecture longue.
 const MOMENTS: Moment[] = [
   {
     eyebrow: { fr: '01 · Ce soir', en: '01 · Tonight' },
@@ -34,8 +35,8 @@ const MOMENTS: Moment[] = [
       en: 'The sommelier in the kitchen',
     },
     body: {
-      fr: 'Vous dites ce que vous mangez. Trois bouteilles de votre cave montent, chacune avec sa raison.',
-      en: 'You say what you\'re eating. Three bottles from your cellar rise, each with its reason.',
+      fr: 'Dites ce que vous mangez. Trois bouteilles montent.',
+      en: 'Say what you\'re eating. Three bottles rise.',
     },
     src: '/screenshots/02-home-suggestions.png',
     alt: {
@@ -50,8 +51,8 @@ const MOMENTS: Moment[] = [
       en: 'The discreet pairing',
     },
     body: {
-      fr: 'Le menu × votre cave d\'expérience. Une suggestion. Aucun spectacle. Le sommelier de la table reste maître.',
-      en: 'The menu × your cellar of experience. One suggestion. No show. The room\'s sommelier stays in charge.',
+      fr: 'Le menu × votre cave. Une suggestion, sans spectacle.',
+      en: 'The menu × your cellar. A suggestion, without spectacle.',
     },
     src: '/screenshots/03-menu-scan.png',
     alt: {
@@ -66,8 +67,8 @@ const MOMENTS: Moment[] = [
       en: 'A memory that learns',
     },
     body: {
-      fr: 'Chaque bouteille bue laisse une trace. Trente plus tard, votre cave commence à vous comprendre.',
-      en: 'Each bottle opened leaves a trace. Thirty later, your cellar begins to understand you.',
+      fr: 'Chaque bouteille bue laisse une trace. La cave vous comprend.',
+      en: 'Each bottle opened leaves a trace. The cellar understands you.',
     },
     src: '/screenshots/04-carnet.png',
     alt: {
@@ -104,7 +105,7 @@ export default function SectionTroisMoments() {
                 frame="iphone"
                 src={m.src}
                 alt={m.alt[locale]}
-                width={220}
+                width={190}
                 rotation={i === 1 ? -1 : 1}
                 glow
               />
