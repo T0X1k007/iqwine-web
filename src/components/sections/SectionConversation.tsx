@@ -33,20 +33,45 @@ const QA: Record<
   fr: {
     question:
       'Que puis-je ouvrir avec un tomahawk grillé ce soir ?',
+    // V5-quater Eric : plus de texture, plus de vin, plus de rituel.
     response: [
       'Votre Brunello Pian delle Vigne 2010.',
-      'Tanins fondus, fruit ample, prêt pour la fumée du grill.',
-      'Servir une heure avant la table.',
+      'Laissez-le respirer une heure.',
+      'Le fruit est ample maintenant,',
+      'les tanins enfin assouplis.',
+      'C\'est probablement sa plus belle fenêtre.',
     ],
   },
   en: {
     question: 'What should I open with a grilled tomahawk tonight?',
     response: [
       'Your Brunello Pian delle Vigne 2010.',
-      'Soft tannins, ample fruit, ready for the smoke of the grill.',
-      'Decant one hour before the table.',
+      'Let it breathe an hour.',
+      'The fruit is ample now,',
+      'the tannins finally softened.',
+      'It is probably its most beautiful window.',
     ],
   },
+};
+
+// Questions fantômes — vivent en arrière-plan opacity 0.08-0.12, drift
+// très lent. Sensation : "des centaines de conversations vivent dans
+// votre cave". Eric V5-quater.
+const GHOST_QUESTIONS: Record<Locale, Array<{ text: string; x: string; y: string; rotate: number }>> = {
+  fr: [
+    { text: 'Lequel est en apogée cette année ?', x: '8%', y: '12%', rotate: -1 },
+    { text: 'Une bouteille pour un risotto aux truffes ?', x: '55%', y: '25%', rotate: 1.5 },
+    { text: 'À boire avant 2027 ?', x: '10%', y: '78%', rotate: -1.5 },
+    { text: 'Que reste-t-il du voyage en Toscane ?', x: '52%', y: '85%', rotate: 1 },
+    { text: 'Qu\'est-ce qui s\'ouvre bien ce soir ?', x: '60%', y: '50%', rotate: -0.5 },
+  ],
+  en: [
+    { text: 'Which one is at peak this year?', x: '8%', y: '12%', rotate: -1 },
+    { text: 'A bottle for truffle risotto?', x: '55%', y: '25%', rotate: 1.5 },
+    { text: 'To drink before 2027?', x: '10%', y: '78%', rotate: -1.5 },
+    { text: 'What\'s left from the Tuscany trip?', x: '52%', y: '85%', rotate: 1 },
+    { text: 'What opens well tonight?', x: '60%', y: '50%', rotate: -0.5 },
+  ],
 };
 
 export default function SectionConversation() {
@@ -55,26 +80,60 @@ export default function SectionConversation() {
   const inView = useInView(ref, { once: true, margin: '-15% 0px -15% 0px' });
   const reduced = useReducedMotion();
 
-  const [stage, setStage] = useState(reduced ? 4 : 0);
+  // stage 0=initial, 1=question, 2-6=réponse 5 lignes
+  const [stage, setStage] = useState(reduced ? 6 : 0);
 
   useEffect(() => {
     if (!inView || reduced) return;
     const timers = [
-      window.setTimeout(() => setStage(1), 250), // question apparait
-      window.setTimeout(() => setStage(2), 1000), // ligne 1 réponse
-      window.setTimeout(() => setStage(3), 1400), // ligne 2
-      window.setTimeout(() => setStage(4), 1800), // ligne 3
+      window.setTimeout(() => setStage(1), 250), // question
+      window.setTimeout(() => setStage(2), 1100), // ligne 1 (Brunello name)
+      window.setTimeout(() => setStage(3), 1500), // ligne 2 (laissez respirer)
+      window.setTimeout(() => setStage(4), 1850), // ligne 3 (fruit ample)
+      window.setTimeout(() => setStage(5), 2150), // ligne 4 (tanins assouplis)
+      window.setTimeout(() => setStage(6), 2500), // ligne 5 (sa plus belle fenêtre)
     ];
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [inView, reduced]);
 
   const qa = QA[locale];
+  const ghosts = GHOST_QUESTIONS[locale];
 
   return (
     <SectionWrapper id="conversation" withDivider rhythm="standard">
-      <div className="max-w-3xl mx-auto" ref={ref}>
+      <div className="relative max-w-3xl mx-auto" ref={ref}>
+        {/* Questions fantômes — vivent en arrière-plan, drift très lent.
+           Sensation : des centaines de conversations dans votre cave. */}
+        {!reduced && (
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            {ghosts.map((g, i) => (
+              <motion.span
+                key={i}
+                className="absolute font-[family-name:var(--font-display)] italic text-foreground whitespace-nowrap"
+                style={{
+                  left: g.x,
+                  top: g.y,
+                  transform: `rotate(${g.rotate}deg)`,
+                  fontSize: '14px',
+                  letterSpacing: '-0.005em',
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.10, 0.08, 0.11, 0.07, 0.10] }}
+                transition={{
+                  duration: 18 + i * 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 1.2,
+                }}
+              >
+                « {g.text} »
+              </motion.span>
+            ))}
+          </div>
+        )}
+
         <FadeInOnScroll>
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="relative text-center mb-12 sm:mb-16">
             <div className="iq-eyebrow mb-5">
               {locale === 'fr' ? 'La conversation' : 'The conversation'}
             </div>
@@ -91,8 +150,8 @@ export default function SectionConversation() {
           </div>
         </FadeInOnScroll>
 
-        {/* Transcript éditorial */}
-        <div className="grid grid-cols-1 gap-0 max-w-2xl mx-auto">
+        {/* Transcript éditorial — relative pour rester au-dessus des ghosts */}
+        <div className="relative grid grid-cols-1 gap-0 max-w-2xl mx-auto">
           {/* QUESTION block */}
           <motion.article
             initial={{ opacity: 0, y: 8 }}
@@ -108,7 +167,7 @@ export default function SectionConversation() {
             </p>
           </motion.article>
 
-          {/* RESPONSE block */}
+          {/* RESPONSE block — 5 lignes, plus sensuel, plus ritual */}
           <motion.article
             initial={{ opacity: 0 }}
             animate={stage >= 2 ? { opacity: 1 } : { opacity: 0 }}
@@ -118,7 +177,7 @@ export default function SectionConversation() {
             <div className="iq-eyebrow mb-5">
               {locale === 'fr' ? 'Votre sommelier' : 'Your sommelier'}
             </div>
-            <div className="flex flex-col gap-3 sm:gap-4">
+            <div className="flex flex-col gap-3">
               {qa.response.map((line, i) => (
                 <motion.p
                   key={i}
@@ -132,8 +191,8 @@ export default function SectionConversation() {
                   }}
                   className={`font-[family-name:var(--font-display)] italic leading-relaxed tracking-[-0.005em] ${
                     i === 0
-                      ? 'text-or text-3xl sm:text-[40px]'
-                      : 'text-foreground text-xl sm:text-2xl'
+                      ? 'text-or text-3xl sm:text-[36px] mb-2'
+                      : 'text-foreground text-xl sm:text-[22px]'
                   }`}
                 >
                   {i === 0 ? '« ' : ''}
