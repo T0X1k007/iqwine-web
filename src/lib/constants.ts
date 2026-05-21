@@ -15,7 +15,6 @@ import type { Locale } from './i18n';
 const EYEBROWS_MAP = {
   en: {
     problem: '01 · Reality',
-    ceSoir: '02 · Tonight',
     platform: '03 · The Suite',
     impact: '04 · Intelligence',
     circle: '05 · The Circle',
@@ -23,7 +22,6 @@ const EYEBROWS_MAP = {
   },
   fr: {
     problem: '01 · Constat',
-    ceSoir: '02 · Ce soir',
     platform: '03 · La suite',
     impact: '04 · Intelligence',
     circle: '05 · Le cercle',
@@ -145,15 +143,6 @@ const PROBLEM_MAP = {
 };
 
 // ─── Compat types (sections retirées) ───
-const SOLUTION_MAP = {
-  en: { title: '', subtitle: '', pillars: [] as Array<{ icon: 'Eye' | 'Sparkles' | 'Compass'; title: string; description: string }> },
-  fr: { title: '', subtitle: '', pillars: [] as Array<{ icon: 'Eye' | 'Sparkles' | 'Compass'; title: string; description: string }> },
-};
-const SHIFT_MAP = {
-  en: { title: '', lines: [] as string[] },
-  fr: { title: '', lines: [] as string[] },
-};
-
 // ─── Platform / La Suite — 6 gestes en langage collectionneur ───
 const PLATFORM_MAP = {
   en: {
@@ -283,12 +272,6 @@ const PLATFORM_MAP = {
   },
 };
 
-// ─── Compat (retiré) ───
-const DIFFERENT_MAP = {
-  en: { title: '', points: [] as string[], conclusion: '' },
-  fr: { title: '', points: [] as string[], conclusion: '' },
-};
-
 // ─── Intelligence — 4 messages AI contextuels (DNA §10) ───
 // Cette section démontre l'IA, pas la définit. Le système parle.
 const IMPACT_MAP = {
@@ -351,32 +334,6 @@ const IMPACT_MAP = {
           'Vos six derniers choix dessinent un palais.',
       },
     ],
-  },
-};
-
-// ─── Ce soir — section narrative immersive avec mockups iPhone (NEW) ───
-const CE_SOIR_MAP = {
-  en: {
-    title: 'Tonight is different.',
-    intro:
-      'You photograph the menu. Your cellar listens. Three bottles rise. A Brunello enters its plateau this week. You open. You know why.',
-    captions: {
-      tonight: 'A bottle, reasoned.',
-      scanner: 'A wine list, photographed.',
-      apogee: 'A peak, watched.',
-    },
-    closing: 'Tonight, your cellar takes part.',
-  },
-  fr: {
-    title: 'Ce soir, c\'est différent.',
-    intro:
-      'Vous photographiez le menu. Votre cave écoute. Trois bouteilles montent. Un Brunello entre dans son plateau cette semaine. Vous ouvrez. Vous savez pourquoi.',
-    captions: {
-      tonight: 'Une bouteille, raisonnée.',
-      scanner: 'Une carte, photographiée.',
-      apogee: 'Une apogée, suivie.',
-    },
-    closing: 'Ce soir, votre cave participe.',
   },
 };
 
@@ -472,26 +429,14 @@ export function getHero(locale: Locale) {
 export function getProblem(locale: Locale) {
   return PROBLEM_MAP[locale];
 }
-export function getShift(locale: Locale) {
-  return SHIFT_MAP[locale];
-}
-export function getSolution(locale: Locale) {
-  return SOLUTION_MAP[locale];
-}
 export function getPlatform(locale: Locale) {
   return PLATFORM_MAP[locale];
-}
-export function getDifferent(locale: Locale) {
-  return DIFFERENT_MAP[locale];
 }
 export function getImpact(locale: Locale) {
   return IMPACT_MAP[locale];
 }
 export function getCircle(locale: Locale) {
   return CIRCLE_MAP[locale];
-}
-export function getCeSoir(locale: Locale) {
-  return CE_SOIR_MAP[locale];
 }
 export function getBeta(locale: Locale) {
   return BETA_MAP[locale];
