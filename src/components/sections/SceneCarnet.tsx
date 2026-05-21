@@ -70,7 +70,7 @@ export default function SceneCarnet() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 max-w-7xl mx-auto">
         {/* LEFT — tall narrative */}
-        <div className="lg:col-span-7 flex flex-col gap-[28vh] lg:gap-[44vh] py-8 lg:py-[20vh]">
+        <div className="lg:col-span-7 flex flex-col gap-14 sm:gap-20 lg:gap-[44vh] py-4 lg:py-[20vh]">
           {PARAGRAPHS.map((p, i) => (
             <FadeInOnScroll key={i} delay={0.05 + i * 0.05}>
               <article className="max-w-xl">

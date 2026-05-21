@@ -114,7 +114,7 @@ export default function HeroV4() {
                     <ArrowRight size={16} strokeWidth={1.75} />
                   </Button>
                 </a>
-                <a href="#vision" className="w-full sm:w-auto">
+                <a href="#constat" className="w-full sm:w-auto">
                   <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                     {hero.ctaSecondary}
                     <ChevronDown size={16} strokeWidth={1.75} />

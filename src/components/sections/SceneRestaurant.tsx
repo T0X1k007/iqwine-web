@@ -85,7 +85,7 @@ export default function SceneRestaurant() {
         </div>
 
         {/* RIGHT — tall narrative */}
-        <div className="lg:col-span-7 flex flex-col gap-[28vh] lg:gap-[44vh] py-8 lg:py-[20vh] order-1 lg:order-2">
+        <div className="lg:col-span-7 flex flex-col gap-14 sm:gap-20 lg:gap-[44vh] py-4 lg:py-[20vh] order-1 lg:order-2">
           {PARAGRAPHS.map((p, i) => (
             <FadeInOnScroll key={i} delay={0.05 + i * 0.05}>
               <article className="max-w-xl">
