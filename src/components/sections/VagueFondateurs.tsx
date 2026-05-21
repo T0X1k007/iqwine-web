@@ -43,8 +43,8 @@ const PLAN_LABELS: Record<PlanChoice, Record<'fr' | 'en', string>> = {
     en: 'Pro · $299/year',
   },
   undecided: {
-    fr: 'Je verrai à la fin de mes 90 jours',
-    en: 'I\'ll decide after my 90 free days',
+    fr: 'Je verrai à la fin de mes 14 jours',
+    en: 'I\'ll decide after my 14 free days',
   },
 };
 
@@ -276,8 +276,8 @@ export default function VagueFondateurs() {
 
                 <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint leading-relaxed mt-2">
                   {t(
-                    '90 jours gratuits · Aucune carte requise · TPS/TVQ en sus',
-                    '90 free days · No credit card · Taxes extra',
+                    '14 jours gratuits · Aucune carte requise · TPS/TVQ en sus',
+                    '14 free days · No credit card · Taxes extra',
                   )}
                 </p>
 

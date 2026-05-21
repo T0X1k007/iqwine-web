@@ -14,9 +14,9 @@ import type { Locale } from '@/lib/i18n';
  * "Demander l'accès" — jamais "Acheter maintenant" (ton premium calme
  * invitation privée, pas e-commerce). Scroll smooth vers #beta.
  *
- * 90 jours gratuits / aucune carte / TPS+TVQ en sus.
+ * 14 jours gratuits / aucune carte / TPS+TVQ en sus.
  *
- * Pas de "Free tier" public — l'accès gratuit est implicite aux 90 jours.
+ * Pas de "Free tier" public — l'accès gratuit est implicite aux 14 jours.
  * Volontairement court et lisible : un collectionneur ne lit pas une
  * matrice de fonctionnalités, il lit une carte de vin.
  */
@@ -28,7 +28,9 @@ interface Plan {
   name: Record<Locale, string>;
   tagline: Record<Locale, string>;
   price: number;
+  priceMonthly: number;
   period: Record<Locale, string>;
+  periodMonthly: Record<Locale, string>;
   features: Array<Record<Locale, string>>;
   highlight?: boolean;
   ctaHref: string;
@@ -43,7 +45,9 @@ const PLANS: Plan[] = [
       en: 'For the attentive everyday cellar.',
     },
     price: 149,
+    priceMonthly: 14.95,
     period: { fr: '/ an', en: '/ year' },
+    periodMonthly: { fr: '/ mois', en: '/ month' },
     features: [
       {
         fr: 'Jusqu\'à 500 bouteilles',
@@ -80,7 +84,9 @@ const PLANS: Plan[] = [
       en: 'For the serious collector and their sommelier.',
     },
     price: 299,
+    priceMonthly: 29.99,
     period: { fr: '/ an', en: '/ year' },
+    periodMonthly: { fr: '/ mois', en: '/ month' },
     features: [
       {
         fr: 'Tout du plan Standard',
@@ -133,8 +139,8 @@ export default function Pricing() {
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {locale === 'fr'
-              ? '90 jours offerts, sans engagement. Aucune carte demandée.'
-              : '90 days on the house, no strings. No card required.'}
+              ? '14 jours offerts, sans engagement. Aucune carte demandée.'
+              : '14 days on the house, no strings. No card required.'}
           </p>
         </div>
       </FadeInOnScroll>
@@ -151,8 +157,8 @@ export default function Pricing() {
         <div className="mt-16 text-center max-w-2xl mx-auto">
           <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint leading-relaxed">
             {locale === 'fr'
-              ? '90 jours gratuits · Aucune carte requise · TPS et TVQ en sus · Paiement par virement Interac'
-              : '90 free days · No credit card · GST/QST extra · Interac payment'}
+              ? '14 jours gratuits · Aucune carte requise · TPS et TVQ en sus · Paiement par virement Interac'
+              : '14 free days · No credit card · GST/QST extra · Interac payment'}
           </p>
           <p className="mt-8 font-[family-name:var(--font-display)] italic text-or/85 text-lg sm:text-xl leading-relaxed">
             {locale === 'fr'
@@ -200,8 +206,14 @@ function PlanCard({ plan, locale }: { plan: Plan; locale: Locale }) {
           $ CAD
         </span>
       </div>
-      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-8">
+      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-2">
         {plan.period[locale]}
+      </p>
+      <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-base mb-8">
+        {locale === 'fr' ? 'ou ' : 'or '}
+        <span className="tabular-nums">{plan.priceMonthly.toFixed(2).replace('.', ',')}</span>
+        {' $ '}
+        <span className="text-foreground-faint">{plan.periodMonthly[locale]}</span>
       </p>
 
       <div className="h-px w-full bg-border mb-7" aria-hidden />
