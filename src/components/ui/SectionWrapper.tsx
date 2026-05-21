@@ -13,8 +13,8 @@ interface SectionWrapperProps {
 }
 
 const rhythmClasses: Record<NonNullable<SectionWrapperProps['rhythm']>, string> = {
-  standard: 'py-20 sm:py-28 lg:py-36',
-  editorial: 'py-28 sm:py-40 lg:py-52',
+  standard: 'py-14 sm:py-20 lg:py-28',
+  editorial: 'py-20 sm:py-28 lg:py-40',
 };
 
 export default function SectionWrapper({

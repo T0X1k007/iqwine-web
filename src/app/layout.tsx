@@ -1,12 +1,28 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
 /**
  * Fonts via next/font/google : auto-self-host, auto-preload critique,
  * zero CLS sur fonts (size-adjust + fallback metric matching), zéro FOUT.
  * Élimine le @import url Google Fonts qui bloque le first paint.
+ *
+ * Direction éditoriale alignée cellier-vin (lib/fonts.ts) :
+ *   - Display = Cormorant Garamond (serif magazine luxe, italic disponible)
+ *     → titres, hero, citations, signatures, phrases sommelier
+ *   - Body = Inter (sans-serif lisible, performance lecture)
+ *     → labels, boutons, captions, prose
+ *   - Mono = JetBrains Mono → eyebrows, IDs, codes éditoriaux
  */
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-cormorant',
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
+});
+
 const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -56,7 +72,7 @@ export default function RootLayout({
     <html
       lang="fr"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>{children}</body>
     </html>

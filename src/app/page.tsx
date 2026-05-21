@@ -3,26 +3,26 @@
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import Hero from '@/components/sections/Hero';
-import TheProblem from '@/components/sections/TheProblem';
-import CeSoir from '@/components/sections/CeSoir';
-import Platform from '@/components/sections/Platform';
-import Impact from '@/components/sections/Impact';
-import LeCercle from '@/components/sections/LeCercle';
-import BetaAccess from '@/components/sections/BetaAccess';
+import HeroV4 from '@/components/sections/HeroV4';
+import SectionAI from '@/components/sections/SectionAI';
+import SectionConversation from '@/components/sections/SectionConversation';
+import SectionCaveWeb from '@/components/sections/SectionCaveWeb';
+import SectionTroisMoments from '@/components/sections/SectionTroisMoments';
+import Pricing from '@/components/sections/Pricing';
+import VagueFondateurs from '@/components/sections/VagueFondateurs';
 
 export default function Home() {
   return (
     <I18nProvider>
       <Navbar />
       <main>
-        <Hero />
-        <TheProblem />
-        <CeSoir />
-        <Platform />
-        <Impact />
-        <LeCercle />
-        <BetaAccess />
+        <HeroV4 />
+        <SectionAI />
+        <SectionConversation />
+        <SectionCaveWeb />
+        <SectionTroisMoments />
+        <Pricing />
+        <VagueFondateurs />
       </main>
       <Footer />
     </I18nProvider>

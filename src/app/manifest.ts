@@ -20,8 +20,8 @@ export default function manifest(): MetadataRoute.Manifest {
       'Le sommelier privé des collectionneurs modernes. Cellier vivant, mémoire de dégustation, mode Tonight.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#0F0A08',
-    theme_color: '#0F0A08',
+    background_color: '#161210',
+    theme_color: '#161210',
     orientation: 'portrait',
     lang: 'fr-CA',
     icons: [
