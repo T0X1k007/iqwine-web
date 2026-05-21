@@ -43,6 +43,9 @@ const STAGE_TIMING_MS = [600, 1600, 800]; // total 3s + transitions ~= 4.5s
 // Index 0, 1, 3 = rejetées | Index 2, 4, 5 = retenues (2 = focus Brunello)
 type BottleVerdict = 'reject' | 'keep' | 'focus';
 
+// Fragments sommelier-intuitifs : ressentis brefs, partiels, pas
+// d'algorithme. "L'intelligence invisible" — pensée sommelier en train
+// d'évaluer. Eric V5-quater : moins système, plus intuition.
 const BOTTLES: Array<{
   x: number;
   y: number;
@@ -50,6 +53,9 @@ const BOTTLES: Array<{
   delay: number;
   verdict: BottleVerdict;
   tag: Record<Locale, string>;
+  tagOffsetY: number; // décalage Y vertical pour effet manuscrit
+  tagOffsetX: number; // décalage X horizontal pour casser l'alignement
+  tagRotation: number; // léger angle pour annotation manuscrite
 }> = [
   {
     x: 65,
@@ -57,47 +63,65 @@ const BOTTLES: Array<{
     scale: 1.6,
     delay: 0,
     verdict: 'reject',
-    tag: { fr: 'trop jeune', en: 'too young' },
+    tag: { fr: 'trop fermé', en: 'too tight' },
+    tagOffsetY: -38,
+    tagOffsetX: -2,
+    tagRotation: -2,
   },
   {
     x: 135,
     y: 175,
     scale: 1.6,
-    delay: 0.06,
+    delay: 0.18,
     verdict: 'reject',
-    tag: { fr: 'pas ouverte', en: 'not yet open' },
+    tag: { fr: 'attendre', en: 'wait' },
+    tagOffsetY: -42,
+    tagOffsetX: 4,
+    tagRotation: 1.5,
   },
   {
     x: 215,
     y: 175,
     scale: 2.0,
-    delay: 0.12,
+    delay: 0.36,
     verdict: 'focus',
-    tag: { fr: 'apogée maintenant', en: 'peak now' },
+    tag: { fr: 'oui, maintenant', en: 'yes, now' },
+    tagOffsetY: -44,
+    tagOffsetX: -8,
+    tagRotation: -1,
   },
   {
     x: 295,
     y: 175,
     scale: 1.6,
-    delay: 0.18,
+    delay: 0.54,
     verdict: 'reject',
-    tag: { fr: 'tanins fermes', en: 'tight tannins' },
+    tag: { fr: 'tanins…', en: 'tannins…' },
+    tagOffsetY: -38,
+    tagOffsetX: 2,
+    tagRotation: 2,
   },
   {
     x: 365,
     y: 175,
     scale: 1.6,
-    delay: 0.24,
+    delay: 0.72,
     verdict: 'keep',
-    tag: { fr: 'accord parfait', en: 'ideal pairing' },
+    tag: { fr: '2027 ?', en: '2027 ?' },
+    tagOffsetY: -42,
+    tagOffsetX: 0,
+    tagRotation: -1.5,
   },
   {
     x: 435,
     y: 175,
     scale: 1.6,
-    delay: 0.3,
+    delay: 0.9,
     verdict: 'keep',
-    tag: { fr: 'fraîcheur idéale', en: 'right freshness' },
+    tag: { fr: 'fraîcheur', en: 'freshness' },
+    tagOffsetY: -40,
+    tagOffsetX: -4,
+    tagRotation: 1,
   },
 ];
 
@@ -208,78 +232,57 @@ function BottleSilhouette({
   );
 }
 
-// Tag per-bottle qui flash au-dessus pendant l'analyse
+// Fragment sommelier manuscrit : pensée brève qui émerge puis s'estompe.
+// Pas de ✓/×. Juste un mot ou deux, italic Cormorant, légère rotation
+// comme une annotation à la main. Apparaît, vit ~0.8s, disparaît.
 function AnalysisTag({
-  x,
-  y,
+  bottleX,
+  bottleY,
+  offsetX,
+  offsetY,
+  rotation,
   label,
   verdict,
   delay,
   visible,
 }: {
-  x: number;
-  y: number;
+  bottleX: number;
+  bottleY: number;
+  offsetX: number;
+  offsetY: number;
+  rotation: number;
   label: string;
   verdict: BottleVerdict;
   delay: number;
   visible: boolean;
 }) {
   const isPositive = verdict === 'keep' || verdict === 'focus';
+  const tagX = bottleX + offsetX;
+  const tagY = bottleY + offsetY;
   return (
     <motion.g
-      initial={{ opacity: 0, y: y + 8 }}
-      animate={visible ? { opacity: 1, y } : { opacity: 0, y: y + 8 }}
+      initial={{ opacity: 0 }}
+      animate={
+        visible
+          ? { opacity: [0, isPositive ? 0.95 : 0.5, isPositive ? 0.95 : 0.4, 0] }
+          : { opacity: 0 }
+      }
       transition={{
-        duration: 0.5,
+        duration: 1.4,
         delay: visible ? delay : 0,
-        ease: 'easeOut',
+        ease: 'easeInOut',
+        times: [0, 0.2, 0.7, 1],
       }}
+      transform={`rotate(${rotation} ${tagX} ${tagY})`}
     >
-      {/* Bullet ✓ ou × */}
-      <circle
-        cx={x - 2}
-        cy={y - 2.5}
-        r="3"
-        fill={isPositive ? '#d4a548' : 'rgba(243, 236, 231, 0.18)'}
-      />
-      {isPositive ? (
-        <path
-          d={`M ${x - 3.2} ${y - 2.5} L ${x - 2.4} ${y - 1.7} L ${x - 0.8} ${y - 3.7}`}
-          stroke="#161210"
-          strokeWidth="0.7"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      ) : (
-        <>
-          <line
-            x1={x - 3.2}
-            y1={y - 3.8}
-            x2={x - 0.8}
-            y2={y - 1.2}
-            stroke="rgba(243, 236, 231, 0.55)"
-            strokeWidth="0.6"
-            strokeLinecap="round"
-          />
-          <line
-            x1={x - 3.2}
-            y1={y - 1.2}
-            x2={x - 0.8}
-            y2={y - 3.8}
-            stroke="rgba(243, 236, 231, 0.55)"
-            strokeWidth="0.6"
-            strokeLinecap="round"
-          />
-        </>
-      )}
       <text
-        x={x + 4}
-        y={y}
-        fill={isPositive ? '#f3ece7' : 'rgba(243, 236, 231, 0.55)'}
-        fontSize="9"
+        x={tagX}
+        y={tagY}
+        fill={isPositive ? '#d4a548' : 'rgba(243, 236, 231, 0.65)'}
+        fontSize="10"
         fontStyle="italic"
         fontFamily="var(--font-display), serif"
+        textAnchor="middle"
       >
         {label}
       </text>
@@ -532,11 +535,16 @@ function PropositionCards({
 const STAGE_LABELS: Record<Locale, string[]> = {
   fr: [
     'LECTURE DE LA CAVE',
-    'ANALYSE EN COURS',
-    'CONVERGENCE',
-    'TROIS BOUTEILLES RETENUES',
+    'LES BOUTEILLES PARLENT',
+    'L\'ACCORD SE DESSINE',
+    'TROIS POUR CE SOIR',
   ],
-  en: ['READING THE CELLAR', 'ANALYZING', 'CONVERGING', 'THREE BOTTLES SELECTED'],
+  en: [
+    'READING THE CELLAR',
+    'THE BOTTLES SPEAK',
+    'THE PAIRING TAKES SHAPE',
+    'THREE FOR TONIGHT',
+  ],
 };
 
 export default function SectionAI() {
@@ -572,17 +580,17 @@ export default function SectionAI() {
         <div className="lg:col-span-5">
           <FadeInOnScroll>
             <div className="iq-eyebrow mb-5">
-              {locale === 'fr' ? 'L\'intelligence' : 'The intelligence'}
+              {locale === 'fr' ? 'La lecture' : 'The reading'}
             </div>
             <h2 className="iq-h1 italic mb-5">
               {locale === 'fr'
-                ? 'L\'IA privée de votre cave.'
-                : 'The private AI of your cellar.'}
+                ? 'Une intelligence privée, silencieuse.'
+                : 'A private intelligence, silent.'}
             </h2>
             <p className="iq-lead">
               {locale === 'fr'
-                ? 'Lecture des bouteilles, écoute du palais, calibration de l\'accord. Trois propositions, en silence.'
-                : 'Reading the bottles, listening to the palate, calibrating the pairing. Three suggestions, in silence.'}
+                ? 'Vos bouteilles lues. Votre palais écouté. Trois propositions, sans démonstration.'
+                : 'Your bottles read. Your palate heard. Three suggestions, no demonstration.'}
             </p>
           </FadeInOnScroll>
         </div>
@@ -590,13 +598,31 @@ export default function SectionAI() {
         <div className="lg:col-span-7" ref={ref}>
           <FadeInOnScroll delay={0.15}>
             <div className="relative w-full overflow-hidden rounded-2xl border border-or/15 bg-card">
-              <div
+              {/* Lumière chaude qui dérive lentement — sensation cave-vit subliminale */}
+              <motion.div
                 aria-hidden
                 className="pointer-events-none absolute inset-0"
                 style={{
                   background:
-                    'radial-gradient(ellipse 60% 50% at 50% 40%, rgba(212, 165, 72, 0.08), transparent 70%)',
+                    'radial-gradient(ellipse 60% 50% at 50% 40%, rgba(212, 165, 72, 0.10), transparent 70%)',
                 }}
+                animate={
+                  reduced
+                    ? undefined
+                    : {
+                        opacity: [0.85, 1, 0.85],
+                        backgroundPosition: ['50% 40%', '52% 38%', '50% 40%'],
+                      }
+                }
+                transition={
+                  reduced
+                    ? undefined
+                    : {
+                        duration: 14,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }
+                }
               />
               <svg
                 viewBox="0 0 500 410"
@@ -604,8 +630,8 @@ export default function SectionAI() {
                 role="img"
                 aria-label={
                   locale === 'fr'
-                    ? 'Animation : un sommelier IA déguste mentalement la cave et propose trois bouteilles.'
-                    : 'Animation: an AI sommelier mentally tastes the cellar and suggests three bottles.'
+                    ? 'Lecture silencieuse de la cave qui propose trois bouteilles pour ce soir.'
+                    : 'Silent reading of the cellar suggesting three bottles for tonight.'
                 }
                 className="relative block min-h-[380px] sm:min-h-[440px]"
               >
@@ -633,6 +659,37 @@ export default function SectionAI() {
                   strokeWidth="0.5"
                 />
 
+                {/* Poussière subliminale — sensation cave-vit ultra subtile (Eric V5-quater) */}
+                {!reduced && (
+                  <>
+                    <motion.circle
+                      cx={120} cy={90} r="0.7" fill="rgba(243, 236, 231, 0.18)"
+                      animate={{ cy: [90, 96, 88, 92, 90], opacity: [0.18, 0.32, 0.18] }}
+                      transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                    <motion.circle
+                      cx={380} cy={120} r="0.6" fill="rgba(243, 236, 231, 0.14)"
+                      animate={{ cy: [120, 114, 122, 118, 120], opacity: [0.14, 0.28, 0.14] }}
+                      transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+                    />
+                    <motion.circle
+                      cx={250} cy={70} r="0.5" fill="rgba(243, 236, 231, 0.12)"
+                      animate={{ cy: [70, 76, 68, 72, 70], opacity: [0.12, 0.22, 0.12] }}
+                      transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+                    />
+                    <motion.circle
+                      cx={70} cy={250} r="0.6" fill="rgba(243, 236, 231, 0.16)"
+                      animate={{ cy: [250, 244, 252, 248, 250], opacity: [0.16, 0.26, 0.16] }}
+                      transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
+                    />
+                    <motion.circle
+                      cx={440} cy={210} r="0.5" fill="rgba(243, 236, 231, 0.13)"
+                      animate={{ cy: [210, 216, 208, 212, 210], opacity: [0.13, 0.23, 0.13] }}
+                      transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 8 }}
+                    />
+                  </>
+                )}
+
                 {/* 6 silhouettes */}
                 {BOTTLES.map((b, i) => (
                   <BottleSilhouette
@@ -647,15 +704,18 @@ export default function SectionAI() {
                   />
                 ))}
 
-                {/* Tags d'analyse flash pendant stage 1 */}
+                {/* Fragments sommelier-intuitifs pendant stage 1 — émergent puis s'estompent */}
                 {BOTTLES.map((b, i) => (
                   <AnalysisTag
                     key={`tag-${i}`}
-                    x={b.x - 4}
-                    y={b.y - 38}
+                    bottleX={b.x}
+                    bottleY={b.y}
+                    offsetX={b.tagOffsetX}
+                    offsetY={b.tagOffsetY}
+                    rotation={b.tagRotation}
                     label={b.tag[locale]}
                     verdict={b.verdict}
-                    delay={0.04 * i}
+                    delay={b.delay * 0.8}
                     visible={tagsVisible}
                   />
                 ))}
