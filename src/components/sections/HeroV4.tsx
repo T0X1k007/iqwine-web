@@ -63,7 +63,7 @@ export default function HeroV4() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[100dvh] flex items-center overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-32"
+      className="relative min-h-[90dvh] flex items-center overflow-hidden pt-24 pb-14 lg:pt-32 lg:pb-24"
     >
       {/* Glow wine-rouge — vignette derrière le contenu, parallax subtle */}
       <motion.div
