@@ -13,59 +13,137 @@ import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * SectionAI — « L'atelier du sommelier IA »
+ * SectionAI — « L'atelier du sommelier IA » V5-ter
  *
- * Direction V5-bis (Eric 2026-05-20) : l'IA qui DÉGUSTE mentalement
- * la cave, pas un graphique décoratif.
+ * Direction Eric V5-ter (2026-05-20) :
+ *   - Timing court ~4.5s total (utilisateur moderne scroll vite)
+ *   - Intelligence VISIBLE : on doit voir l'IA RÉFLÉCHIR, pas
+ *     juste sélectionner. Per-bottle analysis tags (✓/✗), 3 rejetées
+ *     s'estompent, 3 retenues convergent.
+ *   - Micro-floating ultra subtil sur cartes finales (drift Y ±2px,
+ *     6s ease) — vivant sans pulsation.
+ *   - 70/30 luxe/AI : palette Cormorant + or + espresso conservée.
  *
- * Inspiration : Apple Intelligence, visionOS, Leica, Aman.
+ * 4 stages narrés (~4.5s total, joue UNE fois useInView once:true) :
  *
- * Composition SVG en 4 phases narrées (~7s total, joue UNE fois) :
- *   1. LECTURE — 6 silhouettes de bouteilles glissent du LEFT,
- *      fade-in staggered (~1.5s)
- *   2. CONCENTRATION — une bouteille se met en vedette (halo or),
- *      fiche éditoriale glisse à côté avec millésime/appellation,
- *      mots œnologiques apparaissent autour (~2.5s)
- *   3. ACCORD — un plat surgit à gauche, hairline or se trace vers
- *      la fiche bouteille (~1s)
- *   4. PROPOSITIONS — 3 cartes sobres émergent en bas avec slide-up
- *      (Brunello, Bordeaux, Champagne — vraies bouteilles de la cave
- *      Bigras) (~1.5s)
+ *   0 (0.6s) — LECTURE : 6 silhouettes entrent staggered
+ *   1 (1.6s) — ANALYSE : tags par bouteille (3 rejet, 3 keep) — l'IA pense
+ *   2 (0.8s) — CONCENTRATION : 3 retenues convergent, fiche Brunello +
+ *              plat + accord hairline + checkmark
+ *   3 (final) — TROIS BOUTEILLES : 3 cartes propositions + drift subtil
  *
- * Final stable : panel calme avec 3 cartes visibles + bouteille focus
- * + mots œnologiques. Aucune pulsation, aucune boucle.
+ * prefers-reduced-motion → état final direct.
  *
- * prefers-reduced-motion : skip animation → état final direct.
- *
- * SVG + CSS + Framer Motion uniquement. Pas de Lottie, pas de canvas.
+ * SVG + Framer Motion uniquement. Pas de Lottie, pas de canvas.
  */
 
-const STAGE_TIMING_MS = [1500, 2500, 1000, 1500]; // total ~6.5s
+const STAGE_TIMING_MS = [600, 1600, 800]; // total 3s + transitions ~= 4.5s
 
-// Silhouette bouteille — path simple élégant
+// 6 bouteilles avec leur état pré-déterminé (l'IA "décide")
+// Index 0, 1, 3 = rejetées | Index 2, 4, 5 = retenues (2 = focus Brunello)
+type BottleVerdict = 'reject' | 'keep' | 'focus';
+
+const BOTTLES: Array<{
+  x: number;
+  y: number;
+  scale: number;
+  delay: number;
+  verdict: BottleVerdict;
+  tag: Record<Locale, string>;
+}> = [
+  {
+    x: 65,
+    y: 175,
+    scale: 1.6,
+    delay: 0,
+    verdict: 'reject',
+    tag: { fr: 'trop jeune', en: 'too young' },
+  },
+  {
+    x: 135,
+    y: 175,
+    scale: 1.6,
+    delay: 0.06,
+    verdict: 'reject',
+    tag: { fr: 'pas ouverte', en: 'not yet open' },
+  },
+  {
+    x: 215,
+    y: 175,
+    scale: 2.0,
+    delay: 0.12,
+    verdict: 'focus',
+    tag: { fr: 'apogée maintenant', en: 'peak now' },
+  },
+  {
+    x: 295,
+    y: 175,
+    scale: 1.6,
+    delay: 0.18,
+    verdict: 'reject',
+    tag: { fr: 'tanins fermes', en: 'tight tannins' },
+  },
+  {
+    x: 365,
+    y: 175,
+    scale: 1.6,
+    delay: 0.24,
+    verdict: 'keep',
+    tag: { fr: 'accord parfait', en: 'ideal pairing' },
+  },
+  {
+    x: 435,
+    y: 175,
+    scale: 1.6,
+    delay: 0.3,
+    verdict: 'keep',
+    tag: { fr: 'fraîcheur idéale', en: 'right freshness' },
+  },
+];
+
+// Silhouette bouteille avec verdict state
 function BottleSilhouette({
   x,
   y,
-  scale = 1,
-  highlighted = false,
-  delay = 0,
-  visible = false,
+  scale,
+  visible,
+  verdict,
+  stage,
+  delay,
 }: {
   x: number;
   y: number;
-  scale?: number;
-  highlighted?: boolean;
-  delay?: number;
-  visible?: boolean;
+  scale: number;
+  visible: boolean;
+  verdict: BottleVerdict;
+  stage: number;
+  delay: number;
 }) {
+  // Stage 0-1 : neutre. Stage 1+ : verdict appliqué (fadé si reject, or si focus/keep)
+  const verdictApplied = stage >= 1;
+  const isRejected = verdictApplied && verdict === 'reject';
+  const isKept = verdictApplied && verdict === 'keep';
+  const isFocus = verdictApplied && verdict === 'focus';
+
+  // À stage 3 : 5 silhouettes non-focus partent, focus reste
+  const stage3Hide = stage >= 3 && !isFocus;
+
+  const targetOpacity = !visible
+    ? 0
+    : stage3Hide
+      ? 0
+      : isRejected
+        ? 0.18
+        : 1;
+
   return (
     <motion.g
       initial={{ opacity: 0 }}
-      animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.8, delay, ease: [0.32, 0.72, 0, 1] }}
+      animate={{ opacity: targetOpacity }}
+      transition={{ duration: 0.6, delay: visible ? delay : 0, ease: 'easeOut' }}
       transform={`translate(${x} ${y}) scale(${scale})`}
     >
-      {highlighted && (
+      {isFocus && (
         <motion.circle
           cx={0}
           cy={0}
@@ -73,10 +151,9 @@ function BottleSilhouette({
           fill="rgba(212, 165, 72, 0.14)"
           stroke="rgba(212, 165, 72, 0.3)"
           strokeWidth="0.4"
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          style={{ transformOrigin: '0 0', transformBox: 'fill-box' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         />
       )}
       <path
@@ -90,22 +167,38 @@ function BottleSilhouette({
            C 7 -8 2.5 -10 2.5 -10
            L 2.5 -22
            Z"
-        fill={highlighted ? '#b8862a' : 'rgba(243, 236, 231, 0.5)'}
-        stroke={highlighted ? '#d4a548' : 'rgba(243, 236, 231, 0.8)'}
+        fill={isFocus ? '#b8862a' : isKept ? 'rgba(212, 165, 72, 0.7)' : 'rgba(243, 236, 231, 0.5)'}
+        stroke={
+          isFocus
+            ? '#d4a548'
+            : isKept
+              ? 'rgba(212, 165, 72, 0.9)'
+              : 'rgba(243, 236, 231, 0.8)'
+        }
         strokeWidth="0.9"
       />
-      {/* Étiquette schématique */}
       <rect
         x={-4.5}
         y={2}
         width={9}
         height={10}
-        fill={highlighted ? 'rgba(243, 236, 231, 0.92)' : 'rgba(22, 18, 16, 0.6)'}
-        stroke={highlighted ? 'rgba(212, 165, 72, 0.9)' : 'rgba(243, 236, 231, 0.4)'}
+        fill={
+          isFocus
+            ? 'rgba(243, 236, 231, 0.92)'
+            : isKept
+              ? 'rgba(243, 236, 231, 0.85)'
+              : 'rgba(22, 18, 16, 0.6)'
+        }
+        stroke={
+          isFocus
+            ? 'rgba(212, 165, 72, 0.9)'
+            : isKept
+              ? 'rgba(212, 165, 72, 0.7)'
+              : 'rgba(243, 236, 231, 0.4)'
+        }
         strokeWidth="0.4"
       />
-      {/* Mini "écriture" sur étiquette si highlighted */}
-      {highlighted && (
+      {(isFocus || isKept) && (
         <>
           <line x1={-3} y1={5} x2={3} y2={5} stroke="#161210" strokeWidth="0.4" />
           <line x1={-3} y1={7.5} x2={2} y2={7.5} stroke="#161210" strokeWidth="0.3" />
@@ -115,24 +208,92 @@ function BottleSilhouette({
   );
 }
 
-// (FocusBottle retiré — la BottleSilhouette gère son propre halo via prop `highlighted`)
-
-const WORDS: Array<{ label: Record<Locale, string>; x: number; y: number; delay: number }> = [
-  { label: { fr: 'apogée 2025', en: 'peak 2025' }, x: 305, y: 115, delay: 0.3 },
-  { label: { fr: 'tanins fondus', en: 'soft tannins' }, x: 345, y: 140, delay: 0.6 },
-  { label: { fr: 'Sangiovese', en: 'Sangiovese' }, x: 385, y: 165, delay: 0.9 },
-  { label: { fr: 'fraîcheur', en: 'freshness' }, x: 365, y: 195, delay: 1.2 },
-  { label: { fr: 'long, ample', en: 'long, ample' }, x: 315, y: 220, delay: 1.5 },
-];
+// Tag per-bottle qui flash au-dessus pendant l'analyse
+function AnalysisTag({
+  x,
+  y,
+  label,
+  verdict,
+  delay,
+  visible,
+}: {
+  x: number;
+  y: number;
+  label: string;
+  verdict: BottleVerdict;
+  delay: number;
+  visible: boolean;
+}) {
+  const isPositive = verdict === 'keep' || verdict === 'focus';
+  return (
+    <motion.g
+      initial={{ opacity: 0, y: y + 8 }}
+      animate={visible ? { opacity: 1, y } : { opacity: 0, y: y + 8 }}
+      transition={{
+        duration: 0.5,
+        delay: visible ? delay : 0,
+        ease: 'easeOut',
+      }}
+    >
+      {/* Bullet ✓ ou × */}
+      <circle
+        cx={x - 2}
+        cy={y - 2.5}
+        r="3"
+        fill={isPositive ? '#d4a548' : 'rgba(243, 236, 231, 0.18)'}
+      />
+      {isPositive ? (
+        <path
+          d={`M ${x - 3.2} ${y - 2.5} L ${x - 2.4} ${y - 1.7} L ${x - 0.8} ${y - 3.7}`}
+          stroke="#161210"
+          strokeWidth="0.7"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      ) : (
+        <>
+          <line
+            x1={x - 3.2}
+            y1={y - 3.8}
+            x2={x - 0.8}
+            y2={y - 1.2}
+            stroke="rgba(243, 236, 231, 0.55)"
+            strokeWidth="0.6"
+            strokeLinecap="round"
+          />
+          <line
+            x1={x - 3.2}
+            y1={y - 1.2}
+            x2={x - 0.8}
+            y2={y - 3.8}
+            stroke="rgba(243, 236, 231, 0.55)"
+            strokeWidth="0.6"
+            strokeLinecap="round"
+          />
+        </>
+      )}
+      <text
+        x={x + 4}
+        y={y}
+        fill={isPositive ? '#f3ece7' : 'rgba(243, 236, 231, 0.55)'}
+        fontSize="9"
+        fontStyle="italic"
+        fontFamily="var(--font-display), serif"
+      >
+        {label}
+      </text>
+    </motion.g>
+  );
+}
 
 function FicheVin({ visible, locale }: { visible: boolean; locale: Locale }) {
   return (
     <motion.g
       initial={{ opacity: 0 }}
       animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      {/* Fiche card */}
       <rect
         x={285}
         y={240}
@@ -177,48 +338,6 @@ function FicheVin({ visible, locale }: { visible: boolean; locale: Locale }) {
   );
 }
 
-function WordTag({
-  label,
-  x,
-  y,
-  delay,
-  visible,
-}: {
-  label: string;
-  x: number;
-  y: number;
-  delay: number;
-  visible: boolean;
-}) {
-  return (
-    <motion.g
-      initial={{ opacity: 0 }}
-      animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-    >
-      <line
-        x1={215}
-        y1={170}
-        x2={x - 4}
-        y2={y - 3}
-        stroke="rgba(212, 165, 72, 0.45)"
-        strokeWidth="0.5"
-      />
-      <circle cx={215} cy={170} r="1.5" fill="rgba(212, 165, 72, 0.7)" />
-      <text
-        fill="#f3ece7"
-        fontSize="11"
-        fontStyle="italic"
-        fontFamily="var(--font-display), serif"
-      >
-        <tspan x={x} y={y}>
-          {label}
-        </tspan>
-      </text>
-    </motion.g>
-  );
-}
-
 function PlatTag({ visible, locale }: { visible: boolean; locale: Locale }) {
   return (
     <motion.g
@@ -257,7 +376,6 @@ function PlatTag({ visible, locale }: { visible: boolean; locale: Locale }) {
       >
         {locale === 'fr' ? 'Bœuf bourguignon' : 'Beef bourguignon'}
       </text>
-      {/* hairline from plat vers fiche */}
       <motion.line
         x1={205}
         y1={262}
@@ -268,13 +386,12 @@ function PlatTag({ visible, locale }: { visible: boolean; locale: Locale }) {
         strokeDasharray="2 2"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: visible ? 1 : 0 }}
-        transition={{ duration: 1, ease: 'easeOut', delay: 0.4 }}
+        transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
       />
-      {/* checkmark or sur l'arrow */}
       <motion.g
         initial={{ opacity: 0 }}
         animate={{ opacity: visible ? 1 : 0 }}
-        transition={{ duration: 0.4, delay: 1.4 }}
+        transition={{ duration: 0.4, delay: 0.9 }}
         transform="translate(245 263)"
       >
         <circle r="3" fill="#d4a548" />
@@ -312,28 +429,45 @@ const PROPOSITIONS: Array<{
 function PropositionCards({
   visible,
   locale,
+  reduced,
 }: {
   visible: boolean;
   locale: Locale;
+  reduced: boolean;
 }) {
   return (
     <motion.g
       initial={{ opacity: 0 }}
       animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {PROPOSITIONS.map((p, i) => {
         const x = 30 + i * 155;
         const isCenter = i === 1;
+        // Micro-float ultra subtil — drift Y ±2px sur 6s, déphasé par card
+        const floatAnim =
+          !reduced && visible
+            ? {
+                y: [0, -2, 0, 2, 0],
+              }
+            : { y: 0 };
         return (
           <motion.g
             key={i}
             initial={{ opacity: 0 }}
-            animate={visible ? { opacity: 1 } : { opacity: 0 }}
+            animate={visible ? { opacity: 1, ...floatAnim } : { opacity: 0 }}
             transition={{
-              duration: 0.6,
-              delay: 0.15 + i * 0.15,
-              ease: [0.16, 1, 0.3, 1],
+              opacity: {
+                duration: 0.5,
+                delay: 0.1 + i * 0.12,
+                ease: [0.16, 1, 0.3, 1],
+              },
+              y: {
+                duration: 6 + i * 0.8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: i * 0.5,
+              },
             }}
           >
             <rect
@@ -350,7 +484,6 @@ function PropositionCards({
               }
               strokeWidth="1"
             />
-            {/* mini bottle inside card */}
             <g transform={`translate(${x + 18} 365)`}>
               <path
                 d="M -1.8 -13 L -1.8 -6 C -1.8 -6 -5 -5 -5 -1 L -5 10 C -5 12 -4 13 0 13 C 4 13 5 12 5 10 L 5 -1 C 5 -5 1.8 -6 1.8 -6 L 1.8 -13 Z"
@@ -399,27 +532,12 @@ function PropositionCards({
 const STAGE_LABELS: Record<Locale, string[]> = {
   fr: [
     'LECTURE DE LA CAVE',
-    'CONCENTRATION SUR UNE BOUTEILLE',
-    'ACCORDS POSSIBLES',
+    'ANALYSE EN COURS',
+    'CONVERGENCE',
     'TROIS BOUTEILLES RETENUES',
   ],
-  en: [
-    'READING THE CELLAR',
-    'FOCUS ON A BOTTLE',
-    'POSSIBLE PAIRINGS',
-    'THREE BOTTLES SELECTED',
-  ],
+  en: ['READING THE CELLAR', 'ANALYZING', 'CONVERGING', 'THREE BOTTLES SELECTED'],
 };
-
-// 6 bouteilles initiales — la 3e (index 2) sera la focus
-const BOTTLES = [
-  { x: 80, y: 170, scale: 1.5, delay: 0 },
-  { x: 145, y: 170, scale: 1.5, delay: 0.12 },
-  { x: 215, y: 170, scale: 1.8, delay: 0.24 }, // focus future
-  { x: 285, y: 170, scale: 1.5, delay: 0.36 },
-  { x: 350, y: 170, scale: 1.5, delay: 0.48 },
-  { x: 415, y: 170, scale: 1.5, delay: 0.6 },
-];
 
 export default function SectionAI() {
   const { locale } = useLocale();
@@ -436,49 +554,42 @@ export default function SectionAI() {
       i += 1;
       if (i <= 3) setStage(i);
       if (i < 3) {
-        timer = window.setTimeout(advance, STAGE_TIMING_MS[i] ?? 1500);
+        timer = window.setTimeout(advance, STAGE_TIMING_MS[i] ?? 800);
       }
     }, STAGE_TIMING_MS[0]);
     return () => window.clearTimeout(timer);
   }, [inView, reduced]);
 
-  // Stages activation
-  const bottleVisible = stage >= 0; // dès l'entrée
-  const ficheVisible = stage >= 1;
-  const wordsVisible = stage >= 1;
+  const bottleVisible = stage >= 0;
+  const tagsVisible = stage === 1; // tags flash ONLY during stage 1
+  const ficheVisible = stage >= 2;
   const platVisible = stage >= 2;
   const propVisible = stage >= 3;
 
-  // À stage 3 : on garde la focus bouteille, on cache les 5 autres
-  // (narrative : "voici la sélectionnée, et voici les 3 propositions finales")
-
   return (
     <SectionWrapper id="ai" withDivider rhythm="standard">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 max-w-6xl mx-auto items-center">
-        {/* LEFT — typo */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 max-w-6xl mx-auto items-center">
         <div className="lg:col-span-5">
           <FadeInOnScroll>
-            <div className="iq-eyebrow mb-6">
+            <div className="iq-eyebrow mb-5">
               {locale === 'fr' ? 'L\'intelligence' : 'The intelligence'}
             </div>
-            <h2 className="iq-h1 italic mb-6">
+            <h2 className="iq-h1 italic mb-5">
               {locale === 'fr'
                 ? 'L\'IA privée de votre cave.'
                 : 'The private AI of your cellar.'}
             </h2>
             <p className="iq-lead">
               {locale === 'fr'
-                ? 'Une lecture silencieuse de vos bouteilles, de vos plats, de votre palais. Trois propositions, chaque soir.'
-                : 'A silent reading of your bottles, your dishes, your palate. Three suggestions, every evening.'}
+                ? 'Lecture des bouteilles, écoute du palais, calibration de l\'accord. Trois propositions, en silence.'
+                : 'Reading the bottles, listening to the palate, calibrating the pairing. Three suggestions, in silence.'}
             </p>
           </FadeInOnScroll>
         </div>
 
-        {/* RIGHT — Atelier sommelier IA */}
         <div className="lg:col-span-7" ref={ref}>
-          <FadeInOnScroll delay={0.2}>
+          <FadeInOnScroll delay={0.15}>
             <div className="relative w-full overflow-hidden rounded-2xl border border-or/15 bg-card">
-              {/* Glow background */}
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0"
@@ -498,7 +609,6 @@ export default function SectionAI() {
                 }
                 className="relative block min-h-[380px] sm:min-h-[440px]"
               >
-                {/* Stage label top */}
                 <foreignObject x={20} y={14} width={460} height={20}>
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -506,7 +616,7 @@ export default function SectionAI() {
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.4 }}
+                      transition={{ duration: 0.35 }}
                       className="font-mono text-[10px] tracking-[0.32em] uppercase text-or tabular-nums"
                     >
                       {STAGE_LABELS[locale][stage]}
@@ -514,7 +624,6 @@ export default function SectionAI() {
                   </AnimatePresence>
                 </foreignObject>
 
-                {/* hairline horizontale séparateur top */}
                 <line
                   x1={20}
                   y1={50}
@@ -524,46 +633,40 @@ export default function SectionAI() {
                   strokeWidth="0.5"
                 />
 
-                {/* Phase 1 — 6 silhouettes bouteilles, focus reste à stage 3 */}
-                {BOTTLES.map((b, i) => {
-                  const isFocus = i === 2;
-                  // À stage 3 : on cache les 5 non-focus pour laisser place
-                  // au triptyque fiche + plat + propositions.
-                  const localVisible = bottleVisible && (stage < 3 || isFocus);
-                  return (
-                    <BottleSilhouette
-                      key={i}
-                      x={b.x}
-                      y={b.y}
-                      scale={b.scale}
-                      highlighted={stage >= 1 && isFocus}
-                      delay={b.delay}
-                      visible={localVisible}
-                    />
-                  );
-                })}
+                {/* 6 silhouettes */}
+                {BOTTLES.map((b, i) => (
+                  <BottleSilhouette
+                    key={i}
+                    x={b.x}
+                    y={b.y}
+                    scale={b.scale}
+                    visible={bottleVisible}
+                    verdict={b.verdict}
+                    stage={stage}
+                    delay={b.delay}
+                  />
+                ))}
 
-                {/* Phase 2 — fiche + mots (le halo est sur la BottleSilhouette highlighted) */}
+                {/* Tags d'analyse flash pendant stage 1 */}
+                {BOTTLES.map((b, i) => (
+                  <AnalysisTag
+                    key={`tag-${i}`}
+                    x={b.x - 4}
+                    y={b.y - 38}
+                    label={b.tag[locale]}
+                    verdict={b.verdict}
+                    delay={0.04 * i}
+                    visible={tagsVisible}
+                  />
+                ))}
+
+                {/* Stage 2+ : fiche + plat */}
                 <FicheVin visible={ficheVisible} locale={locale} />
-                {wordsVisible &&
-                  WORDS.map((w, i) => (
-                    <WordTag
-                      key={i}
-                      label={w.label[locale]}
-                      x={w.x}
-                      y={w.y}
-                      delay={w.delay}
-                      visible={wordsVisible}
-                    />
-                  ))}
-
-                {/* Phase 3 — plat + accord hairline */}
                 <PlatTag visible={platVisible} locale={locale} />
 
-                {/* Phase 4 — 3 cartes propositions (en bas) */}
-                <PropositionCards visible={propVisible} locale={locale} />
+                {/* Stage 3 : 3 cartes propositions avec micro-float */}
+                <PropositionCards visible={propVisible} locale={locale} reduced={!!reduced} />
 
-                {/* hairline horizontale séparateur bottom */}
                 {propVisible && (
                   <motion.line
                     x1={20}
@@ -574,7 +677,7 @@ export default function SectionAI() {
                     strokeWidth="0.5"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.6 }}
                   />
                 )}
               </svg>
