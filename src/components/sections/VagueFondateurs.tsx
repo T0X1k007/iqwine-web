@@ -103,6 +103,7 @@ export default function VagueFondateurs() {
             company: name.trim(),
             email: email.trim(),
             mspSize: cellarSize,
+            planChoice, // V15+ Option C — passé séparément pour structurer côté app
             note: finalNote,
             website,
             captchaToken,

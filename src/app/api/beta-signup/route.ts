@@ -10,6 +10,14 @@ const ALLOWED_CELLAR_SIZES = new Set([
   '501-1500',
   '1500+',
 ]);
+const ALLOWED_PLAN_CHOICES = new Set(['standard', 'pro', 'undecided']);
+
+// V15+ Option C — POST best-effort vers l'app cellier-vin pour
+// persister le lead. Le Resend reste le canal de notification + fallback :
+// si l'app est down, l'admin reçoit quand même l'email.
+const IQWINE_APP_URL =
+  process.env.IQWINE_APP_URL || 'https://app.iqwine.ca';
+const IQWINE_APP_POST_TIMEOUT_MS = 4000;
 
 const LIMITS = {
   company: 200,
@@ -107,6 +115,56 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   }
 }
 
+// ─── App waitlist forward (best-effort) ───
+/**
+ * Forward le lead vers l'app cellier-vin /api/waitlist. Best-effort :
+ *   - Timeout 4s (ne bloque pas la réponse user au-delà)
+ *   - Token X-Waitlist-Token optionnel (env IQWINE_WAITLIST_TOKEN)
+ *   - Toute erreur logguée mais ne casse pas le flow Resend qui suit
+ */
+async function forwardToAppWaitlist(payload: {
+  name: string;
+  email: string;
+  cellarSize: string;
+  planEnvisaged: 'STANDARD' | 'PRO' | null;
+  note: string;
+  sourceUrl: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort(),
+    IQWINE_APP_POST_TIMEOUT_MS,
+  );
+  try {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      Origin: 'https://iqwine.ca',
+    };
+    if (process.env.IQWINE_WAITLIST_TOKEN) {
+      headers['X-Waitlist-Token'] = process.env.IQWINE_WAITLIST_TOKEN;
+    }
+
+    const res = await fetch(`${IQWINE_APP_URL}/api/waitlist`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      return { ok: false, error: `HTTP ${res.status} ${text.slice(0, 120)}` };
+    }
+    return { ok: true };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : 'unknown',
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 // ─── Handler ───
 export async function POST(request: Request) {
   try {
@@ -151,11 +209,13 @@ export async function POST(request: Request) {
       );
     }
 
-    // The form sends `company` (= name), `email`, `mspSize` (= cellar size), `note`.
+    // The form sends `company` (= name), `email`, `mspSize` (= cellar size),
+    // `planChoice` (V15+), `note`.
     const {
       company: name,
       email,
       mspSize: cellarSize,
+      planChoice,
       note,
       website,
       captchaToken,
@@ -226,6 +286,36 @@ export async function POST(request: Request) {
     const safeCellarSizeRaw = cellarSize.trim();
     const safeNoteRaw =
       typeof note === 'string' ? note.trim().slice(0, LIMITS.note) : '';
+
+    // V15+ Option C — planChoice → planEnvisaged structuré pour l'app
+    const planChoiceRaw =
+      typeof planChoice === 'string' &&
+      ALLOWED_PLAN_CHOICES.has(planChoice)
+        ? planChoice
+        : 'undecided';
+    const planEnvisaged: 'STANDARD' | 'PRO' | null =
+      planChoiceRaw === 'standard'
+        ? 'STANDARD'
+        : planChoiceRaw === 'pro'
+          ? 'PRO'
+          : null;
+
+    // Forward best-effort vers app.iqwine.ca/api/waitlist. N'attend pas
+    // le résultat pour répondre à l'user → on log et on continue.
+    const forwardResult = await forwardToAppWaitlist({
+      name: safeNameRaw,
+      email: safeEmailRaw,
+      cellarSize: safeCellarSizeRaw,
+      planEnvisaged,
+      note: safeNoteRaw,
+      sourceUrl: request.headers.get('referer') || 'https://iqwine.ca',
+    });
+    if (!forwardResult.ok) {
+      console.warn(
+        'iQWine signup: forward to app failed (Resend fallback only):',
+        forwardResult.error,
+      );
+    }
 
     const safeName = escapeHtml(safeNameRaw);
     const safeEmail = escapeHtml(safeEmailRaw);
