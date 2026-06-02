@@ -5,9 +5,9 @@ import { ArrowRight, ChevronDown } from 'lucide-react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import ScreenshotFrame from '@/components/screenshot/ScreenshotFrame';
+import HeroLiveDemo from '@/components/sections/HeroLiveDemo';
 import { useLocale } from '@/lib/i18n';
-import { getHero } from '@/lib/constants';
+import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
 
 /**
  * Hero V4 — composition éditoriale 2 colonnes (lg+) / stack mobile.
@@ -53,11 +53,6 @@ export default function HeroV4() {
     parallaxOff ? [0, 0] : [0, 40],
   );
   const glowOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
-
-  const placeholderCaption =
-    locale === 'fr'
-      ? 'Brunello · Pian delle Vigne 2010'
-      : 'Brunello · Pian delle Vigne 2010';
 
   return (
     <section
@@ -108,13 +103,13 @@ export default function HeroV4() {
 
             <FadeInOnScroll delay={0.55}>
               <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
-                <a href="#beta" className="w-full sm:w-auto">
+                <a href={APP_SIGNUP_URL} className="w-full sm:w-auto">
                   <Button variant="or" size="lg" className="w-full sm:w-auto">
                     {hero.ctaPrimary}
                     <ArrowRight size={16} strokeWidth={1.75} />
                   </Button>
                 </a>
-                <a href="#constat" className="w-full sm:w-auto">
+                <a href="#demo" className="w-full sm:w-auto">
                   <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                     {hero.ctaSecondary}
                     <ChevronDown size={16} strokeWidth={1.75} />
@@ -132,33 +127,12 @@ export default function HeroV4() {
             </FadeInOnScroll>
           </div>
 
-          {/* RIGHT — iPhone capture fiche bouteille */}
+          {/* RIGHT — mock vivant : « lasagne » → recommandations en direct */}
           <div className="lg:col-span-5 flex flex-col items-center mt-16 lg:mt-0">
-            <FadeInOnScroll delay={0.3} direction="left">
-              <motion.div
-                style={{
-                  y: phoneY,
-                  willChange: 'transform',
-                }}
-              >
-                <ScreenshotFrame
-                  mode="static"
-                  frame="iphone"
-                  src="/screenshots/01-fiche-vin.png"
-                  alt={
-                    locale === 'fr'
-                      ? 'Fiche de bouteille Brunello — application iQWine'
-                      : 'Brunello bottle profile — iQWine application'
-                  }
-                  width={300}
-                  rotation={-2}
-                  glow
-                  priority
-                />
+            <FadeInOnScroll delay={0.3} direction="left" className="w-full">
+              <motion.div style={{ y: phoneY, willChange: 'transform' }}>
+                <HeroLiveDemo />
               </motion.div>
-              <p className="iq-eyebrow-mute mt-6 text-center">
-                {placeholderCaption}
-              </p>
             </FadeInOnScroll>
           </div>
         </div>

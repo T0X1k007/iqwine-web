@@ -51,12 +51,12 @@ const HERO_MAP = {
   en: {
     badge: 'First Wave · 100 Cellars · By Invitation',
     variantA: {
-      headlineTop: 'The private intelligence',
-      headlineBottom: 'of your cellar.',
-      headline: 'The private intelligence of your cellar.',
+      headlineTop: 'Your AI sommelier.',
+      headlineBottom: 'At home, at the SAQ, at the restaurant.',
+      headline: 'Your AI sommelier. At home, at the SAQ, at the restaurant.',
       subheadline:
-        'Private sommelier. Tasting memory. A living cellar.',
-      anchor: 'Scan. Understand. Open at the right moment.',
+        'It knows your taste, your cellar, and live SAQ availability.',
+      anchor: 'Made in Québec · Live SAQ availability · Private & encrypted',
     },
     variantB: {
       headlineTop: 'Your collection,',
@@ -72,12 +72,12 @@ const HERO_MAP = {
   fr: {
     badge: 'Première vague · 100 celliers · Sur invitation',
     variantA: {
-      headlineTop: 'L\'intelligence privée',
-      headlineBottom: 'de votre cave.',
-      headline: 'L\'intelligence privée de votre cave.',
+      headlineTop: 'Votre sommelier IA.',
+      headlineBottom: 'À la maison, à la SAQ, au restaurant.',
+      headline: 'Votre sommelier IA. À la maison, à la SAQ, au restaurant.',
       subheadline:
-        'Sommelier privé. Mémoire de dégustation. Cellier vivant.',
-      anchor: 'Scannez. Comprenez. Ouvrez au bon moment.',
+        'Il connaît vos goûts, votre cave et la SAQ en temps réel.',
+      anchor: 'Conçu au Québec · Disponibilités SAQ en direct · Données privées & chiffrées',
     },
     variantB: {
       headlineTop: 'Votre collection,',
