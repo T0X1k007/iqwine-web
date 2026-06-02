@@ -31,16 +31,20 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 type CellarSize = (typeof MSP_SIZES)[number];
 
-type PlanChoice = 'standard' | 'pro' | 'undecided';
+type PlanChoice = 'standard' | 'pro' | 'expert' | 'undecided';
 
 const PLAN_LABELS: Record<PlanChoice, Record<'fr' | 'en', string>> = {
   standard: {
-    fr: 'Standard · 149 $/an',
-    en: 'Standard · $149/year',
+    fr: 'Standard · 14,95 $/mois',
+    en: 'Standard · $14.95/mo',
   },
   pro: {
-    fr: 'Pro · 299 $/an',
-    en: 'Pro · $299/year',
+    fr: 'Pro · 29,95 $/mois',
+    en: 'Pro · $29.95/mo',
+  },
+  expert: {
+    fr: 'Expert · 49,95 $/mois',
+    en: 'Expert · $49.95/mo',
   },
   undecided: {
     fr: 'Je verrai à la fin de mes 14 jours',
@@ -386,7 +390,7 @@ function PlanChoiceField({
   locale: 'fr' | 'en';
 }) {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
-  const options: PlanChoice[] = ['standard', 'pro', 'undecided'];
+  const options: PlanChoice[] = ['standard', 'pro', 'expert', 'undecided'];
   return (
     <div className="flex flex-col gap-2">
       <span className="font-mono text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground">

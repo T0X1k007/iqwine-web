@@ -8,121 +8,62 @@ import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 import { APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { PLANS, formatPriceCad, type PlanId } from '@/lib/plans';
 
 /**
- * Pricing V4 — adapté du layout etude.iqforge.ca (Solo / Famille).
- *
- * 2 plans côte à côte. Pro porte le badge "Plus populaire". CTA partout
- * "Demander l'accès" — jamais "Acheter maintenant" (ton premium calme
- * invitation privée, pas e-commerce). Scroll smooth vers #beta.
- *
- * 14 jours gratuits / aucune carte / TPS+TVQ en sus.
- *
- * Pas de "Free tier" public — l'accès gratuit est implicite aux 14 jours.
- * Volontairement court et lisible : un collectionneur ne lit pas une
- * matrice de fonctionnalités, il lit une carte de vin.
+ * Tarification — 3 forfaits commerciaux définitifs (lit la SOT src/lib/plans.ts).
+ * Standard / Pro (recommandé) / Expert (ancrage). Mensuel. « recommandations IA »
+ * + « utilisateurs » uniquement — jamais tokens/crédits/API. 14 j d'essai, sans carte.
  */
 
-type PlanId = 'standard' | 'pro';
-
-interface Plan {
-  id: PlanId;
-  name: Record<Locale, string>;
+interface PlanCopy {
+  name: string;
   tagline: Record<Locale, string>;
-  price: number;
-  priceMonthly: number;
-  period: Record<Locale, string>;
-  periodMonthly: Record<Locale, string>;
   features: Array<Record<Locale, string>>;
-  highlight?: boolean;
-  ctaHref: string;
 }
 
-const PLANS: Plan[] = [
-  {
-    id: 'standard',
-    name: { fr: 'Standard', en: 'Standard' },
+const COPY: Record<PlanId, PlanCopy> = {
+  standard: {
+    name: 'Standard',
     tagline: {
-      fr: 'Pour la cave attentive du quotidien.',
-      en: 'For the attentive everyday cellar.',
+      fr: 'Pour boire mieux, chaque soir.',
+      en: 'To drink better, every night.',
     },
-    price: 149,
-    priceMonthly: 14.95,
-    period: { fr: '/ an', en: '/ year' },
-    periodMonthly: { fr: '/ mois', en: '/ month' },
     features: [
-      {
-        fr: 'Jusqu\'à 500 bouteilles',
-        en: 'Up to 500 bottles',
-      },
-      {
-        fr: 'Sommelier privé · Mode Tonight (5/jour)',
-        en: 'Private sommelier · Tonight mode (5/day)',
-      },
-      {
-        fr: 'Scan d\'étiquettes IA · 20/mois',
-        en: 'AI label scanning · 20/month',
-      },
-      {
-        fr: 'Carnet de dégustation illimité',
-        en: 'Unlimited tasting journal',
-      },
-      {
-        fr: 'Suivi d\'apogée · alertes plateau',
-        en: 'Drinking window tracking · plateau alerts',
-      },
-      {
-        fr: 'Synchronisation iCloud chiffrée',
-        en: 'Encrypted iCloud sync',
-      },
+      { fr: 'Sommelier IA', en: 'AI sommelier' },
+      { fr: 'Disponibilités SAQ en temps réel', en: 'Live SAQ availability' },
+      { fr: 'Ma cave', en: 'My cellar' },
+      { fr: 'Historique des accords', en: 'Pairing history' },
+      { fr: 'Scan d’étiquette', en: 'Label scan' },
     ],
-    ctaHref: '#beta',
   },
-  {
-    id: 'pro',
-    name: { fr: 'Pro', en: 'Pro' },
+  pro: {
+    name: 'Pro',
     tagline: {
-      fr: 'Pour le collectionneur sérieux et son sommelier.',
-      en: 'For the serious collector and their sommelier.',
+      fr: 'Pour le passionné et son foyer.',
+      en: 'For the enthusiast and their household.',
     },
-    price: 299,
-    priceMonthly: 29.99,
-    period: { fr: '/ an', en: '/ year' },
-    periodMonthly: { fr: '/ mois', en: '/ month' },
     features: [
-      {
-        fr: 'Tout du plan Standard',
-        en: 'Everything in Standard',
-      },
-      {
-        fr: 'Capacité illimitée · multi-cave',
-        en: 'Unlimited capacity · multi-cellar',
-      },
-      {
-        fr: 'Mode Tonight illimité · Mode Restaurant',
-        en: 'Unlimited Tonight · Restaurant mode',
-      },
-      {
-        fr: 'Scan d\'étiquettes illimité',
-        en: 'Unlimited label scanning',
-      },
-      {
-        fr: 'Calibration profonde du palais',
-        en: 'Deep palate calibration',
-      },
-      {
-        fr: 'Accès à la cave d\'un sommelier dédié',
-        en: 'Dedicated sommelier access',
-      },
-      {
-        fr: 'Onboarding privé · support prioritaire',
-        en: 'Private onboarding · priority support',
-      },
+      { fr: 'Tout du forfait Standard', en: 'Everything in Standard' },
+      { fr: 'Profil de goût avancé', en: 'Advanced taste profile' },
+      { fr: 'Apprentissage du palais', en: 'Palate learning' },
+      { fr: 'Recommandations Cave + SAQ + Les deux', en: 'Cellar + SAQ + Both recommendations' },
     ],
-    highlight: true,
-    ctaHref: '#beta',
   },
-];
+  expert: {
+    name: 'Expert',
+    tagline: {
+      fr: 'Pour la cave familiale et l’usage intensif.',
+      en: 'For the family cellar and heavy use.',
+    },
+    features: [
+      { fr: 'Tout du forfait Pro', en: 'Everything in Pro' },
+      { fr: 'Usage intensif', en: 'Heavy usage' },
+      { fr: 'Cave familiale', en: 'Family cellar' },
+      { fr: 'Priorité IA', en: 'AI priority' },
+    ],
+  },
+};
 
 export default function Pricing() {
   const { locale } = useLocale();
@@ -135,9 +76,7 @@ export default function Pricing() {
             {locale === 'fr' ? 'Tarification' : 'Pricing'}
           </div>
           <h2 className="iq-display italic max-w-3xl mx-auto">
-            {locale === 'fr'
-              ? 'Deux entrées dans le cercle.'
-              : 'Two paths into the circle.'}
+            {locale === 'fr' ? 'Trois entrées dans le cercle.' : 'Three paths into the circle.'}
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {locale === 'fr'
@@ -147,9 +86,9 @@ export default function Pricing() {
         </div>
       </FadeInOnScroll>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7 max-w-6xl mx-auto items-stretch">
         {PLANS.map((plan, i) => (
-          <FadeInOnScroll key={plan.id} delay={0.15 + i * 0.12}>
+          <FadeInOnScroll key={plan.id} delay={0.12 + i * 0.1} className="h-full">
             <PlanCard plan={plan} locale={locale} />
           </FadeInOnScroll>
         ))}
@@ -159,13 +98,13 @@ export default function Pricing() {
         <div className="mt-16 text-center max-w-2xl mx-auto">
           <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint leading-relaxed">
             {locale === 'fr'
-              ? '14 jours gratuits · Aucune carte requise · TPS et TVQ en sus · Paiement par virement Interac'
-              : '14 free days · No credit card · GST/QST extra · Interac payment'}
+              ? '14 jours gratuits · Aucune carte requise · TPS et TVQ en sus'
+              : '14 free days · No credit card · GST/QST extra'}
           </p>
           <p className="mt-8 font-[family-name:var(--font-display)] italic text-or/85 text-lg sm:text-xl leading-relaxed">
             {locale === 'fr'
-              ? '« Le prix d\'une bonne bouteille, pour préserver toute votre cave. »'
-              : '"The price of one fine bottle, to honor your whole cellar."'}
+              ? '« Le prix d’une bonne bouteille, pour boire juste toute l’année. »'
+              : '"The price of one fine bottle, to drink right all year."'}
           </p>
         </div>
       </FadeInOnScroll>
@@ -175,11 +114,20 @@ export default function Pricing() {
 
 /* ───────────────────────── plan card ───────────────────────── */
 
-function PlanCard({ plan, locale }: { plan: Plan; locale: Locale }) {
+function PlanCard({
+  plan,
+  locale,
+}: {
+  plan: (typeof PLANS)[number];
+  locale: Locale;
+}) {
+  const copy = COPY[plan.id];
   const highlight = plan.highlight ?? false;
+  const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
+
   return (
     <div
-      className={`relative flex flex-col h-full rounded-2xl p-8 sm:p-10 transition-colors duration-[160ms] ${
+      className={`relative flex flex-col h-full rounded-2xl p-8 sm:p-9 transition-colors duration-[160ms] ${
         highlight
           ? 'bg-card border border-or/40 shadow-[0_0_0_1px_rgba(212,165,72,0.16),0_24px_64px_rgba(0,0,0,0.36)]'
           : 'bg-card border border-border-strong'
@@ -188,51 +136,50 @@ function PlanCard({ plan, locale }: { plan: Plan; locale: Locale }) {
       {highlight && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-mono text-[10px] font-medium tracking-[0.22em] uppercase text-primary-foreground">
-            {locale === 'fr' ? 'Plus populaire' : 'Most popular'}
+            {t('Recommandé', 'Recommended')}
           </span>
         </div>
       )}
 
       <div className="mb-6">
         <h3 className="font-[family-name:var(--font-display)] italic text-3xl sm:text-4xl text-foreground mb-2 tracking-[-0.01em]">
-          {plan.name[locale]}
+          {copy.name}
         </h3>
-        <p className="iq-small text-foreground-dim">{plan.tagline[locale]}</p>
+        <p className="iq-small text-foreground-dim">{copy.tagline[locale]}</p>
       </div>
 
-      <div className="flex items-baseline gap-2 mb-2">
-        <span className="font-[family-name:var(--font-display)] italic text-[64px] sm:text-[80px] text-or leading-none tracking-[-0.025em] tabular-nums">
-          {plan.price}
+      {/* Prix mensuel — headline */}
+      <div className="flex items-baseline gap-2 mb-1">
+        <span className="font-[family-name:var(--font-display)] italic text-[56px] sm:text-[68px] text-or leading-none tracking-[-0.025em] tabular-nums">
+          {formatPriceCad(plan.priceMonthlyCents, locale)}
         </span>
-        <span className="text-foreground-faint font-mono text-[11px] tracking-[0.18em] uppercase">
-          $ CAD
-        </span>
+        <span className="text-foreground-faint font-mono text-[11px] tracking-[0.18em] uppercase">$ CAD</span>
       </div>
-      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-2">
-        {plan.period[locale]}
-      </p>
-      <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-base mb-8">
-        {locale === 'fr' ? 'ou ' : 'or '}
-        <span className="tabular-nums">{plan.priceMonthly.toFixed(2).replace('.', ',')}</span>
-        {' $ '}
-        <span className="text-foreground-faint">{plan.periodMonthly[locale]}</span>
+      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-5">
+        {t('/ mois', '/ month')}
       </p>
 
-      <div className="h-px w-full bg-border mb-7" aria-hidden />
+      {/* Ce qui est inclus — recommandations IA + utilisateurs (jamais tokens) */}
+      <div className="rounded-lg border border-border bg-sunk px-4 py-3 mb-7">
+        <p className="text-foreground text-(length:--text-body-sm) leading-snug">
+          <span className="tabular-nums font-medium">{plan.monthlyRecommendations}</span>{' '}
+          {t('recommandations IA / mois', 'AI recommendations / month')}
+        </p>
+        <p className="text-foreground-dim text-(length:--text-body-sm) leading-snug mt-1">
+          <span className="tabular-nums font-medium">{plan.includedUsers}</span>{' '}
+          {plan.includedUsers > 1 ? t('utilisateurs inclus', 'users included') : t('utilisateur', 'user')}
+        </p>
+      </div>
 
-      <ul className="flex flex-col gap-4 mb-10 flex-1">
-        {plan.features.map((feature) => (
+      <ul className="flex flex-col gap-3.5 mb-9 flex-1">
+        {copy.features.map((feature) => (
           <li key={feature[locale]} className="flex items-start gap-3">
             <Check
               size={16}
               strokeWidth={2}
-              className={`flex-shrink-0 mt-0.5 ${
-                highlight ? 'text-or' : 'text-or/75'
-              }`}
+              className={`flex-shrink-0 mt-0.5 ${highlight ? 'text-or' : 'text-or/75'}`}
             />
-            <span className="iq-body text-foreground-dim leading-snug">
-              {feature[locale]}
-            </span>
+            <span className="iq-small text-foreground-dim leading-snug">{feature[locale]}</span>
           </li>
         ))}
       </ul>
@@ -240,14 +187,10 @@ function PlanCard({ plan, locale }: { plan: Plan; locale: Locale }) {
       <a
         href={APP_SIGNUP_URL}
         onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'pricing' })}
-        className="block"
+        className="block mt-auto"
       >
-        <Button
-          variant={highlight ? 'or' : 'secondary'}
-          size="lg"
-          className="w-full"
-        >
-          {locale === 'fr' ? 'Commencer — sans carte' : 'Start free — no card'}
+        <Button variant={highlight ? 'or' : 'secondary'} size="lg" className="w-full">
+          {t('Commencer — sans carte', 'Start free — no card')}
           <ArrowRight size={16} strokeWidth={1.75} />
         </Button>
       </a>
