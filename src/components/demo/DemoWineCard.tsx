@@ -14,6 +14,7 @@ import type { Locale } from '@/lib/i18n';
 const WINE_DOT: Record<DemoCard['color'], string> = {
   ROUGE: 'bg-[var(--color-wine-rouge)]',
   BLANC: 'bg-[var(--color-wine-blanc)]',
+  EFFERVESCENT: 'bg-[var(--color-wine-mousseux)]',
 };
 
 export default function DemoWineCard({

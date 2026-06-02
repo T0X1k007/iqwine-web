@@ -38,6 +38,7 @@ import type { Locale } from '@/lib/i18n';
  */
 
 const STAGE_TIMING_MS = [600, 1600, 800]; // total 3s + transitions ~= 4.5s
+const LOOP_HOLD_MS = 2800; // pause sur « trois pour ce soir » avant de reboucler
 
 // 6 bouteilles avec leur état pré-déterminé (l'IA "décide")
 // Index 0, 1, 3 = rejetées | Index 2, 4, 5 = retenues (2 = focus Brunello)
@@ -550,7 +551,7 @@ const STAGE_LABELS: Record<Locale, string[]> = {
 export default function SectionAI() {
   const { locale } = useLocale();
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-15% 0px -15% 0px' });
+  const inView = useInView(ref, { once: false, margin: '-15% 0px -15% 0px' });
   const reduced = useReducedMotion();
 
   const [stage, setStage] = useState(reduced ? 3 : 0);
@@ -558,13 +559,19 @@ export default function SectionAI() {
   useEffect(() => {
     if (!inView || reduced) return;
     let i = 0;
-    let timer = window.setTimeout(function advance() {
-      i += 1;
-      if (i <= 3) setStage(i);
-      if (i < 3) {
-        timer = window.setTimeout(advance, STAGE_TIMING_MS[i] ?? 800);
-      }
-    }, STAGE_TIMING_MS[0]);
+    let timer: number;
+    // Boucle : 0 → 1 → 2 → 3 (« trois pour ce soir ») → pause → 0 → …
+    const schedule = () => {
+      const hold = i < 3 ? (STAGE_TIMING_MS[i] ?? 800) : LOOP_HOLD_MS;
+      timer = window.setTimeout(() => {
+        i = i < 3 ? i + 1 : 0;
+        setStage(i);
+        schedule();
+      }, hold);
+    };
+    setStage(0);
+    i = 0;
+    schedule();
     return () => window.clearTimeout(timer);
   }, [inView, reduced]);
 

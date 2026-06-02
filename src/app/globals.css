@@ -359,6 +359,10 @@
    Plus fiable que IntersectionObserver pour les
    chargements directs à mid-page (reload, deep link).
    ───────────────────────────────────────────────── */
+@keyframes iq-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 @keyframes iq-fade-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }

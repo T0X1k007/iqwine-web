@@ -10,8 +10,8 @@ import type { Locale } from './i18n';
  */
 
 export type DemoSource = 'cave' | 'saq' | 'both';
-export type DemoMeal = 'lasagne' | 'huitres' | 'boeuf';
-export type WineColor = 'ROUGE' | 'BLANC';
+export type DemoMeal = 'lasagne' | 'huitres' | 'boeuf' | 'sushi';
+export type WineColor = 'ROUGE' | 'BLANC' | 'EFFERVESCENT';
 
 export interface DemoCard {
   source: 'cave' | 'saq';
@@ -95,6 +95,36 @@ const DATA: Record<DemoMeal, MealData> = {
       },
     ],
   },
+  sushi: {
+    label: { fr: 'sushi', en: 'sushi' },
+    cave: {
+      source: 'cave',
+      producer: 'Pierre Gimonnet',
+      cuvee: 'Champagne Blanc de Blancs',
+      region: 'Champagne',
+      color: 'EFFERVESCENT',
+      atPeak: true,
+      why: {
+        fr: 'Les bulles et la tension nettoient le palais entre chaque bouchée crue.',
+        en: 'Bubbles and tension cleanse the palate between each raw bite.',
+      },
+    },
+    saq: [
+      {
+        source: 'saq',
+        producer: 'Trimbach',
+        cuvee: 'Riesling',
+        region: 'Alsace',
+        color: 'BLANC',
+        priceCad: 23.95,
+        available: true,
+        why: {
+          fr: 'Sec et citronné, son acidité épouse le poisson cru, le soja et le gingembre.',
+          en: 'Dry and citrusy, its acidity meets raw fish, soy and ginger.',
+        },
+      },
+    ],
+  },
   boeuf: {
     label: { fr: 'bœuf braisé', en: 'braised beef' },
     cave: {
@@ -127,7 +157,7 @@ const DATA: Record<DemoMeal, MealData> = {
   },
 };
 
-export const DEMO_MEALS: DemoMeal[] = ['lasagne', 'huitres', 'boeuf'];
+export const DEMO_MEALS: DemoMeal[] = ['lasagne', 'sushi', 'huitres', 'boeuf'];
 
 export function mealLabel(meal: DemoMeal, locale: Locale): string {
   return DATA[meal].label[locale];
