@@ -49,7 +49,7 @@ const NAV_LINKS_MAP = {
 // Positionnement OS d'entrée + anchor concret + signal exclusivité subtil.
 const HERO_MAP = {
   en: {
-    badge: 'First Wave · 100 Cellars · By Invitation',
+    badge: 'AI Sommelier · Cellar · SAQ · Restaurant',
     variantA: {
       headlineTop: 'Your AI sommelier.',
       headlineBottom: 'At home, at the SAQ, at the restaurant.',
@@ -70,7 +70,7 @@ const HERO_MAP = {
     ctaSecondary: 'Try the live demo',
   },
   fr: {
-    badge: 'Première vague · 100 celliers · Sur invitation',
+    badge: 'Sommelier IA · Cave · SAQ · Restaurant',
     variantA: {
       headlineTop: 'Votre sommelier IA.',
       headlineBottom: 'À la maison, à la SAQ, au restaurant.',

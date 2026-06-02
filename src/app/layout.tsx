@@ -40,22 +40,22 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'iQWine — L\'intelligence privée de votre cave',
+  title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
   description:
-    'Le sommelier privé des collectionneurs modernes. Sommelier privé. Mémoire de dégustation. Cellier vivant. Sur invitation.',
+    'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la SAQ en temps réel. Essai 14 jours, sans carte.',
   openGraph: {
-    title: 'iQWine — L\'intelligence privée de votre cave',
+    title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
     description:
-      'Le sommelier privé des collectionneurs modernes. Cellier vivant, mode Tonight, mode Restaurant, scanner d\'étiquettes, calibration du palais.',
+      'Recommande depuis votre cave, la SAQ (dispo en temps réel) ou les deux. Scan de carte et d\'étiquette, profil de goût qui apprend. Essai 14 jours, sans carte.',
     type: 'website',
     locale: 'fr_CA',
     siteName: 'iQWine',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'iQWine — L\'intelligence privée de votre cave',
+    title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
     description:
-      'Première vague · 100 celliers · Sur invitation.',
+      'Quoi ouvrir ce soir ? Quoi acheter à la SAQ ? Votre sommelier IA le sait. Essai 14 jours, sans carte.',
   },
   robots: {
     index: true,
