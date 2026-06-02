@@ -12,12 +12,13 @@ import HeroV4 from '@/components/sections/HeroV4';
 const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
 const SectionComparison = dynamic(() => import('@/components/sections/SectionComparison'));
 const SectionProof = dynamic(() => import('@/components/sections/SectionProof'));
-const SectionAI = dynamic(() => import('@/components/sections/SectionAI'));
-const SectionConversation = dynamic(() => import('@/components/sections/SectionConversation'));
-const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb'));
 const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments'));
+const SectionAI = dynamic(() => import('@/components/sections/SectionAI'));
+const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb'));
 const Pricing = dynamic(() => import('@/components/sections/Pricing'));
+const SectionFaq = dynamic(() => import('@/components/sections/SectionFaq'));
 const VagueFondateurs = dynamic(() => import('@/components/sections/VagueFondateurs'));
+const FinalCta = dynamic(() => import('@/components/sections/FinalCta'));
 const StickyCTA = dynamic(() => import('@/components/ui/StickyCTA'));
 const ScrollDepthTracker = dynamic(() => import('@/components/analytics/ScrollDepthTracker'));
 
@@ -30,12 +31,13 @@ export default function Home() {
         <SectionDemo />
         <SectionComparison />
         <SectionProof />
-        <SectionAI />
-        <SectionConversation />
-        <SectionCaveWeb />
         <SectionTroisMoments />
+        <SectionAI />
+        <SectionCaveWeb />
         <Pricing />
+        <SectionFaq />
         <VagueFondateurs />
+        <FinalCta />
       </main>
       <Footer />
       <StickyCTA />
