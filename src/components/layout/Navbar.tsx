@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
-import { getNavLinks, getHero } from '@/lib/constants';
+import { getNavLinks, getHero, APP_SIGNUP_URL } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 
@@ -60,7 +60,7 @@ export default function Navbar() {
         {/* Desktop right: toggle + CTA */}
         <div className="hidden md:flex items-center gap-3">
           <LanguageToggle />
-          <a href="#beta">
+          <a href={APP_SIGNUP_URL}>
             <Button variant="or" size="sm">{hero.ctaPrimary}</Button>
           </a>
         </div>
@@ -95,7 +95,7 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <a href="#beta" onClick={() => setMobileOpen(false)} className="mt-3">
+            <a href={APP_SIGNUP_URL} onClick={() => setMobileOpen(false)} className="mt-3">
               <Button variant="or" size="md" className="w-full">
                 {hero.ctaPrimary}
               </Button>

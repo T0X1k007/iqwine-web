@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
+import { APP_SIGNUP_URL } from '@/lib/constants';
 
 /**
  * Pricing V4 — adapté du layout etude.iqforge.ca (Solo / Famille).
@@ -235,13 +236,13 @@ function PlanCard({ plan, locale }: { plan: Plan; locale: Locale }) {
         ))}
       </ul>
 
-      <a href={plan.ctaHref} className="block">
+      <a href={APP_SIGNUP_URL} className="block">
         <Button
           variant={highlight ? 'or' : 'secondary'}
           size="lg"
           className="w-full"
         >
-          {locale === 'fr' ? 'Demander l\'accès' : 'Request access'}
+          {locale === 'fr' ? 'Commencer — sans carte' : 'Start free — no card'}
           <ArrowRight size={16} strokeWidth={1.75} />
         </Button>
       </a>

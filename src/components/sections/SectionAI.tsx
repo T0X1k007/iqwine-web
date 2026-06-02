@@ -584,13 +584,13 @@ export default function SectionAI() {
             </div>
             <h2 className="iq-h1 italic mb-5">
               {locale === 'fr'
-                ? 'Une intelligence privée, silencieuse.'
-                : 'A private intelligence, silent.'}
+                ? 'Une intelligence qui répond, en sommelier.'
+                : 'An intelligence that answers, like a sommelier.'}
             </h2>
             <p className="iq-lead">
               {locale === 'fr'
-                ? 'Vos bouteilles lues. Votre palais écouté. Trois propositions, sans démonstration.'
-                : 'Your bottles read. Your palate heard. Three suggestions, no demonstration.'}
+                ? 'Vos bouteilles lues, votre palais compris. Demandez — trois propositions, et pourquoi.'
+                : 'Your bottles read, your palate understood. Just ask — three picks, and why.'}
             </p>
           </FadeInOnScroll>
         </div>
@@ -630,7 +630,7 @@ export default function SectionAI() {
                 role="img"
                 aria-label={
                   locale === 'fr'
-                    ? 'Lecture silencieuse de la cave qui propose trois bouteilles pour ce soir.'
+                    ? 'Lecture de la cave qui propose trois bouteilles pour ce soir.'
                     : 'Silent reading of the cellar suggesting three bottles for tonight.'
                 }
                 className="relative block min-h-[380px] sm:min-h-[440px]"

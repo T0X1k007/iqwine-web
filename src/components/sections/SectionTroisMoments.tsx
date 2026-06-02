@@ -51,8 +51,8 @@ const MOMENTS: Moment[] = [
       en: 'The discreet pairing',
     },
     body: {
-      fr: 'Le menu × votre cave. Une suggestion, sans spectacle.',
-      en: 'The menu × your cellar. A suggestion, without spectacle.',
+      fr: 'Scannez la carte. iQWine accorde le menu à votre cave et à la SAQ.',
+      en: 'Scan the menu. iQWine pairs it with your cellar and the SAQ.',
     },
     src: '/screenshots/03-menu-scan.png',
     alt: {

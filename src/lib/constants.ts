@@ -1,6 +1,14 @@
 import type { Locale } from './i18n';
 
 /**
+ * URL d'essai self-serve (app produit). Le CTA primaire mène à un essai
+ * RÉEL 14 jours sans carte — plus de gate bloquant côté marketing.
+ * Override possible via NEXT_PUBLIC_APP_SIGNUP_URL.
+ */
+export const APP_SIGNUP_URL =
+  process.env.NEXT_PUBLIC_APP_SIGNUP_URL || 'https://app.iqwine.ca/signup';
+
+/**
  * Copywriting iQWine — voix sommelier d'hôtel particulier.
  * Positionnement : « Le système d'intelligence privé de votre cave. »
  * (OS du collectionneur, semé subtilement — pas d'acronyme tech en clair.)
@@ -14,26 +22,26 @@ import type { Locale } from './i18n';
 // ─── Eyebrows (mono uppercase, ouvre chaque section) ───
 const EYEBROWS_MAP = {
   en: {
-    beta: 'Access · Founders',
+    beta: 'Free trial · Start today',
   },
   fr: {
-    beta: 'Accès · Fondateurs',
+    beta: 'Essai gratuit · Commencez aujourd\'hui',
   },
 };
 
 // ─── Navigation V5 (4 ancres existantes après condensation) ───
 const NAV_LINKS_MAP = {
   en: [
+    { label: 'Demo', href: '#demo' },
     { label: 'AI', href: '#ai' },
     { label: 'Cellar', href: '#cave-web' },
-    { label: 'Moments', href: '#trois-moments' },
-    { label: 'Access', href: '#beta' },
+    { label: 'Pricing', href: '#pricing' },
   ],
   fr: [
+    { label: 'Démo', href: '#demo' },
     { label: 'IA', href: '#ai' },
     { label: 'Cave', href: '#cave-web' },
-    { label: 'Moments', href: '#trois-moments' },
-    { label: 'Accès', href: '#beta' },
+    { label: 'Tarifs', href: '#pricing' },
   ],
 } as const;
 
@@ -58,8 +66,8 @@ const HERO_MAP = {
         'Designed for collectors. Not for inventory.',
       anchor: 'Scan. Understand. Open at the right moment.',
     },
-    ctaPrimary: 'Request Access',
-    ctaSecondary: 'See the Suite',
+    ctaPrimary: 'Start free — 14 days, no card',
+    ctaSecondary: 'Try the live demo',
   },
   fr: {
     badge: 'Première vague · 100 celliers · Sur invitation',
@@ -79,30 +87,30 @@ const HERO_MAP = {
         'Pensé pour les collectionneurs. Pas pour des inventaires.',
       anchor: 'Scannez. Comprenez. Ouvrez au bon moment.',
     },
-    ctaPrimary: 'Demander l\'accès',
-    ctaSecondary: 'Voir la suite',
+    ctaPrimary: 'Commencer — 14 jours, sans carte',
+    ctaSecondary: 'Essayer la démo',
   },
 };
 
 // ─── Beta — Cercle des fondateurs avec FOMO subtil élégant ───
 const BETA_MAP = {
   en: {
-    overline: 'By Invitation',
-    title: 'The first wave opens.',
+    overline: 'Start today',
+    title: 'Start tonight. No card.',
     description:
-      'First wave limited to 100 cellars. Private onboarding for founding members. No public sign-up.',
-    note: '100 cellars · By invitation only',
+      'Try iQWine free for 14 days — no credit card. Prefer a guided start? Request founder priority access below; it never blocks your trial.',
+    note: 'Founder priority access · Optional',
     detail:
-      'Founders shape the suite. Their reserves enter first. Their feedback writes the next chapter.',
+      'Founders get a private onboarding and shape what comes next. Optional — your free trial starts in one click.',
   },
   fr: {
-    overline: 'Sur invitation',
-    title: 'La première vague s\'ouvre.',
+    overline: 'Commencez aujourd\'hui',
+    title: 'Commencez ce soir. Sans carte.',
     description:
-      'Première vague limitée à 100 celliers. Onboarding privé pour les fondateurs. Pas d\'inscription publique.',
-    note: '100 celliers · Sur invitation',
+      'Essayez iQWine gratuitement 14 jours — sans carte. Vous préférez être accompagné ? Demandez l\'accès prioritaire fondateurs ci-dessous ; il ne bloque jamais votre essai.',
+    note: 'Accès prioritaire fondateurs · Optionnel',
     detail:
-      'Les fondateurs façonnent la suite. Leurs réserves entrent en premier. Leurs retours écrivent le chapitre suivant.',
+      'Les fondateurs reçoivent un onboarding privé et façonnent la suite. Optionnel — votre essai gratuit démarre en un clic.',
   },
 };
 
