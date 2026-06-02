@@ -1,42 +1,41 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import DemoWineCard from '@/components/demo/DemoWineCard';
 import { useLocale } from '@/lib/i18n';
+import usePrefersReducedMotion from '@/lib/usePrefersReducedMotion';
 import { getDemoCards, mealLabel, type DemoMeal } from '@/lib/demoData';
 
 /**
- * HeroLiveDemo — mock vivant du hero (premium, V2).
+ * HeroLiveDemo — mock vivant du hero (CSS pur, sans framer-motion → hors chemin
+ * critique JS, LCP mobile rapide).
  *
- * Cycle : tape « lasagne » → révèle 2 recos → tient → EFFACE lettre par lettre
- * → tape « sushi » → révèle d'AUTRES recos → tient → efface → recommence.
- * Pacing lent et fluide (pas de reset brutal). Les cartes sortent en fondu
- * (AnimatePresence) avant la réécriture du plat.
- *
- * GPU only (opacity/translateY). Hauteur réservée (0 CLS).
- * prefers-reduced-motion → frame finale statique (lasagne), zéro timer.
+ * Cycle : tape « lasagne » → révèle 2 recos → tient → EFFACE → tape « sushi »
+ * → autres recos → efface → recommence. Pacing premium. Cartes en fondu via
+ * transitions CSS. Hauteur réservée (0 CLS). reduced-motion → frame statique.
  */
 
 const HERO_MEALS: DemoMeal[] = ['lasagne', 'sushi'];
 
-// Pacing premium (ms)
+const START_DELAY = 2600; // démarre la boucle APRÈS la fenêtre LCP (frame statique d'abord)
 const PAUSE_START = 360;
-const TYPE_IN = 92; // frappe posée
-const REVEAL_DELAY = 460; // respiration avant les cartes
-const HOLD = 4200; // temps de lecture
-const HIDE_DUR = 540; // laisse le fondu de sortie se jouer
-const ERASE = 52; // effacement un peu plus vif que la frappe
-const GAP = 560; // silence avant le plat suivant
+const TYPE_IN = 92;
+const REVEAL_DELAY = 460;
+const HOLD = 4200;
+const HIDE_DUR = 540;
+const ERASE = 52;
+const GAP = 560;
 
 export default function HeroLiveDemo() {
   const { locale } = useLocale();
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
 
+  // 1re frame STATIQUE (SSR) : « lasagne » + cartes déjà visibles → le LCP se
+  // peint tôt et se stabilise (aucune animation above-fold pendant la mesure).
   const [mealIndex, setMealIndex] = useState(0);
-  const [typed, setTyped] = useState('');
-  const [revealed, setRevealed] = useState(false);
+  const [typed, setTyped] = useState(() => mealLabel('lasagne', 'fr'));
+  const [revealed, setRevealed] = useState(true);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const meal = HERO_MEALS[mealIndex] ?? 'lasagne';
@@ -72,7 +71,7 @@ export default function HeroLiveDemo() {
       t += REVEAL_DELAY;
       push(() => setRevealed(true), t);
       t += HOLD;
-      push(() => setRevealed(false), t); // fondu de sortie des cartes
+      push(() => setRevealed(false), t);
       t += HIDE_DUR;
       for (let i = word.length - 1; i >= 0; i--) {
         const slice = word.slice(0, i);
@@ -83,7 +82,24 @@ export default function HeroLiveDemo() {
       push(() => schedule((idx + 1) % HERO_MEALS.length), t);
     };
 
-    schedule(0);
+    // 1er passage : on part de la frame statique « lasagne » + cartes, on tient
+    // (START_DELAY, au-delà de la fenêtre LCP), puis on efface et on enchaîne sur
+    // « sushi » — la boucle continue ensuite.
+    setMealIndex(0);
+    setTyped(mealLabel('lasagne', locale));
+    setRevealed(true);
+    let t = START_DELAY;
+    push(() => setRevealed(false), t);
+    t += HIDE_DUR;
+    const w0 = mealLabel('lasagne', locale);
+    for (let i = w0.length - 1; i >= 0; i--) {
+      const slice = w0.slice(0, i);
+      push(() => setTyped(slice), t);
+      t += ERASE;
+    }
+    t += GAP;
+    push(() => schedule(1), t);
+
     return clearAll;
   }, [reduced, locale]);
 
@@ -126,25 +142,17 @@ export default function HeroLiveDemo() {
         </div>
 
         <div className="mt-4 flex flex-col gap-3 min-h-[280px]">
-          <AnimatePresence mode="popLayout">
-            {revealed &&
-              cards.map((card, i) => (
-                <motion.div
-                  key={`${meal}-${card.source}-${card.cuvee}`}
-                  initial={reduced ? false : { opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: reduced ? 0 : i * 0.14,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{ willChange: 'transform' }}
-                >
-                  <DemoWineCard card={card} locale={locale} />
-                </motion.div>
-              ))}
-          </AnimatePresence>
+          {cards.map((card, i) => (
+            <div
+              key={`${meal}-${card.source}-${card.cuvee}`}
+              className={`transition-all ${
+                reduced ? '' : 'duration-500 ease-[cubic-bezier(.22,1,.36,1)]'
+              } ${revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
+              style={revealed && !reduced ? { transitionDelay: `${i * 120}ms` } : undefined}
+            >
+              <DemoWineCard card={card} locale={locale} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

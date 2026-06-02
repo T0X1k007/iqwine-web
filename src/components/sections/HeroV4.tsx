@@ -1,8 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import HeroLiveDemo from '@/components/sections/HeroLiveDemo';
@@ -30,67 +28,32 @@ export default function HeroV4() {
   const hero = getHero(locale);
   const content = hero.variantA;
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const [isTouch, setIsTouch] = useState(false);
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    setIsTouch(window.matchMedia('(pointer: coarse)').matches);
-  }, []);
-  const parallaxOff = reduced || isTouch;
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  });
-  const phoneY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    parallaxOff ? [0, 0] : [-8, 48],
-  );
-  const glowY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    parallaxOff ? [0, 0] : [0, 40],
-  );
-  const glowOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
-
   return (
     <section
-      ref={sectionRef}
       id="hero"
       className="relative min-h-[90dvh] flex items-center overflow-hidden pt-24 pb-14 lg:pt-32 lg:pb-24"
     >
-      {/* Glow wine-rouge — vignette derrière le contenu, parallax subtle */}
-      <motion.div
-        className="pointer-events-none absolute inset-0"
-        style={{ y: glowY, opacity: glowOpacity, willChange: 'transform' }}
-        aria-hidden
-      >
+      {/* Glow wine-rouge — vignette derrière le contenu */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
         <div className="absolute left-1/2 top-[22%] h-[640px] w-[640px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]" />
         <div className="absolute left-1/2 top-[12%] h-px w-[min(720px,80%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-or/35 to-transparent" />
-      </motion.div>
+      </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12 items-center">
           {/* LEFT — bloc typographique éditorial */}
           <div className="lg:col-span-7 text-center lg:text-left">
-            <FadeInOnScroll delay={0}>
-              <div className="iq-eyebrow mb-8">{hero.badge}</div>
-            </FadeInOnScroll>
+            {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide. */}
+            <div className="iq-eyebrow mb-8">{hero.badge}</div>
 
-            <FadeInOnScroll delay={0.1}>
-              <h1 className="iq-hero italic">
-                <span className="block text-foreground">{content.headlineTop}</span>
-                <span className="block text-or">{content.headlineBottom}</span>
-              </h1>
-            </FadeInOnScroll>
+            <h1 className="iq-hero italic">
+              <span className="block text-foreground">{content.headlineTop}</span>
+              <span className="block text-or">{content.headlineBottom}</span>
+            </h1>
 
-            <FadeInOnScroll delay={0.28}>
-              <p className="iq-lead mt-8 max-w-xl lg:mx-0 mx-auto">
-                {content.subheadline}
-              </p>
-            </FadeInOnScroll>
+            <p className="iq-lead mt-8 max-w-xl lg:mx-0 mx-auto">
+              {content.subheadline}
+            </p>
 
             <FadeInOnScroll delay={0.4}>
               <div className="mt-10 flex items-center justify-center lg:justify-start gap-4 max-w-xl lg:mx-0 mx-auto">
@@ -135,9 +98,7 @@ export default function HeroV4() {
           {/* RIGHT — mock vivant : « lasagne » → recommandations en direct */}
           <div className="lg:col-span-5 flex flex-col items-center mt-16 lg:mt-0">
             <FadeInOnScroll delay={0.3} direction="left" className="w-full">
-              <motion.div style={{ y: phoneY, willChange: 'transform' }}>
-                <HeroLiveDemo />
-              </motion.div>
+              <HeroLiveDemo />
             </FadeInOnScroll>
           </div>
         </div>

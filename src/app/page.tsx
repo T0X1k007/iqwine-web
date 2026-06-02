@@ -1,20 +1,25 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroV4 from '@/components/sections/HeroV4';
-import SectionDemo from '@/components/sections/SectionDemo';
-import SectionComparison from '@/components/sections/SectionComparison';
-import SectionProof from '@/components/sections/SectionProof';
-import SectionAI from '@/components/sections/SectionAI';
-import SectionConversation from '@/components/sections/SectionConversation';
-import SectionCaveWeb from '@/components/sections/SectionCaveWeb';
-import SectionTroisMoments from '@/components/sections/SectionTroisMoments';
-import Pricing from '@/components/sections/Pricing';
-import VagueFondateurs from '@/components/sections/VagueFondateurs';
-import StickyCTA from '@/components/ui/StickyCTA';
-import ScrollDepthTracker from '@/components/analytics/ScrollDepthTracker';
+
+// Above-fold = eager (Hero seul, désormais sans framer-motion). Tout le reste =
+// code-split (next/dynamic, SSR conservé → SEO + 0 CLS) pour sortir framer-motion
+// du chemin critique et accélérer le LCP mobile.
+const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
+const SectionComparison = dynamic(() => import('@/components/sections/SectionComparison'));
+const SectionProof = dynamic(() => import('@/components/sections/SectionProof'));
+const SectionAI = dynamic(() => import('@/components/sections/SectionAI'));
+const SectionConversation = dynamic(() => import('@/components/sections/SectionConversation'));
+const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb'));
+const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments'));
+const Pricing = dynamic(() => import('@/components/sections/Pricing'));
+const VagueFondateurs = dynamic(() => import('@/components/sections/VagueFondateurs'));
+const StickyCTA = dynamic(() => import('@/components/ui/StickyCTA'));
+const ScrollDepthTracker = dynamic(() => import('@/components/analytics/ScrollDepthTracker'));
 
 export default function Home() {
   return (

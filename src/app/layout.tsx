@@ -17,7 +17,7 @@ import './globals.css';
  */
 const cormorant = Cormorant_Garamond({
   subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600'], // 700 inutilisé — retiré (perf police mobile)
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-cormorant',
@@ -26,7 +26,7 @@ const cormorant = Cormorant_Garamond({
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600'], // 300/700 inutilisés — retirés
   display: 'swap',
   variable: '--font-inter',
   fallback: ['-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
