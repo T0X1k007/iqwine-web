@@ -1,15 +1,15 @@
 'use client';
 
 import { useCallback, useState, type FormEvent } from 'react';
-import { Lock, ArrowRight, Check } from 'lucide-react';
+import { Sparkles, ArrowRight, Check } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import CountUp from '@/components/motion/CountUp';
 import TurnstileModal from '@/components/ui/TurnstileModal';
 import { useLocale } from '@/lib/i18n';
-import { getBeta, getEyebrows, MSP_SIZES } from '@/lib/constants';
+import { getBeta, getEyebrows, MSP_SIZES, APP_SIGNUP_URL } from '@/lib/constants';
+import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
  * VagueFondateurs — V4 rebuild de BetaAccess.
@@ -171,28 +171,31 @@ export default function VagueFondateurs() {
       </FadeInOnScroll>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 max-w-6xl mx-auto">
-        {/* LEFT — display 100 + lock signal */}
+        {/* LEFT — CTA d'essai primaire (sans carte) + accès prioritaire optionnel */}
         <FadeInOnScroll delay={0.15} className="lg:col-span-5">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
             <div className="w-14 h-14 rounded-full bg-or/10 border border-or/30 flex items-center justify-center mb-8">
-              <Lock size={20} strokeWidth={1.5} className="text-or" />
+              <Sparkles size={20} strokeWidth={1.5} className="text-or" />
             </div>
 
-            <p className="font-mono text-[10px] tracking-[0.32em] uppercase text-muted-foreground mb-2">
-              {locale === 'fr' ? 'Première vague' : 'First wave'}
-            </p>
-            <p className="font-[family-name:var(--font-display)] text-or text-[88px] sm:text-[112px] leading-none tracking-[-0.025em] mb-2 italic">
-              <CountUp to={100} duration={2400} />
-            </p>
-            <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-or mb-8">
-              {locale === 'fr' ? 'Celliers' : 'Cellars'}
-            </p>
-
-            <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-lg sm:text-xl max-w-md leading-relaxed mb-8">
+            <p className="font-[family-name:var(--font-display)] italic text-foreground-dim text-xl sm:text-2xl max-w-md leading-relaxed mb-8">
               {beta.detail}
             </p>
 
-            <div className="flex items-center gap-3 pt-4 border-t border-border w-full lg:w-auto">
+            <a
+              href={APP_SIGNUP_URL}
+              onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'founders' })}
+              className="w-full sm:w-auto"
+            >
+              <Button variant="or" size="lg" className="w-full sm:w-auto">
+                {locale === 'fr'
+                  ? 'Commencer — 14 jours, sans carte'
+                  : 'Start free — 14 days, no card'}
+                <ArrowRight size={16} strokeWidth={1.75} />
+              </Button>
+            </a>
+
+            <div className="flex items-center gap-3 pt-6 mt-8 border-t border-border w-full lg:w-auto">
               <div className="w-8 h-px bg-or/40" />
               <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
                 {beta.note}
@@ -210,12 +213,12 @@ export default function VagueFondateurs() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <h3 className="iq-h4 mb-2">
-                  {t('Demander l\'accès', 'Request access')}
+                  {t('Accès prioritaire fondateurs (optionnel)', 'Founder priority access (optional)')}
                 </h3>
                 <p className="iq-small text-foreground-dim mb-4">
                   {t(
-                    'Quelques mots sur votre cellier. Nous prenons contact sous 48 h pour les fondateurs sélectionnés.',
-                    'A few words about your cellar. We reach out within 48 hours to selected founders.',
+                    'Facultatif. Votre essai gratuit démarre déjà en un clic ci-dessus. Laissez-nous un mot et nous accompagnons les fondateurs sous 48 h.',
+                    'Optional. Your free trial already starts in one click above. Leave us a word and we onboard founders within 48 hours.',
                   )}
                 </p>
 
