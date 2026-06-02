@@ -4,6 +4,7 @@ import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroV4 from '@/components/sections/HeroV4';
+import SectionDemo from '@/components/sections/SectionDemo';
 import SectionAI from '@/components/sections/SectionAI';
 import SectionConversation from '@/components/sections/SectionConversation';
 import SectionCaveWeb from '@/components/sections/SectionCaveWeb';
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroV4 />
+        <SectionDemo />
         <SectionAI />
         <SectionConversation />
         <SectionCaveWeb />
