@@ -9,6 +9,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import TurnstileModal from '@/components/ui/TurnstileModal';
 import { useLocale } from '@/lib/i18n';
 import { getBeta, getEyebrows, MSP_SIZES, APP_SIGNUP_URL } from '@/lib/constants';
+import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
  * VagueFondateurs — V4 rebuild de BetaAccess.
@@ -181,7 +182,11 @@ export default function VagueFondateurs() {
               {beta.detail}
             </p>
 
-            <a href={APP_SIGNUP_URL} className="w-full sm:w-auto">
+            <a
+              href={APP_SIGNUP_URL}
+              onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'founders' })}
+              className="w-full sm:w-auto"
+            >
               <Button variant="or" size="lg" className="w-full sm:w-auto">
                 {locale === 'fr'
                   ? 'Commencer — 14 jours, sans carte'

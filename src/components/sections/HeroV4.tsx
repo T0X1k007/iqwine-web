@@ -8,6 +8,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import HeroLiveDemo from '@/components/sections/HeroLiveDemo';
 import { useLocale } from '@/lib/i18n';
 import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
+import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
  * Hero V4 — composition éditoriale 2 colonnes (lg+) / stack mobile.
@@ -103,7 +104,11 @@ export default function HeroV4() {
 
             <FadeInOnScroll delay={0.55}>
               <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
-                <a href={APP_SIGNUP_URL} className="w-full sm:w-auto">
+                <a
+                  href={APP_SIGNUP_URL}
+                  onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'hero' })}
+                  className="w-full sm:w-auto"
+                >
                   <Button variant="or" size="lg" className="w-full sm:w-auto">
                     {hero.ctaPrimary}
                     <ArrowRight size={16} strokeWidth={1.75} />

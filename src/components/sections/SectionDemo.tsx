@@ -8,6 +8,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import DemoWineCard from '@/components/demo/DemoWineCard';
 import { useLocale } from '@/lib/i18n';
 import { APP_SIGNUP_URL } from '@/lib/constants';
+import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import {
   DEMO_MEALS,
   getDemoCards,
@@ -67,7 +68,10 @@ export default function SectionDemo() {
                 <button
                   key={m}
                   type="button"
-                  onClick={() => setMeal(m)}
+                  onClick={() => {
+                    setMeal(m);
+                    track(ANALYTICS_EVENTS.DEMO_MEAL_SELECT, { meal: m });
+                  }}
                   aria-pressed={selected}
                   className={`rounded-pill px-5 py-2.5 text-[15px] border transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)] ${
                     selected
@@ -97,7 +101,10 @@ export default function SectionDemo() {
                   type="button"
                   role="tab"
                   aria-selected={selected}
-                  onClick={() => setSource(s.id)}
+                  onClick={() => {
+                    setSource(s.id);
+                    track(ANALYTICS_EVENTS.DEMO_SOURCE_TOGGLE, { source: s.id });
+                  }}
                   className={`relative rounded-pill px-3 py-2 text-[13px] font-medium transition-colors duration-[140ms] ${
                     selected ? 'text-background' : 'text-foreground-dim hover:text-foreground'
                   }`}
@@ -142,7 +149,10 @@ export default function SectionDemo() {
         {/* CTA */}
         <FadeInOnScroll delay={0.1}>
           <div className="mt-12 flex flex-col items-center gap-3">
-            <a href={APP_SIGNUP_URL}>
+            <a
+              href={APP_SIGNUP_URL}
+              onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'demo' })}
+            >
               <Button variant="or" size="lg">
                 {t('Commencer — 14 jours, sans carte', 'Start free — 14 days, no card')}
                 <ArrowRight size={16} strokeWidth={1.75} />
