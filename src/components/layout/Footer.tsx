@@ -33,7 +33,7 @@ export default function Footer() {
           <a href="#" className="hover:text-foreground transition-colors duration-[140ms]">
             Terms
           </a>
-          <a href="#" className="hover:text-foreground transition-colors duration-[140ms]">
+          <a href="/contact" className="hover:text-foreground transition-colors duration-[140ms]">
             Contact
           </a>
         </div>
