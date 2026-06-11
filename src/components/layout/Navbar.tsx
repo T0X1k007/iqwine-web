@@ -35,16 +35,16 @@ export default function Navbar() {
           : ''
       }`}
     >
-      <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 md:h-24">
+      <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 md:h-28">
         {/* Logo lockup — image officielle + wordmark + tagline */}
         <a href="#" className="flex items-center gap-3">
-          <Logo size={56} className="md:hidden" />
-          <Logo size={64} className="hidden md:block" />
+          <Logo size={60} className="md:hidden" />
+          <Logo size={80} className="hidden md:block" />
           <span className="flex flex-col">
-            <span className="font-[family-name:var(--font-display)] text-2xl md:text-[30px] font-semibold tracking-tight leading-none text-or">
+            <span className="font-[family-name:var(--font-display)] text-[26px] md:text-[38px] font-semibold tracking-tight leading-none text-or">
               iQWine
             </span>
-            <span className="font-[family-name:var(--font-display)] italic text-[13px] md:text-sm text-foreground/85 leading-tight mt-1">
+            <span className="font-[family-name:var(--font-display)] italic text-[13px] md:text-[15px] text-foreground/85 leading-tight mt-1">
               {hero.tagline}
             </span>
           </span>
@@ -56,7 +56,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-foreground/90 hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
+              className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
             >
               {link.label}
             </a>
@@ -98,7 +98,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-foreground/90 hover:text-or transition-colors py-3 border-b border-border last:border-b-0"
+                className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border last:border-b-0"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}

@@ -32,7 +32,7 @@ export default function HeroV4() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90dvh] flex items-center overflow-hidden pt-28 pb-14 lg:pt-36 lg:pb-24"
+      className="relative min-h-[90dvh] flex flex-col justify-center overflow-hidden pt-28 lg:pt-36"
     >
       {/* Glow wine-rouge — vignette derrière le contenu */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -45,19 +45,19 @@ export default function HeroV4() {
           {/* LEFT — bloc typographique éditorial */}
           <div className="lg:col-span-7 text-center lg:text-left">
             {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide. */}
-            <div className="iq-eyebrow mb-8">{hero.badge}</div>
+            <div className="iq-eyebrow mb-6">{hero.badge}</div>
 
             <h1 className="iq-hero italic">
               <span className="block text-foreground">{content.headlineTop}</span>
               <span className="block text-or">{content.headlineBottom}</span>
             </h1>
 
-            <p className="iq-lead mt-8 max-w-xl lg:mx-0 mx-auto">
+            <p className="iq-lead mt-6 max-w-xl lg:mx-0 mx-auto">
               {content.subheadline}
             </p>
 
             <FadeInOnScroll delay={0.4}>
-              <div className="mt-10 flex items-center justify-center lg:justify-start gap-4 max-w-xl lg:mx-0 mx-auto">
+              <div className="mt-8 flex items-center justify-center lg:justify-start gap-4 max-w-xl lg:mx-0 mx-auto">
                 <div className="hidden lg:block h-px w-12 bg-or/30" />
                 <p className="font-[family-name:var(--font-display)] italic text-or text-base sm:text-lg tracking-tight">
                   {content.anchor}
@@ -67,7 +67,7 @@ export default function HeroV4() {
             </FadeInOnScroll>
 
             <FadeInOnScroll delay={0.55}>
-              <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
                 <a
                   href={APP_SIGNUP_URL}
                   onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'hero' })}
@@ -87,11 +87,6 @@ export default function HeroV4() {
               </div>
             </FadeInOnScroll>
 
-            <FadeInOnScroll delay={0.7}>
-              <div className="mt-12 max-w-2xl lg:mx-0 mx-auto">
-                <HeroTrustBar />
-              </div>
-            </FadeInOnScroll>
           </div>
 
           {/* RIGHT — mock vivant : « lasagne » → recommandations en direct */}
@@ -99,18 +94,25 @@ export default function HeroV4() {
             <FadeInOnScroll delay={0.3} direction="left" className="w-full">
               <HeroLiveDemo />
             </FadeInOnScroll>
+
+            {/* Citation — italique éditoriale sous le mockup (réplique iQForge) */}
+            <FadeInOnScroll delay={0.85}>
+              <p className="mt-8 lg:mt-10 text-center font-[family-name:var(--font-display)] italic text-foreground/85 text-lg sm:text-xl leading-relaxed">
+                {locale === 'fr'
+                  ? '« Ne plus gérer une cave. Vivre avec elle. »'
+                  : '"Stop managing a cellar. Live with it."'}
+              </p>
+            </FadeInOnScroll>
           </div>
         </div>
-
-        {/* Citation — centrée sous l'ensemble du hero */}
-        <FadeInOnScroll delay={0.85}>
-          <p className="mt-14 lg:mt-16 text-center font-[family-name:var(--font-display)] italic text-foreground-faint text-sm sm:text-base leading-relaxed">
-            {locale === 'fr'
-              ? '« Ne plus gérer une cave. Vivre avec elle. »'
-              : '"Stop managing a cellar. Live with it."'}
-          </p>
-        </FadeInOnScroll>
       </div>
+
+      {/* Bande de confiance — pleine largeur au bas du hero (4 piliers) */}
+      <FadeInOnScroll delay={0.7}>
+        <div className="relative mt-12 lg:mt-14">
+          <HeroTrustBar />
+        </div>
+      </FadeInOnScroll>
     </section>
   );
 }

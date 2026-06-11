@@ -54,10 +54,10 @@ const HERO_MAP = {
     badge: 'AI Sommelier · Cellar · SAQ · Restaurant',
     tagline: 'Your AI sommelier.',
     trust: [
-      'Made in Québec',
-      'Private & encrypted data',
-      'Live SAQ availability',
-      'No card required',
+      { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
+      { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
+      { title: 'Live SAQ', lines: ['Real-time availability', 'Up-to-date prices'] },
+      { title: 'No card required', lines: ['Free 14-day trial', 'Cancel anytime'] },
     ],
     variantA: {
       headlineTop: 'Your AI sommelier.',
@@ -82,10 +82,10 @@ const HERO_MAP = {
     badge: 'Sommelier IA · Cave · SAQ · Restaurant',
     tagline: 'Votre sommelier IA.',
     trust: [
-      'Conçu au Québec',
-      'Données privées & chiffrées',
-      'Disponibilités SAQ en direct',
-      'Aucune carte requise',
+      { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
+      { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },
+      { title: 'SAQ en direct', lines: ['Disponibilités en temps réel', 'Prix à jour'] },
+      { title: 'Aucune carte requise', lines: ['Essai gratuit 14 jours', 'Annulable en tout temps'] },
     ],
     variantA: {
       headlineTop: 'Votre sommelier IA.',

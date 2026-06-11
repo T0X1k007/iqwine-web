@@ -5,10 +5,11 @@ import { useLocale } from '@/lib/i18n';
 import { getHero } from '@/lib/constants';
 
 /**
- * Barre de confiance hero — 4 piliers sous les CTA, séparés par des
- * filets verticaux (desktop) dans un cartouche bordé discret.
- * Ordre fixe aligné sur HERO_MAP.trust :
- * Québec · Données chiffrées · SAQ en direct · Sans carte.
+ * Barre de confiance hero — 4 piliers en bande pleine largeur au bas du
+ * hero (réplique design iQForge approuvé Eric 2026-06-11) : icône or à
+ * gauche + titre gras + deux sous-lignes muted, séparés par des filets
+ * verticaux (desktop). Ordre fixe aligné sur HERO_MAP.trust :
+ * Québec · Chiffré & privé · SAQ en direct · Sans carte.
  */
 
 function FleurDeLys({ size = 22 }: { size?: number }) {
@@ -56,25 +57,37 @@ export default function HeroTrustBar() {
   const hero = getHero(locale);
 
   const items = [
-    { label: hero.trust[0], icon: <FleurDeLys /> },
-    { label: hero.trust[1], icon: <Lock size={20} strokeWidth={1.75} /> },
-    { label: hero.trust[2], icon: <SaqLive /> },
-    { label: hero.trust[3], icon: <ShieldCheck size={20} strokeWidth={1.75} /> },
+    { ...hero.trust[0], icon: <FleurDeLys size={30} /> },
+    { ...hero.trust[1], icon: <Lock size={26} strokeWidth={1.75} /> },
+    { ...hero.trust[2], icon: <SaqLive size={28} /> },
+    { ...hero.trust[3], icon: <ShieldCheck size={26} strokeWidth={1.75} /> },
   ];
 
   return (
-    <div className="rounded-2xl border border-border bg-foreground/[0.03] grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border">
-      {items.map(({ label, icon }) => (
-        <div
-          key={label}
-          className="flex items-center gap-3 px-4 py-4 sm:px-5"
-        >
-          <span className="text-or shrink-0">{icon}</span>
-          <span className="text-[13px] sm:text-sm text-foreground/90 leading-snug">
-            {label}
-          </span>
-        </div>
-      ))}
+    <div className="border-t border-border bg-foreground/[0.02]">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border">
+        {items.map(({ title, lines, icon }) => (
+          <div
+            key={title}
+            className="flex items-center gap-4 px-4 py-5 sm:px-6 lg:py-7 lg:justify-center"
+          >
+            <span className="text-or shrink-0">{icon}</span>
+            <span className="flex flex-col gap-0.5">
+              <span className="text-sm font-semibold uppercase tracking-[0.08em] text-foreground leading-snug">
+                {title}
+              </span>
+              {lines.map((line) => (
+                <span
+                  key={line}
+                  className="text-[13px] text-muted-foreground leading-snug"
+                >
+                  {line}
+                </span>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
