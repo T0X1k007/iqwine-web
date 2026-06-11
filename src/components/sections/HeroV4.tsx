@@ -32,7 +32,7 @@ export default function HeroV4() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90dvh] flex flex-col justify-center overflow-hidden pt-28 lg:pt-36"
+      className="relative min-h-[90dvh] flex flex-col justify-center overflow-hidden pt-28 pb-14 lg:pt-36 lg:pb-20"
     >
       {/* Glow wine-rouge — vignette derrière le contenu */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -105,14 +105,14 @@ export default function HeroV4() {
             </FadeInOnScroll>
           </div>
         </div>
-      </div>
 
-      {/* Bande de confiance — pleine largeur au bas du hero (4 piliers) */}
-      <FadeInOnScroll delay={0.7}>
-        <div className="relative mt-12 lg:mt-14">
-          <HeroTrustBar />
-        </div>
-      </FadeInOnScroll>
+        {/* Cartouche de confiance — flush CTA « 14 jours » → bord droit de la démo */}
+        <FadeInOnScroll delay={0.7}>
+          <div className="mt-12 lg:mt-14">
+            <HeroTrustBar />
+          </div>
+        </FadeInOnScroll>
+      </div>
     </section>
   );
 }

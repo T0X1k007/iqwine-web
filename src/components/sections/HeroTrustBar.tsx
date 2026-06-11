@@ -5,8 +5,9 @@ import { useLocale } from '@/lib/i18n';
 import { getHero } from '@/lib/constants';
 
 /**
- * Barre de confiance hero — 4 piliers en bande pleine largeur au bas du
- * hero (réplique design iQForge approuvé Eric 2026-06-11) : icône or à
+ * Cartouche de confiance hero — 4 piliers dans une boîte arrondie bordée
+ * alignée sur la largeur du contenu (flush CTA « 14 jours » → bord droit
+ * de la démo Sommelier iQWine ; demande Eric 2026-06-11) : icône or à
  * gauche + titre gras + deux sous-lignes muted, séparés par des filets
  * verticaux (desktop). Ordre fixe aligné sur HERO_MAP.trust :
  * Québec · Chiffré & privé · SAQ en direct · Sans carte.
@@ -64,30 +65,28 @@ export default function HeroTrustBar() {
   ];
 
   return (
-    <div className="border-t border-border bg-foreground/[0.02]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border">
-        {items.map(({ title, lines, icon }) => (
-          <div
-            key={title}
-            className="flex items-center gap-4 px-4 py-5 sm:px-6 lg:py-7 lg:justify-center"
-          >
-            <span className="text-or shrink-0">{icon}</span>
-            <span className="flex flex-col gap-0.5">
-              <span className="text-sm font-semibold uppercase tracking-[0.08em] text-foreground leading-snug">
-                {title}
-              </span>
-              {lines.map((line) => (
-                <span
-                  key={line}
-                  className="text-[13px] text-muted-foreground leading-snug"
-                >
-                  {line}
-                </span>
-              ))}
+    <div className="rounded-2xl border border-border bg-foreground/[0.03] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border">
+      {items.map(({ title, lines, icon }) => (
+        <div
+          key={title}
+          className="flex items-center gap-4 px-4 py-5 sm:px-6 lg:py-6 lg:justify-center"
+        >
+          <span className="text-or shrink-0">{icon}</span>
+          <span className="flex flex-col gap-0.5">
+            <span className="text-sm font-semibold uppercase tracking-[0.08em] text-foreground leading-snug">
+              {title}
             </span>
-          </div>
-        ))}
-      </div>
+            {lines.map((line) => (
+              <span
+                key={line}
+                className="text-[13px] text-muted-foreground leading-snug"
+              >
+                {line}
+              </span>
+            ))}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
