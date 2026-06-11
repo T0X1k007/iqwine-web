@@ -41,8 +41,9 @@ export default function Navbar() {
           <Logo size={60} className="md:hidden" />
           <Logo size={80} className="hidden md:block" />
           <span className="flex flex-col">
-            <span className="font-[family-name:var(--font-display)] text-[26px] md:text-[38px] font-semibold tracking-tight leading-none text-or">
-              iQWine
+            <span className="font-[family-name:var(--font-display)] text-[26px] md:text-[38px] font-semibold tracking-tight leading-none">
+              <span className="text-foreground/85">iQ</span>
+              <span className="text-or">Wine</span>
             </span>
             <span className="font-[family-name:var(--font-display)] italic text-[13px] md:text-[15px] text-foreground/85 leading-tight mt-1">
               {hero.tagline}

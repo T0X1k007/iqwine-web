@@ -56,7 +56,7 @@ const HERO_MAP = {
     trust: [
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
       { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
-      { title: 'Live SAQ', lines: ['Real-time availability', 'Up-to-date prices'] },
+      { title: 'Live SAQ', lines: ['Geolocated real-time inventory', 'Up-to-date prices'] },
       { title: 'No card required', lines: ['Free 14-day trial', 'Cancel anytime'] },
     ],
     variantA: {
@@ -84,7 +84,7 @@ const HERO_MAP = {
     trust: [
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
       { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },
-      { title: 'SAQ en direct', lines: ['Disponibilités en temps réel', 'Prix à jour'] },
+      { title: 'SAQ en direct', lines: ['Inventaire géolocalisé en temps réel', 'Prix à jour'] },
       { title: 'Aucune carte requise', lines: ['Essai gratuit 14 jours', 'Annulable en tout temps'] },
     ],
     variantA: {
