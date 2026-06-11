@@ -29,19 +29,21 @@ const EYEBROWS_MAP = {
   },
 };
 
-// ─── Navigation V5 (4 ancres existantes après condensation) ───
+// ─── Navigation V5 (ancres existantes après condensation) ───
 const NAV_LINKS_MAP = {
   en: [
     { label: 'Demo', href: '#demo' },
     { label: 'AI', href: '#ai' },
     { label: 'Cellar', href: '#cave-web' },
     { label: 'Pricing', href: '#pricing' },
+    { label: 'Restaurant', href: '#trois-moments' },
   ],
   fr: [
     { label: 'Démo', href: '#demo' },
     { label: 'IA', href: '#ai' },
     { label: 'Cave', href: '#cave-web' },
     { label: 'Tarifs', href: '#pricing' },
+    { label: 'Restaurant', href: '#trois-moments' },
   ],
 } as const;
 
@@ -50,6 +52,13 @@ const NAV_LINKS_MAP = {
 const HERO_MAP = {
   en: {
     badge: 'AI Sommelier · Cellar · SAQ · Restaurant',
+    tagline: 'Your AI sommelier.',
+    trust: [
+      'Made in Québec',
+      'Private & encrypted data',
+      'Live SAQ availability',
+      'No card required',
+    ],
     variantA: {
       headlineTop: 'Your AI sommelier.',
       headlineBottom: 'At home, at the SAQ, at the restaurant.',
@@ -71,6 +80,13 @@ const HERO_MAP = {
   },
   fr: {
     badge: 'Sommelier IA · Cave · SAQ · Restaurant',
+    tagline: 'Votre sommelier IA.',
+    trust: [
+      'Conçu au Québec',
+      'Données privées & chiffrées',
+      'Disponibilités SAQ en direct',
+      'Aucune carte requise',
+    ],
     variantA: {
       headlineTop: 'Votre sommelier IA.',
       headlineBottom: 'À la maison, à la SAQ, au restaurant.',

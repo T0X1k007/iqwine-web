@@ -65,7 +65,7 @@ export default function SectionComparison() {
   }, []);
 
   return (
-    <section ref={ref} id="comparatif" className="relative py-20 sm:py-28 scroll-mt-20">
+    <section ref={ref} id="comparatif" className="relative py-20 sm:py-28 scroll-mt-28">
       <div className="mx-auto w-full max-w-5xl px-6 lg:px-8">
         <FadeInOnScroll>
           <div className="text-center mb-10 sm:mb-14">

@@ -4,6 +4,7 @@ import { ArrowRight, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import HeroLiveDemo from '@/components/sections/HeroLiveDemo';
+import HeroTrustBar from '@/components/sections/HeroTrustBar';
 import { useLocale } from '@/lib/i18n';
 import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
@@ -31,7 +32,7 @@ export default function HeroV4() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90dvh] flex items-center overflow-hidden pt-24 pb-14 lg:pt-32 lg:pb-24"
+      className="relative min-h-[90dvh] flex items-center overflow-hidden pt-28 pb-14 lg:pt-36 lg:pb-24"
     >
       {/* Glow wine-rouge — vignette derrière le contenu */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -86,12 +87,10 @@ export default function HeroV4() {
               </div>
             </FadeInOnScroll>
 
-            <FadeInOnScroll delay={0.75}>
-              <p className="mt-16 font-[family-name:var(--font-display)] italic text-foreground-faint text-sm sm:text-base max-w-md lg:mx-0 mx-auto leading-relaxed">
-                {locale === 'fr'
-                  ? '« Ne plus gérer une cave. Vivre avec elle. »'
-                  : '"Stop managing a cellar. Live with it."'}
-              </p>
+            <FadeInOnScroll delay={0.7}>
+              <div className="mt-12 max-w-2xl lg:mx-0 mx-auto">
+                <HeroTrustBar />
+              </div>
             </FadeInOnScroll>
           </div>
 
@@ -102,6 +101,15 @@ export default function HeroV4() {
             </FadeInOnScroll>
           </div>
         </div>
+
+        {/* Citation — centrée sous l'ensemble du hero */}
+        <FadeInOnScroll delay={0.85}>
+          <p className="mt-14 lg:mt-16 text-center font-[family-name:var(--font-display)] italic text-foreground-faint text-sm sm:text-base leading-relaxed">
+            {locale === 'fr'
+              ? '« Ne plus gérer une cave. Vivre avec elle. »'
+              : '"Stop managing a cellar. Live with it."'}
+          </p>
+        </FadeInOnScroll>
       </div>
     </section>
   );
