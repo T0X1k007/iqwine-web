@@ -26,20 +26,20 @@ export const PLANS: MarketingPlan[] = [
     id: "standard",
     priceMonthlyCents: 1495,
     includedUsers: 1,
-    monthlyRecommendations: 75,
+    monthlyRecommendations: 50,
   },
   {
     id: "pro",
     priceMonthlyCents: 2995,
     includedUsers: 2,
-    monthlyRecommendations: 350,
+    monthlyRecommendations: 110,
     highlight: true,
   },
   {
     id: "famille",
     priceMonthlyCents: 5995,
     includedUsers: 4,
-    monthlyRecommendations: 1000,
+    monthlyRecommendations: 200,
   },
 ];
 
