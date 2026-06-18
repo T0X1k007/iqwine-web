@@ -3,7 +3,7 @@
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import HeroLiveDemo from '@/components/sections/HeroLiveDemo';
+import HeroVisual from '@/components/sections/HeroVisual';
 import HeroTrustBar from '@/components/sections/HeroTrustBar';
 import { useLocale } from '@/lib/i18n';
 import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
@@ -91,10 +91,12 @@ export default function HeroV4() {
 
           </div>
 
-          {/* RIGHT — mock vivant : « lasagne » → recommandations en direct */}
+          {/* RIGHT — emplacement photographie « art de vivre » (Q19 option B).
+              La démo vivante a migré en section 2 ; le hero s'ouvre sur
+              l'émotion. Vraie photo en Phase 7. */}
           <div className="lg:col-span-5 flex flex-col items-center mt-16 lg:mt-0">
             <FadeInOnScroll delay={0.3} direction="left" className="w-full">
-              <HeroLiveDemo />
+              <HeroVisual />
             </FadeInOnScroll>
 
             {/* Citation — italique éditoriale sous le mockup (réplique iQForge) */}
