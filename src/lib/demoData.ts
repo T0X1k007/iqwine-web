@@ -6,7 +6,7 @@ import type { Locale } from './i18n';
  * apogée « À son meilleur », explication contextualisée au plat).
  *
  * AUCUN appel API. AUCUNE promesse non supportée par le produit.
- * Réutilisé par le hero vivant (HeroLiveDemo) et la démo jouable (SectionDemo).
+ * Utilisé par la démo jouable (SectionDemo).
  */
 
 export type DemoSource = 'cave' | 'saq' | 'both';
