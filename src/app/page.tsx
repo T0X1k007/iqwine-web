@@ -12,6 +12,7 @@ const SectionProof = dynamic(() => import('@/components/sections/SectionProof'))
 const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments'));
 const SectionAI = dynamic(() => import('@/components/sections/SectionAI'));
 const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb'));
+const SectionConfiance = dynamic(() => import('@/components/sections/SectionConfiance'));
 const Pricing = dynamic(() => import('@/components/sections/Pricing'));
 const SectionFaq = dynamic(() => import('@/components/sections/SectionFaq'));
 const VagueFondateurs = dynamic(() => import('@/components/sections/VagueFondateurs'));
@@ -30,6 +31,7 @@ export default function Home() {
         <SectionTroisMoments />
         <SectionAI />
         <SectionCaveWeb />
+        <SectionConfiance />
         <Pricing />
         <SectionFaq />
         <VagueFondateurs />
