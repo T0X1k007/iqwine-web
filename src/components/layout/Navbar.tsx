@@ -37,7 +37,7 @@ export default function Navbar() {
     >
       <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 md:h-28">
         {/* Logo lockup — image officielle + wordmark + tagline */}
-        <a href="#" className="flex items-center gap-3">
+        <a href="/" aria-label="Accueil iQWine" className="flex items-center gap-3">
           <Logo size={60} className="md:hidden" />
           <Logo size={80} className="hidden md:block" />
           <span className="flex flex-col">
