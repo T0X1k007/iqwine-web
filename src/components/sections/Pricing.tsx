@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
@@ -70,6 +71,8 @@ const COPY: Record<PlanId, PlanCopy> = {
 
 export default function Pricing() {
   const { locale } = useLocale();
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly");
+  const t = (fr: string, en: string) => (locale === "fr" ? fr : en);
 
   return (
     <SectionWrapper id="pricing" tone="light" withDivider rhythm="editorial">
@@ -91,6 +94,48 @@ export default function Pricing() {
         </div>
       </FadeInOnScroll>
 
+      {/* Bascule mensuel / annuel — « 2 mois offerts » est un fait honnête
+          (l'annuel = 10× le mensuel), aucune fausse urgence. */}
+      <FadeInOnScroll delay={0.08}>
+        <div className="flex flex-col items-center gap-3 mb-12 sm:mb-14">
+          <div
+            className="inline-flex items-center rounded-full border border-border-strong bg-card p-1"
+            role="tablist"
+            aria-label={t("Période de facturation", "Billing period")}
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={billingPeriod === "monthly"}
+              onClick={() => setBillingPeriod("monthly")}
+              className={`px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
+                billingPeriod === "monthly"
+                  ? "bg-or text-on-gold font-medium"
+                  : "text-foreground-dim hover:text-foreground"
+              }`}
+            >
+              {t("Mensuel", "Monthly")}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={billingPeriod === "yearly"}
+              onClick={() => setBillingPeriod("yearly")}
+              className={`px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
+                billingPeriod === "yearly"
+                  ? "bg-or text-on-gold font-medium"
+                  : "text-foreground-dim hover:text-foreground"
+              }`}
+            >
+              {t("Annuel", "Yearly")}
+            </button>
+          </div>
+          <p className="font-[family-name:var(--font-display)] italic text-or text-base">
+            {t("Deux mois offerts sur l’annuel.", "Two months on the house, yearly.")}
+          </p>
+        </div>
+      </FadeInOnScroll>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7 max-w-6xl mx-auto items-stretch">
         {PLANS.map((plan, i) => (
           <FadeInOnScroll
@@ -98,10 +143,25 @@ export default function Pricing() {
             delay={0.12 + i * 0.1}
             className="h-full"
           >
-            <PlanCard plan={plan} locale={locale} />
+            <PlanCard plan={plan} locale={locale} billingPeriod={billingPeriod} />
           </FadeInOnScroll>
         ))}
       </div>
+
+      {/* Au-delà de quatre membres : pas de cinquième palier public, on compose
+          sur mesure. Ton éditorial, invitation. */}
+      <FadeInOnScroll delay={0.4}>
+        <p className="mt-12 text-center iq-small text-foreground-dim max-w-xl mx-auto">
+          {t("Plus de quatre membres ? ", "More than four members? ")}
+          <a
+            href="mailto:bonjour@iqwine.ca"
+            className="text-or underline underline-offset-4 hover:text-or/80"
+          >
+            {t("Écrivez-nous", "Write to us")}
+          </a>
+          {t(", on compose l’accès qu’il vous faut.", ", we’ll tailor the right access.")}
+        </p>
+      </FadeInOnScroll>
 
       <FadeInOnScroll delay={0.5}>
         <div className="mt-16 text-center max-w-2xl mx-auto">
@@ -126,12 +186,15 @@ export default function Pricing() {
 function PlanCard({
   plan,
   locale,
+  billingPeriod,
 }: {
   plan: (typeof PLANS)[number];
   locale: Locale;
+  billingPeriod: "monthly" | "yearly";
 }) {
   const copy = COPY[plan.id];
   const highlight = plan.highlight ?? false;
+  const isYearly = billingPeriod === "yearly";
   const t = (fr: string, en: string) => (locale === "fr" ? fr : en);
 
   return (
@@ -157,17 +220,25 @@ function PlanCard({
         <p className="iq-small text-foreground-dim">{copy.tagline[locale]}</p>
       </div>
 
-      {/* Prix mensuel — headline */}
+      {/* Prix — mensuel ou annuel selon la bascule */}
       <div className="flex items-baseline gap-2 mb-1">
         <span className="font-[family-name:var(--font-display)] italic text-[56px] sm:text-[68px] text-or leading-none tracking-[-0.025em] tabular-nums">
-          {formatPriceCad(plan.priceMonthlyCents, locale)}
+          {formatPriceCad(isYearly ? plan.priceYearlyCents : plan.priceMonthlyCents, locale)}
         </span>
         <span className="text-foreground-faint font-mono text-[11px] tracking-[0.18em] uppercase">
           $ CAD
         </span>
       </div>
-      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-5">
-        {t("/ mois", "/ month")}
+      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-1.5">
+        {isYearly ? t("/ an", "/ year") : t("/ mois", "/ month")}
+      </p>
+      <p className="iq-small text-foreground-dim mb-5">
+        {isYearly
+          ? t(
+              `≈ ${formatPriceCad(Math.round(plan.priceYearlyCents / 12), locale)} $ par mois, facturé annuellement`,
+              `≈ $${formatPriceCad(Math.round(plan.priceYearlyCents / 12), locale)} a month, billed yearly`,
+            )
+          : t("Facturé chaque mois.", "Billed each month.")}
       </p>
 
       {/* Ce qui est inclus — recommandations IA + utilisateurs (jamais tokens) */}

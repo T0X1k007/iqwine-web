@@ -15,6 +15,8 @@ export interface MarketingPlan {
   id: PlanId;
   /** Prix mensuel en cents CAD (évite les flottants). */
   priceMonthlyCents: number;
+  /** Prix ANNUEL en cents CAD = 10× mensuel (2 mois offerts). Famille arrondi à 599,00. */
+  priceYearlyCents: number;
   includedUsers: number;
   monthlyRecommendations: number;
   /** Forfait mis en avant visuellement. */
@@ -25,12 +27,14 @@ export const PLANS: MarketingPlan[] = [
   {
     id: "standard",
     priceMonthlyCents: 1495,
+    priceYearlyCents: 14950,
     includedUsers: 1,
     monthlyRecommendations: 50,
   },
   {
     id: "pro",
     priceMonthlyCents: 2995,
+    priceYearlyCents: 29950,
     includedUsers: 2,
     monthlyRecommendations: 110,
     highlight: true,
@@ -38,6 +42,7 @@ export const PLANS: MarketingPlan[] = [
   {
     id: "famille",
     priceMonthlyCents: 5995,
+    priceYearlyCents: 59900,
     includedUsers: 4,
     monthlyRecommendations: 200,
   },

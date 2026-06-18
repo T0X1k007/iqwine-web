@@ -10,7 +10,7 @@ const ALLOWED_CELLAR_SIZES = new Set([
   '501-1500',
   '1500+',
 ]);
-const ALLOWED_PLAN_CHOICES = new Set(['standard', 'pro', 'undecided']);
+const ALLOWED_PLAN_CHOICES = new Set(['standard', 'pro', 'famille', 'undecided']);
 
 // V15+ Option C — POST best-effort vers l'app cellier-vin pour
 // persister le lead. Le Resend reste le canal de notification + fallback :
@@ -126,7 +126,7 @@ async function forwardToAppWaitlist(payload: {
   name: string;
   email: string;
   cellarSize: string;
-  planEnvisaged: 'STANDARD' | 'PRO' | null;
+  planEnvisaged: 'STANDARD' | 'PRO' | 'FAMILLE' | null;
   note: string;
   sourceUrl: string;
 }): Promise<{ ok: boolean; error?: string }> {
@@ -293,12 +293,14 @@ export async function POST(request: Request) {
       ALLOWED_PLAN_CHOICES.has(planChoice)
         ? planChoice
         : 'undecided';
-    const planEnvisaged: 'STANDARD' | 'PRO' | null =
+    const planEnvisaged: 'STANDARD' | 'PRO' | 'FAMILLE' | null =
       planChoiceRaw === 'standard'
         ? 'STANDARD'
         : planChoiceRaw === 'pro'
           ? 'PRO'
-          : null;
+          : planChoiceRaw === 'famille'
+            ? 'FAMILLE'
+            : null;
 
     // Forward best-effort vers app.iqwine.ca/api/waitlist. N'attend pas
     // le résultat pour répondre à l'user → on log et on continue.
