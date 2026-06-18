@@ -135,7 +135,7 @@ function PlanCard({
     >
       {highlight && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-mono text-[10px] font-medium tracking-[0.22em] uppercase text-[#1a130f]">
+          <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-mono text-[10px] font-medium tracking-[0.22em] uppercase text-on-gold">
             {t('Recommandé', 'Recommended')}
           </span>
         </div>

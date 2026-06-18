@@ -67,6 +67,11 @@
   --color-cta-hover: #e0b656; /* = or-soft */
   --color-cta-active: #b8862a; /* = or-deep */
 
+  /* Encre sombre pour le texte POSÉ SUR de l'or/laiton (badge, onglet actif) :
+     lisible aussi bien sur l'or vif (#d4a548) que sur le laiton clair
+     (#b8924a). Stable, jamais re-mappée. */
+  --color-on-gold: #1a130f;
+
   /* ── Showcase ivoire — fond chaud derrière bouteilles détourées éditoriales.
      Spec : carte produit cellier (BottleGroupItem). JAMAIS comme couleur de
      surface globale, uniquement pour vitrines de bouteilles / objets. */

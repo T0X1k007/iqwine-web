@@ -106,7 +106,7 @@ export default function SectionDemo() {
                     track(ANALYTICS_EVENTS.DEMO_SOURCE_TOGGLE, { source: s.id });
                   }}
                   className={`relative rounded-pill px-3 py-2 text-[13px] font-medium transition-colors duration-[140ms] ${
-                    selected ? 'text-[#1a130f]' : 'text-foreground-dim hover:text-foreground'
+                    selected ? 'text-on-gold' : 'text-foreground-dim hover:text-foreground'
                   }`}
                 >
                   {selected && (
