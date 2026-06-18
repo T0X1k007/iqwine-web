@@ -9,7 +9,7 @@
     "build": "next build",
     "build:webpack": "next build --webpack",
     "start": "next start -p 3020",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit"
   },
