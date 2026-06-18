@@ -26,8 +26,8 @@ export default function FinalCta() {
           </h2>
           <p className="iq-lead mt-6 max-w-xl mx-auto">
             {t(
-              'Quoi ouvrir ce soir, quoi acheter à la SAQ — votre sommelier le sait déjà.',
-              'What to open tonight, what to buy at the SAQ — your sommelier already knows.',
+              'Quoi ouvrir ce soir, quoi acheter à la SAQ, Octave le sait déjà.',
+              'What to open tonight, what to buy at the SAQ, Octave already knows.',
             )}
           </p>
           <div className="mt-10 flex flex-col items-center gap-3">

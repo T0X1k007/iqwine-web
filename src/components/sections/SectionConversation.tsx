@@ -174,9 +174,7 @@ export default function SectionConversation() {
             transition={{ duration: 0.4 }}
             className="pt-10 sm:pt-12"
           >
-            <div className="iq-eyebrow mb-5">
-              {locale === 'fr' ? 'Votre sommelier' : 'Your sommelier'}
-            </div>
+            <div className="iq-eyebrow mb-5">Octave</div>
             <div className="flex flex-col gap-3">
               {qa.response.map((line, i) => (
                 <motion.p
