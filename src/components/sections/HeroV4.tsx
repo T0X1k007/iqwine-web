@@ -34,10 +34,12 @@ export default function HeroV4() {
       id="hero"
       className="relative min-h-[90dvh] flex flex-col justify-center overflow-hidden pt-28 pb-14 lg:pt-36 lg:pb-20"
     >
-      {/* Glow wine-rouge — vignette derrière le contenu */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute left-1/2 top-[22%] h-[640px] w-[640px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]" />
-        <div className="absolute left-1/2 top-[12%] h-px w-[min(720px,80%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-or/35 to-transparent" />
+      {/* Phase 6 — plus de blob « spotlight » daté. Ambiance locale TRÈS
+          subtile, au hero seul : un dégradé chaud diffus en haut (faible
+          opacité) + une fine ligne or discrète. Jamais un halo de page. */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div className="absolute inset-x-0 top-0 h-[55%] bg-[radial-gradient(ellipse_60%_80%_at_50%_0%,rgba(142,42,42,0.10),transparent_70%)]" />
+        <div className="absolute left-1/2 top-[12%] h-px w-[min(720px,80%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-or/20 to-transparent" />
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-12">
@@ -73,7 +75,7 @@ export default function HeroV4() {
                   onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'hero' })}
                   className="w-full sm:w-auto"
                 >
-                  <Button variant="or" size="lg" className="w-full sm:w-auto">
+                  <Button variant="cta" size="lg" className="w-full sm:w-auto">
                     {hero.ctaPrimary}
                     <ArrowRight size={16} strokeWidth={1.75} />
                   </Button>

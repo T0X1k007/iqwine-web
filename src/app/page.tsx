@@ -1,8 +1,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { I18nProvider } from '@/lib/i18n';
-import Navbar from '@/components/layout/Navbar';
 import HeroV4 from '@/components/sections/HeroV4';
 
 // Above-fold = eager (Hero seul, désormais sans framer-motion). Tout le reste =
@@ -23,8 +21,7 @@ const ScrollDepthTracker = dynamic(() => import('@/components/analytics/ScrollDe
 
 export default function Home() {
   return (
-    <I18nProvider>
-      <Navbar />
+    <>
       <main>
         <HeroV4 />
         <SectionDemo />
@@ -40,6 +37,6 @@ export default function Home() {
       </main>
       <StickyCTA />
       <ScrollDepthTracker />
-    </I18nProvider>
+    </>
   );
 }

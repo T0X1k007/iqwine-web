@@ -15,15 +15,10 @@ export default function FinalCta() {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
+  // Phase 6 (discipline de l'or) — halo or décoratif retiré ; la clôture
+  // repose sur la typographie et le CTA, pas sur un glow.
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-      >
-        <div className="absolute left-1/2 top-1/2 h-[420px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-or/10 blur-[120px]" />
-      </div>
-
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <FadeInOnScroll>
           <h2 className="iq-display italic">
@@ -40,7 +35,7 @@ export default function FinalCta() {
               href={APP_SIGNUP_URL}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'final' })}
             >
-              <Button variant="or" size="lg">
+              <Button variant="cta" size="lg">
                 {t('Commencer — 14 jours, sans carte', 'Start free — 14 days, no card')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>

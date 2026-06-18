@@ -2,7 +2,7 @@
 
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'or';
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'or' | 'cta';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,6 +19,9 @@ const variantClasses: Record<ButtonVariant, string> = {
     'border border-border-strong text-foreground hover:bg-elev hover:border-or/50 active:bg-elev active:scale-[0.98]',
   ghost: 'text-muted-foreground hover:text-foreground active:text-foreground',
   or: 'bg-or text-primary-foreground hover:bg-or-soft active:bg-or-deep active:scale-[0.98]',
+  // CTA adaptatif (Phase 6) : or plein sur sombre, bordeaux sur clair, via le
+  // token --color-cta re-mappé dans .section-light. Même libellé partout.
+  cta: 'bg-cta text-primary-foreground hover:bg-cta-hover active:bg-cta-active active:scale-[0.98]',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

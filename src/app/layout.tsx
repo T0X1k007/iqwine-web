@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Inter, JetBrains_Mono } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { I18nProvider } from '@/lib/i18n';
+import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import './globals.css';
 
@@ -77,11 +79,15 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        {children}
-        {/* Footer global (Q16) — signal d'entreprise + liens légaux/navigation
-            sur TOUTES les pages (accueil, contact, légal), plus de cul-de-sac.
-            Composant statique sans locale : sûr hors de tout provider i18n. */}
-        <Footer />
+        {/* Chrome GLOBAL (Q16 + Q18) — Navbar et Footer sur TOUTES les pages,
+            plus aucune page « avec pied mais sans tête ». I18nProvider remonté
+            ici (la Navbar et les sections en ont besoin) ; il enveloppe tout le
+            contenu. */}
+        <I18nProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </I18nProvider>
       </body>
       {process.env.NEXT_PUBLIC_GA_ID && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
