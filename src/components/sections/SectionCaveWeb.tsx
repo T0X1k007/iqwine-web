@@ -22,7 +22,7 @@ export default function SectionCaveWeb() {
   const { locale } = useLocale();
 
   return (
-    <SectionWrapper id="cave-web" withDivider rhythm="standard">
+    <SectionWrapper id="cave-web" tone="light" withDivider rhythm="standard">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 max-w-7xl mx-auto items-center">
         {/* LEFT — typo */}
         <div className="lg:col-span-4">
@@ -57,8 +57,10 @@ export default function SectionCaveWeb() {
             <div
               className="relative rounded-xl overflow-hidden border border-or/15"
               style={{
+                // Phase 6 — ombre adoucie en charbon chaud pour la section
+                // claire (le noir pur écrasait l'ivoire).
                 boxShadow:
-                  '0 32px 96px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(243, 236, 231, 0.05)',
+                  '0 28px 80px rgba(33, 27, 23, 0.22), 0 6px 20px rgba(33, 27, 23, 0.12)',
                 transform: 'rotate(-0.5deg)',
               }}
             >

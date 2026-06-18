@@ -40,7 +40,7 @@ export default function SectionDemo() {
   const cards = getDemoCards(meal, source);
 
   return (
-    <section id="demo" className="relative py-20 sm:py-28 scroll-mt-28">
+    <section id="demo" className="section-light relative py-20 sm:py-28 scroll-mt-28">
       <div className="mx-auto w-full max-w-5xl px-6 lg:px-8">
         <FadeInOnScroll>
           <div className="text-center mb-10 sm:mb-14">
@@ -106,7 +106,7 @@ export default function SectionDemo() {
                     track(ANALYTICS_EVENTS.DEMO_SOURCE_TOGGLE, { source: s.id });
                   }}
                   className={`relative rounded-pill px-3 py-2 text-[13px] font-medium transition-colors duration-[140ms] ${
-                    selected ? 'text-background' : 'text-foreground-dim hover:text-foreground'
+                    selected ? 'text-[#1a130f]' : 'text-foreground-dim hover:text-foreground'
                   }`}
                 >
                   {selected && (
@@ -153,7 +153,7 @@ export default function SectionDemo() {
               href={APP_SIGNUP_URL}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'demo' })}
             >
-              <Button variant="or" size="lg">
+              <Button variant="cta" size="lg">
                 {t('Commencer — 14 jours, sans carte', 'Start free — 14 days, no card')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>

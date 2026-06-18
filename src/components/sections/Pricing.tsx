@@ -69,7 +69,7 @@ export default function Pricing() {
   const { locale } = useLocale();
 
   return (
-    <SectionWrapper id="pricing" withDivider rhythm="editorial">
+    <SectionWrapper id="pricing" tone="light" withDivider rhythm="editorial">
       <FadeInOnScroll>
         <div className="text-center mb-16 sm:mb-20">
           <div className="iq-eyebrow mb-6">
@@ -101,7 +101,7 @@ export default function Pricing() {
               ? '14 jours gratuits · Aucune carte requise · TPS et TVQ en sus'
               : '14 free days · No credit card · GST/QST extra'}
           </p>
-          <p className="mt-8 font-[family-name:var(--font-display)] italic text-or/85 text-lg sm:text-xl leading-relaxed">
+          <p className="mt-8 font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
             {locale === 'fr'
               ? '« Le prix d’une bonne bouteille, pour boire juste toute l’année. »'
               : '"The price of one fine bottle, to drink right all year."'}
@@ -129,13 +129,13 @@ function PlanCard({
     <div
       className={`relative flex flex-col h-full rounded-2xl p-8 sm:p-9 transition-colors duration-[160ms] ${
         highlight
-          ? 'bg-card border border-or/40 shadow-[0_0_0_1px_rgba(212,165,72,0.16),0_24px_64px_rgba(0,0,0,0.36)]'
+          ? 'bg-card border border-or/40 shadow-[0_0_0_1px_rgba(184,146,74,0.35),0_20px_56px_rgba(33,27,23,0.14)]'
           : 'bg-card border border-border-strong'
       }`}
     >
       {highlight && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-mono text-[10px] font-medium tracking-[0.22em] uppercase text-primary-foreground">
+          <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-mono text-[10px] font-medium tracking-[0.22em] uppercase text-[#1a130f]">
             {t('Recommandé', 'Recommended')}
           </span>
         </div>
@@ -189,7 +189,7 @@ function PlanCard({
         onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'pricing' })}
         className="block mt-auto"
       >
-        <Button variant={highlight ? 'or' : 'secondary'} size="lg" className="w-full">
+        <Button variant={highlight ? 'cta' : 'secondary'} size="lg" className="w-full">
           {t('Commencer — sans carte', 'Start free — no card')}
           <ArrowRight size={16} strokeWidth={1.75} />
         </Button>

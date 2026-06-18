@@ -259,6 +259,7 @@
     --color-card: #fcf8f1;
     --color-hi: #f1e7d7;
     --color-overlay: #ece4d7;
+    --color-sunk: #efe7d9; /* sous-surface sur clair (champs, encarts) */
     --color-border: rgba(33, 27, 23, 0.1);
     --color-border-strong: rgba(33, 27, 23, 0.16);
     --color-or: #b8924a; /* or laiton lisible sur ivoire */

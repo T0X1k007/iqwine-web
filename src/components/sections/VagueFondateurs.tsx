@@ -165,7 +165,7 @@ export default function VagueFondateurs() {
   );
 
   return (
-    <SectionWrapper id="beta" withDivider rhythm="editorial">
+    <SectionWrapper id="beta" tone="light" withDivider rhythm="editorial">
       <FadeInOnScroll>
         <div className="text-center mb-12 sm:mb-16">
           <div className="iq-eyebrow mb-6">{eyebrows.beta}</div>
@@ -191,7 +191,7 @@ export default function VagueFondateurs() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'founders' })}
               className="w-full sm:w-auto"
             >
-              <Button variant="or" size="lg" className="w-full sm:w-auto">
+              <Button variant="cta" size="lg" className="w-full sm:w-auto">
                 {locale === 'fr'
                   ? 'Commencer — 14 jours, sans carte'
                   : 'Start free — 14 days, no card'}
@@ -292,7 +292,7 @@ export default function VagueFondateurs() {
                 <div className="flex items-center gap-4 mt-2">
                   <Button
                     type="submit"
-                    variant="or"
+                    variant="cta"
                     size="lg"
                     disabled={submitting}
                     className="flex-1 sm:flex-none"
