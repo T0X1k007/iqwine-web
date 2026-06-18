@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import HeroV4 from '@/components/sections/HeroV4';
 
 // Above-fold = eager (Hero seul, désormais sans framer-motion). Tout le reste =
@@ -39,7 +38,6 @@ export default function Home() {
         <VagueFondateurs />
         <FinalCta />
       </main>
-      <Footer />
       <StickyCTA />
       <ScrollDepthTracker />
     </I18nProvider>

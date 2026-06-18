@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Inter, JetBrains_Mono } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Footer from '@/components/layout/Footer';
 import './globals.css';
 
 /**
@@ -75,7 +76,13 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Footer global (Q16) — signal d'entreprise + liens légaux/navigation
+            sur TOUTES les pages (accueil, contact, légal), plus de cul-de-sac.
+            Composant statique sans locale : sûr hors de tout provider i18n. */}
+        <Footer />
+      </body>
       {process.env.NEXT_PUBLIC_GA_ID && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       )}
