@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo';
+import { LEGAL_ENTITY } from '@/lib/legal-meta';
 
 /**
  * Footer iQWine — grande maison discrète, désormais structuré en colonnes
@@ -56,15 +57,13 @@ export default function Footer() {
         {/* Bas de page — copyright */}
         <div className="mt-16 pt-8 border-t border-border">
           <p className="font-mono text-[10px] tracking-[0.18em] text-foreground-faint">
-            © {new Date().getFullYear()} iQWine · {LEGAL_NAME}
+            © {new Date().getFullYear()} iQWine · {LEGAL_ENTITY.legalName}
           </p>
         </div>
       </div>
     </footer>
   );
 }
-
-const LEGAL_NAME = 'Groupe Medtech Inc.';
 
 function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
