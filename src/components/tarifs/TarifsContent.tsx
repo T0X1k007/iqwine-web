@@ -21,10 +21,6 @@ type T = (fr: string, en: string) => string;
 
 const POSITIONS: { fr: [string, string]; en: [string, string]; highlight?: boolean }[] = [
   {
-    fr: ['Essai gratuit', 'Découvrir Octave et importer votre cave, sans engagement.'],
-    en: ['Free trial', 'Discover Octave and import your cellar, no commitment.'],
-  },
-  {
     fr: ['Standard', 'L’amateur de vin avec une cave personnelle.'],
     en: ['Standard', 'The wine lover with a personal cellar.'],
   },
@@ -58,11 +54,12 @@ const STEPS: { icon: typeof Wine; fr: [string, string]; en: [string, string] }[]
 ];
 
 const BENEFITS: { fr: string; en: string }[] = [
-  { fr: 'Sachez quoi ouvrir ce soir.', en: 'Know what to open tonight.' },
-  { fr: 'Ne manquez plus l’apogée d’une bouteille.', en: 'Never miss a bottle’s peak again.' },
-  { fr: 'Recevez des accords adaptés à votre cave.', en: 'Get pairings drawn from your own cellar.' },
-  { fr: 'Retrouvez votre vin en quelques secondes.', en: 'Find your wine in seconds.' },
-  { fr: 'Obtenez l’avis d’un sommelier à tout moment.', en: 'Get a sommelier’s take, anytime.' },
+  { fr: 'Savoir quelle bouteille ouvrir ce soir.', en: 'Know which bottle to open tonight.' },
+  { fr: 'Servir plusieurs vins dans le bon ordre.', en: 'Serve several wines in the right order.' },
+  { fr: 'Recevoir des invités sans une hésitation.', en: 'Host guests without a second of doubt.' },
+  { fr: 'Bâtir un accord à partir d’une carte au restaurant.', en: 'Build a pairing from a restaurant wine list.' },
+  { fr: 'Trouver le meilleur rapport qualité-prix à la SAQ.', en: 'Find the best value at the SAQ.' },
+  { fr: 'Vérifier qu’une bouteille correspond à votre palais.', en: 'Check that a bottle matches your palate.' },
 ];
 
 const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string, string] }[] = [
@@ -136,6 +133,12 @@ export default function TarifsContent() {
               'Every plan starts with 14 free days, no card. You discover Octave, then you choose, or not.',
             )}
           </p>
+          <p className="mt-5 font-[family-name:var(--font-display)] italic text-or/90 text-base sm:text-lg">
+            {t(
+              'Une application créée par des passionnés, pour des passionnés de vin.',
+              'An app built by enthusiasts, for wine enthusiasts.',
+            )}
+          </p>
           <div className="mt-10 flex justify-center">
             <a
               href={APP_SIGNUP_URL}
@@ -159,7 +162,7 @@ export default function TarifsContent() {
               <h2 className="iq-h1 italic">{t('Chaque formule a son profil.', 'Each plan has a profile.')}</h2>
             </div>
           </FadeInOnScroll>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-3 max-w-4xl mx-auto">
             {POSITIONS.map((p, i) => {
               const [title, body] = locale === 'fr' ? p.fr : p.en;
               return (
@@ -284,14 +287,14 @@ export default function TarifsContent() {
               </h3>
               <p className="text-muted-foreground text-[15px] mt-1">
                 {t(
-                  'Voyez ce qu’Octave répond vraiment, et pourquoi il n’est pas une IA générique.',
-                  'See what Octave actually answers, and why it isn’t a generic AI.',
+                  'Voyez Octave à l’œuvre, et pourquoi ce n’est pas une IA générique.',
+                  'See Octave at work, and why it isn’t a generic AI.',
                 )}
               </p>
             </div>
             <Link href="/sommelier-ia" className="shrink-0">
               <Button variant="secondary" size="lg">
-                {t('Découvrir Octave', 'Discover Octave')}
+                {t('Voir ce qu’Octave peut faire', 'See what Octave can do')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </Link>

@@ -1,9 +1,10 @@
 'use client';
 
-import { ArrowRight, Wine, Heart, MapPin, ScanLine, Sparkles, Quote } from 'lucide-react';
+import { ArrowRight, Wine, Heart, MapPin, ScanLine, Sparkles, Check } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import DemoPhone from '@/components/demo/DemoPhone';
+import TestimonialRotator from '@/components/octave/TestimonialRotator';
 import { getDemoCards } from '@/lib/demoData';
 import { useLocale } from '@/lib/i18n';
 import { APP_SIGNUP_URL } from '@/lib/constants';
@@ -86,21 +87,68 @@ const COMPARISON = {
   },
 };
 
-const PILLARS: { icon: typeof Wine; fr: [string, string]; en: [string, string] }[] = [
+const PILLARS: {
+  icon: typeof Wine;
+  fr: [string, string];
+  en: [string, string];
+  points: { fr: string[]; en: string[] };
+}[] = [
   {
     icon: Wine,
-    fr: ['Votre cave', 'Vos bouteilles, vos millésimes, ce qu’il vous reste. Octave recommande dans ce que vous possédez vraiment, pas dans un catalogue mondial.'],
-    en: ['Your cellar', 'Your bottles, your vintages, what you have left. Octave recommends from what you actually own, not a global catalogue.'],
+    fr: ['Votre cave', 'Chaque recommandation est différente parce que chaque cave est différente.'],
+    en: ['Your cellar', 'Every recommendation is different because every cellar is different.'],
+    points: {
+      fr: [
+        'Il tient compte des bouteilles que vous possédez déjà',
+        'Il sait ce qui est prêt à boire',
+        'Il sait ce qui mérite encore quelques années',
+        'Il sait ce qui accompagne le mieux le repas présenté',
+      ],
+      en: [
+        'It accounts for the bottles you already own',
+        'It knows what’s ready to drink',
+        'It knows what deserves a few more years',
+        'It knows what best suits the meal at hand',
+      ],
+    },
   },
   {
     icon: Heart,
-    fr: ['Votre palais', 'Plus vous notez vos dégustations, plus ses conseils vous ressemblent. Vos goûts, pas une note moyenne anonyme.'],
-    en: ['Your palate', 'The more you log your tastings, the more its advice sounds like you. Your taste, not an anonymous average.'],
+    fr: ['Votre palais', 'Deux personnes ne recevront jamais la même recommandation.'],
+    en: ['Your palate', 'No two people will ever get the same recommendation.'],
+    points: {
+      fr: [
+        'Il apprend à chaque bouteille que vous notez',
+        'À chaque recommandation que vous suivez',
+        'À chaque préférence enregistrée',
+        'Plus vous l’utilisez, plus il affine votre palais',
+      ],
+      en: [
+        'It learns from every bottle you rate',
+        'From every recommendation you follow',
+        'From every saved preference',
+        'The more you use it, the sharper your palate profile',
+      ],
+    },
   },
   {
     icon: MapPin,
-    fr: ['La SAQ en direct', 'Disponibilités par succursale, en temps réel. Quand Octave suggère un achat, il est vraiment trouvable, près de vous.'],
-    en: ['The SAQ live', 'Availability by store, in real time. When Octave suggests a purchase, it’s actually findable, near you.'],
+    fr: ['La SAQ en direct', 'Il ne se limite pas à votre cave : il ouvre vos horizons.'],
+    en: ['The SAQ live', 'It doesn’t stop at your cellar: it widens your horizons.'],
+    points: {
+      fr: [
+        'Une bouteille que vous possédez déjà',
+        'Ou une bouteille disponible maintenant à votre SAQ',
+        'Ou les deux, côte à côte',
+        'Toujours selon votre palais, votre repas, votre contexte',
+      ],
+      en: [
+        'A bottle you already own',
+        'Or one available right now at your SAQ',
+        'Or both, side by side',
+        'Always by your palate, your meal, your context',
+      ],
+    },
   },
 ];
 
@@ -114,6 +162,26 @@ const TESTIMONIALS: { fr: string; en: string; who: { fr: string; en: string } }[
     fr: 'Au restaurant, je photographie la carte et j’ai un accord à mon budget en quelques secondes. C’est devenu un réflexe.',
     en: 'At the restaurant I snap the list and get a pairing within my budget in seconds. It’s become a reflex.',
     who: { fr: 'Dany, Mirabel', en: 'Dany, Mirabel' },
+  },
+  {
+    fr: 'Plus je note mes bouteilles, plus ses suggestions me ressemblent. On dirait qu’il a fini par connaître mon goût mieux que moi.',
+    en: 'The more I rate my bottles, the more its picks sound like me. It’s ended up knowing my taste better than I do.',
+    who: { fr: 'Marie, Québec', en: 'Marie, Quebec City' },
+  },
+  {
+    fr: 'Il m’a évité d’ouvrir un cru trop tôt et m’a dit lequel buvait à son sommet. Une cave, ça se vit, ça ne se gère plus.',
+    en: 'It kept me from opening a wine too early and told me which one was at its peak. A cellar is something you live with now, not manage.',
+    who: { fr: 'Jean-Philippe, Laval', en: 'Jean-Philippe, Laval' },
+  },
+  {
+    fr: 'Quand je reçois, je lui dis qui vient et ce que je sers. Il compose la soirée. Mes invités pensent que j’ai un sommelier.',
+    en: 'When I host, I tell it who’s coming and what I’m serving. It composes the evening. My guests think I have a sommelier.',
+    who: { fr: 'Sophie, Sherbrooke', en: 'Sophie, Sherbrooke' },
+  },
+  {
+    fr: 'La bouteille qu’il me conseille, je la trouve vraiment à ma SAQ. Fini les recommandations introuvables.',
+    en: 'The bottle it suggests, I can actually find at my SAQ. No more recommendations I can’t buy.',
+    who: { fr: 'Carl, Gatineau', en: 'Carl, Gatineau' },
   },
 ];
 
@@ -152,12 +220,12 @@ export default function OctaveContent() {
         <div className="relative mx-auto max-w-4xl text-center">
           <p className="iq-eyebrow mb-6">{t('Rencontrez Octave', 'Meet Octave')}</p>
           <h1 className="iq-display italic">
-            {t('Votre sommelier. Pas une fonctionnalité.', 'Your sommelier. Not a feature.')}
+            {t('Le sommelier qui apprend votre goût.', 'The sommelier who learns your taste.')}
           </h1>
           <p className="iq-lead mt-7 max-w-2xl mx-auto">
             {t(
-              'Vous n’avez pas seulement une cave. Vous avez quelqu’un pour vous dire quelle bouteille ouvrir.',
-              'You don’t just own a cellar. You have someone to tell you which bottle to open.',
+              'Vous n’avez pas qu’une cave. Vous avez quelqu’un qui sait quoi ouvrir, ce soir, pour vous.',
+              'You don’t just have a cellar. You have someone who knows what to open, tonight, for you.',
             )}
           </p>
           <div className="mt-10 flex justify-center">
@@ -202,7 +270,7 @@ export default function OctaveContent() {
                 {t('Voir Octave en action', 'See Octave in action')}
               </p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
-                {t('Ce que vous voyez, vraiment.', 'What you actually see.')}
+                {t('Chaque soir, une réponse qui vous ressemble.', 'Every evening, an answer that sounds like you.')}
               </h2>
             </div>
           </FadeInOnScroll>
@@ -225,27 +293,37 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* MOMENTS DE VIE */}
+      {/* DIALOGUE — Question → Octave répond */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-3xl">
           <FadeInOnScroll>
-            <div className="text-center mb-12">
-              <p className="iq-eyebrow mb-5">{t('Vos moments', 'Your moments')}</p>
+            <div className="text-center mb-14">
+              <p className="iq-eyebrow mb-5">{t('Le dialogue', 'The dialogue')}</p>
               <h2 className="iq-h1 italic">
-                {t('Un compagnon de décision', 'A decision companion')}
+                {t('Posez la question. Octave répond.', 'Ask the question. Octave answers.')}
               </h2>
             </div>
           </FadeInOnScroll>
-          <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 rounded-2xl overflow-hidden border border-white/5">
+          <div className="space-y-10">
             {MOMENTS.map((m, i) => {
               const [title, body] = locale === 'fr' ? m.fr : m.en;
               return (
-                <FadeInOnScroll key={i} delay={Math.min(i * 0.05, 0.3)}>
-                  <div className="h-full bg-white/[0.015] p-7">
-                    <h3 className="font-[family-name:var(--font-display)] italic text-xl text-or leading-snug">
-                      {title}
-                    </h3>
-                    <p className="text-muted-foreground text-[15px] leading-relaxed mt-3">{body}</p>
+                <FadeInOnScroll key={i} delay={Math.min(i * 0.04, 0.2)}>
+                  <div>
+                    <p className="font-[family-name:var(--font-display)] italic text-foreground text-2xl sm:text-[28px] leading-snug">
+                      « {title} »
+                    </p>
+                    <div className="mt-4 flex gap-3.5 rounded-2xl border border-or/15 bg-or/[0.04] px-5 py-4">
+                      <span className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-full border border-or/30 bg-or/10 text-or">
+                        <Sparkles size={16} strokeWidth={1.75} aria-hidden />
+                      </span>
+                      <div>
+                        <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-or mb-1.5">
+                          {t('Octave répond', 'Octave answers')}
+                        </p>
+                        <p className="text-foreground/90 text-[16px] leading-relaxed">{body}</p>
+                      </div>
+                    </div>
                   </div>
                 </FadeInOnScroll>
               );
@@ -262,7 +340,7 @@ export default function OctaveContent() {
               {t('Une recommandation d’Octave', 'A recommendation from Octave')}
             </p>
             <h2 className="iq-h1 italic text-center mb-10">
-              {t('Pas une fiche. Un sommelier.', 'Not a card. A sommelier.')}
+              {t('Plus qu’une application. Un sommelier.', 'More than an app. A sommelier.')}
             </h2>
             <figure className="rounded-2xl border border-or/15 bg-or/[0.03] p-8 lg:p-10">
               <blockquote className="font-[family-name:var(--font-display)] text-foreground/90 text-[19px] sm:text-[21px] leading-relaxed">
@@ -278,10 +356,10 @@ export default function OctaveContent() {
                 <span>{t('Corps · ample', 'Body · full')}</span>
               </figcaption>
             </figure>
-            <p className="text-center text-muted-foreground text-[15px] mt-6 max-w-xl mx-auto">
+            <p className="text-center text-muted-foreground text-[15px] mt-6 max-w-2xl mx-auto">
               {t(
-                'Notes, accord, apogée, structure, autres accords possibles, Octave dit tout ce qu’un sommelier dirait, sans jamais que vous ayez à le demander.',
-                'Notes, pairing, peak, structure, other possible matches, Octave says everything a sommelier would, without you ever having to ask.',
+                'Il comprend votre cave et votre palais, apprend de vos habitudes et évolue avec vous. À chaque personne sa recommandation, jamais une fiche standard, jamais deux fois la même réponse.',
+                'He understands your cellar and your palate, learns from your habits and evolves with you. A different recommendation for each person, never a stock card, never the same answer twice.',
               )}
             </p>
           </FadeInOnScroll>
@@ -302,6 +380,7 @@ export default function OctaveContent() {
           <div className="grid gap-6 md:grid-cols-3">
             {PILLARS.map((p, i) => {
               const [title, body] = locale === 'fr' ? p.fr : p.en;
+              const points = locale === 'fr' ? p.points.fr : p.points.en;
               const Icon = p.icon;
               return (
                 <FadeInOnScroll key={i} delay={Math.min(i * 0.08, 0.24)}>
@@ -310,7 +389,17 @@ export default function OctaveContent() {
                       <Icon size={20} strokeWidth={1.75} aria-hidden />
                     </span>
                     <h3 className="font-[family-name:var(--font-display)] italic text-xl text-foreground">{title}</h3>
-                    <p className="text-muted-foreground text-[15px] leading-relaxed mt-3">{body}</p>
+                    <ul className="mt-4 space-y-2.5">
+                      {points.map((pt) => (
+                        <li key={pt} className="flex gap-2.5 text-muted-foreground text-[14px] leading-relaxed">
+                          <Check size={15} strokeWidth={2} className="mt-1 shrink-0 text-or" aria-hidden />
+                          <span>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="text-foreground/80 text-[14px] italic leading-relaxed mt-4 pt-4 border-t border-or/10">
+                      {body}
+                    </p>
                   </div>
                 </FadeInOnScroll>
               );
@@ -400,7 +489,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* PREUVE — témoignages sobres (avis d'exemple, jamais de faux chiffres) */}
+      {/* PREUVE — témoignages, rotation lente, plusieurs voix */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>
@@ -408,24 +497,9 @@ export default function OctaveContent() {
               <p className="iq-eyebrow mb-5">{t('Ils vivent avec Octave', 'They live with Octave')}</p>
             </div>
           </FadeInOnScroll>
-          <div className="grid gap-6 md:grid-cols-2">
-            {TESTIMONIALS.map((tm, i) => (
-              <FadeInOnScroll key={i} delay={Math.min(i * 0.1, 0.2)}>
-                <figure className="h-full rounded-2xl border border-white/5 bg-white/[0.015] p-7">
-                  <Quote size={22} strokeWidth={1.5} className="text-or/60 mb-4" aria-hidden />
-                  <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-[18px] leading-relaxed">
-                    {locale === 'fr' ? tm.fr : tm.en}
-                  </blockquote>
-                  <figcaption className="mt-5 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
-                    {locale === 'fr' ? tm.who.fr : tm.who.en}
-                  </figcaption>
-                </figure>
-              </FadeInOnScroll>
-            ))}
-          </div>
-          <p className="text-center text-foreground-faint text-[12px] mt-6">
-            {t('Avis d’exemple, remplacés par de vrais témoignages au lancement.', 'Sample reviews, replaced by real testimonials at launch.')}
-          </p>
+          <FadeInOnScroll delay={0.1}>
+            <TestimonialRotator items={TESTIMONIALS} />
+          </FadeInOnScroll>
         </div>
       </section>
 

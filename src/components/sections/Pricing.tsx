@@ -172,8 +172,8 @@ export default function Pricing() {
           </p>
           <p className="mt-8 font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
             {locale === "fr"
-              ? "« Le prix d’une bonne bouteille, pour boire juste toute l’année. »"
-              : '"The price of one fine bottle, to drink right all year."'}
+              ? "« Pour le prix d’une belle bouteille, un sommelier qui vous accorde, soir après soir. »"
+              : '"For the price of one fine bottle, a sommelier who pairs for you, night after night."'}
           </p>
         </div>
       </FadeInOnScroll>
