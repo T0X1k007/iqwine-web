@@ -27,14 +27,14 @@ export const PLANS: MarketingPlan[] = [
   {
     id: "standard",
     priceMonthlyCents: 1495,
-    priceYearlyCents: 14950,
+    priceYearlyCents: 14900,
     includedUsers: 1,
     monthlyRecommendations: 50,
   },
   {
     id: "pro",
     priceMonthlyCents: 2995,
-    priceYearlyCents: 29950,
+    priceYearlyCents: 29900,
     includedUsers: 2,
     monthlyRecommendations: 110,
     highlight: true,
@@ -42,7 +42,7 @@ export const PLANS: MarketingPlan[] = [
   {
     id: "famille",
     priceMonthlyCents: 5995,
-    priceYearlyCents: 59500,
+    priceYearlyCents: 59900,
     includedUsers: 4,
     monthlyRecommendations: 200,
   },

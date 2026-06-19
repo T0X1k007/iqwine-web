@@ -121,13 +121,16 @@ export default function Pricing() {
               role="tab"
               aria-selected={billingPeriod === "yearly"}
               onClick={() => setBillingPeriod("yearly")}
-              className={`px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
+              className={`relative px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
                 billingPeriod === "yearly"
                   ? "bg-or text-on-gold font-medium"
                   : "text-foreground-dim hover:text-foreground"
               }`}
             >
               {t("Annuel", "Yearly")}
+              <span className="absolute -top-3 -right-2 rounded-full bg-[var(--color-wine-rouge)] px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white shadow-md">
+                {t("Promo", "Sale")}
+              </span>
             </button>
           </div>
           <p className="font-[family-name:var(--font-display)] italic text-or text-base">
@@ -232,13 +235,14 @@ function PlanCard({
       <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-1.5">
         {isYearly ? t("/ an", "/ year") : t("/ mois", "/ month")}
       </p>
-      <p className="iq-small text-foreground-dim mb-5">
-        {isYearly
-          ? t(
-              `≈ ${formatPriceCad(Math.round(plan.priceYearlyCents / 12), locale)} $ par mois, facturé annuellement`,
-              `≈ $${formatPriceCad(Math.round(plan.priceYearlyCents / 12), locale)} a month, billed yearly`,
-            )
-          : t("Facturé chaque mois.", "Billed each month.")}
+      <p className="iq-small mb-5">
+        {isYearly ? (
+          <span className="text-or font-medium">
+            {t("Rabais équivalent à 2 mois gratuits.", "A discount worth 2 free months.")}
+          </span>
+        ) : (
+          <span className="text-foreground-dim">{t("Facturé chaque mois.", "Billed each month.")}</span>
+        )}
       </p>
 
       {/* Ce qui est inclus — recommandations IA + utilisateurs (jamais tokens) */}

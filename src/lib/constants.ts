@@ -22,18 +22,18 @@ export const APP_SIGNUP_URL =
 // ─── Navigation V5 (ancres existantes après condensation) ───
 const NAV_LINKS_MAP = {
   en: [
-    { label: 'Pairing', href: '#demo' },
-    { label: 'AI', href: '#ai' },
-    { label: 'Cellar', href: '#cave-web' },
-    { label: 'Restaurant', href: '#trois-moments' },
-    { label: 'Pricing', href: '#tarifs' },
+    { label: 'Pairing', href: '/#demo' },
+    { label: 'AI', href: '/#ai' },
+    { label: 'Cellar', href: '/#cave-web' },
+    { label: 'Restaurant', href: '/#trois-moments' },
+    { label: 'Pricing', href: '/#tarifs' },
   ],
   fr: [
-    { label: 'Accord', href: '#demo' },
-    { label: 'IA', href: '#ai' },
-    { label: 'Cave', href: '#cave-web' },
-    { label: 'Restaurant', href: '#trois-moments' },
-    { label: 'Tarifs', href: '#tarifs' },
+    { label: 'Accord', href: '/#demo' },
+    { label: 'IA', href: '/#ai' },
+    { label: 'Cave', href: '/#cave-web' },
+    { label: 'Restaurant', href: '/#trois-moments' },
+    { label: 'Tarifs', href: '/#tarifs' },
   ],
 } as const;
 

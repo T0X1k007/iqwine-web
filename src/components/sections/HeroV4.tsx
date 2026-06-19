@@ -3,7 +3,7 @@
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import HeroVisual from '@/components/sections/HeroVisual';
+import HeroDemo from '@/components/sections/HeroDemo';
 import HeroTrustBar from '@/components/sections/HeroTrustBar';
 import { useLocale } from '@/lib/i18n';
 import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
@@ -85,7 +85,7 @@ export default function HeroV4() {
               l'émotion. Vraie photo en Phase 7. */}
           <div className="lg:col-span-5 flex flex-col items-center mt-8 lg:mt-0">
             <FadeInOnScroll delay={0.3} direction="left" className="w-full">
-              <HeroVisual />
+              <HeroDemo />
             </FadeInOnScroll>
 
             {/* Citation, italique éditoriale sous le mockup (réplique iQForge) */}
