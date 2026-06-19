@@ -42,7 +42,7 @@ export const PLANS: MarketingPlan[] = [
   {
     id: "famille",
     priceMonthlyCents: 5995,
-    priceYearlyCents: 59900,
+    priceYearlyCents: 59500,
     includedUsers: 4,
     monthlyRecommendations: 200,
   },

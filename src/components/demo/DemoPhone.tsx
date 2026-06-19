@@ -59,8 +59,9 @@ export default function DemoPhone({
   const isCave = card.source === 'cave';
   const photo = WINE_PHOTOS[card.producer];
 
-  // Fenêtre de dégustation : position du marqueur 0→1 (Jeune · Apogée · Déclin).
-  const stage = card.atPeak ? 0.62 : isCave ? 0.45 : 0.28;
+  // Fenêtre de dégustation (années, comme l'app) : marqueur à l'apogée.
+  const span = Math.max(1, card.windowTo - card.windowFrom);
+  const stage = Math.min(0.92, Math.max(0.08, (card.windowPeak - card.windowFrom) / span));
 
   return (
     <div className="mx-auto w-full max-w-[350px]">
@@ -168,10 +169,12 @@ export default function DemoPhone({
               <p className="font-mono text-[9px] tracking-[0.18em] uppercase text-foreground-faint mb-2">
                 {t('Fenêtre de dégustation', 'Drinking window')}
               </p>
-              <div className="flex items-center justify-between font-mono text-[8px] tracking-[0.12em] uppercase text-foreground-faint">
-                <span>{t('Jeune', 'Young')}</span>
-                <span className="text-or">{t('Apogée', 'Peak')}</span>
-                <span>{t('Déclin', 'Decline')}</span>
+              <div className="flex items-center justify-between font-mono text-[9px] tracking-[0.1em] uppercase text-foreground-faint tabular-nums">
+                <span>{card.windowFrom}</span>
+                <span className="text-or font-medium">
+                  {t('Apogée', 'Peak')} {card.windowPeak}
+                </span>
+                <span>{card.windowTo}</span>
               </div>
               <div className="relative mt-1.5 h-1.5 rounded-full bg-[var(--color-foreground)]/10">
                 <span
