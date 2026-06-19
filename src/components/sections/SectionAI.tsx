@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import {
   motion,
   AnimatePresence,
@@ -599,6 +600,13 @@ export default function SectionAI() {
                 ? 'Vos bouteilles lues, votre palais compris. Demandez — trois propositions, et pourquoi.'
                 : 'Your bottles read, your palate understood. Just ask — three picks, and why.'}
             </p>
+            <Link
+              href="/octave"
+              className="group mt-7 inline-flex items-center gap-1.5 text-or hover:text-or/80 font-[family-name:var(--font-display)] italic text-lg transition-colors"
+            >
+              {locale === 'fr' ? 'Rencontrez Octave' : 'Meet Octave'}
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+            </Link>
           </FadeInOnScroll>
         </div>
 
