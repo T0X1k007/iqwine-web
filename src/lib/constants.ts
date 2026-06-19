@@ -19,16 +19,6 @@ export const APP_SIGNUP_URL =
  * dégustation, millésime, apogée, plateau, finale, élevage.
  */
 
-// ─── Eyebrows (mono uppercase, ouvre chaque section) ───
-const EYEBROWS_MAP = {
-  en: {
-    beta: 'Free trial · Start today',
-  },
-  fr: {
-    beta: 'Essai gratuit · Commencez aujourd\'hui',
-  },
-};
-
 // ─── Navigation V5 (ancres existantes après condensation) ───
 const NAV_LINKS_MAP = {
   en: [
@@ -108,41 +98,10 @@ const HERO_MAP = {
   },
 };
 
-// ─── Beta — Cercle des fondateurs avec FOMO subtil élégant ───
-const BETA_MAP = {
-  en: {
-    overline: 'Start today',
-    title: 'Start tonight. No card.',
-    description:
-      'Try iQWine free for 14 days — no credit card. Prefer a guided start? Request founder priority access below; it never blocks your trial.',
-    note: 'Founder priority access · Optional',
-    detail:
-      'Founders get a private onboarding and shape what comes next. Optional — your free trial starts in one click.',
-  },
-  fr: {
-    overline: 'Commencez aujourd\'hui',
-    title: 'Commencez ce soir. Sans carte.',
-    description:
-      'Essayez iQWine gratuitement 14 jours — sans carte. Vous préférez être accompagné ? Demandez l\'accès prioritaire fondateurs ci-dessous ; il ne bloque jamais votre essai.',
-    note: 'Accès prioritaire fondateurs · Optionnel',
-    detail:
-      'Les fondateurs reçoivent un onboarding privé et façonnent la suite. Optionnel — votre essai gratuit démarre en un clic.',
-  },
-};
-
-// Conservé pour rétrocompat (ancien form, plus utilisé)
-export const MSP_SIZES = ['1-50', '51-200', '201-500', '501-1500', '1500+'];
-
 // ─── Accessor functions ───
-export function getEyebrows(locale: Locale) {
-  return EYEBROWS_MAP[locale];
-}
 export function getNavLinks(locale: Locale) {
   return NAV_LINKS_MAP[locale];
 }
 export function getHero(locale: Locale) {
   return HERO_MAP[locale];
-}
-export function getBeta(locale: Locale) {
-  return BETA_MAP[locale];
 }

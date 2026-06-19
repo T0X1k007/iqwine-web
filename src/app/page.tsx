@@ -15,7 +15,6 @@ const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWe
 const SectionConfiance = dynamic(() => import('@/components/sections/SectionConfiance'));
 const Pricing = dynamic(() => import('@/components/sections/Pricing'));
 const SectionFaq = dynamic(() => import('@/components/sections/SectionFaq'));
-const VagueFondateurs = dynamic(() => import('@/components/sections/VagueFondateurs'));
 const FinalCta = dynamic(() => import('@/components/sections/FinalCta'));
 const StickyCTA = dynamic(() => import('@/components/ui/StickyCTA'));
 const ScrollDepthTracker = dynamic(() => import('@/components/analytics/ScrollDepthTracker'));
@@ -34,7 +33,6 @@ export default function Home() {
         <SectionConfiance />
         <Pricing />
         <SectionFaq />
-        <VagueFondateurs />
         <FinalCta />
       </main>
       <StickyCTA />
