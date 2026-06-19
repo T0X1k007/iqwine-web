@@ -285,9 +285,11 @@
 @layer utilities {
   .iq-hero {
     font-family: var(--font-display);
-    font-size: clamp(44px, 7.2vw, 100px);
+    /* Phase 7 fit — réduit pour que tout le hero tienne dans le 1er frame
+       (titre 3 lignes ne déborde plus sous le menu). Était clamp(44,7.2vw,100). */
+    font-size: clamp(32px, 4.6vw, 68px);
     font-weight: 500;
-    line-height: 1.0;
+    line-height: 1.02;
     letter-spacing: -0.025em;
   }
   .iq-display {

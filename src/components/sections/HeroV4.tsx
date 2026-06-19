@@ -32,7 +32,7 @@ export default function HeroV4() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90dvh] flex flex-col justify-center overflow-hidden pt-28 pb-14 lg:pt-36 lg:pb-20"
+      className="relative min-h-[88dvh] lg:h-[100dvh] lg:min-h-[640px] flex flex-col justify-center overflow-hidden pt-24 pb-10 lg:pt-28 lg:pb-12"
     >
       {/* Phase 6 — plus de blob « spotlight » daté. Ambiance locale TRÈS
           subtile, au hero seul : un dégradé chaud diffus en haut (faible
@@ -94,7 +94,7 @@ export default function HeroV4() {
           {/* RIGHT — emplacement photographie « art de vivre » (Q19 option B).
               La démo vivante a migré en section 2 ; le hero s'ouvre sur
               l'émotion. Vraie photo en Phase 7. */}
-          <div className="lg:col-span-5 flex flex-col items-center mt-16 lg:mt-0">
+          <div className="lg:col-span-5 flex flex-col items-center mt-8 lg:mt-0">
             <FadeInOnScroll delay={0.3} direction="left" className="w-full">
               <HeroVisual />
             </FadeInOnScroll>
@@ -112,7 +112,7 @@ export default function HeroV4() {
 
         {/* Cartouche de confiance — flush CTA « 14 jours » → bord droit de la démo */}
         <FadeInOnScroll delay={0.7}>
-          <div className="mt-12 lg:mt-14">
+          <div className="mt-7 lg:mt-8">
             <HeroTrustBar />
           </div>
         </FadeInOnScroll>
