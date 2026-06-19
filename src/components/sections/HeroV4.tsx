@@ -46,27 +46,16 @@ export default function HeroV4() {
         <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12 items-center">
           {/* LEFT — bloc typographique éditorial */}
           <div className="lg:col-span-7 text-center lg:text-left">
-            {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide. */}
-            <div className="iq-eyebrow mb-6">{hero.badge}</div>
-
+            {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide.
+                Phase 7 — hero épuré : eyebrow « SOMMELIER IA · CAVE · … » ET la ligne
+                d'ancrage « Conçu au Québec · … » retirées (redondantes, alourdissaient
+                le 1er frame). Titre = 1er élément. */}
             <h1 className="iq-hero italic">
               <span className="block text-foreground">{content.headlineTop}</span>
               <span className="block text-or">{content.headlineBottom}</span>
             </h1>
 
-            <p className="iq-lead mt-6 max-w-xl lg:mx-0 mx-auto">
-              {content.subheadline}
-            </p>
-
-            <FadeInOnScroll delay={0.4}>
-              <div className="mt-8 flex items-center justify-center lg:justify-start gap-4 max-w-xl lg:mx-0 mx-auto">
-                <div className="hidden lg:block h-px w-12 bg-or/30" />
-                <p className="font-[family-name:var(--font-display)] italic text-or text-base sm:text-lg tracking-tight">
-                  {content.anchor}
-                </p>
-                <div className="hidden lg:block h-px flex-1 bg-or/15" />
-              </div>
-            </FadeInOnScroll>
+            <p className="iq-lead mt-6 max-w-xl lg:mx-0 mx-auto">{content.subheadline}</p>
 
             <FadeInOnScroll delay={0.55}>
               <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">

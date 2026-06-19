@@ -32,18 +32,18 @@ const EYEBROWS_MAP = {
 // ─── Navigation V5 (ancres existantes après condensation) ───
 const NAV_LINKS_MAP = {
   en: [
-    { label: 'Demo', href: '#demo' },
+    { label: 'Pairing', href: '#demo' },
     { label: 'AI', href: '#ai' },
     { label: 'Cellar', href: '#cave-web' },
-    { label: 'Pricing', href: '#pricing' },
     { label: 'Restaurant', href: '#trois-moments' },
+    { label: 'Pricing', href: '#pricing' },
   ],
   fr: [
-    { label: 'Démo', href: '#demo' },
+    { label: 'Accord', href: '#demo' },
     { label: 'IA', href: '#ai' },
     { label: 'Cave', href: '#cave-web' },
-    { label: 'Tarifs', href: '#pricing' },
     { label: 'Restaurant', href: '#trois-moments' },
+    { label: 'Tarifs', href: '#pricing' },
   ],
 } as const;
 
