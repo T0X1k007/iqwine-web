@@ -1,12 +1,14 @@
 'use client';
 
-import { ArrowRight, Wine, MessageCircle, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Wine, MessageCircle, Sparkles, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Pricing from '@/components/sections/Pricing';
 import SectionFaq from '@/components/sections/SectionFaq';
 import { useLocale } from '@/lib/i18n';
 import { APP_SIGNUP_URL } from '@/lib/constants';
+import { PLANS, formatPriceCad } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -63,9 +65,62 @@ const BENEFITS: { fr: string; en: string }[] = [
   { fr: 'Obtenez l’avis d’un sommelier à tout moment.', en: 'Get a sommelier’s take, anytime.' },
 ];
 
+const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string, string] }[] = [
+  {
+    icon: CalendarClock,
+    fr: ['Essai gratuit 14 jours', 'Découvrez Octave avant tout choix.'],
+    en: ['Free trial, 14 days', 'Discover Octave before you choose.'],
+  },
+  {
+    icon: XCircle,
+    fr: ['Résiliable en tout temps', 'Aucun engagement, aucune pénalité.'],
+    en: ['Cancel anytime', 'No commitment, no penalty.'],
+  },
+  {
+    icon: Lock,
+    fr: ['Données privées', 'Hébergées au Canada, jamais revendues.'],
+    en: ['Private data', 'Hosted in Canada, never resold.'],
+  },
+  {
+    icon: ShieldCheck,
+    fr: ['Conçu au Québec', 'Pensé pour le marché de la SAQ.'],
+    en: ['Built in Québec', 'Made for the SAQ market.'],
+  },
+];
+
+// Comparatif : lignes qualitatives (✓ / —). Prix, recommandations et utilisateurs
+// sont calculés depuis PLANS (source unique). Jamais de tokens/crédits.
+const COMPARE_FEATURES: { label: { fr: string; en: string }; values: [boolean, boolean, boolean] }[] = [
+  { label: { fr: 'Sommelier Octave', en: 'Octave sommelier' }, values: [true, true, true] },
+  { label: { fr: 'Votre cave', en: 'Your cellar' }, values: [true, true, true] },
+  { label: { fr: 'Scan d’étiquette', en: 'Label scan' }, values: [true, true, true] },
+  { label: { fr: 'Mode restaurant', en: 'Restaurant mode' }, values: [true, true, true] },
+  { label: { fr: 'Disponibilités SAQ en direct', en: 'Live SAQ availability' }, values: [true, true, true] },
+  { label: { fr: 'Carnet de dégustation', en: 'Tasting journal' }, values: [true, true, true] },
+  { label: { fr: 'Cave partagée', en: 'Shared cellar' }, values: [false, false, true] },
+];
+
+const PLAN_NAMES: Record<string, string> = { standard: 'Standard', pro: 'Pro', famille: 'Famille' };
+
 export default function TarifsContent() {
   const { locale } = useLocale();
   const t: T = (fr, en) => (locale === 'fr' ? fr : en);
+
+  // Lignes chiffrées du comparatif, lues depuis PLANS (jamais de tokens).
+  const numericRows = [
+    {
+      label: t('Prix par mois', 'Price per month'),
+      cells: PLANS.map((p) => `${formatPriceCad(p.priceMonthlyCents, locale)} $`),
+    },
+    {
+      label: t('Recommandations d’Octave / mois', 'Octave recommendations / mo'),
+      cells: PLANS.map((p) => p.monthlyRecommendations.toString()),
+    },
+    {
+      label: t('Utilisateurs inclus', 'Users included'),
+      cells: PLANS.map((p) => p.includedUsers.toString()),
+    },
+  ];
 
   return (
     <main className="overflow-hidden">
@@ -128,6 +183,121 @@ export default function TarifsContent() {
 
       {/* LES PRIX (réutilise la section Pricing : plans + toggle annuel) */}
       <Pricing />
+
+      {/* RÉASSURANCE — près des prix */}
+      <section className="px-6 pt-4 pb-12 lg:pb-16">
+        <div className="mx-auto max-w-5xl grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {REASSURANCE.map((r, i) => {
+            const [title, body] = locale === 'fr' ? r.fr : r.en;
+            const Icon = r.icon;
+            return (
+              <FadeInOnScroll key={i} delay={Math.min(i * 0.06, 0.24)}>
+                <div className="h-full rounded-xl border border-white/5 bg-white/[0.015] p-5">
+                  <Icon size={20} strokeWidth={1.6} className="text-or mb-3" aria-hidden />
+                  <h3 className="font-[family-name:var(--font-display)] italic text-[17px] text-foreground">{title}</h3>
+                  <p className="text-muted-foreground text-[13px] leading-relaxed mt-1">{body}</p>
+                </div>
+              </FadeInOnScroll>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* COMPARATIF DES PLANS */}
+      <section className="px-6 py-16 lg:py-24 border-t border-white/5">
+        <div className="mx-auto max-w-4xl">
+          <FadeInOnScroll>
+            <div className="text-center mb-12">
+              <p className="iq-eyebrow mb-5">{t('Comparer', 'Compare')}</p>
+              <h2 className="iq-h1 italic max-w-2xl mx-auto">
+                {t('Tout est inclus. La différence, c’est le volume.', 'Everything is included. The difference is volume.')}
+              </h2>
+            </div>
+          </FadeInOnScroll>
+          <FadeInOnScroll delay={0.1}>
+            <div className="overflow-x-auto rounded-2xl border border-white/10">
+              <table className="w-full min-w-[480px] text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="p-4 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint font-normal">
+                      {t('Fonctionnalité', 'Feature')}
+                    </th>
+                    {PLANS.map((p) => (
+                      <th
+                        key={p.id}
+                        className={`p-4 text-center font-[family-name:var(--font-display)] italic text-lg ${p.highlight ? 'text-or' : 'text-foreground'}`}
+                      >
+                        {PLAN_NAMES[p.id]}
+                        {p.highlight && (
+                          <span className="block font-mono not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
+                            {t('Populaire', 'Popular')}
+                          </span>
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {numericRows.map((row, i) => (
+                    <tr key={`n${i}`} className="border-b border-white/5">
+                      <td className="p-4 text-[14px] text-muted-foreground">{row.label}</td>
+                      {row.cells.map((c, j) => (
+                        <td
+                          key={j}
+                          className={`p-4 text-center text-[15px] tabular-nums ${PLANS[j]?.highlight ? 'text-or bg-or/[0.04]' : 'text-foreground'}`}
+                        >
+                          {c}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  {COMPARE_FEATURES.map((row, i) => (
+                    <tr key={`f${i}`} className="border-b border-white/5 last:border-0">
+                      <td className="p-4 text-[14px] text-muted-foreground">
+                        {locale === 'fr' ? row.label.fr : row.label.en}
+                      </td>
+                      {row.values.map((v, j) => (
+                        <td key={j} className={`p-4 text-center ${PLANS[j]?.highlight ? 'bg-or/[0.04]' : ''}`}>
+                          {v ? (
+                            <Check size={17} strokeWidth={2} className="inline text-or" aria-label={t('Inclus', 'Included')} />
+                          ) : (
+                            <Minus size={15} className="inline text-foreground-faint/50" aria-label={t('Non inclus', 'Not included')} />
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </FadeInOnScroll>
+        </div>
+      </section>
+
+      {/* LIEN VERS /octave — comprendre la puissance d'Octave au moment du choix */}
+      <section className="px-6 pb-8">
+        <FadeInOnScroll>
+          <div className="mx-auto max-w-4xl rounded-2xl border border-or/15 bg-or/[0.03] p-7 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+            <div>
+              <h3 className="font-[family-name:var(--font-display)] italic text-xl text-foreground">
+                {t('Pas encore convaincu ?', 'Not convinced yet?')}
+              </h3>
+              <p className="text-muted-foreground text-[15px] mt-1">
+                {t(
+                  'Voyez ce qu’Octave répond vraiment, et pourquoi il n’est pas une IA générique.',
+                  'See what Octave actually answers, and why it isn’t a generic AI.',
+                )}
+              </p>
+            </div>
+            <Link href="/octave" className="shrink-0">
+              <Button variant="secondary" size="lg">
+                {t('Découvrir Octave', 'Discover Octave')}
+                <ArrowRight size={16} strokeWidth={1.75} />
+              </Button>
+            </Link>
+          </div>
+        </FadeInOnScroll>
+      </section>
 
       {/* COMMENT ÇA FONCTIONNE */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">

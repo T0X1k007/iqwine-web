@@ -45,7 +45,15 @@ function BottleSilhouette({ color }: { color: DemoCard['color'] }) {
   );
 }
 
-export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Locale }) {
+export default function DemoPhone({
+  card,
+  locale,
+  caption,
+}: {
+  card: DemoCard;
+  locale: Locale;
+  caption?: string;
+}) {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
   const [imgError, setImgError] = useState(false);
   const isCave = card.source === 'cave';
@@ -57,7 +65,7 @@ export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Lo
   return (
     <div className="mx-auto w-full max-w-[350px]">
       <p className="mb-4 text-center font-mono text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
-        {isCave ? t('Votre cave', 'Your cellar') : t('À la SAQ', 'At the SAQ')}
+        {caption ?? (isCave ? t('Votre cave', 'Your cellar') : t('À la SAQ', 'At the SAQ'))}
       </p>
 
       {/* Cadre iPhone (bezel sombre) — profondeur */}
