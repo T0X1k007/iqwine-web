@@ -30,8 +30,8 @@ const POSITIONS: { fr: [string, string]; en: [string, string]; highlight?: boole
     highlight: true,
   },
   {
-    fr: ['Famille', 'Plusieurs utilisateurs, plusieurs palais, une cave partagée.'],
-    en: ['Famille', 'Several users, several palates, one shared cellar.'],
+    fr: ['Passionné', 'Plusieurs utilisateurs, plusieurs palais, une cave partagée.'],
+    en: ['Passionné', 'Several users, several palates, one shared cellar.'],
   },
 ];
 
@@ -97,7 +97,7 @@ const COMPARE_FEATURES: { label: { fr: string; en: string }; values: [boolean, b
   { label: { fr: 'Cave partagée', en: 'Shared cellar' }, values: [false, false, true] },
 ];
 
-const PLAN_NAMES: Record<string, string> = { standard: 'Standard', pro: 'Pro', famille: 'Famille' };
+const PLAN_NAMES: Record<string, string> = { standard: 'Standard', pro: 'Pro', famille: 'Passionné' };
 
 export default function TarifsContent() {
   const { locale } = useLocale();

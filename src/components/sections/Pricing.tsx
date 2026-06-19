@@ -55,7 +55,7 @@ const COPY: Record<PlanId, PlanCopy> = {
     ],
   },
   famille: {
-    name: "Famille",
+    name: "Passionné",
     tagline: {
       fr: "Plusieurs profils, plusieurs palais, une cave partagée.",
       en: "Several profiles, several palates, a shared cellar.",
