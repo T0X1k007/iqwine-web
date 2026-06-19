@@ -7,7 +7,7 @@ import Input from '@/components/ui/Input';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * ContactForm — formulaire « Contactez-nous / Démonstration / Partenariat ».
+ * ContactForm, formulaire « Contactez-nous / Démonstration / Partenariat ».
  *
  * POST vers /api/contact (route locale) qui forward vers l'app cellier-vin.
  * Aucune adresse courriel exposée. Honeypot anti-bot, validation client +
@@ -32,7 +32,7 @@ export default function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [website, setWebsite] = useState(''); // honeypot — doit rester vide
+  const [website, setWebsite] = useState(''); // honeypot, doit rester vide
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -86,7 +86,7 @@ export default function ContactForm() {
           <Check className="w-6 h-6 text-or" strokeWidth={1.75} />
         </span>
         <p className="font-[family-name:var(--font-display)] text-2xl text-foreground">
-          {t('Merci — message reçu.', 'Thank you — message received.')}
+          {t('Merci, message reçu.', 'Thank you, message received.')}
         </p>
         <p className="text-muted-foreground text-[15px] max-w-md">
           {t(
@@ -160,7 +160,7 @@ export default function ContactForm() {
         />
       </div>
 
-      {/* Honeypot — masqué, doit rester vide */}
+      {/* Honeypot, masqué, doit rester vide */}
       <input
         type="text"
         tabIndex={-1}

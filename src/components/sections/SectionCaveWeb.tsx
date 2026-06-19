@@ -6,11 +6,11 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionCaveWeb — « Votre cave, enfin vivante »
+ * SectionCaveWeb, « Votre cave, enfin vivante »
  *
  * V5-quinquies Eric : capture desktop réelle (08-cellier-desktop.png
  * 2974×1516 HD retina). Sidebar "La Cave Bigras" + grid 3 cols
- * cards bouteilles. Plus de mobile iPhone — le desktop vend la
+ * cards bouteilles. Plus de mobile iPhone, le desktop vend la
  * puissance, l'app web complète.
  *
  * Layout : titre LEFT + capture desktop landscape RIGHT (lg+), stack
@@ -24,7 +24,7 @@ export default function SectionCaveWeb() {
   return (
     <SectionWrapper id="cave-web" tone="light" withDivider rhythm="standard">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 max-w-7xl mx-auto items-center">
-        {/* LEFT — typo */}
+        {/* LEFT, typo */}
         <div className="lg:col-span-4">
           <FadeInOnScroll>
             <div className="iq-eyebrow mb-6">
@@ -37,8 +37,8 @@ export default function SectionCaveWeb() {
             </h2>
             <p className="iq-lead mb-6">
               {locale === 'fr'
-                ? 'Chaque bouteille avec sa photo, son millésime, son apogée. Plus une liste — un cellier qui respire.'
-                : 'Each bottle with its photo, its vintage, its drinking window. No longer a list — a cellar that breathes.'}
+                ? 'Chaque bouteille avec sa photo, son millésime, son apogée. Plus une liste, un cellier qui respire.'
+                : 'Each bottle with its photo, its vintage, its drinking window. No longer a list, a cellar that breathes.'}
             </p>
             <div className="flex items-center gap-4 max-w-md">
               <div className="h-px w-12 bg-or/30" />
@@ -51,13 +51,13 @@ export default function SectionCaveWeb() {
           </FadeInOnScroll>
         </div>
 
-        {/* RIGHT — capture desktop landscape (cockpit / mission control) */}
+        {/* RIGHT, capture desktop landscape (cockpit / mission control) */}
         <div className="lg:col-span-8">
           <FadeInOnScroll delay={0.2} direction="left">
             <div
               className="relative rounded-xl overflow-hidden border border-or/15"
               style={{
-                // Phase 6 — ombre adoucie en charbon chaud pour la section
+                // Phase 6, ombre adoucie en charbon chaud pour la section
                 // claire (le noir pur écrasait l'ivoire).
                 boxShadow:
                   '0 28px 80px rgba(33, 27, 23, 0.22), 0 6px 20px rgba(33, 27, 23, 0.12)',
@@ -76,8 +76,8 @@ export default function SectionCaveWeb() {
                 src="/screenshots/08-cellier-desktop.png"
                 alt={
                   locale === 'fr'
-                    ? 'La cave Bigras — vue desktop complète avec sidebar et grid bouteilles'
-                    : 'Bigras cellar — full desktop view with sidebar and bottles grid'
+                    ? 'La cave Bigras, vue desktop complète avec sidebar et grid bouteilles'
+                    : 'Bigras cellar, full desktop view with sidebar and bottles grid'
                 }
                 width={1487}
                 height={758}

@@ -7,7 +7,7 @@ import { FleurDeLys, SaqLive } from '@/components/ui/brand-icons';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionConfiance — preuve sociale + confiance (Phase 8).
+ * SectionConfiance, preuve sociale + confiance (Phase 8).
  *
  * Registre PLAISIR, jamais la peur : trois témoignages (placeholders
  * CLAIREMENT identifiés comme exemples, à remplacer par de vrais avis) +
@@ -17,8 +17,8 @@ import { useLocale } from '@/lib/i18n';
  *
  * Tonalité SOMBRE (chaude, jamais anxiogène), insérée entre CaveWeb (clair) et
  * Pricing (clair) : rétablit l'alternance Cave -> Confiance(sombre) -> Pricing
- * au seuil de la décision. (L'alternance stricte parfaite est impossible — la
- * section IA doit rester sombre à une parité contraire au hero/clôture — ce
+ * au seuil de la décision. (L'alternance stricte parfaite est impossible, la
+ * section IA doit rester sombre à une parité contraire au hero/clôture, ce
  * placement ramène le rythme à un seul écart assumé, la paire TroisMoments+IA.)
  */
 
@@ -29,7 +29,7 @@ const TESTIMONIALS: Testimonial[] = [
     quoteFr:
       'Je demande quoi ouvrir ce soir, et la réponse tombe juste, depuis ma propre cave.',
     quoteEn:
-      'I ask what to open tonight, and the answer is spot on — from my own cellar.',
+      'I ask what to open tonight, and the answer is spot on, from my own cellar.',
     name: 'Éric',
     city: 'Blainville, Québec',
   },
@@ -81,7 +81,7 @@ export default function SectionConfiance() {
         </div>
       </FadeInOnScroll>
 
-      {/* Témoignages — EXEMPLES, à remplacer par de vrais avis au lancement. */}
+      {/* Témoignages, EXEMPLES, à remplacer par de vrais avis au lancement. */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {TESTIMONIALS.map((item, i) => (
           <FadeInOnScroll key={item.name} delay={0.12 + i * 0.1} className="h-full">
@@ -103,12 +103,12 @@ export default function SectionConfiance() {
 
       <p className="mt-6 text-center font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
         {t(
-          'Avis d’exemple — remplacés par de vrais témoignages au lancement',
-          'Sample reviews — replaced by real testimonials at launch',
+          'Avis d’exemple, remplacés par de vrais témoignages au lancement',
+          'Sample reviews, replaced by real testimonials at launch',
         )}
       </p>
 
-      {/* Badges FACTUELS — sobres, registre plaisir, aucun chiffre. */}
+      {/* Badges FACTUELS, sobres, registre plaisir, aucun chiffre. */}
       <FadeInOnScroll delay={0.2}>
         <div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
           {badges.map((b) => (

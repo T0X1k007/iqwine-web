@@ -6,7 +6,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionProof (#produit) — PREUVE HONNÊTE.
+ * SectionProof (#produit), PREUVE HONNÊTE.
  * Uniquement de vraies captures du produit (proof of usage = l'app réelle).
  * AUCUN faux témoignage, AUCUNE métrique inventée. Note de marque first-person
  * factuelle. Quand de vrais témoignages/validations sommeliers existeront, les
@@ -16,15 +16,15 @@ import { useLocale } from '@/lib/i18n';
 const SHOTS: { src: string; cap: { fr: string; en: string } }[] = [
   {
     src: '/screenshots/02-home-suggestions.png',
-    cap: { fr: 'Ce soir — 3 suggestions de votre cave', en: 'Tonight — 3 picks from your cellar' },
+    cap: { fr: 'Ce soir, 3 suggestions de votre cave', en: 'Tonight, 3 picks from your cellar' },
   },
   {
     src: '/screenshots/03-menu-scan.png',
-    cap: { fr: 'Au restaurant — la carte accordée à votre plat', en: 'At the restaurant — the list paired to your dish' },
+    cap: { fr: 'Au restaurant, la carte accordée à votre plat', en: 'At the restaurant, the list paired to your dish' },
   },
   {
     src: '/screenshots/01-fiche-vin.png',
-    cap: { fr: 'Scan d’étiquette — la fiche selon votre palais', en: 'Label scan — the profile, by your palate' },
+    cap: { fr: 'Scan d’étiquette, la fiche selon votre palais', en: 'Label scan, the profile, by your palate' },
   },
 ];
 
@@ -71,7 +71,7 @@ export default function SectionProof() {
       </FadeInOnScroll>
 
       {/*
-        EMPLACEMENT TÉMOIGNAGES RÉELS — à activer UNIQUEMENT avec de vrais
+        EMPLACEMENT TÉMOIGNAGES RÉELS, à activer UNIQUEMENT avec de vrais
         verbatims (nom + consentement). Aucune fausse preuve sociale.
         <ProofQuotes quotes={[{ name, role, quote }]} />
       */}

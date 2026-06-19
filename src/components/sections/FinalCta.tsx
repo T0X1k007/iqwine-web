@@ -8,14 +8,14 @@ import { APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * FinalCta — clôture plein écran, dernier point de conversion. Un seul bouton,
+ * FinalCta, clôture plein écran, dernier point de conversion. Un seul bouton,
  * une réassurance. Halo or sur noir (CSS pur, pas de framer).
  */
 export default function FinalCta() {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
-  // Phase 6 (discipline de l'or) — halo or décoratif retiré ; la clôture
+  // Phase 6 (discipline de l'or), halo or décoratif retiré ; la clôture
   // repose sur la typographie et le CTA, pas sur un glow.
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
@@ -36,7 +36,7 @@ export default function FinalCta() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'final' })}
             >
               <Button variant="cta" size="lg">
-                {t('Commencer — 14 jours, sans carte', 'Start free — 14 days, no card')}
+                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>

@@ -5,7 +5,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionFaq (#faq) — lève les objections au point de décision (avant/avec le
+ * SectionFaq (#faq), lève les objections au point de décision (avant/avec le
  * pricing). Accordéon NATIF <details> : zéro JS, accessible, zéro coût perf.
  * Aucune fausse promesse ; réponses factuelles alignées sur le produit réel.
  */
@@ -42,8 +42,8 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
   {
     q: { fr: 'Dois-je saisir toute ma cave d’abord ?', en: 'Must I enter my whole cellar first?' },
     a: {
-      fr: 'Non. Commencez par un plat ou par la SAQ — ajoutez vos bouteilles quand vous voulez.',
-      en: 'No. Start from a dish or the SAQ — add your bottles whenever you like.',
+      fr: 'Non. Commencez par un plat ou par la SAQ, ajoutez vos bouteilles quand vous voulez.',
+      en: 'No. Start from a dish or the SAQ, add your bottles whenever you like.',
     },
   },
   {

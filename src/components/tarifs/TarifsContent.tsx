@@ -10,7 +10,7 @@ import { APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * /tarifs — page de DÉCISION. Aide le visiteur à choisir (positionnement par
+ * /tarifs, page de DÉCISION. Aide le visiteur à choisir (positionnement par
  * profil), puis les prix, le « comment ça marche », les bénéfices, la FAQ, les
  * plateformes, un CTA. Contenu 100 % original. Réutilise Pricing + SectionFaq.
  */
@@ -45,8 +45,8 @@ const STEPS: { icon: typeof Wine; fr: [string, string]; en: [string, string] }[]
   },
   {
     icon: MessageCircle,
-    fr: ['Demandez conseil à Octave', 'Le repas, le moment, l’envie — dites-lui, comme à un sommelier.'],
-    en: ['Ask Octave', 'The meal, the moment, the mood — just tell him, like a sommelier.'],
+    fr: ['Demandez conseil à Octave', 'Le repas, le moment, l’envie, dites-lui, comme à un sommelier.'],
+    en: ['Ask Octave', 'The meal, the moment, the mood, just tell him, like a sommelier.'],
   },
   {
     icon: Sparkles,
@@ -77,8 +77,8 @@ export default function TarifsContent() {
           <h1 className="iq-display italic">{t('Trouvez votre Octave.', 'Find your Octave.')}</h1>
           <p className="iq-lead mt-7 max-w-2xl mx-auto">
             {t(
-              'Chaque formule commence par 14 jours gratuits, sans carte. Vous découvrez Octave, puis vous choisissez — ou pas.',
-              'Every plan starts with 14 free days, no card. You discover Octave, then you choose — or not.',
+              'Chaque formule commence par 14 jours gratuits, sans carte. Vous découvrez Octave, puis vous choisissez, ou pas.',
+              'Every plan starts with 14 free days, no card. You discover Octave, then you choose, or not.',
             )}
           </p>
           <div className="mt-10 flex justify-center">
@@ -87,7 +87,7 @@ export default function TarifsContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-hero' })}
             >
               <Button variant="cta" size="lg">
-                {t('Débuter l’essai gratuit', 'Start the free trial')}
+                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
@@ -95,7 +95,7 @@ export default function TarifsContent() {
         </div>
       </section>
 
-      {/* LEQUEL EST POUR VOUS — positionnement par profil */}
+      {/* LEQUEL EST POUR VOUS, positionnement par profil */}
       <section className="px-6 py-16 lg:py-20 border-t border-white/5">
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>
@@ -163,7 +163,7 @@ export default function TarifsContent() {
         </div>
       </section>
 
-      {/* POURQUOI LES AMATEURS CHOISISSENT iQWINE — bénéfices */}
+      {/* POURQUOI LES AMATEURS CHOISISSENT iQWINE, bénéfices */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-3xl">
           <FadeInOnScroll>
@@ -214,7 +214,7 @@ export default function TarifsContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-final' })}
             >
               <Button variant="cta" size="lg">
-                {t('Débuter l’essai gratuit', 'Start the free trial')}
+                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>

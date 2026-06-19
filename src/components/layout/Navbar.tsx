@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
@@ -15,10 +15,18 @@ export default function Navbar() {
   const navLinks = getNavLinks(locale);
   const hero = getHero(locale);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const lastYRef = useRef(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 50);
+      // Disparaît au scroll vers le bas (passé l'en-tête), réapparaît au scroll vers le haut.
+      setHidden(y > 120 && y > lastYRef.current);
+      lastYRef.current = y;
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -30,7 +38,9 @@ export default function Navbar() {
           ? { backgroundColor: 'rgba(15, 10, 8, 0.88)' }
           : undefined
       }
-      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-colors duration-[240ms] ease-[cubic-bezier(.32,.72,0,1)] ${
+      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[transform,background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] ${
+        hidden && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
+      } ${
         scrolled
           ? 'backdrop-blur-[20px] backdrop-saturate-150 border-b border-border'
           : ''

@@ -14,7 +14,7 @@ import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * SectionAI — « L'atelier du sommelier IA » V5-ter
+ * SectionAI, « L'atelier du sommelier IA » V5-ter
  *
  * Direction Eric V5-ter (2026-05-20) :
  *   - Timing court ~4.5s total (utilisateur moderne scroll vite)
@@ -22,16 +22,16 @@ import type { Locale } from '@/lib/i18n';
  *     juste sélectionner. Per-bottle analysis tags (✓/✗), 3 rejetées
  *     s'estompent, 3 retenues convergent.
  *   - Micro-floating ultra subtil sur cartes finales (drift Y ±2px,
- *     6s ease) — vivant sans pulsation.
+ *     6s ease), vivant sans pulsation.
  *   - 70/30 luxe/AI : palette Cormorant + or + espresso conservée.
  *
  * 4 stages narrés (~4.5s total, joue UNE fois useInView once:true) :
  *
- *   0 (0.6s) — LECTURE : 6 silhouettes entrent staggered
- *   1 (1.6s) — ANALYSE : tags par bouteille (3 rejet, 3 keep) — l'IA pense
- *   2 (0.8s) — CONCENTRATION : 3 retenues convergent, fiche Brunello +
+ *   0 (0.6s), LECTURE : 6 silhouettes entrent staggered
+ *   1 (1.6s), ANALYSE : tags par bouteille (3 rejet, 3 keep), l'IA pense
+ *   2 (0.8s), CONCENTRATION : 3 retenues convergent, fiche Brunello +
  *              plat + accord hairline + checkmark
- *   3 (final) — TROIS BOUTEILLES : 3 cartes propositions + drift subtil
+ *   3 (final), TROIS BOUTEILLES : 3 cartes propositions + drift subtil
  *
  * prefers-reduced-motion → état final direct.
  *
@@ -46,7 +46,7 @@ const LOOP_HOLD_MS = 2800; // pause sur « trois pour ce soir » avant de rebouc
 type BottleVerdict = 'reject' | 'keep' | 'focus';
 
 // Fragments sommelier-intuitifs : ressentis brefs, partiels, pas
-// d'algorithme. "L'intelligence invisible" — pensée sommelier en train
+// d'algorithme. "L'intelligence invisible", pensée sommelier en train
 // d'évaluer. Eric V5-quater : moins système, plus intuition.
 const BOTTLES: Array<{
   x: number;
@@ -449,7 +449,7 @@ function PropositionCards({
       {PROPOSITIONS.map((p, i) => {
         const x = 30 + i * 155;
         const isCenter = i === 1;
-        // Micro-float ultra subtil — drift Y ±2px sur 6s, déphasé par card
+        // Micro-float ultra subtil, drift Y ±2px sur 6s, déphasé par card
         const floatAnim =
           !reduced && visible
             ? {
@@ -597,8 +597,8 @@ export default function SectionAI() {
             </h2>
             <p className="iq-lead">
               {locale === 'fr'
-                ? 'Vos bouteilles lues, votre palais compris. Demandez — trois propositions, et pourquoi.'
-                : 'Your bottles read, your palate understood. Just ask — three picks, and why.'}
+                ? 'Vos bouteilles lues, votre palais compris. Demandez, trois propositions, et pourquoi.'
+                : 'Your bottles read, your palate understood. Just ask, three picks, and why.'}
             </p>
             <Link
               href="/octave"
@@ -613,7 +613,7 @@ export default function SectionAI() {
         <div className="lg:col-span-7" ref={ref}>
           <FadeInOnScroll delay={0.15}>
             <div className="relative w-full overflow-hidden rounded-2xl border border-or/15 bg-card">
-              {/* Lumière chaude qui dérive lentement — sensation cave-vit subliminale */}
+              {/* Lumière chaude qui dérive lentement, sensation cave-vit subliminale */}
               <motion.div
                 aria-hidden
                 className="pointer-events-none absolute inset-0"
@@ -674,7 +674,7 @@ export default function SectionAI() {
                   strokeWidth="0.5"
                 />
 
-                {/* Poussière subliminale — sensation cave-vit ultra subtile (Eric V5-quater) */}
+                {/* Poussière subliminale, sensation cave-vit ultra subtile (Eric V5-quater) */}
                 {!reduced && (
                   <>
                     <motion.circle
@@ -719,7 +719,7 @@ export default function SectionAI() {
                   />
                 ))}
 
-                {/* Fragments sommelier-intuitifs pendant stage 1 — émergent puis s'estompent */}
+                {/* Fragments sommelier-intuitifs pendant stage 1, émergent puis s'estompent */}
                 {BOTTLES.map((b, i) => (
                   <AnalysisTag
                     key={`tag-${i}`}

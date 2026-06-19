@@ -3,7 +3,7 @@ import Logo from '@/components/ui/Logo';
 import { LEGAL_ENTITY } from '@/lib/legal-meta';
 
 /**
- * Footer iQWine — grande maison discrète, désormais structuré en colonnes
+ * Footer iQWine, grande maison discrète, désormais structuré en colonnes
  * (signal d'entreprise) sans perdre la signature éditoriale.
  *
  * Colonnes : Produit · Légal · Entreprise. Liens légaux RÉELS (plus de « # »),
@@ -32,7 +32,7 @@ export default function Footer() {
     <footer className="relative border-t border-border py-20">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-y-12 gap-x-8 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
-          {/* Bloc marque — lockup + signature + provenance */}
+          {/* Bloc marque, lockup + signature + provenance */}
           <div className="col-span-2 lg:col-span-1 flex flex-col gap-5">
             <div className="flex items-center gap-2.5">
               <Logo size={28} />
@@ -54,7 +54,7 @@ export default function Footer() {
           <FooterColumn title="Entreprise" links={ENTREPRISE} />
         </div>
 
-        {/* Bas de page — copyright */}
+        {/* Bas de page, copyright */}
         <div className="mt-16 pt-8 border-t border-border">
           <p className="font-mono text-[10px] tracking-[0.18em] text-foreground-faint">
             © {new Date().getFullYear()} iQWine · {LEGAL_ENTITY.legalName}

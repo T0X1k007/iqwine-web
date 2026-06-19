@@ -10,11 +10,11 @@ import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * Hero V4 — composition éditoriale 2 colonnes (lg+) / stack mobile.
+ * Hero V4, composition éditoriale 2 colonnes (lg+) / stack mobile.
  *
  * LEFT  : eyebrow + Cormorant H1 italic + sub + anchor + dual CTA + closer
  * RIGHT : iPhone avec capture fiche bouteille (placeholder en attendant
- *         Phase 2 — Eric capture via Chrome MCP avec ses credentials)
+ *         Phase 2, Eric capture via Chrome MCP avec ses credentials)
  *
  * Animations V4-bis :
  *   - Mount reveal staggered (CSS keyframes, zero JS observer)
@@ -34,7 +34,7 @@ export default function HeroV4() {
       id="hero"
       className="relative min-h-[88dvh] lg:h-[100dvh] lg:min-h-[640px] flex flex-col justify-center overflow-hidden pt-24 pb-10 lg:pt-28 lg:pb-12"
     >
-      {/* Phase 6 — plus de blob « spotlight » daté. Ambiance locale TRÈS
+      {/* Phase 6, plus de blob « spotlight » daté. Ambiance locale TRÈS
           subtile, au hero seul : un dégradé chaud diffus en haut (faible
           opacité) + une fine ligne or discrète. Jamais un halo de page. */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -44,10 +44,10 @@ export default function HeroV4() {
 
       <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12 items-center">
-          {/* LEFT — bloc typographique éditorial */}
+          {/* LEFT, bloc typographique éditorial */}
           <div className="lg:col-span-7 text-center lg:text-left">
             {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide.
-                Phase 7 — hero épuré : eyebrow « SOMMELIER IA · CAVE · … » ET la ligne
+                Phase 7, hero épuré : eyebrow « SOMMELIER IA · CAVE · … » ET la ligne
                 d'ancrage « Conçu au Québec · … » retirées (redondantes, alourdissaient
                 le 1er frame). Titre = 1er élément. */}
             <h1 className="iq-hero italic">
@@ -80,7 +80,7 @@ export default function HeroV4() {
 
           </div>
 
-          {/* RIGHT — emplacement photographie « art de vivre » (Q19 option B).
+          {/* RIGHT, emplacement photographie « art de vivre » (Q19 option B).
               La démo vivante a migré en section 2 ; le hero s'ouvre sur
               l'émotion. Vraie photo en Phase 7. */}
           <div className="lg:col-span-5 flex flex-col items-center mt-8 lg:mt-0">
@@ -88,7 +88,7 @@ export default function HeroV4() {
               <HeroVisual />
             </FadeInOnScroll>
 
-            {/* Citation — italique éditoriale sous le mockup (réplique iQForge) */}
+            {/* Citation, italique éditoriale sous le mockup (réplique iQForge) */}
             <FadeInOnScroll delay={0.85}>
               <p className="mt-8 lg:mt-10 text-center font-[family-name:var(--font-display)] italic text-foreground/85 text-lg sm:text-xl leading-relaxed">
                 {locale === 'fr'
@@ -99,7 +99,7 @@ export default function HeroV4() {
           </div>
         </div>
 
-        {/* Cartouche de confiance — flush CTA « 14 jours » → bord droit de la démo */}
+        {/* Cartouche de confiance, flush CTA « 14 jours » → bord droit de la démo */}
         <FadeInOnScroll delay={0.7}>
           <div className="mt-7 lg:mt-8">
             <HeroTrustBar />

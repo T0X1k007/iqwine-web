@@ -8,7 +8,7 @@ import { APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * /octave — page dédiée au sommelier personnel. Angle : Octave n'est pas une
+ * /octave, page dédiée au sommelier personnel. Angle : Octave n'est pas une
  * fonctionnalité IA, c'est quelqu'un qui connaît votre cave et vous dit quelle
  * bouteille ouvrir. Storytelling autour des moments de vie. Contenu 100 % original.
  */
@@ -41,8 +41,8 @@ const MOMENTS: { fr: [string, string]; en: [string, string] }[] = [
     en: ['I’m at the restaurant', 'Snap the wine list. Octave pairs it to your dish, within your budget, in seconds.'],
   },
   {
-    fr: ['J’achète une bouteille', 'Scannez l’étiquette. Octave la lit selon VOTRE palais — pas selon une note moyenne anonyme.'],
-    en: ['I’m buying a bottle', 'Scan the label. Octave reads it through YOUR palate — not an anonymous average score.'],
+    fr: ['J’achète une bouteille', 'Scannez l’étiquette. Octave la lit selon VOTRE palais, pas selon une note moyenne anonyme.'],
+    en: ['I’m buying a bottle', 'Scan the label. Octave reads it through YOUR palate, not an anonymous average score.'],
   },
 ];
 
@@ -69,12 +69,12 @@ const EXAMPLES: { label: { fr: string; en: string }; fr: string; en: string }[] 
   {
     label: { fr: 'Un grand Bordeaux mature', en: 'A mature great Bordeaux' },
     fr: 'Il a passé le cap. Le fruit a cédé au cuir, au cèdre et au sous-bois, les tanins se sont faits dentelle. À ouvrir maintenant, sur une viande rouge ou un gibier. N’attendez plus, il vous offre son sommet.',
-    en: 'It’s over the threshold. Fruit has given way to leather, cedar and forest floor, the tannins now lace-fine. Open it now, with red meat or game. Don’t wait any longer — it’s at its summit.',
+    en: 'It’s over the threshold. Fruit has given way to leather, cedar and forest floor, the tannins now lace-fine. Open it now, with red meat or game. Don’t wait any longer, it’s at its summit.',
   },
   {
     label: { fr: 'Un Pinot Noir délicat', en: 'A delicate Pinot Noir' },
     fr: 'Tout en retenue. Griotte, rose fanée, une fraîcheur qui danse. Servez-le légèrement rafraîchi, sur un saumon grillé ou des champignons. Sa délicatesse est sa force, ne la couvrez pas.',
-    en: 'All restraint. Morello cherry, faded rose, a freshness that dances. Serve it lightly chilled, with grilled salmon or mushrooms. Its delicacy is its strength — don’t bury it.',
+    en: 'All restraint. Morello cherry, faded rose, a freshness that dances. Serve it lightly chilled, with grilled salmon or mushrooms. Its delicacy is its strength, don’t bury it.',
   },
   {
     label: { fr: 'Un Chardonnay boisé', en: 'An oaked Chardonnay' },
@@ -114,7 +114,7 @@ export default function OctaveContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'octave-hero' })}
             >
               <Button variant="cta" size="lg">
-                {t('Débuter l’essai gratuit', 'Start the free trial')}
+                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
@@ -195,8 +195,8 @@ export default function OctaveContent() {
             </figure>
             <p className="text-center text-muted-foreground text-[15px] mt-6 max-w-xl mx-auto">
               {t(
-                'Notes, accord, apogée, structure, autres accords possibles — Octave dit tout ce qu’un sommelier dirait, sans jamais que vous ayez à le demander.',
-                'Notes, pairing, peak, structure, other possible matches — Octave says everything a sommelier would, without you ever having to ask.',
+                'Notes, accord, apogée, structure, autres accords possibles, Octave dit tout ce qu’un sommelier dirait, sans jamais que vous ayez à le demander.',
+                'Notes, pairing, peak, structure, other possible matches, Octave says everything a sommelier would, without you ever having to ask.',
               )}
             </p>
           </FadeInOnScroll>
@@ -287,7 +287,7 @@ export default function OctaveContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'octave-final' })}
             >
               <Button variant="cta" size="lg">
-                {t('Débuter l’essai gratuit', 'Start the free trial')}
+                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>

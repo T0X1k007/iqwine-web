@@ -8,10 +8,10 @@ import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * SectionConversation — « Demandez à votre cave. »
+ * SectionConversation, « Demandez à votre cave. »
  *
  * Direction V5-ter Eric : montrer la conversation IA × sommelier
- * de façon éditoriale magazine luxe — JAMAIS chat UI startup
+ * de façon éditoriale magazine luxe, JAMAIS chat UI startup
  * (Discord/Slack/ChatGPT feel interdit).
  *
  * Format : transcript éditorial style interview Vogue / Monocle.
@@ -54,7 +54,7 @@ const QA: Record<
   },
 };
 
-// Questions fantômes — vivent en arrière-plan opacity 0.08-0.12, drift
+// Questions fantômes, vivent en arrière-plan opacity 0.08-0.12, drift
 // très lent. Sensation : "des centaines de conversations vivent dans
 // votre cave". Eric V5-quater.
 const GHOST_QUESTIONS: Record<Locale, Array<{ text: string; x: string; y: string; rotate: number }>> = {
@@ -102,7 +102,7 @@ export default function SectionConversation() {
   return (
     <SectionWrapper id="conversation" withDivider rhythm="standard">
       <div className="relative max-w-3xl mx-auto" ref={ref}>
-        {/* Questions fantômes — vivent en arrière-plan, drift très lent.
+        {/* Questions fantômes, vivent en arrière-plan, drift très lent.
            Sensation : des centaines de conversations dans votre cave. */}
         {!reduced && (
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -150,7 +150,7 @@ export default function SectionConversation() {
           </div>
         </FadeInOnScroll>
 
-        {/* Transcript éditorial — relative pour rester au-dessus des ghosts */}
+        {/* Transcript éditorial, relative pour rester au-dessus des ghosts */}
         <div className="relative grid grid-cols-1 gap-0 max-w-2xl mx-auto">
           {/* QUESTION block */}
           <motion.article
@@ -167,7 +167,7 @@ export default function SectionConversation() {
             </p>
           </motion.article>
 
-          {/* RESPONSE block — 5 lignes, plus sensuel, plus ritual */}
+          {/* RESPONSE block, 5 lignes, plus sensuel, plus ritual */}
           <motion.article
             initial={{ opacity: 0 }}
             animate={stage >= 2 ? { opacity: 1 } : { opacity: 0 }}

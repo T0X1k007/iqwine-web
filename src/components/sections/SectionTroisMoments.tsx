@@ -7,7 +7,7 @@ import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * SectionTroisMoments — fusion compacte des anciennes SceneSunday +
+ * SectionTroisMoments, fusion compacte des anciennes SceneSunday +
  * SceneRestaurant + SceneCarnet en UNE section, 3 colonnes (lg+).
  *
  * Direction V5 : montrer 3 moments en un coup d'œil, plus de
@@ -40,8 +40,8 @@ const MOMENTS: Moment[] = [
     },
     src: '/screenshots/02-home-suggestions.png',
     alt: {
-      fr: 'Accueil sommelier — Bonsoir, à table',
-      en: 'Sommelier home — Good evening, at the table',
+      fr: 'Accueil sommelier, Bonsoir, à table',
+      en: 'Sommelier home, Good evening, at the table',
     },
   },
   {
@@ -56,8 +56,8 @@ const MOMENTS: Moment[] = [
     },
     src: '/screenshots/03-menu-scan.png',
     alt: {
-      fr: 'Mode Restaurant — accords mets et vins',
-      en: 'Restaurant mode — food and wine pairing',
+      fr: 'Mode Restaurant, accords mets et vins',
+      en: 'Restaurant mode, food and wine pairing',
     },
   },
   {
@@ -72,8 +72,8 @@ const MOMENTS: Moment[] = [
     },
     src: '/screenshots/04-carnet.png',
     alt: {
-      fr: 'Carnet de dégustation — Mémoire',
-      en: 'Tasting journal — Memory',
+      fr: 'Carnet de dégustation, Mémoire',
+      en: 'Tasting journal, Memory',
     },
   },
 ];

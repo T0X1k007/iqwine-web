@@ -7,7 +7,7 @@ import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * SectionComparison (#comparatif) — répond « pourquoi iQWine ? ».
+ * SectionComparison (#comparatif), répond « pourquoi iQWine ? ».
  * FACTUEL, jamais agressif : trois états (oui / partiel / non) qui reconnaissent
  * honnêtement les forces des concurrents (scan Vivino, apogée CellarTracker).
  * Le différenciateur émerge de la COMBINAISON, pas du dénigrement.
@@ -75,8 +75,8 @@ export default function SectionComparison() {
             </h2>
             <p className="iq-lead mt-5 max-w-2xl mx-auto">
               {t(
-                'Chacun excelle sur un point. iQWine relie votre cave, la SAQ et votre palais — dans une seule intelligence.',
-                'Each excels at one thing. iQWine connects your cellar, the SAQ and your palate — in one intelligence.',
+                'Chacun excelle sur un point. iQWine relie votre cave, la SAQ et votre palais, dans une seule intelligence.',
+                'Each excels at one thing. iQWine connects your cellar, the SAQ and your palate, in one intelligence.',
               )}
             </p>
           </div>

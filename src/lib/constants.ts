@@ -65,7 +65,7 @@ const HERO_MAP = {
         'Designed for collectors. Not for inventory.',
       anchor: 'Scan. Understand. Open at the right moment.',
     },
-    ctaPrimary: 'Start free — 14 days, no card',
+    ctaPrimary: 'Free Trial 14 Days',
     ctaSecondary: 'Try the live demo',
   },
   fr: {
@@ -93,7 +93,7 @@ const HERO_MAP = {
         'Pensé pour les collectionneurs. Pas pour des inventaires.',
       anchor: 'Scannez. Comprenez. Ouvrez au bon moment.',
     },
-    ctaPrimary: 'Commencer — 14 jours, sans carte',
+    ctaPrimary: 'Essai gratuit 14 jours',
     ctaSecondary: 'Essayer la démo',
   },
 };

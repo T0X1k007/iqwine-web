@@ -45,14 +45,14 @@ export default function StickyCTA() {
         >
           <div className="mx-3 mb-3 flex items-center gap-3 rounded-pill border border-or/30 bg-overlay/95 backdrop-blur-[14px] pl-4 pr-2 py-2 shadow-[var(--shadow-lg)]">
             <span className="iq-small text-foreground-dim flex-1 truncate">
-              {t('14 jours, sans carte.', '14 days, no card.')}
+              {t('Sans engagement.', 'No commitment.')}
             </span>
             <a
               href={APP_SIGNUP_URL}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'sticky' })}
               className="rounded-pill bg-or text-background font-medium text-[14px] px-4 py-2 active:scale-[0.98] transition-transform"
             >
-              {t('Essai gratuit', 'Start free')}
+              {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
             </a>
             <button
               type="button"
