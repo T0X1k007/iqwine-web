@@ -49,8 +49,8 @@ export default function SectionDemo() {
             </h2>
             <p className="iq-lead mt-5 max-w-2xl mx-auto">
               {t(
-                'Choisissez un plat, puis la source. iQWine recommande — de votre cave, de la SAQ, ou des deux.',
-                'Pick a dish, then a source. iQWine recommends — from your cellar, the SAQ, or both.',
+                'Choisissez un plat, puis la source. Octave répond comme un sommelier : votre cave, la SAQ, ou les deux.',
+                'Pick a dish, then a source. Octave answers like a sommelier: your cellar, the SAQ, or both.',
               )}
             </p>
           </div>

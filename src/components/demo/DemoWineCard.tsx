@@ -1,14 +1,14 @@
 'use client';
 
-import { MapPin, Check, Sparkles } from 'lucide-react';
-import type { DemoCard } from '@/lib/demoData';
+import { MapPin, Sparkles, Clock, Utensils, Wine } from 'lucide-react';
+import type { DemoCard, DemoAxes } from '@/lib/demoData';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * Carte de recommandation — réplique éditoriale de la carte produit iQWine.
- * Affiche : couleur, producteur/cuvée/région, badge source (Ma cave / SAQ),
- * prix SAQ (tabular-nums), badge « Disponible à votre SAQ » ou « À son meilleur »,
- * et l'explication contextualisée au plat. 100 % statique (données factices).
+ * Carte de recommandation — réplique éditoriale de la VRAIE fiche Octave (scan).
+ * C1 : ce n'est plus une phrase générique, c'est un échange de sommelier —
+ * personnalité, l'accord (pourquoi), notes de bouche, fenêtre de dégustation,
+ * trois axes de profil, service, autres accords. 100 % statique (données factices).
  */
 
 const WINE_DOT: Record<DemoCard['color'], string> = {
@@ -17,18 +17,19 @@ const WINE_DOT: Record<DemoCard['color'], string> = {
   EFFERVESCENT: 'bg-[var(--color-wine-mousseux)]',
 };
 
-export default function DemoWineCard({
-  card,
-  locale,
-}: {
-  card: DemoCard;
-  locale: Locale;
-}) {
+const AXIS_KEYS: { key: keyof DemoAxes; fr: string; en: string }[] = [
+  { key: 'acidity', fr: 'Acidité', en: 'Acidity' },
+  { key: 'body', fr: 'Corps', en: 'Body' },
+  { key: 'intensity', fr: 'Intensité', en: 'Intensity' },
+];
+
+export default function DemoWineCard({ card, locale }: { card: DemoCard; locale: Locale }) {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
   const isCave = card.source === 'cave';
 
   return (
-    <article className="glass rounded-xl border border-border-strong p-4 sm:p-5 text-left">
+    <article className="glass rounded-2xl border border-border-strong p-5 sm:p-6 text-left">
+      {/* En-tête : identité + source */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 min-w-0">
           <span
@@ -36,16 +37,20 @@ export default function DemoWineCard({
             className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${WINE_DOT[card.color]}`}
           />
           <div className="min-w-0">
-            <h3 className="font-[family-name:var(--font-display)] text-foreground text-lg sm:text-xl leading-tight truncate">
+            <h3 className="font-[family-name:var(--font-display)] text-foreground text-xl sm:text-2xl leading-tight">
               {card.cuvee}
+              {card.vintage ? (
+                <span className="text-or tabular-nums"> {card.vintage}</span>
+              ) : null}
             </h3>
-            <p className="iq-small text-foreground-dim truncate">
+            <p className="iq-small text-foreground-dim">
               {card.producer} · {card.region}
+            </p>
+            <p className="mt-1.5 font-[family-name:var(--font-display)] italic text-or text-[15px]">
+              {card.personality[locale]}
             </p>
           </div>
         </div>
-
-        {/* Badge source */}
         <span
           className={`shrink-0 font-mono text-[9px] tracking-[0.18em] uppercase rounded-pill px-2.5 py-1 border ${
             isCave
@@ -57,8 +62,8 @@ export default function DemoWineCard({
         </span>
       </div>
 
-      {/* Ligne statut : prix SAQ + dispo, ou apogée */}
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+      {/* Statut : prix + dispo (SAQ) ou apogée (cave) */}
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
         {!isCave && typeof card.priceCad === 'number' && (
           <span className="tabular font-medium text-foreground text-[15px]">
             {card.priceCad.toFixed(2)} $
@@ -78,11 +83,65 @@ export default function DemoWineCard({
         )}
       </div>
 
-      {/* Explication IA */}
-      <p className="mt-3 iq-small text-foreground-dim leading-relaxed flex items-start gap-2">
-        <Check size={14} strokeWidth={2} className="text-or/70 mt-0.5 shrink-0" />
-        <span>{card.why[locale]}</span>
-      </p>
+      {/* L'ACCORD — pourquoi ce vin, ce plat (la voix d'Octave) */}
+      <div className="mt-5">
+        <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint mb-2">
+          {t('L’accord', 'The pairing')}
+        </p>
+        <p className="font-[family-name:var(--font-display)] text-foreground/90 text-[17px] leading-relaxed">
+          {card.why[locale]}
+        </p>
+      </div>
+
+      {/* EN BOUCHE */}
+      <div className="mt-5 flex items-start gap-2.5">
+        <Wine size={15} strokeWidth={1.75} className="text-or/70 mt-0.5 shrink-0" aria-hidden />
+        <p className="iq-small text-foreground-dim leading-relaxed">{card.tasting[locale]}</p>
+      </div>
+
+      {/* AXES de profil */}
+      <dl className="mt-5 grid grid-cols-3 gap-x-4 gap-y-1.5">
+        {AXIS_KEYS.map((a) => (
+          <div key={a.key} className="min-w-0">
+            <dt className="font-mono text-[9px] tracking-[0.14em] uppercase text-foreground-faint">
+              {locale === 'fr' ? a.fr : a.en}
+            </dt>
+            <dd
+              className="mt-1 h-px bg-border-strong relative"
+              aria-label={`${card.axes[a.key]} / 10`}
+            >
+              <span
+                aria-hidden
+                className="absolute inset-y-0 left-0 bg-or/70"
+                style={{ width: `${(card.axes[a.key] / 10) * 100}%` }}
+              />
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      {/* FENÊTRE + SERVICE */}
+      <div className="mt-5 space-y-2 border-t border-border-strong/60 pt-4">
+        <p className="flex items-start gap-2.5 iq-small text-foreground-dim leading-relaxed">
+          <Clock size={14} strokeWidth={1.75} className="text-or/70 mt-0.5 shrink-0" aria-hidden />
+          <span>{card.window[locale]}</span>
+        </p>
+        <p className="flex items-start gap-2.5 iq-small text-foreground-dim leading-relaxed">
+          <Utensils
+            size={14}
+            strokeWidth={1.75}
+            className="text-or/70 mt-0.5 shrink-0"
+            aria-hidden
+          />
+          <span>
+            <span className="text-foreground-faint">{t('Service : ', 'Serving: ')}</span>
+            {card.serving[locale]}
+            {' · '}
+            <span className="text-foreground-faint">{t('Aussi avec ', 'Also with ')}</span>
+            {card.alsoPairs[locale]}
+          </span>
+        </p>
+      </div>
     </article>
   );
 }
