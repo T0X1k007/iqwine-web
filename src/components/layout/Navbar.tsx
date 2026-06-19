@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
-import { getNavLinks, getHero, APP_SIGNUP_URL } from '@/lib/constants';
+import { getNavLinks, getProductLinks, getHero, APP_SIGNUP_URL } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
@@ -14,7 +14,9 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 export default function Navbar() {
   const { locale } = useLocale();
   const navLinks = getNavLinks(locale);
+  const productLinks = getProductLinks(locale);
   const hero = getHero(locale);
+  const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,6 +63,34 @@ export default function Navbar() {
 
         {/* Desktop nav — mono eyebrow style */}
         <div className="hidden md:flex items-center gap-8">
+          {/* Produit — dropdown vers les pages dédiées */}
+          <div className="relative group">
+            <button
+              type="button"
+              className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)] inline-flex items-center gap-1.5"
+            >
+              {t('Produit', 'Product')}
+              <ChevronDown
+                size={12}
+                strokeWidth={2}
+                className="transition-transform duration-200 group-hover:rotate-180"
+                aria-hidden
+              />
+            </button>
+            <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
+              <div className="min-w-[220px] rounded-xl border border-border bg-background/95 backdrop-blur-[14px] p-1.5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]">
+                {productLinks.map((l) => (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className="block rounded-lg px-3 py-2.5 text-[13px] text-white/90 hover:text-or hover:bg-white/5 transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -103,6 +133,23 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-[14px] border-b border-border px-6 pb-5">
           <div className="flex flex-col gap-1">
+            {/* Produit — pages dédiées */}
+            <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-2 pb-1">
+              {t('Produit', 'Product')}
+            </p>
+            {productLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border"
+              >
+                {l.label}
+              </Link>
+            ))}
+            <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-4 pb-1">
+              {t('Explorer', 'Explore')}
+            </p>
             {navLinks.map((link) => (
               <a
                 key={link.href}

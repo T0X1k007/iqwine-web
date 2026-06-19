@@ -26,13 +26,27 @@ const NAV_LINKS_MAP = {
     { label: 'AI', href: '#ai' },
     { label: 'Cellar', href: '#cave-web' },
     { label: 'Restaurant', href: '#trois-moments' },
-    { label: 'Pricing', href: '/tarifs' },
+    { label: 'Pricing', href: '#tarifs' },
   ],
   fr: [
     { label: 'Accord', href: '#demo' },
     { label: 'IA', href: '#ai' },
     { label: 'Cave', href: '#cave-web' },
     { label: 'Restaurant', href: '#trois-moments' },
+    { label: 'Tarifs', href: '#tarifs' },
+  ],
+} as const;
+
+// ─── Menu « Produit » (dropdown) — liens vers les pages dédiées ───
+const PRODUCT_LINKS_MAP = {
+  en: [
+    { label: 'The smart cellar', href: '/' },
+    { label: 'AI Sommelier', href: '/sommelier-ia' },
+    { label: 'Pricing', href: '/tarifs' },
+  ],
+  fr: [
+    { label: 'La cave intelligente', href: '/' },
+    { label: 'Sommelier IA', href: '/sommelier-ia' },
     { label: 'Tarifs', href: '/tarifs' },
   ],
 } as const;
@@ -101,6 +115,10 @@ const HERO_MAP = {
 // ─── Accessor functions ───
 export function getNavLinks(locale: Locale) {
   return NAV_LINKS_MAP[locale];
+}
+
+export function getProductLinks(locale: Locale) {
+  return PRODUCT_LINKS_MAP[locale];
 }
 export function getHero(locale: Locale) {
   return HERO_MAP[locale];
