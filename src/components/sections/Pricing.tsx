@@ -217,7 +217,7 @@ function PlanCard({
         <h3 className="font-[family-name:var(--font-display)] italic text-3xl sm:text-4xl text-foreground mb-2 tracking-[-0.01em]">
           {copy.name}
         </h3>
-        <p className="iq-small text-foreground-dim">{copy.tagline[locale]}</p>
+        <p className="iq-small text-foreground-dim sm:min-h-[2.75rem]">{copy.tagline[locale]}</p>
       </div>
 
       {/* Prix — mensuel ou annuel selon la bascule */}
