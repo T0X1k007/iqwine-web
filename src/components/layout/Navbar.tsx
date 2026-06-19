@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
@@ -32,15 +33,11 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      style={
-        scrolled
-          ? { backgroundColor: 'rgba(15, 10, 8, 0.88)' }
-          : undefined
-      }
-      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[transform,background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] ${
-        hidden && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
-      } ${
+    <motion.header
+      animate={{ y: hidden && !mobileOpen ? '-100%' : '0%' }}
+      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+      style={scrolled ? { backgroundColor: 'rgba(15, 10, 8, 0.88)' } : undefined}
+      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] ${
         scrolled
           ? 'backdrop-blur-[20px] backdrop-saturate-150 border-b border-border'
           : ''
@@ -131,6 +128,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }

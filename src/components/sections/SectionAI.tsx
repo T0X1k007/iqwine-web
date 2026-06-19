@@ -601,10 +601,10 @@ export default function SectionAI() {
                 : 'Your bottles read, your palate understood. Just ask, three picks, and why.'}
             </p>
             <Link
-              href="/octave"
+              href="/sommelier-ia"
               className="group mt-7 inline-flex items-center gap-1.5 text-or hover:text-or/80 font-[family-name:var(--font-display)] italic text-lg transition-colors"
             >
-              {locale === 'fr' ? 'Rencontrez Octave' : 'Meet Octave'}
+              {locale === 'fr' ? 'En savoir plus sur Octave' : 'Learn more about Octave'}
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
             </Link>
           </FadeInOnScroll>

@@ -59,6 +59,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // SEO : /octave renommée /sommelier-ia (le nom « Octave » reste dans le contenu).
+      { source: '/octave', destination: '/sommelier-ia', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

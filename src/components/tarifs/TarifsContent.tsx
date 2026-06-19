@@ -289,7 +289,7 @@ export default function TarifsContent() {
                 )}
               </p>
             </div>
-            <Link href="/octave" className="shrink-0">
+            <Link href="/sommelier-ia" className="shrink-0">
               <Button variant="secondary" size="lg">
                 {t('Découvrir Octave', 'Discover Octave')}
                 <ArrowRight size={16} strokeWidth={1.75} />
