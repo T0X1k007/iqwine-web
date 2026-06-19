@@ -65,6 +65,29 @@ const DIFFERENCE: { fr: [string, string]; en: [string, string] }[] = [
   },
 ];
 
+const EXAMPLES: { label: { fr: string; en: string }; fr: string; en: string }[] = [
+  {
+    label: { fr: 'Un grand Bordeaux mature', en: 'A mature great Bordeaux' },
+    fr: 'Il a passé le cap. Le fruit a cédé au cuir, au cèdre et au sous-bois, les tanins se sont faits dentelle. À ouvrir maintenant, sur une viande rouge ou un gibier. N’attendez plus, il vous offre son sommet.',
+    en: 'It’s over the threshold. Fruit has given way to leather, cedar and forest floor, the tannins now lace-fine. Open it now, with red meat or game. Don’t wait any longer — it’s at its summit.',
+  },
+  {
+    label: { fr: 'Un Pinot Noir délicat', en: 'A delicate Pinot Noir' },
+    fr: 'Tout en retenue. Griotte, rose fanée, une fraîcheur qui danse. Servez-le légèrement rafraîchi, sur un saumon grillé ou des champignons. Sa délicatesse est sa force, ne la couvrez pas.',
+    en: 'All restraint. Morello cherry, faded rose, a freshness that dances. Serve it lightly chilled, with grilled salmon or mushrooms. Its delicacy is its strength — don’t bury it.',
+  },
+  {
+    label: { fr: 'Un Chardonnay boisé', en: 'An oaked Chardonnay' },
+    fr: 'Beurre, noisette grillée, une pointe de vanille du fût. La bouche est ample, mais l’acidité tient la ligne. Superbe sur une volaille à la crème ou un homard. Sortez-le un quart d’heure avant, pas plus.',
+    en: 'Butter, toasted hazelnut, a touch of barrel vanilla. The palate is broad, yet the acidity holds the line. Superb with creamy poultry or lobster. Take it out fifteen minutes ahead, no more.',
+  },
+  {
+    label: { fr: 'Un Champagne de célébration', en: 'A celebration Champagne' },
+    fr: 'Bulles fines, pain grillé, pomme mûre. C’est un vin de seuil et de toast, un vin qui dit oui. Ouvrez-le frais, sans autre cérémonie que le moment. Il n’attendait qu’une bonne raison.',
+    en: 'Fine bubbles, toast, ripe apple. A wine of thresholds and toasts, a wine that says yes. Open it cold, with no ceremony but the moment. It was only ever waiting for a good reason.',
+  },
+];
+
 export default function OctaveContent() {
   const { locale } = useLocale();
   const t: T = (fr, en) => (locale === 'fr' ? fr : en);
@@ -209,6 +232,43 @@ export default function OctaveContent() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* UNE RÉPONSE DIFFÉRENTE POUR CHAQUE BOUTEILLE */}
+      <section className="px-6 py-16 lg:py-24 border-t border-white/5">
+        <div className="mx-auto max-w-5xl">
+          <FadeInOnScroll>
+            <div className="text-center mb-12">
+              <p className="iq-eyebrow mb-5">{t('Jamais générique', 'Never generic')}</p>
+              <h2 className="iq-h1 italic max-w-2xl mx-auto">
+                {t(
+                  'Une réponse différente pour chaque bouteille.',
+                  'A different answer for every bottle.',
+                )}
+              </h2>
+            </div>
+          </FadeInOnScroll>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {EXAMPLES.map((ex, i) => (
+              <FadeInOnScroll key={i} delay={Math.min(i * 0.06, 0.24)}>
+                <figure className="h-full rounded-2xl border border-white/5 bg-white/[0.015] p-7">
+                  <figcaption className="iq-eyebrow mb-4">
+                    {locale === 'fr' ? ex.label.fr : ex.label.en}
+                  </figcaption>
+                  <blockquote className="font-[family-name:var(--font-display)] text-foreground/90 text-[17px] leading-relaxed">
+                    {locale === 'fr' ? ex.fr : ex.en}
+                  </blockquote>
+                </figure>
+              </FadeInOnScroll>
+            ))}
+          </div>
+          <p className="text-center text-muted-foreground text-[15px] mt-10 max-w-xl mx-auto">
+            {t(
+              'Même question, quatre vins, quatre réponses. Octave ne récite pas une fiche : il comprend ce qu’il y a dans le verre.',
+              'Same question, four wines, four answers. Octave doesn’t recite a card: it understands what’s in the glass.',
+            )}
+          </p>
         </div>
       </section>
 

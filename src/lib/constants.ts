@@ -26,14 +26,14 @@ const NAV_LINKS_MAP = {
     { label: 'AI', href: '#ai' },
     { label: 'Cellar', href: '#cave-web' },
     { label: 'Restaurant', href: '#trois-moments' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: 'Pricing', href: '/tarifs' },
   ],
   fr: [
     { label: 'Accord', href: '#demo' },
     { label: 'IA', href: '#ai' },
     { label: 'Cave', href: '#cave-web' },
     { label: 'Restaurant', href: '#trois-moments' },
-    { label: 'Tarifs', href: '#pricing' },
+    { label: 'Tarifs', href: '/tarifs' },
   ],
 } as const;
 

@@ -27,8 +27,8 @@ const COPY: Record<PlanId, PlanCopy> = {
   standard: {
     name: "Standard",
     tagline: {
-      fr: "Pour boire mieux, chaque soir.",
-      en: "To drink better, every night.",
+      fr: "L’amateur, sa cave personnelle.",
+      en: "The wine lover, a personal cellar.",
     },
     features: [
       { fr: "Sommelier IA", en: "AI sommelier" },
@@ -41,8 +41,8 @@ const COPY: Record<PlanId, PlanCopy> = {
   pro: {
     name: "Pro",
     tagline: {
-      fr: "Pour le passionné et son foyer.",
-      en: "For the enthusiast and their household.",
+      fr: "Le passionné, un usage régulier, une plus grande cave.",
+      en: "The enthusiast, regular use, a larger cellar.",
     },
     features: [
       { fr: "Tout du forfait Standard", en: "Everything in Standard" },
@@ -57,8 +57,8 @@ const COPY: Record<PlanId, PlanCopy> = {
   famille: {
     name: "Famille",
     tagline: {
-      fr: "Pour la cave familiale et l’usage intensif.",
-      en: "For the family cellar and heavy use.",
+      fr: "Plusieurs profils, plusieurs palais, une cave partagée.",
+      en: "Several profiles, several palates, a shared cellar.",
     },
     features: [
       { fr: "Tout du forfait Pro", en: "Everything in Pro" },
@@ -284,7 +284,7 @@ function PlanCard({
           size="lg"
           className="w-full"
         >
-          {t("Commencer — sans carte", "Start free — no card")}
+          {t(`Choisir ${copy.name}`, `Choose ${copy.name}`)}
           <ArrowRight size={16} strokeWidth={1.75} />
         </Button>
       </a>

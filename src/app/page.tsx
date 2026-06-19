@@ -13,7 +13,6 @@ const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionT
 const SectionAI = dynamic(() => import('@/components/sections/SectionAI'));
 const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb'));
 const SectionConfiance = dynamic(() => import('@/components/sections/SectionConfiance'));
-const Pricing = dynamic(() => import('@/components/sections/Pricing'));
 const SectionFaq = dynamic(() => import('@/components/sections/SectionFaq'));
 const FinalCta = dynamic(() => import('@/components/sections/FinalCta'));
 const StickyCTA = dynamic(() => import('@/components/ui/StickyCTA'));
@@ -31,7 +30,6 @@ export default function Home() {
         <SectionAI />
         <SectionCaveWeb />
         <SectionConfiance />
-        <Pricing />
         <SectionFaq />
         <FinalCta />
       </main>
