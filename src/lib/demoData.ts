@@ -248,7 +248,8 @@ const DATA: Record<DemoMeal, MealData> = {
         cuvee: 'Côtes-du-Rhône',
         region: 'Rhône',
         color: 'ROUGE',
-        priceCad: 21.95,
+        vintage: 2022,
+        priceCad: 24.5,
         available: true,
         personality: { fr: 'Épicé, charnu, chaleureux.', en: 'Spicy, fleshy, warming.' },
         why: {

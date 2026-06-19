@@ -13,14 +13,14 @@ import type { Locale } from '@/lib/i18n';
  */
 
 const WINE_PHOTOS: Record<string, string> = {
-  'Castello di Ama': '/photos/wines/castello-ama.jpg',
-  Masciarelli: '/photos/wines/masciarelli.jpg',
-  'Domaine William Fèvre': '/photos/wines/william-fevre.jpg',
-  'Château de la Ragotière': '/photos/wines/ragotiere.jpg',
-  'Pierre Gimonnet': '/photos/wines/gimonnet.jpg',
-  Trimbach: '/photos/wines/trimbach.jpg',
-  'Pio Cesare': '/photos/wines/pio-cesare.jpg',
-  'E. Guigal': '/photos/wines/guigal.jpg',
+  'Castello di Ama': '/photos/wines/castello-ama.png',
+  Masciarelli: '/photos/wines/masciarelli.png',
+  'Domaine William Fèvre': '/photos/wines/william-fevre.png',
+  'Château de la Ragotière': '/photos/wines/ragotiere.png',
+  'Pierre Gimonnet': '/photos/wines/gimonnet.png',
+  Trimbach: '/photos/wines/trimbach.png',
+  'Pio Cesare': '/photos/wines/pio-cesare.png',
+  'E. Guigal': '/photos/wines/guigal.png',
 };
 
 const WINE_TINT: Record<DemoCard['color'], string> = {
