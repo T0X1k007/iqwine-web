@@ -591,8 +591,8 @@ export default function SectionAI() {
             </div>
             <h2 className="iq-h1 italic mb-5">
               {locale === 'fr'
-                ? 'Une intelligence qui répond, en sommelier.'
-                : 'An intelligence that answers, like a sommelier.'}
+                ? 'Octave, une intelligence qui répond en sommelier.'
+                : 'Octave, an intelligence that answers like a sommelier.'}
             </h2>
             <p className="iq-lead">
               {locale === 'fr'

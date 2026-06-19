@@ -60,6 +60,18 @@
   --color-or-soft: #e0b656;
   --color-or-deep: #b8862a;
 
+  /* ── CTA adaptatif (Phase 6) — or plein sur fond SOMBRE (défaut), bordeaux
+     profond sur fond CLAIR (.section-light). Même libellé partout : seule la
+     couleur s'adapte au fond pour rester lisible, pas l'action. */
+  --color-cta: #d4a548; /* = or vif (sombre) */
+  --color-cta-hover: #e0b656; /* = or-soft */
+  --color-cta-active: #b8862a; /* = or-deep */
+
+  /* Encre sombre pour le texte POSÉ SUR de l'or/laiton (badge, onglet actif) :
+     lisible aussi bien sur l'or vif (#d4a548) que sur le laiton clair
+     (#b8924a). Stable, jamais re-mappée. */
+  --color-on-gold: #1a130f;
+
   /* ── Showcase ivoire — fond chaud derrière bouteilles détourées éditoriales.
      Spec : carte produit cellier (BottleGroupItem). JAMAIS comme couleur de
      surface globale, uniquement pour vitrines de bouteilles / objets. */
@@ -232,16 +244,35 @@
     -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
   }
 
-  /* Vignette chaude — wine-rouge profond + or vif subtil */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(142, 42, 42, 0.18), transparent 65%),
-      radial-gradient(ellipse 50% 30% at 85% 80%, rgba(212, 165, 72, 0.06), transparent 70%);
+  /* Phase 6 (Q20) — vignette globale supprimée : c'était le résidu « spotlight »
+     le plus diffus, qui baignait toute la page de wine-rouge et d'or. La
+     profondeur est désormais portée par l'étagement des surfaces et l'alternance
+     clair/sombre. Une ambiance locale très subtile reste possible sur le seul
+     hero (cf. HeroV4), jamais un halo de page. */
+
+  /* ── Section CLAIRE (alternance magazine, Phase 6) — re-mappe les tokens
+     sémantiques vers la palette ivoire le temps de la section. Les composants
+     bâtis sur les tokens basculent automatiquement (texte, surfaces, bordures,
+     accent). CTA → bordeaux profond sur clair. */
+  .section-light {
+    --color-background: #f6f1e9; /* ivoire chaud, jamais blanc clinique */
+    --color-foreground: #211b17; /* charbon chaud */
+    --color-foreground-dim: rgba(33, 27, 23, 0.74);
+    --color-muted-foreground: #6b5f52;
+    --color-foreground-faint: #8a7b70;
+    --color-elev: #fcf8f1; /* carte sur clair */
+    --color-card: #fcf8f1;
+    --color-hi: #f1e7d7;
+    --color-overlay: #ece4d7;
+    --color-sunk: #efe7d9; /* sous-surface sur clair (champs, encarts) */
+    --color-border: rgba(33, 27, 23, 0.1);
+    --color-border-strong: rgba(33, 27, 23, 0.16);
+    --color-or: #b8924a; /* or laiton lisible sur ivoire */
+    --color-cta: #6e2230; /* bordeaux profond — CTA sur clair */
+    --color-cta-hover: #842b3b;
+    --color-cta-active: #561a26;
+    background: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 

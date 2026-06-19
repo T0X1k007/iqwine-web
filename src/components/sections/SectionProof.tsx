@@ -33,7 +33,7 @@ export default function SectionProof() {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   return (
-    <SectionWrapper id="produit" withDivider rhythm="editorial">
+    <SectionWrapper id="produit" tone="light" withDivider rhythm="editorial">
       <FadeInOnScroll>
         <div className="text-center mb-12 sm:mb-16">
           <div className="iq-eyebrow mb-5">{t('Le produit, en vrai', 'The real product')}</div>

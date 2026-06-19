@@ -10,6 +10,13 @@ interface SectionWrapperProps {
    * Permet un rythme de magazine sans décoration ajoutée.
    */
   rhythm?: 'standard' | 'editorial';
+  /**
+   * Tonalité de la section (alternance magazine clair/sombre — Phase 6).
+   *   - `dark` (défaut) : hérite du fond sombre du site.
+   *   - `light` : applique la portée `.section-light` (palette ivoire + CTA
+   *     bordeaux). Les composants bâtis sur les tokens basculent tout seuls.
+   */
+  tone?: 'dark' | 'light';
 }
 
 const rhythmClasses: Record<NonNullable<SectionWrapperProps['rhythm']>, string> = {
@@ -23,9 +30,13 @@ export default function SectionWrapper({
   className = '',
   withDivider = false,
   rhythm = 'standard',
+  tone = 'dark',
 }: SectionWrapperProps) {
   return (
-    <section id={id} className={`relative ${rhythmClasses[rhythm]} ${className}`}>
+    <section
+      id={id}
+      className={`relative ${rhythmClasses[rhythm]} ${tone === 'light' ? 'section-light' : ''} ${className}`}
+    >
       {/* Subtle horizontal rule — ivory low alpha, signature transition entre sections */}
       {withDivider && (
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(720px,90%)] h-px bg-border" />

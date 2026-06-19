@@ -37,7 +37,6 @@ import {
  */
 
 type Frame = 'iphone' | 'simple';
-type Mode = 'static' | 'sticky' | 'crossfade' | 'scroll-inside';
 
 type BaseProps = {
   alt: string;
