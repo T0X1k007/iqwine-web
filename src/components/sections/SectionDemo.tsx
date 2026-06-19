@@ -2,12 +2,9 @@
 
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import DemoWineCard from '@/components/demo/DemoWineCard';
 import { useLocale } from '@/lib/i18n';
-import { APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import {
   DEMO_MEALS,
@@ -146,23 +143,6 @@ export default function SectionDemo() {
           ))}
         </div>
 
-        {/* CTA */}
-        <FadeInOnScroll delay={0.1}>
-          <div className="mt-12 flex flex-col items-center gap-3">
-            <a
-              href={APP_SIGNUP_URL}
-              onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'demo' })}
-            >
-              <Button variant="cta" size="lg">
-                {t('Commencer — 14 jours, sans carte', 'Start free — 14 days, no card')}
-                <ArrowRight size={16} strokeWidth={1.75} />
-              </Button>
-            </a>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
-              {t('Démo · données d\'exemple', 'Demo · sample data')}
-            </p>
-          </div>
-        </FadeInOnScroll>
       </div>
     </section>
   );
