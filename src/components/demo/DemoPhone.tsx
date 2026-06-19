@@ -2,14 +2,15 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { MapPin, Sparkles } from 'lucide-react';
+import { MapPin, Sparkles, ChevronLeft, Heart, Wine, Search } from 'lucide-react';
 import type { DemoCard } from '@/lib/demoData';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * DemoPhone — réplique « capture d'app » dans un cadre iPhone premium. La PHOTO
- * de bouteille domine ; le texte (condensé) supporte. Fenêtre de dégustation en
- * mini-jauge. Photo réelle (next/image) avec repli silhouette si absente.
+ * DemoPhone — réplique « capture d'app » iQWine dans un cadre iPhone premium.
+ * Écran CLAIR (crème/or, identité réelle de l'app), bouteille dominante, et de
+ * vrais composants d'app : barre de navigation, encadré « Octave recommande »,
+ * carte fenêtre de dégustation, barre d'onglets iOS. Photo réelle + repli silhouette.
  */
 
 const WINE_PHOTOS: Record<string, string> = {
@@ -23,15 +24,15 @@ const WINE_PHOTOS: Record<string, string> = {
   'E. Guigal': '/photos/wines/guigal.png',
 };
 
+// Halo chaud TRÈS doux derrière la bouteille (sur écran crème).
 const WINE_TINT: Record<DemoCard['color'], string> = {
-  ROUGE: 'rgba(142,42,42,0.22)',
-  BLANC: 'rgba(212,169,72,0.16)',
-  EFFERVESCENT: 'rgba(212,169,72,0.18)',
+  ROUGE: 'rgba(150,40,40,0.10)',
+  BLANC: 'rgba(184,146,74,0.12)',
+  EFFERVESCENT: 'rgba(184,146,74,0.14)',
 };
 
 function BottleSilhouette({ color }: { color: DemoCard['color'] }) {
-  const fill =
-    color === 'ROUGE' ? 'var(--color-wine-rouge)' : 'var(--color-wine-blanc)';
+  const fill = color === 'ROUGE' ? 'var(--color-wine-rouge)' : 'var(--color-wine-blanc)';
   return (
     <svg viewBox="0 0 60 200" className="h-full w-auto" aria-hidden role="img">
       <path
@@ -55,62 +56,75 @@ export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Lo
 
   return (
     <div className="mx-auto w-full max-w-[350px]">
-      {/* Étiquette source au-dessus */}
       <p className="mb-4 text-center font-mono text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
         {isCave ? t('Votre cave', 'Your cellar') : t('À la SAQ', 'At the SAQ')}
       </p>
 
-      {/* Cadre iPhone — profondeur : ombre portée ample + double liseré */}
-      <div className="relative rounded-[3rem] border border-white/10 bg-[#0b0b0d] p-3 shadow-[0_50px_120px_-35px_rgba(0,0,0,0.92)] ring-1 ring-white/5">
-        {/* Dynamic island */}
+      {/* Cadre iPhone (bezel sombre) — profondeur */}
+      <div className="relative rounded-[3rem] border border-black/30 bg-[#0b0b0d] p-3 shadow-[0_50px_120px_-35px_rgba(40,28,16,0.55)] ring-1 ring-white/5">
         <div className="absolute left-1/2 top-4 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-black" aria-hidden />
-        {/* Écran — léger dégradé vertical pour la profondeur */}
-        <div className="relative overflow-hidden rounded-[2.4rem] bg-gradient-to-b from-elev to-[#101013]">
-          {/* Header app */}
-          <div className="flex items-center justify-between px-5 pt-9 pb-1">
-            <span className="font-[family-name:var(--font-display)] italic text-or text-[17px]">Octave</span>
-            <span
-              className={`font-mono text-[9px] tracking-[0.16em] uppercase rounded-full px-2.5 py-1 border ${
-                isCave ? 'text-or border-or/50 bg-or/15' : 'text-foreground-dim border-border-strong bg-sunk'
-              }`}
-            >
-              {isCave ? t('Ma cave', 'My cellar') : 'SAQ'}
-            </span>
+
+        {/* ÉCRAN CLAIR (crème/or — identité iQWine) */}
+        <div className="relative overflow-hidden rounded-[2.4rem] bg-elev">
+          {/* Barre de navigation app */}
+          <div className="flex items-center justify-between px-4 pt-9 pb-2.5 border-b border-[var(--color-foreground)]/8">
+            <ChevronLeft size={18} strokeWidth={2} className="text-foreground-faint" aria-hidden />
+            <span className="font-[family-name:var(--font-display)] italic text-or text-[16px]">Octave</span>
+            <Heart size={17} strokeWidth={1.75} className="text-or-soft" aria-hidden />
           </div>
 
           {/* PHOTO dominante */}
           <div
-            className="relative mx-auto flex h-64 w-full items-center justify-center"
-            style={{ background: `radial-gradient(62% 72% at 50% 38%, ${WINE_TINT[card.color]}, transparent 76%)` }}
+            className="relative mx-auto flex h-60 w-full items-center justify-center"
+            style={{ background: `radial-gradient(60% 70% at 50% 42%, ${WINE_TINT[card.color]}, transparent 76%)` }}
           >
             {photo && !imgError ? (
               <Image
                 src={photo}
                 alt={`${card.cuvee} — ${card.producer}`}
-                width={170}
-                height={248}
+                width={160}
+                height={234}
                 onError={() => setImgError(true)}
-                className="h-[248px] w-auto object-contain drop-shadow-[0_18px_34px_rgba(0,0,0,0.6)]"
+                className="h-[234px] w-auto object-contain drop-shadow-[0_16px_26px_rgba(60,40,20,0.28)]"
               />
             ) : (
               <BottleSilhouette color={card.color} />
             )}
           </div>
 
-          {/* Identité */}
-          <div className="px-5 pt-4">
-            <h4 className="font-[family-name:var(--font-display)] text-foreground text-xl leading-tight">
+          {/* Contenu */}
+          <div className="px-4 pb-3">
+            {/* Rangée de chips : source + palais (cave) */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] uppercase ${
+                  isCave ? 'bg-or/15 text-or' : 'bg-sunk text-foreground-dim'
+                }`}
+              >
+                {isCave ? <Wine size={11} strokeWidth={2} /> : <MapPin size={11} strokeWidth={2} />}
+                {isCave ? t('Ma cave', 'My cellar') : 'SAQ'}
+              </span>
+              {isCave && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-or/15 px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] uppercase text-or">
+                  <Heart size={11} strokeWidth={2} />
+                  {t('Pour votre palais', 'For your palate')}
+                </span>
+              )}
+            </div>
+
+            {/* Identité */}
+            <h4 className="mt-2.5 font-[family-name:var(--font-display)] text-foreground text-xl leading-tight">
               {card.cuvee}
               {card.vintage ? <span className="text-or tabular-nums"> {card.vintage}</span> : null}
             </h4>
-            <p className="text-foreground-dim text-[13px] mt-1">
+            <p className="text-foreground-dim text-[13px] mt-0.5">
               {card.producer} · {card.region}
             </p>
 
-            {/* Badges — plus visibles (pastilles) */}
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            {/* Badge apogée / prix + dispo */}
+            <div className="mt-2.5 flex flex-wrap items-center gap-2">
               {isCave && card.atPeak && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-or/45 bg-or/15 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-or">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-or/40 bg-or/12 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-or">
                   <Sparkles size={12} strokeWidth={2} />
                   {t('À son meilleur', 'At its peak')}
                 </span>
@@ -130,31 +144,59 @@ export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Lo
               )}
             </div>
 
-            {/* Accord Octave (condensé, 3 lignes max) */}
-            <p className="mt-3.5 font-[family-name:var(--font-display)] text-foreground/90 text-[14px] leading-relaxed line-clamp-3">
-              {card.why[locale]}
-            </p>
+            {/* Encadré « Octave recommande » */}
+            <div className="mt-3 rounded-2xl bg-sunk border border-or/15 px-3.5 py-3">
+              <p className="inline-flex items-center gap-1.5 font-mono text-[9px] tracking-[0.18em] uppercase text-or mb-1.5">
+                <Sparkles size={11} strokeWidth={2} />
+                {t('Octave recommande', 'Octave recommends')}
+              </p>
+              <p className="font-[family-name:var(--font-display)] text-foreground text-[14px] leading-relaxed line-clamp-3">
+                {card.why[locale]}
+              </p>
+            </div>
 
-            {/* Fenêtre de dégustation — mini-jauge */}
-            <div className="mt-5 mb-6">
+            {/* Carte fenêtre de dégustation */}
+            <div className="mt-2.5 rounded-2xl border border-[var(--color-foreground)]/8 px-3.5 py-3">
+              <p className="font-mono text-[9px] tracking-[0.18em] uppercase text-foreground-faint mb-2">
+                {t('Fenêtre de dégustation', 'Drinking window')}
+              </p>
               <div className="flex items-center justify-between font-mono text-[8px] tracking-[0.12em] uppercase text-foreground-faint">
                 <span>{t('Jeune', 'Young')}</span>
                 <span className="text-or">{t('Apogée', 'Peak')}</span>
                 <span>{t('Déclin', 'Decline')}</span>
               </div>
-              <div className="relative mt-1.5 h-1 rounded-full bg-border-strong">
+              <div className="relative mt-1.5 h-1.5 rounded-full bg-[var(--color-foreground)]/10">
                 <span
-                  className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-border-strong via-or/60 to-border-strong"
-                  style={{ width: '100%' }}
+                  className="absolute inset-y-0 left-0 right-0 rounded-full bg-gradient-to-r from-transparent via-or/55 to-transparent"
                   aria-hidden
                 />
                 <span
-                  className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-or ring-2 ring-elev"
+                  className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-or ring-2 ring-elev"
                   style={{ left: `${stage * 100}%` }}
                   aria-hidden
                 />
               </div>
             </div>
+          </div>
+
+          {/* Barre d'onglets iOS */}
+          <div className="flex items-center justify-around border-t border-[var(--color-foreground)]/8 px-2 pt-2.5 pb-4">
+            {[
+              { icon: Sparkles, label: t('Sommelier', 'Sommelier'), on: true },
+              { icon: Wine, label: t('Cave', 'Cellar'), on: false },
+              { icon: Search, label: t('Cherche', 'Search'), on: false },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <span
+                  key={tab.label}
+                  className={`flex flex-col items-center gap-1 ${tab.on ? 'text-or' : 'text-foreground-faint'}`}
+                >
+                  <Icon size={17} strokeWidth={tab.on ? 2 : 1.75} aria-hidden />
+                  <span className="font-mono text-[8px] tracking-[0.1em] uppercase">{tab.label}</span>
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

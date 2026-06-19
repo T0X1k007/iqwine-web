@@ -63,8 +63,8 @@ export default function SectionDemo() {
         <div className="relative mt-12 min-h-[600px]">
           {/* Halo d'ambiance derrière les téléphones — profondeur */}
           <div
-            className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[420px] w-[680px] max-w-[90%] -translate-x-1/2 -translate-y-1/4 rounded-full opacity-70 blur-[90px]"
-            style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(142,42,42,0.18), transparent 70%)' }}
+            className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[420px] w-[680px] max-w-[90%] -translate-x-1/2 -translate-y-1/4 rounded-full opacity-60 blur-[90px]"
+            style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(184,146,74,0.16), transparent 70%)' }}
             aria-hidden
           />
           <div className="flex flex-col items-center justify-center gap-12 lg:flex-row lg:items-start lg:gap-16">
