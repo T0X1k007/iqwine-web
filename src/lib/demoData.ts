@@ -64,7 +64,7 @@ const DATA: Record<DemoMeal, MealData> = {
       cuvee: 'Chianti Classico',
       region: 'Toscane',
       color: 'ROUGE',
-      vintage: 2019,
+      vintage: 2022,
       atPeak: true,
       personality: { fr: 'Élégant, tendu, méditerranéen.', en: 'Elegant, tense, Mediterranean.' },
       why: {
@@ -93,7 +93,7 @@ const DATA: Record<DemoMeal, MealData> = {
         cuvee: "Montepulciano d'Abruzzo",
         region: 'Abruzzes',
         color: 'ROUGE',
-        priceCad: 18.95,
+        priceCad: 19.65,
         available: true,
         personality: { fr: 'Souple, juteux, généreux.', en: 'Supple, juicy, generous.' },
         why: {
@@ -119,7 +119,7 @@ const DATA: Record<DemoMeal, MealData> = {
       cuvee: 'Chablis',
       region: 'Bourgogne',
       color: 'BLANC',
-      vintage: 2021,
+      vintage: 2022,
       atPeak: true,
       personality: { fr: 'Minéral, tendu, salin.', en: 'Mineral, tense, saline.' },
       why: {
@@ -222,7 +222,7 @@ const DATA: Record<DemoMeal, MealData> = {
       cuvee: 'Barolo',
       region: 'Piémont',
       color: 'ROUGE',
-      vintage: 2017,
+      vintage: 2022,
       atPeak: true,
       personality: { fr: 'Puissant, noble, tannique.', en: 'Powerful, noble, tannic.' },
       why: {
@@ -244,11 +244,11 @@ const DATA: Record<DemoMeal, MealData> = {
     saq: [
       {
         source: 'saq',
-        producer: 'Domaine de la Présidente',
-        cuvee: 'Côtes-du-Rhône Villages',
+        producer: 'E. Guigal',
+        cuvee: 'Côtes-du-Rhône',
         region: 'Rhône',
         color: 'ROUGE',
-        priceCad: 21.9,
+        priceCad: 21.95,
         available: true,
         personality: { fr: 'Épicé, charnu, chaleureux.', en: 'Spicy, fleshy, warming.' },
         why: {

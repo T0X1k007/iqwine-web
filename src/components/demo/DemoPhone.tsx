@@ -20,7 +20,7 @@ const WINE_PHOTOS: Record<string, string> = {
   'Pierre Gimonnet': '/photos/wines/gimonnet.jpg',
   Trimbach: '/photos/wines/trimbach.jpg',
   'Pio Cesare': '/photos/wines/pio-cesare.jpg',
-  'Domaine de la Présidente': '/photos/wines/presidente.jpg',
+  'E. Guigal': '/photos/wines/guigal.jpg',
 };
 
 const WINE_TINT: Record<DemoCard['color'], string> = {
