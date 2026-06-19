@@ -54,24 +54,24 @@ export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Lo
   const stage = card.atPeak ? 0.62 : isCave ? 0.45 : 0.28;
 
   return (
-    <div className="mx-auto w-full max-w-[280px]">
+    <div className="mx-auto w-full max-w-[350px]">
       {/* Étiquette source au-dessus */}
-      <p className="mb-3 text-center font-mono text-[10px] tracking-[0.24em] uppercase text-foreground-faint">
+      <p className="mb-4 text-center font-mono text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
         {isCave ? t('Votre cave', 'Your cellar') : t('À la SAQ', 'At the SAQ')}
       </p>
 
-      {/* Cadre iPhone */}
-      <div className="relative rounded-[2.6rem] border border-white/10 bg-[#0b0b0d] p-2.5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
+      {/* Cadre iPhone — profondeur : ombre portée ample + double liseré */}
+      <div className="relative rounded-[3rem] border border-white/10 bg-[#0b0b0d] p-3 shadow-[0_50px_120px_-35px_rgba(0,0,0,0.92)] ring-1 ring-white/5">
         {/* Dynamic island */}
-        <div className="absolute left-1/2 top-3.5 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black" aria-hidden />
-        {/* Écran */}
-        <div className="relative overflow-hidden rounded-[2.1rem] bg-elev">
+        <div className="absolute left-1/2 top-4 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-black" aria-hidden />
+        {/* Écran — léger dégradé vertical pour la profondeur */}
+        <div className="relative overflow-hidden rounded-[2.4rem] bg-gradient-to-b from-elev to-[#101013]">
           {/* Header app */}
-          <div className="flex items-center justify-between px-4 pt-7 pb-2">
-            <span className="font-[family-name:var(--font-display)] italic text-or text-[15px]">Octave</span>
+          <div className="flex items-center justify-between px-5 pt-9 pb-1">
+            <span className="font-[family-name:var(--font-display)] italic text-or text-[17px]">Octave</span>
             <span
-              className={`font-mono text-[8px] tracking-[0.16em] uppercase rounded-full px-2 py-0.5 border ${
-                isCave ? 'text-or border-or/40 bg-or/10' : 'text-foreground-dim border-border-strong'
+              className={`font-mono text-[9px] tracking-[0.16em] uppercase rounded-full px-2.5 py-1 border ${
+                isCave ? 'text-or border-or/50 bg-or/15' : 'text-foreground-dim border-border-strong bg-sunk'
               }`}
             >
               {isCave ? t('Ma cave', 'My cellar') : 'SAQ'}
@@ -80,17 +80,17 @@ export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Lo
 
           {/* PHOTO dominante */}
           <div
-            className="relative mx-auto flex h-44 w-full items-center justify-center"
-            style={{ background: `radial-gradient(60% 70% at 50% 35%, ${WINE_TINT[card.color]}, transparent 75%)` }}
+            className="relative mx-auto flex h-64 w-full items-center justify-center"
+            style={{ background: `radial-gradient(62% 72% at 50% 38%, ${WINE_TINT[card.color]}, transparent 76%)` }}
           >
             {photo && !imgError ? (
               <Image
                 src={photo}
                 alt={`${card.cuvee} — ${card.producer}`}
-                width={120}
-                height={176}
+                width={170}
+                height={248}
                 onError={() => setImgError(true)}
-                className="h-[176px] w-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)]"
+                className="h-[248px] w-auto object-contain drop-shadow-[0_18px_34px_rgba(0,0,0,0.6)]"
               />
             ) : (
               <BottleSilhouette color={card.color} />
@@ -98,45 +98,45 @@ export default function DemoPhone({ card, locale }: { card: DemoCard; locale: Lo
           </div>
 
           {/* Identité */}
-          <div className="px-4 pt-3">
-            <h4 className="font-[family-name:var(--font-display)] text-foreground text-lg leading-tight">
+          <div className="px-5 pt-4">
+            <h4 className="font-[family-name:var(--font-display)] text-foreground text-xl leading-tight">
               {card.cuvee}
               {card.vintage ? <span className="text-or tabular-nums"> {card.vintage}</span> : null}
             </h4>
-            <p className="text-foreground-dim text-[12px] mt-0.5">
+            <p className="text-foreground-dim text-[13px] mt-1">
               {card.producer} · {card.region}
             </p>
 
-            {/* Badge */}
-            <div className="mt-2.5">
+            {/* Badges — plus visibles (pastilles) */}
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               {isCave && card.atPeak && (
-                <span className="inline-flex items-center gap-1.5 font-mono text-[9px] tracking-[0.14em] uppercase text-or">
-                  <Sparkles size={11} strokeWidth={2} />
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-or/45 bg-or/15 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-or">
+                  <Sparkles size={12} strokeWidth={2} />
                   {t('À son meilleur', 'At its peak')}
                 </span>
               )}
               {!isCave && (
-                <span className="inline-flex items-center gap-2.5 font-mono text-[9px] tracking-[0.14em] uppercase text-[var(--color-signal)]">
-                  <span className="text-foreground font-medium normal-case text-[13px] tracking-normal">
+                <>
+                  <span className="font-medium text-foreground text-[17px] tabular-nums">
                     {typeof card.priceCad === 'number' ? `${card.priceCad.toFixed(2)} $` : ''}
                   </span>
                   {card.available && (
-                    <span className="inline-flex items-center gap-1">
-                      <MapPin size={11} strokeWidth={2} />
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-signal)]/45 bg-[var(--color-signal)]/12 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--color-signal)]">
+                      <MapPin size={12} strokeWidth={2} />
                       {t('Disponible', 'In stock')}
                     </span>
                   )}
-                </span>
+                </>
               )}
             </div>
 
             {/* Accord Octave (condensé, 3 lignes max) */}
-            <p className="mt-3 font-[family-name:var(--font-display)] text-foreground/85 text-[13px] leading-relaxed line-clamp-3">
+            <p className="mt-3.5 font-[family-name:var(--font-display)] text-foreground/90 text-[14px] leading-relaxed line-clamp-3">
               {card.why[locale]}
             </p>
 
             {/* Fenêtre de dégustation — mini-jauge */}
-            <div className="mt-4 mb-5">
+            <div className="mt-5 mb-6">
               <div className="flex items-center justify-between font-mono text-[8px] tracking-[0.12em] uppercase text-foreground-faint">
                 <span>{t('Jeune', 'Young')}</span>
                 <span className="text-or">{t('Apogée', 'Peak')}</span>

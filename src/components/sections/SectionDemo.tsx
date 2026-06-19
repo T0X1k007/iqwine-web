@@ -60,23 +60,31 @@ export default function SectionDemo() {
         </FadeInOnScroll>
 
         {/* Téléphones — cave (gauche) / SAQ (droite). Morph à chaque changement. */}
-        <div className="mt-12 flex flex-col items-center justify-center gap-12 lg:flex-row lg:items-start lg:gap-14 min-h-[520px]">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {cards.map((card) => (
-              <motion.div
-                key={`${meal}-${card.source}`}
-                layout={!reduced}
-                initial={reduced ? false : { opacity: 0, y: 16, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.97 }}
-                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                style={{ willChange: 'transform' }}
-                className="w-full max-w-[280px]"
-              >
-                <DemoPhone card={card} locale={locale} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+        <div className="relative mt-12 min-h-[600px]">
+          {/* Halo d'ambiance derrière les téléphones — profondeur */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[420px] w-[680px] max-w-[90%] -translate-x-1/2 -translate-y-1/4 rounded-full opacity-70 blur-[90px]"
+            style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(142,42,42,0.18), transparent 70%)' }}
+            aria-hidden
+          />
+          <div className="flex flex-col items-center justify-center gap-12 lg:flex-row lg:items-start lg:gap-16">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {cards.map((card) => (
+                <motion.div
+                  key={`${meal}-${card.source}`}
+                  layout={!reduced}
+                  initial={reduced ? false : { opacity: 0, y: 16, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={reduced ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.97 }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ willChange: 'transform' }}
+                  className="w-full max-w-[350px]"
+                >
+                  <DemoPhone card={card} locale={locale} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>

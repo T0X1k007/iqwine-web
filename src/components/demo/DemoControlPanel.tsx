@@ -33,7 +33,7 @@ export default function DemoControlPanel({
   const spring = reduced ? { duration: 0 } : { type: 'spring' as const, stiffness: 420, damping: 34 };
 
   return (
-    <div className="glass rounded-2xl border border-or/15 px-4 py-5 sm:px-7 sm:py-6">
+    <div className="glass rounded-2xl border border-or/20 ring-1 ring-white/5 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.7)] px-5 py-6 sm:px-8 sm:py-7">
       {/* Plat */}
       <div className="sm:flex sm:items-center sm:gap-5">
         <span className="block sm:w-44 sm:shrink-0 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint mb-2.5 sm:mb-0">
