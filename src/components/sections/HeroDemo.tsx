@@ -42,7 +42,7 @@ export default function HeroDemo() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, y: -16, scale: 0.97 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-[320px]"
+          className="w-full max-w-[300px] lg:max-w-[290px] xl:max-w-[310px]"
           style={{ willChange: 'transform, opacity' }}
         >
           <DemoPhone card={card} locale={locale} caption={t('Votre cave', 'Your cellar')} />

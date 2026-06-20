@@ -32,7 +32,11 @@ export default function HeroV4() {
   return (
     <section
       id="hero"
-      className="relative min-h-[88dvh] lg:h-[100dvh] lg:min-h-[640px] flex flex-col justify-center overflow-hidden pt-24 pb-10 lg:pt-28 lg:pb-12"
+      /* L'offset top réel = --nav-h (hauteur navbar fixe + safe-area), donc le
+         contenu démarre TOUJOURS sous la barre, à toutes les largeurs. Sur lg+
+         on remplit le viewport restant et on centre le bloc dans cet espace
+         (justify-center borné par le pt offset → plus de chevauchement). */
+      className="relative flex flex-col justify-start lg:justify-center overflow-hidden pt-[calc(var(--nav-h)+1.5rem)] pb-12 lg:pb-16 lg:min-h-[100dvh]"
     >
       {/* Phase 6, plus de blob « spotlight » daté. Ambiance locale TRÈS
           subtile, au hero seul : un dégradé chaud diffus en haut (faible
@@ -43,9 +47,9 @@ export default function HeroV4() {
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-x-10 xl:gap-x-16 lg:items-center">
           {/* LEFT, bloc typographique éditorial */}
-          <div className="lg:col-span-7 text-center lg:text-left">
+          <div className="lg:col-span-6 text-center lg:text-left">
             {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide.
                 Phase 7, hero épuré : eyebrow « SOMMELIER IA · CAVE · … » ET la ligne
                 d'ancrage « Conçu au Québec · … » retirées (redondantes, alourdissaient
@@ -83,14 +87,14 @@ export default function HeroV4() {
           {/* RIGHT, emplacement photographie « art de vivre » (Q19 option B).
               La démo vivante a migré en section 2 ; le hero s'ouvre sur
               l'émotion. Vraie photo en Phase 7. */}
-          <div className="lg:col-span-5 flex flex-col items-center mt-8 lg:mt-0">
-            <FadeInOnScroll delay={0.3} direction="left" className="w-full">
+          <div className="lg:col-span-6 flex flex-col items-center mt-12 lg:mt-0">
+            <FadeInOnScroll delay={0.3} direction="left" className="w-full flex justify-center">
               <HeroDemo />
             </FadeInOnScroll>
 
             {/* Citation, italique éditoriale sous le mockup (réplique iQForge) */}
             <FadeInOnScroll delay={0.85}>
-              <p className="mt-8 lg:mt-10 text-center font-[family-name:var(--font-display)] italic text-foreground/85 text-lg sm:text-xl leading-relaxed">
+              <p className="mt-6 lg:mt-8 text-center font-[family-name:var(--font-display)] italic text-foreground/80 text-lg sm:text-xl leading-relaxed">
                 {locale === 'fr'
                   ? '« Ne plus gérer une cave. Vivre avec elle. »'
                   : '"Stop managing a cellar. Live with it."'}
@@ -99,9 +103,9 @@ export default function HeroV4() {
           </div>
         </div>
 
-        {/* Cartouche de confiance, flush CTA « 14 jours » → bord droit de la démo */}
+        {/* Cartouche de confiance, ancrée en bas du hero — referme la composition. */}
         <FadeInOnScroll delay={0.7}>
-          <div className="mt-7 lg:mt-8">
+          <div className="mt-10 lg:mt-12">
             <HeroTrustBar />
           </div>
         </FadeInOnScroll>

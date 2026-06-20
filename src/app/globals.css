@@ -114,6 +114,11 @@
   --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
 
+  /* ── Layout — hauteur réelle de la navbar fixe (h-20 + pt-safe mobile) ──
+     Sert d'offset au hero pour que le contenu ne passe jamais sous la barre.
+     Desktop (md+) : h-28 (112px) + 16px safe ≈ 128px → override plus bas. */
+  --nav-h: calc(80px + max(env(safe-area-inset-top), 16px));
+
   /* ── Radii (md/lg 90% du temps) ──────────────────── */
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -138,6 +143,13 @@
   /* ── Motion (iOS-like) ───────────────────────────── */
   --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Navbar passe à h-28 (112px) au breakpoint md → --nav-h suit. */
+@media (min-width: 768px) {
+  :root {
+    --nav-h: calc(112px + max(env(safe-area-inset-top), 16px));
+  }
 }
 
 @layer base {
