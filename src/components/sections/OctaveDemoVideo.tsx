@@ -9,8 +9,8 @@ import type { Locale } from '@/lib/i18n';
  *
  * Le bezel reprend le style sombre de DemoPhone (rounded-[3rem], #0b0b0d,
  * ring-white/5) MAIS sans l'encoche : la vidéo possède déjà sa propre barre
- * de statut iOS retirée au montage (crop). Le ratio vidéo (220×452 ≈ 55:113)
- * colle au ratio de l'écran, donc object-cover remplit proprement sans crop.
+ * de statut iOS retirée au montage (crop), fondu entrée/sortie pour une boucle
+ * douce. Ratio vidéo 600×1220 ≈ 30:61 → object-cover remplit sans crop.
  *
  * prefers-reduced-motion → pas d'autoplay : on laisse le poster + les
  * contrôles natifs pour que l'utilisateur déclenche lui-même.
@@ -30,7 +30,7 @@ export default function OctaveDemoVideo({ locale }: { locale: Locale }) {
         {/* ÉCRAN — la vidéo le remplit (ratio ≈ écran, object-cover propre) */}
         <div className="relative overflow-hidden rounded-[2.4rem] bg-[#0b0b0d]">
           <video
-            className="block aspect-[55/113] w-full h-full object-cover"
+            className="block aspect-[30/61] w-full h-full object-cover"
             poster="/video/octave-demo-poster.jpg"
             autoPlay={!reduced}
             loop
