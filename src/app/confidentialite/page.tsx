@@ -83,12 +83,14 @@ export default function ConfidentialitePage() {
         personnels.
       </LegalSection>
 
-      <LegalSection title="Données de tiers (SAQ et autres sources)">
-        Certaines informations affichées (prix, disponibilités, images,
-        descriptifs) proviennent de sources tierces, dont la Société des alcools
-        du Québec (SAQ). Ces données appartiennent à leurs détenteurs respectifs,
-        sont fournies à titre indicatif et peuvent être inexactes ou modifiées
-        sans préavis.
+      <LegalSection title="Données de tiers (détaillants et sources publiques)">
+        Certaines informations relatives aux produits, aux prix, aux
+        disponibilités et aux points de vente peuvent provenir de sources
+        publiques ou de détaillants tiers. Ces données appartiennent à leurs
+        détenteurs respectifs, sont fournies à titre informatif seulement et
+        peuvent différer de celles affichées par les détaillants concernés.
+        Malgré nos efforts pour les maintenir à jour, leur exactitude, leur
+        disponibilité et leur exhaustivité ne peuvent être garanties.
       </LegalSection>
 
       <LegalSection title="Vos droits (Loi 25)">

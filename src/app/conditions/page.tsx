@@ -80,12 +80,14 @@ export default function ConditionsPage() {
         professionnel et ne remplacent pas votre propre jugement.
       </LegalSection>
 
-      <LegalSection title="7. Données SAQ et données de tiers">
-        Certaines informations — notamment les prix, les disponibilités, les
-        images et les descriptifs provenant de la Société des alcools du Québec
-        (SAQ) ou d’autres sources tierces — sont fournies par ces tiers, à titre
-        indicatif. Elles peuvent être inexactes, incomplètes ou modifiées sans
-        préavis. iQWine n’est pas responsable de l’exactitude, de la
+      <LegalSection title="7. Données de tiers et disponibilités">
+        Certaines informations relatives aux produits, aux prix, aux
+        disponibilités et aux points de vente peuvent provenir de sources
+        publiques ou de détaillants tiers. Elles sont fournies à titre
+        informatif seulement et peuvent différer de celles affichées par les
+        détaillants concernés. Malgré nos efforts pour les maintenir à jour,
+        leur exactitude, leur disponibilité et leur exhaustivité ne peuvent être
+        garanties. iQWine n’est pas responsable de l’exactitude, de la
         disponibilité ni des prix affichés par des tiers.
       </LegalSection>
 
