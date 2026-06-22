@@ -132,7 +132,7 @@ export default function Pricing() {
           </div>
           <div className="flex justify-center">
             <span className="rounded-full bg-or/12 text-or px-3 py-1 text-xs font-medium tracking-wide">
-              {t("2 mois offerts", "2 months included")}
+              {t("2 mois offerts avec l’abonnement annuel", "2 months free with the annual plan")}
             </span>
           </div>
         </div>

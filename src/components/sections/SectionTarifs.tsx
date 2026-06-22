@@ -21,7 +21,7 @@ export default function SectionTarifs() {
   return (
     <section id="tarifs" className="scroll-mt-28">
       {/* CTA neutre — commencer l'essai sans présélectionner de plan. */}
-      <div className="px-6 pt-20 sm:pt-24 text-center">
+      <div className="px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
         <FadeInOnScroll>
           <a
             href={APP_SIGNUP_URL}
