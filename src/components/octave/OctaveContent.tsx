@@ -186,7 +186,7 @@ export default function OctaveContent() {
   const t: T = (fr, en) => (locale === 'fr' ? fr : en);
 
   // « Voir Octave en action » : 3 scènes, 3 vins distincts (bulles / rouge /
-  // blanc SAQ), mises en scène variées pour ne pas dupliquer le bloc de la home.
+  // blanc hors-cave), mises en scène variées pour ne pas dupliquer le bloc de la home.
   const scenes = [
     {
       caption: t('Scan d’étiquette', 'Label scan'),

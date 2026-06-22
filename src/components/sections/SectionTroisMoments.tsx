@@ -17,7 +17,7 @@ import type { Locale } from '@/lib/i18n';
  *
  * Captures DISTINCTES par colonne (jamais le même PNG deux fois) :
  *   maison      → 02-home-suggestions (choisir dans sa cave)
- *   point de vente → 06-recherche-hors-cave (bouteille en tablette, succursale)
+ *   point de vente → 06-recherche-hors-cave (bouteille en tablette, en magasin)
  *   restaurant  → 03-menu-scan (accord avec le plat, sur place)
  *
  * Mobile : stack vertical (iPhone + texte par moment), puis la vidéo Octave.

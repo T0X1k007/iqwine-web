@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import HeroV4 from '@/components/sections/HeroV4';
 
 // Above-fold = eager (Hero seul). Tout le reste = code-split (next/dynamic, SSR
-// conservé → SEO + 0 CLS). Ordre : mémoire → palais → SAQ → moments à enjeu →
+// conservé → SEO + 0 CLS). Ordre : mémoire → palais → disponibilité locale → moments à enjeu →
 // preuve → comment → pourquoi → confiance → cercle → décision.
 const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
 const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb')); // « Une cave qui se souvient » (pilier)

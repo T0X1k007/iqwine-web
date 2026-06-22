@@ -28,9 +28,9 @@ export interface DemoCard {
   region: string;
   color: WineColor;
   vintage?: number;
-  /** Prix CAD — SAQ uniquement. */
+  /** Prix CAD — source 'saq' uniquement. */
   priceCad?: number;
-  /** Badge « Disponible à votre SAQ » — SAQ uniquement. */
+  /** Badge « Disponible » — source 'saq' uniquement. */
   available?: boolean;
   /** Badge « À son meilleur » (apogée) — cave uniquement. */
   atPeak?: boolean;
@@ -303,7 +303,7 @@ export function mealLabel(meal: DemoMeal, locale: Locale): string {
   return DATA[meal].label[locale];
 }
 
-/** Cartes pour un plat + une source. Ordre : cave d'abord, puis SAQ. */
+/** Cartes pour un plat + une source. Ordre : cave d'abord, puis hors-cave ('saq'). */
 export function getDemoCards(meal: DemoMeal, source: DemoSource): DemoCard[] {
   const m = DATA[meal];
   if (source === 'cave') return [m.cave];
