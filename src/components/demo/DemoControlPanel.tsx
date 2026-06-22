@@ -12,7 +12,7 @@ import { DEMO_MEALS, mealLabel, type DemoMeal, type DemoSource } from '@/lib/dem
 
 const SOURCES: { id: DemoSource; fr: string; en: string }[] = [
   { id: 'cave', fr: 'Ma cave', en: 'My cellar' },
-  { id: 'saq', fr: 'SAQ', en: 'SAQ' },
+  { id: 'saq', fr: 'Près de vous', en: 'Near you' },
   { id: 'both', fr: 'Les deux', en: 'Both' },
 ];
 

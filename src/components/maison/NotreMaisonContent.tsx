@@ -121,8 +121,8 @@ export default function NotreMaisonContent() {
             </h2>
             <p className="iq-lead mt-7 max-w-2xl mx-auto">
               {t(
-                'iQWine est conçu au Québec et hébergé au Canada. Vos données ne sont ni revendues, ni utilisées contre vous. Et parce qu’on connaît la SAQ comme aucune application étrangère ne le pourra, iQWine sait quelle bouteille est en tablette, à votre succursale, partout au Québec. Le vin se vit localement. Votre sommelier aussi.',
-                'iQWine is built in Québec and hosted in Canada. Your data is neither sold, nor used against you. And because we know the SAQ as no foreign app ever could, iQWine knows which bottle is on the shelf, at your branch, across Québec. Wine is lived locally. So is your sommelier.',
+                'iQWine est conçu au Québec et hébergé au Canada. Vos données ne sont ni revendues, ni utilisées contre vous. Et parce qu’on connaît le marché local comme aucune application étrangère ne le pourra, iQWine sait quelle bouteille est en tablette, près de vous, partout au Québec. Le vin se vit localement. Votre sommelier aussi.',
+                'iQWine is built in Québec and hosted in Canada. Your data is neither sold, nor used against you. And because we know the local market as no foreign app ever could, iQWine knows which bottle is on the shelf, near you, across Québec. Wine is lived locally. So is your sommelier.',
               )}
             </p>
           </FadeInOnScroll>

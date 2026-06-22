@@ -91,7 +91,7 @@ const HERO_MAP = {
     trust: [
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
       { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
-      { title: 'Live SAQ', lines: ['Geolocated inventory, by store'] },
+      { title: 'Local availability', lines: ['Verified store by store, near you'] },
       { title: 'No card required', lines: ['Free 14-day trial', 'Cancel anytime'] },
     ],
     variantA: {
@@ -99,7 +99,7 @@ const HERO_MAP = {
       headlineTop: 'Always know',
       headlineBottom: 'which bottle to open.',
       subheadline:
-        "Octave knows your cellar, your taste, every bottle's peak and your SAQ's live stock — and turns it all into one decision: the right bottle, at the right moment.",
+        "Octave knows your cellar, your taste, every bottle's peak and where to find it near you — and turns it all into one decision: the right bottle, at the right moment.",
       categoryLine: 'Others organize your cellar. Octave tells you what to do with it.',
       reassurance: '14 days free · No card · No cellar to enter',
       ctaHeroPrimary: 'Find what to drink tonight',
@@ -112,7 +112,7 @@ const HERO_MAP = {
     trust: [
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
       { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },
-      { title: 'SAQ en direct', lines: ['Inventaire géolocalisé par succursale'] },
+      { title: 'Disponibilité locale', lines: ['Vérifiée magasin par magasin, près de vous'] },
       { title: 'Aucune carte requise', lines: ['Essai gratuit 14 jours', 'Annulable en tout temps'] },
     ],
     variantA: {
@@ -120,7 +120,7 @@ const HERO_MAP = {
       headlineTop: 'Sachez toujours',
       headlineBottom: 'quelle bouteille ouvrir.',
       subheadline:
-        "Octave connaît votre cave, votre palais, l'apogée de chaque bouteille et le stock de votre SAQ en direct — et transforme tout ça en une décision : la bonne bouteille, au bon moment.",
+        "Octave connaît votre cave, votre palais, l'apogée de chaque bouteille et où la trouver près de vous — et transforme tout ça en une décision : la bonne bouteille, au bon moment.",
       categoryLine: 'Les autres rangent votre cave. Octave vous dit quoi en faire.',
       reassurance: '14 jours gratuits · Sans carte · Aucune cave à saisir',
       ctaHeroPrimary: 'Trouver quoi boire ce soir',

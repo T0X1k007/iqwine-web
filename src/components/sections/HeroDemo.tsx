@@ -10,7 +10,7 @@ import { useLocale } from '@/lib/i18n';
  * HeroDemo — visuel produit du hero. VRAIES captures de l'app iQWine présentées
  * dans le cadre iPhone éditorial premium (FrameChrome), en crossfade automatique
  * sur trois écrans qui montrent la valeur : recommandation depuis la cave →
- * disponibilité SAQ en direct → apogée & palais. reduced-motion : fige sur le
+ * disponibilité locale en direct → apogée & palais. reduced-motion : fige sur le
  * premier écran (la recommandation). Aucun mockup dessiné : produit réel, fini.
  */
 
@@ -22,8 +22,8 @@ const SCENES = [
   },
   {
     src: '/screenshots/06-recherche-hors-cave.png',
-    fr: 'En tablette, à votre SAQ — en direct',
-    en: 'On the shelf at your SAQ — live',
+    fr: 'En tablette, près de vous — en direct',
+    en: 'On the shelf, near you — live',
   },
   {
     src: '/screenshots/01-fiche-vin.png',

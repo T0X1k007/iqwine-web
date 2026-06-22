@@ -14,7 +14,7 @@ import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
 
 /**
  * SectionDemo — la vitrine d'Octave (Concept A premium). Panneau de contrôle en
- * haut, puis DEUX téléphones : votre cave (gauche) vs la SAQ (droite). Changer le
+ * haut, puis DEUX téléphones : votre cave (gauche) vs près de vous (droite). Changer le
  * plat ou la source métamorphose les écrans. Le visuel domine, le texte supporte.
  * AUCUN appel API — données factices. GPU only, reduced-motion respecté.
  */
@@ -39,8 +39,8 @@ export default function SectionDemo() {
             </h2>
             <p className="iq-lead mt-5 max-w-2xl mx-auto">
               {t(
-                'Choisissez un plat, puis la source. Octave répond comme un sommelier : votre cave, la SAQ, ou les deux.',
-                'Pick a dish, then a source. Octave answers like a sommelier: your cellar, the SAQ, or both.',
+                'Choisissez un plat, puis la source. Octave répond comme un sommelier : votre cave, une bouteille disponible près de vous, ou les deux.',
+                'Pick a dish, then a source. Octave answers like a sommelier: your cellar, a bottle available near you, or both.',
               )}
             </p>
           </div>
@@ -62,7 +62,7 @@ export default function SectionDemo() {
           />
         </FadeInOnScroll>
 
-        {/* Téléphones — cave (gauche) / SAQ (droite). Morph à chaque changement. */}
+        {/* Téléphones — cave (gauche) / près de vous (droite). Morph à chaque changement. */}
         <div className="relative mt-12 min-h-[600px]">
           {/* Halo d'ambiance derrière les téléphones — profondeur */}
           <div

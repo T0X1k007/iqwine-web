@@ -20,8 +20,9 @@ export type Testimonial = {
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    quoteFr: 'Tellement plus simple de choisir une bouteille à la SAQ pour un souper.',
-    quoteEn: 'So much easier to pick a bottle at the SAQ for a dinner.',
+    /* André — version confirmée par André (sans « SAQ »), fournie par Eric. */
+    quoteFr: 'Choisir quel vin acheter pour un souper d’amis est tellement plus facile.',
+    quoteEn: 'Choosing which wine to buy for a dinner with friends is so much easier.',
     name: 'André',
     city: 'Terrebonne, Québec',
   },

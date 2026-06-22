@@ -1,9 +1,9 @@
 'use client';
 
-import { Lock, ShieldCheck } from 'lucide-react';
+import { Lock, MapPin, ShieldCheck } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
 import { getHero } from '@/lib/constants';
-import { FleurDeLys, SaqLive } from '@/components/ui/brand-icons';
+import { FleurDeLys } from '@/components/ui/brand-icons';
 
 /**
  * Cartouche de confiance hero — 4 piliers dans une boîte arrondie bordée
@@ -11,19 +11,19 @@ import { FleurDeLys, SaqLive } from '@/components/ui/brand-icons';
  * de la démo Sommelier iQWine ; demande Eric 2026-06-11) : icône or à
  * gauche + titre gras + deux sous-lignes muted, séparés par des filets
  * verticaux (desktop). Ordre fixe aligné sur HERO_MAP.trust :
- * Québec · Chiffré & privé · SAQ en direct · Sans carte.
+ * Québec · Chiffré & privé · Disponibilité locale · Sans carte.
  */
 
 export default function HeroTrustBar() {
   const { locale } = useLocale();
   const hero = getHero(locale);
 
-  // Seul le pilier SAQ (index 2) est un différenciateur — les 3 autres sont de
-  // l'hygiène. On le sort de la parité visuelle par un accent or léger.
+  // Seul le pilier disponibilité (index 2) est un différenciateur — les 3 autres
+  // sont de l'hygiène. On le sort de la parité visuelle par un accent or léger.
   const items = [
     { ...hero.trust[0], icon: <FleurDeLys size={30} />, accent: false },
     { ...hero.trust[1], icon: <Lock size={26} strokeWidth={1.75} />, accent: false },
-    { ...hero.trust[2], icon: <SaqLive size={28} />, accent: true },
+    { ...hero.trust[2], icon: <MapPin size={26} strokeWidth={1.75} />, accent: true },
     { ...hero.trust[3], icon: <ShieldCheck size={26} strokeWidth={1.75} />, accent: false },
   ];
 

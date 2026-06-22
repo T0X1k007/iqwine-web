@@ -4,7 +4,7 @@ import OctaveContent from '@/components/octave/OctaveContent';
 export const metadata: Metadata = {
   title: 'Sommelier IA — Octave | iQWine',
   description:
-    'Octave n’est pas une fonctionnalité IA : c’est un sommelier personnel qui connaît votre cave, votre palais et la SAQ, et vous dit quelle bouteille ouvrir ce soir.',
+    'Octave n’est pas une fonctionnalité IA : c’est un sommelier personnel qui connaît votre cave, votre palais et la disponibilité locale, et vous dit quelle bouteille ouvrir ce soir.',
   alternates: { canonical: '/sommelier-ia' },
 };
 

@@ -11,10 +11,11 @@ import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * SectionSaq (#saq) — le moat SAQ renforcé. Octave ne recommande pas dans le
- * vide : si le vin n'est pas dans votre cave, il sait où le trouver, en
- * tablette, à la succursale la plus proche, ce soir. Disponibilités SAQ par
- * succursale — le différenciateur que personne d'autre ne réunit.
+ * SectionSaq (#saq) — le moat disponibilité locale renforcé. Octave ne
+ * recommande pas dans le vide : si le vin n'est pas dans votre cave, il sait où
+ * le trouver, en tablette, au point de vente le plus proche, ce soir.
+ * Disponibilités locales vérifiées, magasin par magasin — le différenciateur
+ * que personne d'autre ne réunit.
  */
 
 export default function SectionSaq() {
@@ -34,8 +35,8 @@ export default function SectionSaq() {
           </h2>
           <p className="iq-lead mt-6">
             {t(
-              "Octave ne se contente pas de recommander un vin. S'il n'est pas dans votre cave, il sait où le trouver : la bonne bouteille, en tablette, à la succursale SAQ la plus proche — et si elle est disponible ce soir.",
-              'Octave doesn’t just recommend a wine. If it isn’t in your cellar, it knows where to find it: the right bottle, on the shelf, at the nearest SAQ store — and whether it’s available tonight.',
+              "Octave ne se contente pas de recommander un vin. S'il n'est pas dans votre cave, il sait où le trouver : la bonne bouteille, en tablette, au point de vente le plus proche — et si elle est disponible ce soir.",
+              'Octave doesn’t just recommend a wine. If it isn’t in your cellar, it knows where to find it: the right bottle, on the shelf, at the nearest store — and whether it’s available tonight.',
             )}
           </p>
         </FadeInOnScroll>
@@ -43,19 +44,14 @@ export default function SectionSaq() {
         <FadeInOnScroll delay={0.12}>
           <p className="iq-body mt-6 text-foreground-dim">
             {t(
-              'Disponibilités SAQ par succursale, partout au Québec. Vous ne partez plus à l’aveugle : vous savez avant même de sortir.',
-              'SAQ availability, store by store, across Québec. You no longer head out blind: you know before you even leave.',
+              'Disponibilités locales vérifiées, magasin par magasin, partout au Québec. Vous ne partez plus à l’aveugle : vous savez avant même de sortir.',
+              'Local availability, verified store by store, across Québec. You no longer head out blind: you know before you even leave.',
             )}
           </p>
           <p className="mt-4 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint">
             {t(
-              <>
-                Plus de <span className="tabular-nums">400</span> succursales SAQ,
-                partout au Québec
-              </>,
-              <>
-                <span className="tabular-nums">400</span>+ SAQ stores, across Québec
-              </>,
+              <>Un réseau de points de vente, partout au Québec</>,
+              <>A network of stores, across Québec</>,
             )}
           </p>
         </FadeInOnScroll>
@@ -74,8 +70,8 @@ export default function SectionSaq() {
             <ScreenshotFrame
               src="/screenshots/06-recherche-hors-cave.png"
               alt={t(
-                'Octave trouve la bouteille en tablette à votre SAQ',
-                'Octave finds the bottle on the shelf at your SAQ',
+                'Octave trouve la bouteille en tablette, près de vous',
+                'Octave finds the bottle on the shelf, near you',
               )}
               width={264}
               frame="iphone"
@@ -84,8 +80,8 @@ export default function SectionSaq() {
             />
           </div>
 
-          {/* Artefact SAQ : succursale réelle + statut de disponibilité (sans
-              quantité exacte ni horodatage — la dispo SAQ est best-effort). Le
+          {/* Artefact : point de vente réel + statut de disponibilité (sans
+              quantité exacte ni horodatage — la dispo est best-effort). Le
               point animé reste un décor visuel, pas une promesse temps réel. */}
           <div className="mt-7 flex justify-center">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-or/20 bg-or/[0.05] px-4 py-2 font-mono text-[11px] tracking-[0.06em] text-foreground/80">
@@ -95,8 +91,8 @@ export default function SectionSaq() {
               </span>
               <span>
                 {t(
-                  <>SAQ Sélection Outremont · Disponible en tablette</>,
-                  <>SAQ Sélection Outremont · In stock in-store</>,
+                  <>Point de vente · Outremont · Disponible en tablette</>,
+                  <>Store · Outremont · In stock in-store</>,
                 )}
               </span>
             </div>
@@ -113,12 +109,12 @@ export default function SectionSaq() {
             <blockquote className="font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
               {t(
                 <>
-                  « À votre SAQ, le Guigal Côtes-du-Rhône à{' '}
+                  « Près de vous, le Guigal Côtes-du-Rhône à{' '}
                   <span className="tabular-nums not-italic">24,50 $</span> est en
                   tablette — charnu, épicé, parfait ce soir. »
                 </>,
                 <>
-                  “At your SAQ, the Guigal Côtes-du-Rhône at{' '}
+                  “Near you, the Guigal Côtes-du-Rhône at{' '}
                   <span className="tabular-nums not-italic">$24.50</span> is on the
                   shelf — fleshy, spiced, perfect tonight.”
                 </>,
@@ -129,8 +125,8 @@ export default function SectionSaq() {
           {/* Non-copiabilité : le « pourquoi personne d'autre ». Sobre, factuel. */}
           <p className="iq-body mt-8 mx-auto max-w-2xl text-foreground-dim">
             {t(
-              'Aucune app étrangère ne connaîtra la SAQ comme ça : la SAQ est un monopole d’État, succursale par succursale.',
-              'No foreign app will ever know the SAQ like this: the SAQ is a state monopoly, store by store.',
+              'Aucune app étrangère ne sait ce qui est disponible près de vous, magasin par magasin.',
+              'No foreign app knows what’s available near you, store by store.',
             )}
           </p>
         </FadeInOnScroll>

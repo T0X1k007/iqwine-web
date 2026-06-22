@@ -37,11 +37,11 @@ interface Row {
 // bas. Bénéfices EN SITUATION (« sur place », « en direct »), pas des features.
 // Ordre cellules : iQWine · app de luxe · ChatGPT · Vivino · CellarTracker.
 const ROWS: Row[] = [
-  { feature: { fr: 'Stock SAQ par succursale, partout au Québec', en: 'SAQ stock by store, across Québec' }, cells: ['yes', 'no', 'no', 'no', 'no'], exclusive: true },
+  { feature: { fr: 'Disponibilité locale vérifiée, magasin par magasin', en: 'Verified local availability, store by store' }, cells: ['yes', 'no', 'no', 'no', 'no'], exclusive: true },
   { feature: { fr: 'Lit une carte de restaurant, sur place', en: 'Reads a restaurant wine list, on the spot' }, cells: ['yes', 'no', 'no', 'no', 'no'] },
   { feature: { fr: 'Accorde avec votre plat précis, en direct', en: 'Pairs with your exact dish, live' }, cells: ['yes', 'no', 'partial', 'no', 'no'] },
   { feature: { fr: 'Apogée en conversation, pas en tableur', en: 'Drinking windows in conversation, not a spreadsheet' }, cells: ['yes', 'partial', 'no', 'no', 'partial'] },
-  { feature: { fr: 'Ancré au marché québécois (SAQ, prix CAD)', en: 'Rooted in the Québec market (SAQ, CAD prices)' }, cells: ['yes', 'no', 'no', 'partial', 'no'] },
+  { feature: { fr: 'Ancré au marché local (disponibilités vérifiées, prix CAD)', en: 'Rooted in the local market (verified availability, CAD prices)' }, cells: ['yes', 'no', 'no', 'partial', 'no'] },
   { feature: { fr: 'Scan d’étiquette → fiche', en: 'Label scan → profile' }, cells: ['yes', 'partial', 'partial', 'yes', 'no'] },
   { feature: { fr: 'Cave 3D / localisation physique', en: '3D cellar / physical location' }, cells: ['no', 'yes', 'no', 'no', 'no'] },
 ];
@@ -112,8 +112,8 @@ export default function SectionComparison() {
             </h2>
             <p className="iq-lead mt-5 max-w-2xl mx-auto">
               {t(
-                'Pensée pour décider, pas seulement pour ranger. Cinq choses que personne d’autre ne réunit : la SAQ en direct, votre palais, l’apogée en clair, l’accord en situation, et le Québec.',
-                'Built to decide, not just to organize. Five things no one else brings together: the SAQ live, your palate, drinking windows in plain language, pairing in the moment, and Québec.',
+                'Pensée pour décider, pas seulement pour ranger. Cinq choses que personne d’autre ne réunit : la disponibilité locale, votre palais, l’apogée en clair, l’accord en situation, et le Québec.',
+                'Built to decide, not just to organize. Five things no one else brings together: local availability, your palate, drinking windows in plain language, pairing in the moment, and Québec.',
               )}
             </p>
           </div>

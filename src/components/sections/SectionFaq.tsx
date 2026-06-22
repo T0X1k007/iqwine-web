@@ -35,10 +35,10 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
     },
   },
   {
-    q: { fr: 'La disponibilité SAQ, c’est partout ?', en: 'Is SAQ availability everywhere?' },
+    q: { fr: 'Où Octave vérifie-t-il la disponibilité ?', en: 'Where does Octave check availability?' },
     a: {
-      fr: 'Les disponibilités par succursale couvrent la SAQ (Québec). Ailleurs, iQWine recommande depuis votre cave et par scan d’étiquette ou de carte.',
-      en: 'Store-level availability covers the SAQ (Québec). Elsewhere, iQWine recommends from your cellar and via label or menu scan.',
+      fr: 'La disponibilité par magasin est vérifiée à partir de données officielles à jour, partout au Québec. Ailleurs, iQWine recommande depuis votre cave et par scan d’étiquette ou de carte.',
+      en: 'Store-level availability is verified from up-to-date official data, across Québec. Elsewhere, iQWine recommends from your cellar and via label or menu scan.',
     },
   },
   {
@@ -75,8 +75,8 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
   {
     q: { fr: 'Octave peut-il se tromper ?', en: 'Can Octave be wrong?' },
     a: {
-      fr: 'Octave ne devine pas : il s’appuie sur les données réelles de la SAQ, votre cave et vos goûts — pas sur une IA générique. Et il vous dit quand il hésite plutôt que d’inventer.',
-      en: 'Octave doesn’t guess: it relies on real SAQ data, your cellar and your taste — not a generic AI. And it tells you when it’s unsure rather than making things up.',
+      fr: 'Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts — pas sur une IA générique. Et il vous dit quand il hésite plutôt que d’inventer.',
+      en: 'Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste — not a generic AI. And it tells you when it’s unsure rather than making things up.',
     },
   },
   {

@@ -67,7 +67,7 @@ export default function DemoPhone({
   return (
     <div className="mx-auto w-full max-w-[350px]">
       <p className="mb-4 text-center font-mono text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
-        {caption ?? (isCave ? t('Votre cave', 'Your cellar') : t('À la SAQ', 'At the SAQ'))}
+        {caption ?? (isCave ? t('Votre cave', 'Your cellar') : t('Près de vous', 'Near you'))}
       </p>
 
       {/* Cadre iPhone (bezel sombre) — profondeur */}
@@ -112,7 +112,7 @@ export default function DemoPhone({
                 }`}
               >
                 {isCave ? <Wine size={11} strokeWidth={2} /> : <MapPin size={11} strokeWidth={2} />}
-                {isCave ? t('Ma cave', 'My cellar') : 'SAQ'}
+                {isCave ? t('Ma cave', 'My cellar') : t('Près de vous', 'Near you')}
               </span>
               {isCave && (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-or/15 px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] uppercase text-or">

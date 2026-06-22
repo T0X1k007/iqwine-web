@@ -13,11 +13,11 @@ import type { Locale } from '@/lib/i18n';
  * Vague 1 : fusion. Cette section absorbe les anciennes sections Proof (vraies
  * captures du produit) et AI (démo vidéo Octave via OctaveDemoVideo), toutes
  * deux RETIRÉES. Trois moments d'usage en un coup d'œil :
- * À la maison · À la SAQ · Au restaurant.
+ * À la maison · Au point de vente · Au restaurant.
  *
  * Captures DISTINCTES par colonne (jamais le même PNG deux fois) :
  *   maison      → 02-home-suggestions (choisir dans sa cave)
- *   SAQ         → 06-recherche-hors-cave (bouteille en tablette, succursale)
+ *   point de vente → 06-recherche-hors-cave (bouteille en tablette, succursale)
  *   restaurant  → 03-menu-scan (accord avec le plat, sur place)
  *
  * Mobile : stack vertical (iPhone + texte par moment), puis la vidéo Octave.
@@ -49,19 +49,19 @@ const MOMENTS: Moment[] = [
     },
   },
   {
-    eyebrow: { fr: '02 · À la SAQ', en: '02 · At the SAQ' },
+    eyebrow: { fr: '02 · Au point de vente', en: '02 · At the store' },
     title: {
-      fr: 'À la SAQ',
-      en: 'At the SAQ',
+      fr: 'Au point de vente',
+      en: 'At the store',
     },
     body: {
-      fr: 'Octave vous guide vers la bouteille en tablette, à votre succursale, partout au Québec.',
-      en: 'Octave guides you to the bottle on the shelf, at your store, across Québec.',
+      fr: 'Octave vous guide vers la bouteille en tablette, près de vous, partout au Québec.',
+      en: 'Octave guides you to the bottle on the shelf, near you, across Québec.',
     },
     src: '/screenshots/06-recherche-hors-cave.png',
     alt: {
-      fr: 'Recherche SAQ, disponibilité en succursale',
-      en: 'SAQ search, availability by store',
+      fr: 'Recherche locale, disponibilité par magasin',
+      en: 'Local search, availability by store',
     },
   },
   {
@@ -94,8 +94,8 @@ export default function SectionTroisMoments() {
           </div>
           <h2 className="iq-display italic">
             {locale === 'fr'
-              ? 'À la maison. À la SAQ. Au restaurant.'
-              : 'At home. At the SAQ. At the restaurant.'}
+              ? 'À la maison. Au point de vente. Au restaurant.'
+              : 'At home. At the store. At the restaurant.'}
           </h2>
         </div>
       </FadeInOnScroll>

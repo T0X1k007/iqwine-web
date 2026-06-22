@@ -24,8 +24,8 @@ export default function SectionCommentCaMarche() {
       'Tell Octave the moment — a meal, an evening, a guest.',
     ),
     t(
-      'Ouvrez la bonne bouteille — de votre cave ou de la SAQ.',
-      'Open the right bottle — from your cellar or the SAQ.',
+      'Ouvrez la bonne bouteille — de votre cave ou disponible près de vous.',
+      'Open the right bottle — from your cellar or available near you.',
     ),
   ];
 

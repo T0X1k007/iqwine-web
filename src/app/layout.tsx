@@ -49,22 +49,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || 'https://iqwine.ca',
   ),
-  title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
+  title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
   description:
-    'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la SAQ par succursale. Essai 14 jours, sans carte.',
+    'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la disponibilité locale, magasin par magasin. Essai 14 jours, sans carte.',
   openGraph: {
-    title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
+    title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
     description:
-      'Recommande depuis votre cave, la SAQ (dispo par succursale) ou les deux. Scan de carte et d\'étiquette, profil de goût qui apprend. Essai 14 jours, sans carte.',
+      'Recommande depuis votre cave, la disponibilité locale (magasin par magasin) ou les deux. Scan de carte et d\'étiquette, profil de goût qui apprend. Essai 14 jours, sans carte.',
     type: 'website',
     locale: 'fr_CA',
     siteName: 'iQWine',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
+    title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
     description:
-      'Quoi ouvrir ce soir ? Quoi acheter à la SAQ ? Votre sommelier IA le sait. Essai 14 jours, sans carte.',
+      'Quoi ouvrir ce soir ? Où l\'acheter près de vous ? Votre sommelier IA le sait. Essai 14 jours, sans carte.',
   },
   robots: {
     index: true,

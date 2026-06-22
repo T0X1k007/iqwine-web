@@ -15,23 +15,3 @@ export function FleurDeLys({ size = 22 }: { size?: number }) {
     </svg>
   );
 }
-
-export function SaqLive({ size = 22 }: { size?: number }) {
-  return (
-    <span className="flex flex-col items-center leading-none" aria-hidden>
-      <svg
-        width={size}
-        height={Math.round(size * 0.68)}
-        viewBox="0 0 24 16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.75}
-        strokeLinecap="round"
-      >
-        <rect x="1.5" y="1" width="21" height="14" rx="2.5" />
-        <path d="M6 6h12M6 10h7" />
-      </svg>
-      <span className="mt-1 font-mono text-[7px] font-semibold tracking-[0.18em]">SAQ</span>
-    </span>
-  );
-}

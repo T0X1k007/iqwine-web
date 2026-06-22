@@ -58,7 +58,7 @@ const BENEFITS: { fr: string; en: string }[] = [
   { fr: 'Servir plusieurs vins dans le bon ordre.', en: 'Serve several wines in the right order.' },
   { fr: 'Recevoir des invités sans une hésitation.', en: 'Host guests without a second of doubt.' },
   { fr: 'Bâtir un accord à partir d’une carte au restaurant.', en: 'Build a pairing from a restaurant wine list.' },
-  { fr: 'Trouver le meilleur rapport qualité-prix à la SAQ.', en: 'Find the best value at the SAQ.' },
+  { fr: 'Trouver le meilleur rapport qualité-prix près de vous.', en: 'Find the best value near you.' },
   { fr: 'Vérifier qu’une bouteille correspond à votre palais.', en: 'Check that a bottle matches your palate.' },
 ];
 
@@ -80,8 +80,8 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
   },
   {
     icon: ShieldCheck,
-    fr: ['Conçu au Québec', 'Pensé pour le marché de la SAQ.'],
-    en: ['Built in Québec', 'Made for the SAQ market.'],
+    fr: ['Conçu au Québec', 'Pensé pour le marché local.'],
+    en: ['Built in Québec', 'Made for the local market.'],
   },
 ];
 
@@ -116,7 +116,7 @@ const COMPARE_FEATURES: {
     values: [true, true, true],
   },
   {
-    label: { fr: 'Disponibilités SAQ en direct', en: 'Live SAQ availability' },
+    label: { fr: 'Disponibilité locale en direct', en: 'Live local availability' },
     values: [true, true, true],
   },
   {

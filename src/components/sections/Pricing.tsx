@@ -39,7 +39,7 @@ const COPY: Record<PlanId, PlanCopy> = {
     features: [
       { fr: "Octave vous dit quoi ouvrir, soir après soir", en: "Octave tells you what to open, night after night" },
       { fr: "Un palais qui apprend à chaque verre", en: "A palate that learns with every glass" },
-      { fr: "Le stock de votre SAQ, en direct", en: "Your SAQ's stock, live" },
+      { fr: "La disponibilité près de vous, en direct", en: "What’s in stock near you, live" },
       { fr: "Votre cave, toujours à jour", en: "Your cellar, always up to date" },
       { fr: "Une étiquette scannée, une bouteille rangée", en: "Scan a label, file a bottle" },
     ],
@@ -53,7 +53,7 @@ const COPY: Record<PlanId, PlanCopy> = {
     features: [
       { fr: "Tout ce que fait le Standard, en plus généreux", en: "Everything Standard does, more generously" },
       { fr: "Un profil de goût qui s’affine en profondeur", en: "A taste profile that deepens over time" },
-      { fr: "Des accords puisés dans votre cave, à la SAQ, ou les deux", en: "Pairings drawn from your cellar, the SAQ, or both" },
+      { fr: "Des accords puisés dans votre cave, près de vous, ou les deux", en: "Pairings drawn from your cellar, near you, or both" },
       { fr: "De quoi accompagner une cave qui grandit", en: "Room for a cellar that keeps growing" },
     ],
   },

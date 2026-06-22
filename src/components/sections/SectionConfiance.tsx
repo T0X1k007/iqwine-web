@@ -1,9 +1,9 @@
 'use client';
 
-import { Lock, Server } from 'lucide-react';
+import { Lock, MapPin, Server } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import { FleurDeLys, SaqLive } from '@/components/ui/brand-icons';
+import { FleurDeLys } from '@/components/ui/brand-icons';
 import { useLocale } from '@/lib/i18n';
 import { TESTIMONIALS } from '@/lib/testimonials';
 
@@ -11,8 +11,8 @@ import { TESTIMONIALS } from '@/lib/testimonials';
  * SectionConfiance, preuve sociale + confiance (Phase 8).
  *
  * Registre PLAISIR, jamais la peur : trois vrais témoignages (source partagée
- * lib/testimonials) + quatre badges FACTUELS (Québec, Canada, chiffré, SAQ en
- * direct). Aucun chiffre inventé : aucune statistique tant qu'elle n'est pas
+ * lib/testimonials) + quatre badges FACTUELS (Québec, Canada, chiffré,
+ * disponibilité locale). Aucun chiffre inventé : aucune statistique tant qu'elle n'est pas
  * vraie et confirmée.
  *
  * Tonalité SOMBRE (chaude, jamais anxiogène), insérée entre CaveWeb (clair) et
@@ -33,7 +33,7 @@ export default function SectionConfiance() {
       label: t('Hébergé au Canada', 'Hosted in Canada'),
     },
     { icon: <Lock size={24} strokeWidth={1.75} />, label: t('Chiffré', 'Encrypted') },
-    { icon: <SaqLive size={26} />, label: t('Disponibilités SAQ par succursale', 'SAQ availability by store') },
+    { icon: <MapPin size={24} strokeWidth={1.75} />, label: t('Disponibilités locales par magasin', 'Local availability, store by store') },
   ];
 
   return (
@@ -46,8 +46,8 @@ export default function SectionConfiance() {
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {t(
-              'Conçu au Québec, iQWine connaît la SAQ comme aucune app étrangère ne le pourra : succursale par succursale, en direct.',
-              'Built in Québec, iQWine knows the SAQ like no foreign app ever could: store by store, live.',
+              'Conçu au Québec, iQWine vérifie la disponibilité magasin par magasin, en direct — comme aucune app étrangère ne le pourra.',
+              'Built in Québec, iQWine verifies availability store by store, live — like no foreign app ever could.',
             )}
           </p>
         </div>

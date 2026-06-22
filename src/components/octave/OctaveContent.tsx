@@ -100,8 +100,8 @@ const COMPARISON = {
     en: 'A full-bodied red would work, say a Bordeaux, a Syrah or a Côtes-du-Rhône.',
   },
   octave: {
-    fr: 'Ouvrez votre Barolo 2013 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, je vois le Guigal Côtes-du-Rhône à 24,50 $ en stock, charnu et épicé, parfait ce soir.',
-    en: 'Open your 2013 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, I see the Guigal Côtes-du-Rhône at $24.50 in stock, fleshy and spiced, perfect tonight.',
+    fr: 'Ouvrez votre Barolo 2013 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, près de vous, je vois le Guigal Côtes-du-Rhône à 24,50 $ en stock, charnu et épicé, parfait ce soir.',
+    en: 'Open your 2013 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, near you, I see the Guigal Côtes-du-Rhône at $24.50 in stock, fleshy and spiced, perfect tonight.',
   },
 };
 
@@ -151,18 +151,18 @@ const PILLARS: {
   },
   {
     icon: MapPin,
-    fr: ['La SAQ, par succursale', 'Je ne me limite pas à votre cave : j’ouvre vos horizons.'],
-    en: ['The SAQ, by store', 'I don’t stop at your cellar: I widen your horizons.'],
+    fr: ['La disponibilité locale, par magasin', 'Je ne me limite pas à votre cave : j’ouvre vos horizons.'],
+    en: ['Local availability, store by store', 'I don’t stop at your cellar: I widen your horizons.'],
     points: {
       fr: [
         'Une bouteille que vous possédez déjà',
-        'Ou une bouteille disponible maintenant à votre SAQ',
+        'Ou une bouteille disponible maintenant près de vous',
         'Ou les deux, côte à côte',
         'Toujours selon votre palais, votre repas, votre contexte',
       ],
       en: [
         'A bottle you already own',
-        'Or one available right now at your SAQ',
+        'Or one available right now near you',
         'Or both, side by side',
         'Always by your palate, your meal, your context',
       ],
@@ -201,8 +201,8 @@ export default function OctaveContent() {
       lift: '',
     },
     {
-      caption: t('Trouvé à la SAQ', 'Found at the SAQ'),
-      sub: t('En rupture chez vous ? Octave trouve à la SAQ.', 'Out at home? Octave finds it at the SAQ.'),
+      caption: t('Trouvé près de vous', 'Found near you'),
+      sub: t('En rupture chez vous ? Octave la trouve près de vous.', 'Out at home? Octave finds it near you.'),
       card: getDemoCards('huitres', 'saq')[0],
       lift: 'lg:mt-10',
     },
@@ -270,8 +270,8 @@ export default function OctaveContent() {
             </h2>
             <p className="iq-lead mt-6 max-w-2xl mx-auto">
               {t(
-                'Je connais votre cave, votre palais et la SAQ, par succursale. Vous me dites le repas, le moment, l’envie. Je vous dis la bouteille, et pourquoi c’est la bonne.',
-                'I know your cellar, your palate and the SAQ, by store. You tell me the meal, the moment, the mood. I tell you the bottle, and why it’s the right one.',
+                'Je connais votre cave, votre palais et la disponibilité locale, par magasin. Vous me dites le repas, le moment, l’envie. Je vous dis la bouteille, et pourquoi c’est la bonne.',
+                'I know your cellar, your palate and local availability, store by store. You tell me the meal, the moment, the mood. I tell you the bottle, and why it’s the right one.',
               )}
             </p>
           </FadeInOnScroll>
@@ -448,7 +448,7 @@ export default function OctaveContent() {
                 </p>
                 <p className="text-muted-foreground text-[16px] leading-relaxed">{COMPARISON.generic[locale]}</p>
                 <p className="mt-5 text-[13px] text-foreground-faint italic">
-                  {t('Vrai, mais ne connaît ni votre cave, ni vos goûts, ni la SAQ.', 'True, but it knows neither your cellar, your taste, nor the SAQ.')}
+                  {t('Vrai, mais ne connaît ni votre cave, ni vos goûts, ni ce qui est disponible près de vous.', 'True, but it knows neither your cellar, your taste, nor what’s available near you.')}
                 </p>
               </div>
             </FadeInOnScroll>
@@ -460,7 +460,7 @@ export default function OctaveContent() {
                 </p>
                 <p className="font-[family-name:var(--font-display)] text-foreground text-[17px] leading-relaxed">{COMPARISON.octave[locale]}</p>
                 <p className="mt-5 text-[13px] text-or/90 italic">
-                  {t('Votre bouteille, à son apogée, ou la bonne à la SAQ près de vous.', 'Your bottle, at its peak, or the right one at the SAQ near you.')}
+                  {t('Votre bouteille, à son apogée, ou la bonne, disponible près de vous.', 'Your bottle, at its peak, or the right one, available near you.')}
                 </p>
               </div>
             </FadeInOnScroll>
