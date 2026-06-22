@@ -3,9 +3,8 @@
  *
  * Trois vraies personnes. Aucune mention « exemple » côté public.
  *
- * ⚠️ À VALIDER PAR LES PERSONNES AVANT CAMPAGNE PUBLIQUE — les formulations
- * ci-dessous sont des propositions sobres à confirmer mot à mot avec
- * André, François et Cédric avant toute diffusion publique/campagne.
+ * ✅ CONSENTEMENT OBTENU (2026-06-22) — formulations FR/EN confirmées mot à mot
+ * avec André, François et Cédric. Approuvées pour diffusion publique/campagne.
  *
  * Consommée par :
  *  - SectionConfiance (home) — affiche les trois premiers (grille md:grid-cols-3)
