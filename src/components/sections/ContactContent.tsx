@@ -56,9 +56,9 @@ export default function ContactContent() {
       <div className="w-full max-w-xl mx-auto">
         <header className="mb-10 text-center">
           <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
-            iQWine
+            {t('Nous écrire', 'Get in touch')}
           </p>
-          <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl tracking-tight text-foreground mt-3 leading-tight">
+          <h1 className="iq-display italic text-foreground mt-3">
             {t('Parlons-en.', "Let's talk.")}
           </h1>
           <p className="text-muted-foreground text-[15px] mt-4 max-w-md mx-auto">

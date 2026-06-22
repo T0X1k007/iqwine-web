@@ -55,8 +55,8 @@ const MOMENTS: Moment[] = [
       en: 'At the SAQ',
     },
     body: {
-      fr: 'Octave vous guide vers la bouteille en tablette, à votre succursale, en direct.',
-      en: 'Octave guides you to the bottle on the shelf, at your store, in real time.',
+      fr: 'Octave vous guide vers la bouteille en tablette, à votre succursale, partout au Québec.',
+      en: 'Octave guides you to the bottle on the shelf, at your store, across Québec.',
     },
     src: '/screenshots/06-recherche-hors-cave.png',
     alt: {

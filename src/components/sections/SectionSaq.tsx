@@ -13,8 +13,8 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 /**
  * SectionSaq (#saq) — le moat SAQ renforcé. Octave ne recommande pas dans le
  * vide : si le vin n'est pas dans votre cave, il sait où le trouver, en
- * tablette, à la succursale la plus proche, ce soir. Disponibilités SAQ en
- * temps réel — le différenciateur que personne d'autre ne réunit.
+ * tablette, à la succursale la plus proche, ce soir. Disponibilités SAQ par
+ * succursale — le différenciateur que personne d'autre ne réunit.
  */
 
 export default function SectionSaq() {
@@ -43,18 +43,18 @@ export default function SectionSaq() {
         <FadeInOnScroll delay={0.12}>
           <p className="iq-body mt-6 text-foreground-dim">
             {t(
-              'Disponibilités SAQ en temps réel, succursale par succursale, mises à jour en continu. Vous ne partez plus à l’aveugle : vous savez avant même de sortir.',
-              'Live SAQ availability, store by store, continuously updated. You no longer head out blind: you know before you even leave.',
+              'Disponibilités SAQ par succursale, partout au Québec. Vous ne partez plus à l’aveugle : vous savez avant même de sortir.',
+              'SAQ availability, store by store, across Québec. You no longer head out blind: you know before you even leave.',
             )}
           </p>
           <p className="mt-4 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint">
             {t(
               <>
-                Plus de <span className="tabular-nums">400</span> succursales SAQ, en
-                direct
+                Plus de <span className="tabular-nums">400</span> succursales SAQ,
+                partout au Québec
               </>,
               <>
-                <span className="tabular-nums">400</span>+ SAQ stores, live
+                <span className="tabular-nums">400</span>+ SAQ stores, across Québec
               </>,
             )}
           </p>
@@ -84,8 +84,9 @@ export default function SectionSaq() {
             />
           </div>
 
-          {/* Artefact « LIVE » : une capture temps réel doit porter un signal
-              vivant — succursale réelle, statut stock, horodatage. */}
+          {/* Artefact SAQ : succursale réelle + statut de disponibilité (sans
+              quantité exacte ni horodatage — la dispo SAQ est best-effort). Le
+              point animé reste un décor visuel, pas une promesse temps réel. */}
           <div className="mt-7 flex justify-center">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-or/20 bg-or/[0.05] px-4 py-2 font-mono text-[11px] tracking-[0.06em] text-foreground/80">
               <span className="relative flex h-2 w-2 shrink-0">
@@ -94,16 +95,8 @@ export default function SectionSaq() {
               </span>
               <span>
                 {t(
-                  <>
-                    SAQ Sélection Outremont ·{' '}
-                    <span className="tabular-nums text-or">3</span> en tablette ·
-                    vérifié à l’instant
-                  </>,
-                  <>
-                    SAQ Sélection Outremont ·{' '}
-                    <span className="tabular-nums text-or">3</span> on shelf · checked
-                    just now
-                  </>,
+                  <>SAQ Sélection Outremont · Disponible en tablette</>,
+                  <>SAQ Sélection Outremont · In stock in-store</>,
                 )}
               </span>
             </div>

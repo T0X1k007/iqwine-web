@@ -69,8 +69,8 @@ export default function SectionCercle() {
           </h2>
           <p className="iq-lead mt-6">
             {t(
-              'Les membres d’iQWine partagent une conviction : une bonne bouteille n’est jamais juste un achat, c’est un moment qu’on prépare. Ils ne possèdent pas une cave — ils vivent avec elle. Une cave qui se souvient de ce qu’ils aiment, qui sait quand ouvrir, et qui fait d’eux l’hôte qui ne se trompe jamais.',
-              'iQWine members share a conviction: a good bottle is never just a purchase, it’s a moment you prepare for. They don’t own a cellar — they live with it. A cellar that remembers what they love, that knows when to open, and that makes them the host who never gets it wrong.',
+              'Les membres d’iQWine partagent une conviction : une bonne bouteille n’est jamais juste un achat, c’est un moment qu’on prépare. Ils ne possèdent pas une cave — ils vivent avec elle. Une cave qui se souvient de ce qu’ils aiment, qui sait quand ouvrir, et qui fait d’eux l’hôte qui sait toujours quoi ouvrir.',
+              'iQWine members share a conviction: a good bottle is never just a purchase, it’s a moment you prepare for. They don’t own a cellar — they live with it. A cellar that remembers what they love, that knows when to open, and that makes them the host who always knows what to open.',
             )}
           </p>
         </FadeInOnScroll>

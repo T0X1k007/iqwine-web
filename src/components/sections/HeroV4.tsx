@@ -6,7 +6,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import HeroDemo from '@/components/sections/HeroDemo';
 import HeroTrustBar from '@/components/sections/HeroTrustBar';
 import { useLocale } from '@/lib/i18n';
-import { getHero, APP_SIGNUP_URL } from '@/lib/constants';
+import { getHero, buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -69,7 +69,7 @@ export default function HeroV4() {
             <FadeInOnScroll delay={0.55}>
               <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
                 <a
-                  href={APP_SIGNUP_URL}
+                  href={buildSignupUrl('hero', { lang: locale })}
                   onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'hero' })}
                   className="w-full sm:w-auto"
                 >

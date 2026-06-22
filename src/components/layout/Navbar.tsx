@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
@@ -17,11 +17,34 @@ export default function Navbar() {
   const hero = getHero(locale);
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
   const [scrolled, setScrolled] = useState(false);
+  // Navbar directionnelle : visible en haut, se masque au scroll vers le bas,
+  // réapparaît au scroll vers le haut (comportement validé, type Invintory).
+  const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const lastYRef = useRef(0);
 
   useEffect(() => {
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    lastYRef.current = window.scrollY;
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 50);
+      // prefers-reduced-motion : on ne masque jamais (aucun mouvement imposé).
+      if (!reduced) {
+        if (y > lastYRef.current && y > 120) setHidden(true); // scroll down
+        else if (y < lastYRef.current) setHidden(false); // scroll up
+      }
+      lastYRef.current = y;
+      ticking = false;
+    };
     const onScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -30,7 +53,9 @@ export default function Navbar() {
   return (
     <header
       style={scrolled ? { backgroundColor: 'rgba(15, 10, 8, 0.88)' } : undefined}
-      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] ${
+      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[transform,background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] motion-reduce:transition-none will-change-transform ${
+        hidden && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
+      } ${
         scrolled
           ? 'backdrop-blur-[20px] backdrop-saturate-150 border-b border-border'
           : ''

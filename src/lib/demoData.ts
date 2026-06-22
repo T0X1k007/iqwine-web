@@ -69,7 +69,7 @@ const DATA: Record<DemoMeal, MealData> = {
       region: 'Toscane',
       color: 'ROUGE',
       vintage: 2022,
-      atPeak: true,
+      atPeak: false,
       personality: { fr: 'Élégant, tendu, méditerranéen.', en: 'Elegant, tense, Mediterranean.' },
       why: {
         fr: 'Vous me dites « lasagne », et votre palais aime l’acidité qui réveille : le Sangiovese tranche la tomate et la richesse de la béchamel, ses tanins fins tiennent tête au bœuf. Ce vin est né pour ce plat, et pour votre goût.',
@@ -130,7 +130,7 @@ const DATA: Record<DemoMeal, MealData> = {
       region: 'Bourgogne',
       color: 'BLANC',
       vintage: 2022,
-      atPeak: true,
+      atPeak: false,
       personality: { fr: 'Minéral, tendu, salin.', en: 'Mineral, tense, saline.' },
       why: {
         fr: 'Vous ouvrez des huîtres, et votre palais cherche le tranchant salin : la tension calcaire du Chablis répond à l’iode comme un écho. Le citron du verre remplace celui de l’assiette. L’accord taillé pour vous.',
@@ -187,7 +187,7 @@ const DATA: Record<DemoMeal, MealData> = {
       cuvee: 'Champagne Blanc de Blancs',
       region: 'Champagne',
       color: 'EFFERVESCENT',
-      atPeak: true,
+      atPeak: false,
       personality: { fr: 'Fin, ciselé, crayeux.', en: 'Fine, chiselled, chalky.' },
       why: {
         fr: 'Vous servez des sushis, et votre palais aime la tension fine : les bulles nettoient entre chaque bouchée crue, le Blanc de Blancs souligne la délicatesse du poisson sans jamais l’écraser. Même le wasabi s’incline.',

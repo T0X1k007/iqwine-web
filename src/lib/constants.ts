@@ -55,14 +55,14 @@ export function buildSignupUrl(
 const NAV_LINKS_MAP = {
   en: [
     { label: 'Pairing', href: '/#demo' },
-    { label: 'AI', href: '/#palais' },
+    { label: 'Palate', href: '/#palais' },
     { label: 'Cellar', href: '/#cave-web' },
     { label: 'Restaurant', href: '/#trois-moments' },
     { label: 'Pricing', href: '/#tarifs' },
   ],
   fr: [
     { label: 'Accord', href: '/#demo' },
-    { label: 'IA', href: '/#palais' },
+    { label: 'Palais', href: '/#palais' },
     { label: 'Cave', href: '/#cave-web' },
     { label: 'Restaurant', href: '/#trois-moments' },
     { label: 'Tarifs', href: '/#tarifs' },
@@ -91,7 +91,7 @@ const HERO_MAP = {
     trust: [
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
       { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
-      { title: 'Live SAQ', lines: ['Geolocated real-time inventory'] },
+      { title: 'Live SAQ', lines: ['Geolocated inventory, by store'] },
       { title: 'No card required', lines: ['Free 14-day trial', 'Cancel anytime'] },
     ],
     variantA: {
@@ -112,7 +112,7 @@ const HERO_MAP = {
     trust: [
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
       { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },
-      { title: 'SAQ en direct', lines: ['Inventaire géolocalisé en temps réel'] },
+      { title: 'SAQ en direct', lines: ['Inventaire géolocalisé par succursale'] },
       { title: 'Aucune carte requise', lines: ['Essai gratuit 14 jours', 'Annulable en tout temps'] },
     ],
     variantA: {

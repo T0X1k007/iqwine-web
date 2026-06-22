@@ -7,7 +7,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Pricing from '@/components/sections/Pricing';
 import SectionFaq from '@/components/sections/SectionFaq';
 import { useLocale } from '@/lib/i18n';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { PLANS, formatPriceCad } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -25,8 +25,8 @@ const POSITIONS: { fr: [string, string]; en: [string, string]; highlight?: boole
     en: ['Standard', 'The wine lover with a personal cellar.'],
   },
   {
-    fr: ['Pro', 'Le passionné qui consulte Octave souvent et possède une plus grande cave.'],
-    en: ['Pro', 'The enthusiast who asks Octave often and keeps a larger cellar.'],
+    fr: ['Pro', 'L’habitué qui consulte Octave souvent et possède une plus grande cave.'],
+    en: ['Pro', 'The regular who asks Octave often and keeps a larger cellar.'],
     highlight: true,
   },
   {
@@ -213,7 +213,7 @@ export default function TarifsContent() {
           </p>
           <div className="mt-10 flex justify-center">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('tarifs-hero', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-hero' })}
             >
               <Button variant="cta" size="lg">
@@ -461,7 +461,7 @@ export default function TarifsContent() {
           </p>
           <div className="mt-10 flex justify-center">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('tarifs-final', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-final' })}
             >
               <Button variant="cta" size="lg">

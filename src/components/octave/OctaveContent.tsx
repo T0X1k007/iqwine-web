@@ -117,16 +117,16 @@ const PILLARS: {
     en: ['Your cellar', 'Every recommendation is different because every cellar is different.'],
     points: {
       fr: [
-        'Il tient compte des bouteilles que vous possédez déjà',
-        'Il sait ce qui est prêt à boire',
-        'Il sait ce qui mérite encore quelques années',
-        'Il sait ce qui accompagne le mieux le repas présenté',
+        'Je tiens compte des bouteilles que vous possédez déjà',
+        'Je sais ce qui est prêt à boire',
+        'Je sais ce qui mérite encore quelques années',
+        'Je sais ce qui accompagne le mieux le repas présenté',
       ],
       en: [
-        'It accounts for the bottles you already own',
-        'It knows what’s ready to drink',
-        'It knows what deserves a few more years',
-        'It knows what best suits the meal at hand',
+        'I account for the bottles you already own',
+        'I know what’s ready to drink',
+        'I know what deserves a few more years',
+        'I know what best suits the meal at hand',
       ],
     },
   },
@@ -136,23 +136,23 @@ const PILLARS: {
     en: ['Your palate', 'No two people will ever get the same recommendation.'],
     points: {
       fr: [
-        'Il apprend à chaque bouteille que vous notez',
+        'J’apprends à chaque bouteille que vous notez',
         'À chaque recommandation que vous suivez',
         'À chaque préférence enregistrée',
-        'Plus vous l’utilisez, plus il affine votre palais',
+        'Plus vous me sollicitez, plus j’affine votre palais',
       ],
       en: [
-        'It learns from every bottle you rate',
+        'I learn from every bottle you rate',
         'From every recommendation you follow',
         'From every saved preference',
-        'The more you use it, the sharper your palate profile',
+        'The more you ask me, the sharper your palate profile',
       ],
     },
   },
   {
     icon: MapPin,
-    fr: ['La SAQ en direct', 'Il ne se limite pas à votre cave : il ouvre vos horizons.'],
-    en: ['The SAQ live', 'It doesn’t stop at your cellar: it widens your horizons.'],
+    fr: ['La SAQ, par succursale', 'Je ne me limite pas à votre cave : j’ouvre vos horizons.'],
+    en: ['The SAQ, by store', 'I don’t stop at your cellar: I widen your horizons.'],
     points: {
       fr: [
         'Une bouteille que vous possédez déjà',
@@ -264,14 +264,14 @@ export default function OctaveContent() {
       <section className="px-6 py-16 lg:py-20 border-t border-white/5">
         <div className="mx-auto max-w-3xl text-center">
           <FadeInOnScroll>
-            <p className="iq-eyebrow mb-5">{t('Ce qu’il fait', 'What he does')}</p>
+            <p className="iq-eyebrow mb-5">{t('Ce que je fais', 'What I do')}</p>
             <h2 className="iq-h1 italic">
-              {t('Octave goûte avec vous.', 'Octave tastes with you.')}
+              {t('Je goûte avec vous.', 'I taste with you.')}
             </h2>
             <p className="iq-lead mt-6 max-w-2xl mx-auto">
               {t(
-                'Il connaît votre cave, votre palais et la SAQ en temps réel. Vous lui dites le repas, le moment, l’envie. Il vous dit la bouteille, et pourquoi c’est la bonne.',
-                'He knows your cellar, your palate and the SAQ in real time. You tell him the meal, the moment, the mood. He tells you the bottle, and why it’s the right one.',
+                'Je connais votre cave, votre palais et la SAQ, par succursale. Vous me dites le repas, le moment, l’envie. Je vous dis la bouteille, et pourquoi c’est la bonne.',
+                'I know your cellar, your palate and the SAQ, by store. You tell me the meal, the moment, the mood. I tell you the bottle, and why it’s the right one.',
               )}
             </p>
           </FadeInOnScroll>
@@ -374,8 +374,8 @@ export default function OctaveContent() {
             </figure>
             <p className="text-center text-muted-foreground text-[15px] mt-6 max-w-2xl mx-auto">
               {t(
-                'Il comprend votre cave et votre palais, apprend de vos habitudes et évolue avec vous. À chaque personne sa recommandation, jamais une fiche standard, jamais deux fois la même réponse.',
-                'He understands your cellar and your palate, learns from your habits and evolves with you. A different recommendation for each person, never a stock card, never the same answer twice.',
+                'Je comprends votre cave et votre palais, j’apprends de vos habitudes et j’évolue avec vous. À chaque personne sa recommandation, jamais une fiche standard, jamais deux fois la même réponse.',
+                'I understand your cellar and your palate, I learn from your habits and evolve with you. A different recommendation for each person, never a stock card, never the same answer twice.',
               )}
             </p>
           </FadeInOnScroll>
@@ -387,7 +387,7 @@ export default function OctaveContent() {
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>
             <div className="text-center mb-12">
-              <p className="iq-eyebrow mb-5">{t('Comment il vous connaît', 'How he knows you')}</p>
+              <p className="iq-eyebrow mb-5">{t('Comment je vous connais', 'How I know you')}</p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
                 {t('Trois choses qu’aucune IA générique ne sait.', 'Three things no generic AI knows.')}
               </h2>
@@ -431,7 +431,7 @@ export default function OctaveContent() {
             <div className="text-center mb-4">
               <p className="iq-eyebrow mb-5">{t('Octave a un avis', 'Octave has an opinion')}</p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
-                {t('Même question. Deux réponses.', 'Same question. Two answers.')}
+                {t('Une IA répond. Octave vous répond, à vous.', 'A generic AI answers. I answer you, personally.')}
               </h2>
             </div>
           </FadeInOnScroll>
@@ -498,8 +498,8 @@ export default function OctaveContent() {
           </div>
           <p className="text-center text-muted-foreground text-[15px] mt-10 max-w-xl mx-auto">
             {t(
-              'Même question, quatre vins, quatre réponses. Octave ne récite pas une fiche : il comprend ce qu’il y a dans le verre.',
-              'Same question, four wines, four answers. Octave doesn’t recite a card: it understands what’s in the glass.',
+              'Même question, quatre vins, quatre réponses. Je ne récite pas une fiche : je comprends ce qu’il y a dans le verre.',
+              'Same question, four wines, four answers. I don’t recite a card: I understand what’s in the glass.',
             )}
           </p>
         </div>

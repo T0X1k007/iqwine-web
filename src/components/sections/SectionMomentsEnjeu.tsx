@@ -80,8 +80,8 @@ const MOMENTS: Moment[] = [
   {
     eyebrow: { fr: 'ÉVITER L’ERREUR COÛTEUSE', en: 'AVOIDING THE COSTLY MISTAKE' },
     body: {
-      fr: 'Ne plus jamais gâcher une bouteille précieuse passée de l’autre côté.',
-      en: 'Never again waste a precious bottle that has slipped past its prime.',
+      fr: 'Pour ne pas laisser passer une bouteille précieuse.',
+      en: 'So you don’t let a precious bottle slip past.',
     },
   },
 ];

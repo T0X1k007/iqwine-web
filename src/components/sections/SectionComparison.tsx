@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { Check, Minus } from 'lucide-react';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
-import { useLocale } from '@/lib/i18n';
+import { useLocale, type Locale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -37,7 +37,7 @@ interface Row {
 // bas. Bénéfices EN SITUATION (« sur place », « en direct »), pas des features.
 // Ordre cellules : iQWine · app de luxe · ChatGPT · Vivino · CellarTracker.
 const ROWS: Row[] = [
-  { feature: { fr: 'Stock SAQ en temps réel, par succursale', en: 'Live SAQ stock, by store' }, cells: ['yes', 'no', 'no', 'no', 'no'], exclusive: true },
+  { feature: { fr: 'Stock SAQ par succursale, partout au Québec', en: 'SAQ stock by store, across Québec' }, cells: ['yes', 'no', 'no', 'no', 'no'], exclusive: true },
   { feature: { fr: 'Lit une carte de restaurant, sur place', en: 'Reads a restaurant wine list, on the spot' }, cells: ['yes', 'no', 'no', 'no', 'no'] },
   { feature: { fr: 'Accorde avec votre plat précis, en direct', en: 'Pairs with your exact dish, live' }, cells: ['yes', 'no', 'partial', 'no', 'no'] },
   { feature: { fr: 'Apogée en conversation, pas en tableur', en: 'Drinking windows in conversation, not a spreadsheet' }, cells: ['yes', 'partial', 'no', 'no', 'partial'] },
@@ -46,12 +46,34 @@ const ROWS: Row[] = [
   { feature: { fr: 'Cave 3D / localisation physique', en: '3D cellar / physical location' }, cells: ['no', 'yes', 'no', 'no', 'no'] },
 ];
 
-function CellIcon({ state }: { state: Cell }) {
+function CellIcon({ state, locale }: { state: Cell; locale: Locale }) {
+  const label = (fr: string, en: string) => (locale === 'fr' ? fr : en);
   if (state === 'yes')
-    return <Check size={18} strokeWidth={2.25} className="text-or mx-auto" aria-label="oui" />;
+    return (
+      <Check
+        size={18}
+        strokeWidth={2.25}
+        className="text-or mx-auto"
+        aria-label={label('oui', 'yes')}
+      />
+    );
   if (state === 'partial')
-    return <Minus size={18} strokeWidth={2.25} className="text-foreground-faint mx-auto" aria-label="partiel" />;
-  return <span className="block text-center text-foreground-faint/50" aria-label="non">—</span>;
+    return (
+      <Minus
+        size={18}
+        strokeWidth={2.25}
+        className="text-foreground-faint mx-auto"
+        aria-label={label('partiel', 'partial')}
+      />
+    );
+  return (
+    <span
+      className="block text-center text-foreground-faint/50"
+      aria-label={label('non', 'no')}
+    >
+      —
+    </span>
+  );
 }
 
 export default function SectionComparison() {
@@ -149,7 +171,7 @@ export default function SectionComparison() {
                               : ''
                           }`}
                         >
-                          <CellIcon state={cell} />
+                          <CellIcon state={cell} locale={locale} />
                         </td>
                       );
                     })}

@@ -37,8 +37,8 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
   {
     q: { fr: 'La disponibilité SAQ, c’est partout ?', en: 'Is SAQ availability everywhere?' },
     a: {
-      fr: 'Les disponibilités en temps réel couvrent la SAQ (Québec). Ailleurs, iQWine recommande depuis votre cave et par scan d’étiquette ou de carte.',
-      en: 'Live availability covers the SAQ (Québec). Elsewhere, iQWine recommends from your cellar and via label or menu scan.',
+      fr: 'Les disponibilités par succursale couvrent la SAQ (Québec). Ailleurs, iQWine recommande depuis votre cave et par scan d’étiquette ou de carte.',
+      en: 'Store-level availability covers the SAQ (Québec). Elsewhere, iQWine recommends from your cellar and via label or menu scan.',
     },
   },
   {

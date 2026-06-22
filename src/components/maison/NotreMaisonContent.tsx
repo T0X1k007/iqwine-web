@@ -121,8 +121,8 @@ export default function NotreMaisonContent() {
             </h2>
             <p className="iq-lead mt-7 max-w-2xl mx-auto">
               {t(
-                'iQWine est conçu au Québec et hébergé au Canada. Vos données ne sont ni revendues, ni utilisées contre vous. Et parce qu’on connaît la SAQ comme aucune application étrangère ne le pourra, iQWine sait quelle bouteille est en tablette, à votre succursale, en direct. Le vin se vit localement. Votre sommelier aussi.',
-                'iQWine is built in Québec and hosted in Canada. Your data is neither sold, nor used against you. And because we know the SAQ as no foreign app ever could, iQWine knows which bottle is on the shelf, at your branch, live. Wine is lived locally. So is your sommelier.',
+                'iQWine est conçu au Québec et hébergé au Canada. Vos données ne sont ni revendues, ni utilisées contre vous. Et parce qu’on connaît la SAQ comme aucune application étrangère ne le pourra, iQWine sait quelle bouteille est en tablette, à votre succursale, partout au Québec. Le vin se vit localement. Votre sommelier aussi.',
+                'iQWine is built in Québec and hosted in Canada. Your data is neither sold, nor used against you. And because we know the SAQ as no foreign app ever could, iQWine knows which bottle is on the shelf, at your branch, across Québec. Wine is lived locally. So is your sommelier.',
               )}
             </p>
           </FadeInOnScroll>
@@ -136,21 +136,15 @@ export default function NotreMaisonContent() {
             <div className="text-center mb-10">
               <p className="iq-eyebrow mb-5">{t('Le mot du fondateur', 'A word from the founder')}</p>
             </div>
-            {/* Note fondateur — verbatim de conviction à confirmer par Éric ; remplacer le monogramme par une vraie photo quand dispo. */}
-            <figure className="rounded-2xl border border-or/15 bg-or/[0.03] p-8 lg:p-10 text-center">
-              <span
-                className="inline-flex h-16 w-16 items-center justify-center rounded-full border border-or/30 bg-or/10 text-or font-[family-name:var(--font-display)] italic text-3xl"
-                aria-hidden
-              >
-                É
-              </span>
-              <blockquote className="font-[family-name:var(--font-display)] text-foreground/90 text-[19px] sm:text-[21px] leading-relaxed mt-7 max-w-2xl mx-auto">
+            {/* Note fondateur — verbatim de conviction à confirmer par Éric ; une vraie photo du fondateur pourra être ajoutée ici quand dispo. */}
+            <figure className="rounded-2xl border border-or/15 bg-or/[0.03] p-8 lg:p-12 text-center">
+              <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-[21px] sm:text-[24px] leading-relaxed max-w-2xl mx-auto">
                 {t(
-                  'iQWine est né d’une conviction : une cave devrait se souvenir à votre place. Pas un tableur de plus — une mémoire qui vous connaît, et un sommelier qui en tire la bonne bouteille, au bon moment. C’est tout ce qu’on construit.',
-                  'iQWine was born from a conviction: a cellar should remember in your place. Not one more spreadsheet — a memory that knows you, and a sommelier who draws the right bottle from it, at the right moment. That is all we build.',
+                  '« Je n’ai pas voulu construire une application de plus. Je voulais une cave qui se souvienne — et un sommelier qui en tire la bonne bouteille, au bon moment. C’est tout ce qu’on construit. »',
+                  '“I didn’t set out to build one more app. I wanted a cellar that remembers — and a sommelier who draws the right bottle from it, at the right moment. That is all we build.”',
                 )}
               </blockquote>
-              <figcaption className="mt-7 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
+              <figcaption className="mt-8 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
                 {t(
                   'Éric · Fondateur, iQWine · Blainville, Québec',
                   'Éric · Founder, iQWine · Blainville, Québec',

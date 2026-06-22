@@ -51,11 +51,11 @@ export const metadata: Metadata = {
   ),
   title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
   description:
-    'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la SAQ en temps réel. Essai 14 jours, sans carte.',
+    'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la SAQ par succursale. Essai 14 jours, sans carte.',
   openGraph: {
     title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
     description:
-      'Recommande depuis votre cave, la SAQ (dispo en temps réel) ou les deux. Scan de carte et d\'étiquette, profil de goût qui apprend. Essai 14 jours, sans carte.',
+      'Recommande depuis votre cave, la SAQ (dispo par succursale) ou les deux. Scan de carte et d\'étiquette, profil de goût qui apprend. Essai 14 jours, sans carte.',
     type: 'website',
     locale: 'fr_CA',
     siteName: 'iQWine',

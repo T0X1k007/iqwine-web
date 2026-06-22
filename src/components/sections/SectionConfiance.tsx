@@ -33,7 +33,7 @@ export default function SectionConfiance() {
       label: t('Hébergé au Canada', 'Hosted in Canada'),
     },
     { icon: <Lock size={24} strokeWidth={1.75} />, label: t('Chiffré', 'Encrypted') },
-    { icon: <SaqLive size={26} />, label: t('Données SAQ en temps réel', 'Live SAQ data') },
+    { icon: <SaqLive size={26} />, label: t('Disponibilités SAQ par succursale', 'SAQ availability by store') },
   ];
 
   return (

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { MapPin, Sparkles, ChevronLeft, Heart, Wine, Search } from 'lucide-react';
 import type { DemoCard } from '@/lib/demoData';
 import type { Locale } from '@/lib/i18n';
+import { formatPriceCad } from '@/lib/plans';
 
 /**
  * DemoPhone — réplique « capture d'app » iQWine dans un cadre iPhone premium.
@@ -141,7 +142,9 @@ export default function DemoPhone({
               {!isCave && (
                 <>
                   <span className="font-medium text-foreground text-[17px] tabular-nums">
-                    {typeof card.priceCad === 'number' ? `${card.priceCad.toFixed(2)} $` : ''}
+                    {typeof card.priceCad === 'number'
+                      ? `${formatPriceCad(Math.round(card.priceCad * 100), locale)} $`
+                      : ''}
                   </span>
                   {card.available && (
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-signal)]/45 bg-[var(--color-signal)]/12 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--color-signal)]">

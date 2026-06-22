@@ -4,7 +4,7 @@ import TarifsContent from '@/components/tarifs/TarifsContent';
 export const metadata: Metadata = {
   title: 'Tarifs — iQWine',
   description:
-    'Trouvez la formule iQWine faite pour vous. Chaque plan commence par 14 jours gratuits, sans carte. Standard, Pro, Famille — chacun son profil.',
+    'Trouvez la formule iQWine faite pour vous. Chaque plan commence par 14 jours gratuits, sans carte. Standard, Pro, Passionné — chacun son profil.',
 };
 
 /**

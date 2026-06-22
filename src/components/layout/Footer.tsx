@@ -67,10 +67,16 @@ export default function Footer() {
           <FooterColumn title={t('Entreprise', 'Company')} links={entreprise} />
         </div>
 
-        {/* Bas de page, copyright */}
-        <div className="mt-16 pt-8 border-t border-border">
+        {/* Bas de page, copyright + mention consommation responsable */}
+        <div className="mt-16 pt-8 border-t border-border flex flex-col gap-2">
           <p className="font-mono text-[10px] tracking-[0.18em] text-foreground-faint">
             © {new Date().getFullYear()} iQWine · {LEGAL_ENTITY.legalName}
+          </p>
+          <p className="text-[11px] text-foreground-faint">
+            {t(
+              "Réservé aux personnes en âge de consommer de l'alcool.",
+              'For those of legal drinking age.',
+            )}
           </p>
         </div>
       </div>

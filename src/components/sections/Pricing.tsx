@@ -47,8 +47,8 @@ const COPY: Record<PlanId, PlanCopy> = {
   pro: {
     name: "Pro",
     tagline: {
-      fr: "Le passionné, un usage régulier, une plus grande cave.",
-      en: "The enthusiast, regular use, a larger cellar.",
+      fr: "L’habitué, un usage régulier, une plus grande cave.",
+      en: "The regular, frequent use, a larger cellar.",
     },
     features: [
       { fr: "Tout ce que fait le Standard, en plus généreux", en: "Everything Standard does, more generously" },
@@ -92,8 +92,8 @@ export default function Pricing() {
           </div>
           <h2 className="iq-display italic max-w-3xl mx-auto">
             {locale === "fr"
-              ? "Trois entrées dans le cercle."
-              : "Three paths into the circle."}
+              ? "Trois formules, un seul Octave."
+              : "Three plans, one Octave."}
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {locale === "fr"
