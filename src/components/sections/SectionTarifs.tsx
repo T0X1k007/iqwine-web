@@ -6,7 +6,7 @@ import Pricing from '@/components/sections/Pricing';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -24,7 +24,7 @@ export default function SectionTarifs() {
       <div className="px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
         <FadeInOnScroll>
           <a
-            href={APP_SIGNUP_URL}
+            href={buildSignupUrl('pricing_top', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'pricing_top' })}
             className="inline-block"
           >

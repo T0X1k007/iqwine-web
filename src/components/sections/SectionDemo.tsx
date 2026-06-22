@@ -9,7 +9,7 @@ import DemoControlPanel from '@/components/demo/DemoControlPanel';
 import DemoPhone from '@/components/demo/DemoPhone';
 import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
 
 /**
@@ -94,7 +94,7 @@ export default function SectionDemo() {
         <FadeInOnScroll delay={0.1}>
           <div className="mt-14 flex flex-col items-center gap-3 text-center">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('demo', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'demo' })}
             >
               <Button variant="cta" size="lg">

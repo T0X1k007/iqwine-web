@@ -65,6 +65,34 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
       en: 'On the web and on mobile (iOS), installable in one tap.',
     },
   },
+  {
+    q: { fr: 'Que se passe-t-il à la fin des 14 jours ?', en: 'What happens after 14 days?' },
+    a: {
+      fr: 'Rien d’automatique. Comme l’essai est sans carte, vous n’êtes jamais débité par surprise : à la fin des 14 jours, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.',
+      en: 'Nothing automatic. Since the trial needs no card, you’re never charged by surprise: after 14 days, you choose whether to continue. Your cellar and your palate stay with you.',
+    },
+  },
+  {
+    q: { fr: 'Octave peut-il se tromper ?', en: 'Can Octave be wrong?' },
+    a: {
+      fr: 'Octave ne devine pas : il s’appuie sur les données réelles de la SAQ, votre cave et vos goûts — pas sur une IA générique. Et il vous dit quand il hésite plutôt que d’inventer.',
+      en: 'Octave doesn’t guess: it relies on real SAQ data, your cellar and your taste — not a generic AI. And it tells you when it’s unsure rather than making things up.',
+    },
+  },
+  {
+    q: { fr: 'Pourquoi choisir l’annuel ?', en: 'Why choose annual?' },
+    a: {
+      fr: 'Deux mois offerts, et un palais qu’Octave affine toute l’année. Vous vous installez pour de bon — c’est aussi le meilleur prix.',
+      en: 'Two months free, and a palate Octave sharpens all year long. You settle in for good — and it’s the best price.',
+    },
+  },
+  {
+    q: { fr: 'Et si je change d’avis ?', en: 'What if I change my mind?' },
+    a: {
+      fr: 'Vous résiliez en un geste, en tout temps. En annuel, vous pouvez aussi repasser au mensuel quand vous voulez.',
+      en: 'Cancel in one tap, anytime. On annual, you can also switch back to monthly whenever you like.',
+    },
+  },
 ];
 
 function FaqItem({ q, a }: { q: string; a: string }) {

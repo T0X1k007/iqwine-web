@@ -8,7 +8,7 @@ import TestimonialRotator from '@/components/octave/TestimonialRotator';
 import { getDemoCards } from '@/lib/demoData';
 import { useLocale } from '@/lib/i18n';
 import { TESTIMONIALS } from '@/lib/testimonials';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -83,8 +83,8 @@ const COMPARISON = {
     en: 'A full-bodied red would work, say a Bordeaux, a Syrah or a Côtes-du-Rhône.',
   },
   octave: {
-    fr: 'Ouvrez votre Barolo 2022 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, le Guigal Côtes-du-Rhône à 24,50 $ est en stock, charnu et épicé, parfait ce soir.',
-    en: 'Open your 2022 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, the Guigal Côtes-du-Rhône at $24.50 is in stock, fleshy and spiced, perfect tonight.',
+    fr: 'Ouvrez votre Barolo 2019 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, le Guigal Côtes-du-Rhône à 24,50 $ est en stock, charnu et épicé, parfait ce soir.',
+    en: 'Open your 2019 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, the Guigal Côtes-du-Rhône at $24.50 is in stock, fleshy and spiced, perfect tonight.',
   },
 };
 
@@ -209,7 +209,7 @@ export default function OctaveContent() {
           </p>
           <div className="mt-10 flex justify-center">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('octave-hero', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'octave-hero' })}
             >
               <Button variant="cta" size="lg">
@@ -496,7 +496,7 @@ export default function OctaveContent() {
           </p>
           <div className="mt-10 flex flex-col items-center gap-3">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('octave-final', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'octave-final' })}
             >
               <Button variant="cta" size="lg">

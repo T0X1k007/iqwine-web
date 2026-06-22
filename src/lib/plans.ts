@@ -53,3 +53,20 @@ export function formatPriceCad(cents: number, locale: "fr" | "en"): string {
   const v = (cents / 100).toFixed(2);
   return locale === "fr" ? v.replace(".", ",") : v;
 }
+
+/**
+ * Économie annuelle en cents = 12× mensuel − annuel. JAMAIS hardcodée :
+ * dérive toujours des prix SOT ci-dessus. Sur l'annuel = 10× mensuel, ça
+ * donne exactement 2 mois (sauf arrondi Famille à 599,00).
+ */
+export function annualSavingsCents(plan: MarketingPlan): number {
+  return plan.priceMonthlyCents * 12 - plan.priceYearlyCents;
+}
+
+/**
+ * Équivalent mensuel de l'abonnement annuel, en cents (arrondi au cent).
+ * C'est le GRAND nombre affiché en mode annuel — pas la facture annuelle.
+ */
+export function monthlyEquivalentCents(plan: MarketingPlan): number {
+  return Math.round(plan.priceYearlyCents / 12);
+}

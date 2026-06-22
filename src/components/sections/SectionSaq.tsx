@@ -6,7 +6,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Button from '@/components/ui/Button';
 import ScreenshotFrame from '@/components/screenshot/ScreenshotFrame';
 import { useLocale } from '@/lib/i18n';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -79,7 +79,7 @@ export default function SectionSaq() {
         <FadeInOnScroll delay={0.34}>
           <div className="mt-10">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('saq', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'saq' })}
             >
               <Button variant="cta" size="lg">

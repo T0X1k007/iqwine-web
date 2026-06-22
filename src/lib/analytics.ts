@@ -14,6 +14,9 @@ export const ANALYTICS_EVENTS = {
   DEMO_SOURCE_TOGGLE: 'demo_source_toggle', // prop: source
   SCROLL_DEPTH: 'scroll_depth', // prop: percent (25/50/75/100)
   COMPARISON_VIEW: 'comparison_view', // section comparatif vue
+  PLAN_SELECTED: 'plan_selected', // CTA d'une carte de plan (props: plan, period)
+  BILLING_PERIOD_TOGGLE: 'billing_period_toggle', // bascule mensuel/annuel (prop: period)
+  CONTACT_SUBMITTED: 'contact_submitted', // formulaire contact envoyé (prop: category)
 } as const;
 
 export type AnalyticsEvent =

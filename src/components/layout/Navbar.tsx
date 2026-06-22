@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
-import { getNavLinks, getProductLinks, getHero, APP_SIGNUP_URL, APP_LOGIN_URL } from '@/lib/constants';
+import { getNavLinks, getProductLinks, getHero, buildSignupUrl, APP_LOGIN_URL } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
@@ -103,7 +103,7 @@ export default function Navbar() {
             {t('Se connecter', 'Log in')}
           </a>
           <a
-            href={APP_SIGNUP_URL}
+            href={buildSignupUrl('nav', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav' })}
           >
             <Button variant="or" size="sm">{hero.ctaPrimary}</Button>
@@ -114,7 +114,7 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-2">
           <LanguageToggle />
           <a
-            href={APP_SIGNUP_URL}
+            href={buildSignupUrl('nav_mobile_bar', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav_mobile_bar' })}
           >
             <Button variant="or" size="sm">{t('Essai', 'Free trial')}</Button>
@@ -164,7 +164,7 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('nav_mobile', { lang: locale })}
               onClick={() => {
                 track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav_mobile' });
                 setMobileOpen(false);

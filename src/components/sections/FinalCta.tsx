@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -32,7 +32,7 @@ export default function FinalCta() {
           </p>
           <div className="mt-10 flex flex-col items-center gap-3">
             <a
-              href={APP_SIGNUP_URL}
+              href={buildSignupUrl('final', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'final' })}
             >
               <Button variant="cta" size="lg">

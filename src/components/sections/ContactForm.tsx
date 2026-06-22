@@ -5,6 +5,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { useLocale } from '@/lib/i18n';
+import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
  * ContactForm, formulaire « Contactez-nous / Démonstration / Partenariat ».
@@ -45,7 +46,9 @@ export default function ContactForm() {
         setError(t('Courriel invalide.', 'Invalid email.'));
         return;
       }
-      if (message.trim().length < 5) {
+      // Message requis seulement pour le contact général ; pour les leads
+      // démo/partenariat, on réduit la friction (message optionnel).
+      if (category === 'CONTACT' && message.trim().length < 5) {
         setError(t('Votre message est requis.', 'Your message is required.'));
         return;
       }
@@ -69,6 +72,7 @@ export default function ContactForm() {
               t('Une erreur est survenue. Réessayez.', 'Something went wrong. Try again.'),
           );
         }
+        track(ANALYTICS_EVENTS.CONTACT_SUBMITTED, { category });
         setSuccess(true);
       } catch (err) {
         setError(err instanceof Error ? err.message : t('Erreur inconnue.', 'Unknown error.'));
@@ -152,7 +156,7 @@ export default function ContactForm() {
           id="contact-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          required
+          required={category === 'CONTACT'}
           rows={5}
           maxLength={5000}
           placeholder={t('Comment pouvons-nous aider ?', 'How can we help?')}

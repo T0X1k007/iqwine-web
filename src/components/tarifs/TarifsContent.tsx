@@ -85,19 +85,91 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
   },
 ];
 
-// Comparatif : lignes qualitatives (✓ / —). Prix, recommandations et utilisateurs
-// sont calculés depuis PLANS (source unique). Jamais de tokens/crédits.
-const COMPARE_FEATURES: { label: { fr: string; en: string }; values: [boolean, boolean, boolean] }[] = [
-  { label: { fr: 'Sommelier Octave', en: 'Octave sommelier' }, values: [true, true, true] },
-  { label: { fr: 'Votre cave', en: 'Your cellar' }, values: [true, true, true] },
-  { label: { fr: 'Scan d’étiquette', en: 'Label scan' }, values: [true, true, true] },
-  { label: { fr: 'Mode restaurant', en: 'Restaurant mode' }, values: [true, true, true] },
-  { label: { fr: 'Disponibilités SAQ en direct', en: 'Live SAQ availability' }, values: [true, true, true] },
-  { label: { fr: 'Carnet de dégustation', en: 'Tasting journal' }, values: [true, true, true] },
-  { label: { fr: 'Cave partagée', en: 'Shared cellar' }, values: [false, false, true] },
+// Comparatif : il doit VENDRE LA MONTÉE EN GAMME, pas niveler les plans. Chaque
+// cellule est soit un booléen (✓ / —), soit une « intensité » progressive
+// (1→3 pastilles) qui montre qu’un même bénéfice s’enrichit avec le plan, soit
+// un court texte qualitatif. Le palais qui apprend est VISIBLE dès Standard.
+// Prix, recommandations et utilisateurs restent calculés depuis PLANS plus bas.
+type CompareCell = boolean | { level: 1 | 2 | 3 } | { text: { fr: string; en: string } };
+
+const COMPARE_FEATURES: {
+  label: { fr: string; en: string };
+  hint?: { fr: string; en: string };
+  values: [CompareCell, CompareCell, CompareCell];
+}[] = [
+  {
+    label: { fr: 'Octave apprend votre palais', en: 'Octave learns your palate' },
+    hint: { fr: 'Dès la première recommandation', en: 'From your very first recommendation' },
+    values: [true, true, true],
+  },
+  {
+    label: { fr: 'Profil de goût qui s’affine', en: 'Taste profile that sharpens' },
+    hint: {
+      fr: 'Plus vous échangez, plus il vous cerne',
+      en: 'The more you interact, the better he reads you',
+    },
+    values: [{ level: 1 }, { level: 2 }, { level: 3 }],
+  },
+  {
+    label: { fr: 'Mode restaurant', en: 'Restaurant mode' },
+    hint: { fr: 'Un accord à partir de la carte', en: 'A pairing from the wine list' },
+    values: [true, true, true],
+  },
+  {
+    label: { fr: 'Disponibilités SAQ en direct', en: 'Live SAQ availability' },
+    values: [true, true, true],
+  },
+  {
+    label: { fr: 'Carnet de dégustation', en: 'Tasting journal' },
+    values: [true, true, true],
+  },
+  {
+    label: { fr: 'Cave partagée', en: 'Shared cellar' },
+    hint: { fr: 'Plusieurs palais, une cave', en: 'Several palates, one cellar' },
+    values: [false, false, true],
+  },
+  {
+    label: { fr: 'Priorité à Octave', en: 'Priority with Octave' },
+    hint: { fr: 'Vos demandes passent devant', en: 'Your requests move to the front' },
+    values: [false, true, true],
+  },
 ];
 
 const PLAN_NAMES: Record<string, string> = { standard: 'Standard', pro: 'Pro', famille: 'Passionné' };
+
+// Rendu d’une cellule du comparatif. Le niveau d’intensité (1→3) se lit comme
+// trois pastilles : plus elles sont dorées, plus le bénéfice s’enrichit avec le
+// plan — il reste présent (et doré) dès le niveau 1, jamais barré.
+function renderCompareCell(cell: CompareCell, t: T) {
+  if (typeof cell === 'boolean') {
+    return cell ? (
+      <Check size={17} strokeWidth={2} className="inline text-or" aria-label={t('Inclus', 'Included')} />
+    ) : (
+      <Minus size={15} className="inline text-foreground-faint/50" aria-label={t('Non inclus', 'Not included')} />
+    );
+  }
+  if ('level' in cell) {
+    const labels = [t('De base', 'Baseline'), t('Approfondi', 'In-depth'), t('Le plus fin', 'Finest')] as const;
+    return (
+      <span
+        className="inline-flex items-center gap-1"
+        role="img"
+        aria-label={labels[cell.level - 1]}
+      >
+        {[1, 2, 3].map((n) => (
+          <span
+            key={n}
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${n <= cell.level ? 'bg-or' : 'bg-foreground-faint/25'}`}
+          />
+        ))}
+      </span>
+    );
+  }
+  return (
+    <span className="text-[13px] text-foreground">{t(cell.text.fr, cell.text.en)}</span>
+  );
+}
 
 export default function TarifsContent() {
   const { locale } = useLocale();
@@ -213,7 +285,10 @@ export default function TarifsContent() {
             <div className="text-center mb-12">
               <p className="iq-eyebrow mb-5">{t('Comparer', 'Compare')}</p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
-                {t('Tout est inclus. La différence, c’est le volume.', 'Everything is included. The difference is volume.')}
+                {t(
+                  'Le même Octave. Plus vous lui en confiez, mieux il vous connaît.',
+                  'The same Octave. The more you entrust him, the better he knows you.',
+                )}
               </h2>
             </div>
           </FadeInOnScroll>
@@ -256,16 +331,19 @@ export default function TarifsContent() {
                   ))}
                   {COMPARE_FEATURES.map((row, i) => (
                     <tr key={`f${i}`} className="border-b border-white/5 last:border-0">
-                      <td className="p-4 text-[14px] text-muted-foreground">
-                        {locale === 'fr' ? row.label.fr : row.label.en}
+                      <td className="p-4">
+                        <span className="block text-[14px] text-muted-foreground">
+                          {locale === 'fr' ? row.label.fr : row.label.en}
+                        </span>
+                        {row.hint && (
+                          <span className="block text-[12px] leading-snug text-foreground-faint/70 mt-0.5">
+                            {locale === 'fr' ? row.hint.fr : row.hint.en}
+                          </span>
+                        )}
                       </td>
                       {row.values.map((v, j) => (
                         <td key={j} className={`p-4 text-center ${PLANS[j]?.highlight ? 'bg-or/[0.04]' : ''}`}>
-                          {v ? (
-                            <Check size={17} strokeWidth={2} className="inline text-or" aria-label={t('Inclus', 'Included')} />
-                          ) : (
-                            <Minus size={15} className="inline text-foreground-faint/50" aria-label={t('Non inclus', 'Not included')} />
-                          )}
+                          {renderCompareCell(v, t)}
                         </td>
                       ))}
                     </tr>

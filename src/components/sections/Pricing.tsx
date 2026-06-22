@@ -7,9 +7,15 @@ import Button from "@/components/ui/Button";
 import FadeInOnScroll from "@/components/motion/FadeInOnScroll";
 import { useLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
-import { APP_SIGNUP_URL } from "@/lib/constants";
+import { buildSignupUrl } from "@/lib/constants";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
-import { PLANS, formatPriceCad, type PlanId } from "@/lib/plans";
+import {
+  PLANS,
+  formatPriceCad,
+  annualSavingsCents,
+  monthlyEquivalentCents,
+  type PlanId,
+} from "@/lib/plans";
 
 /**
  * Tarification — 3 forfaits commerciaux définitifs (lit la SOT src/lib/plans.ts).
@@ -31,11 +37,11 @@ const COPY: Record<PlanId, PlanCopy> = {
       en: "The wine lover, a personal cellar.",
     },
     features: [
-      { fr: "Sommelier IA", en: "AI sommelier" },
-      { fr: "Disponibilités SAQ en temps réel", en: "Live SAQ availability" },
-      { fr: "Ma cave", en: "My cellar" },
-      { fr: "Historique des accords", en: "Pairing history" },
-      { fr: "Scan d’étiquette", en: "Label scan" },
+      { fr: "Octave vous dit quoi ouvrir, soir après soir", en: "Octave tells you what to open, night after night" },
+      { fr: "Un palais qui apprend à chaque verre", en: "A palate that learns with every glass" },
+      { fr: "Le stock de votre SAQ, en direct", en: "Your SAQ's stock, live" },
+      { fr: "Votre cave, toujours à jour", en: "Your cellar, always up to date" },
+      { fr: "Une étiquette scannée, une bouteille rangée", en: "Scan a label, file a bottle" },
     ],
   },
   pro: {
@@ -45,13 +51,10 @@ const COPY: Record<PlanId, PlanCopy> = {
       en: "The enthusiast, regular use, a larger cellar.",
     },
     features: [
-      { fr: "Tout du forfait Standard", en: "Everything in Standard" },
-      { fr: "Profil de goût avancé", en: "Advanced taste profile" },
-      { fr: "Apprentissage du palais", en: "Palate learning" },
-      {
-        fr: "Recommandations Cave + SAQ + Les deux",
-        en: "Cellar + SAQ + Both recommendations",
-      },
+      { fr: "Tout ce que fait le Standard, en plus généreux", en: "Everything Standard does, more generously" },
+      { fr: "Un profil de goût qui s’affine en profondeur", en: "A taste profile that deepens over time" },
+      { fr: "Des accords puisés dans votre cave, à la SAQ, ou les deux", en: "Pairings drawn from your cellar, the SAQ, or both" },
+      { fr: "De quoi accompagner une cave qui grandit", en: "Room for a cellar that keeps growing" },
     ],
   },
   famille: {
@@ -61,18 +64,24 @@ const COPY: Record<PlanId, PlanCopy> = {
       en: "Several profiles, several palates, a shared cellar.",
     },
     features: [
-      { fr: "Tout du forfait Pro", en: "Everything in Pro" },
-      { fr: "Usage intensif", en: "Heavy usage" },
-      { fr: "Cave familiale", en: "Family cellar" },
-      { fr: "Priorité IA", en: "AI priority" },
+      { fr: "Tout ce que fait le Pro, pour toute la maisonnée", en: "Everything Pro does, for the whole household" },
+      { fr: "Plusieurs palais, chacun le sien, dans une cave partagée", en: "Several palates, each its own, in one shared cellar" },
+      { fr: "Octave suit votre rythme, même soutenu", en: "Octave keeps your pace, however lively" },
+      { fr: "Vos recommandations passent devant", en: "Your recommendations come first" },
     ],
   },
 };
 
 export default function Pricing() {
   const { locale } = useLocale();
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly");
+  // Annuel par défaut : on présente d'emblée la formule la plus avantageuse.
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("yearly");
   const t = (fr: string, en: string) => (locale === "fr" ? fr : en);
+
+  const selectPeriod = (period: "monthly" | "yearly") => {
+    setBillingPeriod(period);
+    track(ANALYTICS_EVENTS.BILLING_PERIOD_TOGGLE, { period });
+  };
 
   return (
     <SectionWrapper id="pricing" tone="light" withDivider rhythm="editorial">
@@ -91,11 +100,29 @@ export default function Pricing() {
               ? "14 jours offerts, sans engagement. Aucune carte demandée."
               : "14 days on the house, no strings. No card required."}
           </p>
+
+          {/* Ancrage remonté au-dessus de la grille : on cadre la valeur avant
+              le premier chiffre. */}
+          <p className="mt-10 font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
+            {locale === "fr"
+              ? "« Pour le prix d’une belle bouteille, un sommelier qui vous accompagne, soir après soir. »"
+              : '"For the price of a fine bottle, a sommelier by your side, night after night."'}
+          </p>
         </div>
       </FadeInOnScroll>
 
+      {/* Pourquoi un abonnement ? — on lève l'objection « pourquoi pas un achat
+          unique » : une cave est vivante, Octave la suit en continu. */}
+      <FadeInOnScroll delay={0.06}>
+        <p className="text-center iq-small text-foreground-dim max-w-2xl mx-auto -mt-8 mb-12">
+          {locale === "fr"
+            ? "Pourquoi un abonnement ? Parce qu’une cave vit, évolue et se boit. Octave la suit, soir après soir — pas une fois, toujours."
+            : "Why a subscription? Because a cellar lives, evolves and gets poured. Octave follows it, night after night — not once, always."}
+        </p>
+      </FadeInOnScroll>
+
       {/* Bascule mensuel / annuel — « 2 mois offerts » est un fait honnête
-          (l'annuel = 10× le mensuel), aucune fausse urgence. */}
+          (l'annuel = 10× le mensuel), aucune fausse urgence. Annuel par défaut. */}
       <FadeInOnScroll delay={0.08}>
         <div className="flex flex-col items-center gap-3 mb-12 sm:mb-14">
           <div
@@ -107,7 +134,7 @@ export default function Pricing() {
               type="button"
               role="tab"
               aria-selected={billingPeriod === "monthly"}
-              onClick={() => setBillingPeriod("monthly")}
+              onClick={() => selectPeriod("monthly")}
               className={`px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
                 billingPeriod === "monthly"
                   ? "bg-or text-on-gold font-medium"
@@ -120,19 +147,31 @@ export default function Pricing() {
               type="button"
               role="tab"
               aria-selected={billingPeriod === "yearly"}
-              onClick={() => setBillingPeriod("yearly")}
-              className={`px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
+              onClick={() => selectPeriod("yearly")}
+              className={`relative px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
                 billingPeriod === "yearly"
                   ? "bg-or text-on-gold font-medium"
                   : "text-foreground-dim hover:text-foreground"
               }`}
             >
               {t("Annuel", "Yearly")}
+              <span
+                className={`ml-2 rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide align-middle ${
+                  billingPeriod === "yearly"
+                    ? "bg-on-gold/15 text-on-gold"
+                    : "bg-or/12 text-or"
+                }`}
+              >
+                {t("Le plus avantageux", "Best value")}
+              </span>
             </button>
           </div>
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center gap-1.5">
             <span className="rounded-full bg-or/12 text-or px-3 py-1 text-xs font-medium tracking-wide">
-              {t("2 mois offerts avec l’abonnement annuel", "2 months free with the annual plan")}
+              {t("Deux mois offerts avec l’abonnement annuel.", "Two months free with the annual plan.")}
+            </span>
+            <span className="iq-small text-foreground-dim">
+              {t("Un palais qu’Octave affine toute l’année.", "A palate Octave sharpens all year long.")}
             </span>
           </div>
         </div>
@@ -172,11 +211,6 @@ export default function Pricing() {
               ? "14 jours gratuits · Aucune carte requise · TPS et TVQ en sus"
               : "14 free days · No credit card · GST/QST extra"}
           </p>
-          <p className="mt-8 font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
-            {locale === "fr"
-              ? "« Pour le prix d’une belle bouteille, un sommelier qui vous accorde, soir après soir. »"
-              : '"For the price of one fine bottle, a sommelier who pairs for you, night after night."'}
-          </p>
         </div>
       </FadeInOnScroll>
     </SectionWrapper>
@@ -198,6 +232,10 @@ function PlanCard({
   const highlight = plan.highlight ?? false;
   const isYearly = billingPeriod === "yearly";
   const t = (fr: string, en: string) => (locale === "fr" ? fr : en);
+
+  // Le grand nombre en annuel = l'équivalent MENSUEL (pas la facture annuelle).
+  const bigCents = isYearly ? monthlyEquivalentCents(plan) : plan.priceMonthlyCents;
+  const savingsCents = annualSavingsCents(plan);
 
   return (
     <div
@@ -222,22 +260,39 @@ function PlanCard({
         <p className="iq-small text-foreground-dim sm:min-h-[2.75rem]">{copy.tagline[locale]}</p>
       </div>
 
-      {/* Prix — mensuel ou annuel selon la bascule */}
+      {/* Prix — en annuel, le grand nombre est l'ÉQUIVALENT MENSUEL ; le mensuel
+          plein est barré à côté et la facture annuelle passe en sous-ligne. */}
       <div className="flex items-baseline gap-2 mb-1">
         <span className="font-[family-name:var(--font-display)] italic text-[56px] sm:text-[68px] text-or leading-none tracking-[-0.025em] tabular-nums">
-          {formatPriceCad(isYearly ? plan.priceYearlyCents : plan.priceMonthlyCents, locale)}
+          {formatPriceCad(bigCents, locale)}
         </span>
+        {isYearly && (
+          <span className="text-foreground-faint font-mono text-base line-through tabular-nums">
+            {formatPriceCad(plan.priceMonthlyCents, locale)}
+          </span>
+        )}
         <span className="text-foreground-faint font-mono text-[11px] tracking-[0.18em] uppercase">
           $ CAD
         </span>
       </div>
       <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-1.5">
-        {isYearly ? t("/ an", "/ year") : t("/ mois", "/ month")}
+        {t("/ mois", "/ month")}
       </p>
       <p className="iq-small mb-5">
         {isYearly ? (
-          <span className="text-or font-medium">
-            {t("Rabais équivalent à 2 mois gratuits.", "A discount worth 2 free months.")}
+          <span className="flex flex-col gap-1">
+            <span className="text-foreground-dim">
+              {t(
+                `Facturé ${formatPriceCad(plan.priceYearlyCents, locale)} $ annuellement.`,
+                `Billed $${formatPriceCad(plan.priceYearlyCents, locale)} yearly.`,
+              )}
+            </span>
+            <span className="text-or font-medium tabular-nums">
+              {t(
+                `Économisez ${formatPriceCad(savingsCents, locale)} $ par an.`,
+                `Save $${formatPriceCad(savingsCents, locale)} per year.`,
+              )}
+            </span>
           </span>
         ) : (
           <span className="text-foreground-dim">{t("Facturé chaque mois.", "Billed each month.")}</span>
@@ -275,22 +330,39 @@ function PlanCard({
         ))}
       </ul>
 
-      <a
-        href={APP_SIGNUP_URL}
-        onClick={() =>
-          track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: "pricing" })
-        }
-        className="block mt-auto"
-      >
-        <Button
-          variant={highlight ? "cta" : "secondary"}
-          size="lg"
-          className="w-full"
+      <div className="mt-auto">
+        <a
+          href={buildSignupUrl("pricing_card", {
+            plan: plan.id,
+            period: billingPeriod,
+            lang: locale,
+          })}
+          onClick={() =>
+            track(ANALYTICS_EVENTS.PLAN_SELECTED, {
+              plan: plan.id,
+              period: billingPeriod,
+            })
+          }
+          className="block"
         >
-          {t(`Choisir ${copy.name}`, `Choose ${copy.name}`)}
-          <ArrowRight size={16} strokeWidth={1.75} />
-        </Button>
-      </a>
+          <Button
+            variant={highlight ? "cta" : "secondary"}
+            size="lg"
+            className="w-full"
+          >
+            {t(`Choisir ${copy.name}`, `Choose ${copy.name}`)}
+            <ArrowRight size={16} strokeWidth={1.75} />
+          </Button>
+        </a>
+
+        {/* Inversion du risque — on désamorce l'engagement juste sous le CTA. */}
+        <p className="mt-3 text-center iq-small text-foreground-dim leading-snug">
+          {t(
+            "Sans engagement. Résiliable en un geste. Vous ne payez que si vous décidez de rester.",
+            "No commitment. Cancel in one tap. You only pay if you choose to stay.",
+          )}
+        </p>
+      </div>
     </div>
   );
 }

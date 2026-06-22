@@ -16,6 +16,31 @@ export const APP_LOGIN_URL =
   process.env.NEXT_PUBLIC_APP_LOGIN_URL || 'https://app.iqwine.ca/login';
 
 /**
+ * Construit l'URL d'essai en propageant l'attribution vers l'app (cross-domain) :
+ * UTM standard + source (emplacement du CTA) + plan/période/langue éventuels.
+ * L'app cellier-vin lit ces params au signup pour boucler visiteur→essai→payant.
+ * Best-effort : retombe sur APP_SIGNUP_URL nu si l'URL est invalide.
+ */
+export function buildSignupUrl(
+  source: string,
+  opts?: { plan?: string; period?: 'monthly' | 'yearly'; lang?: Locale },
+): string {
+  try {
+    const url = new URL(APP_SIGNUP_URL);
+    url.searchParams.set('utm_source', 'marketing');
+    url.searchParams.set('utm_medium', 'cta');
+    url.searchParams.set('utm_campaign', 'trial');
+    url.searchParams.set('src', source);
+    if (opts?.plan) url.searchParams.set('plan', opts.plan);
+    if (opts?.period) url.searchParams.set('period', opts.period);
+    if (opts?.lang) url.searchParams.set('lang', opts.lang);
+    return url.toString();
+  } catch {
+    return APP_SIGNUP_URL;
+  }
+}
+
+/**
  * Copywriting iQWine — voix sommelier d'hôtel particulier.
  * Positionnement : « Le système d'intelligence privé de votre cave. »
  * (OS du collectionneur, semé subtilement — pas d'acronyme tech en clair.)
@@ -30,14 +55,14 @@ export const APP_LOGIN_URL =
 const NAV_LINKS_MAP = {
   en: [
     { label: 'Pairing', href: '/#demo' },
-    { label: 'AI', href: '/#ai' },
+    { label: 'AI', href: '/#palais' },
     { label: 'Cellar', href: '/#cave-web' },
     { label: 'Restaurant', href: '/#trois-moments' },
     { label: 'Pricing', href: '/#tarifs' },
   ],
   fr: [
     { label: 'Accord', href: '/#demo' },
-    { label: 'IA', href: '/#ai' },
+    { label: 'IA', href: '/#palais' },
     { label: 'Cave', href: '/#cave-web' },
     { label: 'Restaurant', href: '/#trois-moments' },
     { label: 'Tarifs', href: '/#tarifs' },

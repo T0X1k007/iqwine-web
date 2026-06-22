@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
-import { APP_SIGNUP_URL } from '@/lib/constants';
+import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -63,7 +63,7 @@ export default function StickyCTA() {
                 {t('Sachez quoi ouvrir ce soir.', 'Know what to open tonight.')}
               </span>
               <a
-                href={APP_SIGNUP_URL}
+                href={buildSignupUrl('sticky', { lang: locale })}
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'sticky' })}
                 className="rounded-pill bg-or text-background font-medium text-[14px] px-4 py-2 active:scale-[0.98] transition-transform"
               >

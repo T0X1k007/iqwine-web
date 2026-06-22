@@ -244,7 +244,7 @@ const DATA: Record<DemoMeal, MealData> = {
       cuvee: 'Barolo',
       region: 'Piémont',
       color: 'ROUGE',
-      vintage: 2022,
+      vintage: 2019,
       atPeak: true,
       personality: { fr: 'Puissant, noble, tannique.', en: 'Powerful, noble, tannic.' },
       why: {
