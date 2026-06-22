@@ -25,6 +25,36 @@ type Moment = {
   body: Record<Locale, string>;
 };
 
+/** Frise apogée — 3 états, le langage EST l'argument (ni graphique, ni %). */
+type ApogeeState = {
+  label: Record<Locale, string>;
+  body: Record<Locale, string>;
+};
+
+const APOGEE_STATES: ApogeeState[] = [
+  {
+    label: { fr: 'TROP JEUNE', en: 'TOO YOUNG' },
+    body: {
+      fr: 'Encore austère, les tanins serrent. Laissez-lui du temps — ou carafez deux heures.',
+      en: 'Still austere, the tannins grip. Give it time — or decant two hours.',
+    },
+  },
+  {
+    label: { fr: 'À SON SOMMET', en: 'AT ITS PEAK' },
+    body: {
+      fr: 'C’est le moment. Tout est en place : ouvrez-la, elle ne sera jamais meilleure.',
+      en: 'This is the moment. Everything’s in place: open it, it’ll never be better.',
+    },
+  },
+  {
+    label: { fr: 'À BOIRE SANS TARDER', en: 'DRINK WITHOUT DELAY' },
+    body: {
+      fr: 'Elle a passé le cap. Encore belle, mais le fruit s’efface. À boire bientôt.',
+      en: 'It’s past the threshold. Still lovely, but the fruit is fading. Drink it soon.',
+    },
+  },
+];
+
 const MOMENTS: Moment[] = [
   {
     eyebrow: { fr: 'RECEVOIR', en: 'HOSTING' },
@@ -101,6 +131,61 @@ export default function SectionMomentsEnjeu() {
             </article>
           </FadeInOnScroll>
         ))}
+      </div>
+
+      {/* L'APOGÉE EN LANGAGE HUMAIN — frise 3 états, reliés par un fil (timeline) */}
+      <div className="mt-20 max-w-5xl mx-auto">
+        <FadeInOnScroll>
+          <div className="text-center mb-12">
+            <div className="iq-eyebrow mb-4">
+              {t(
+                'L’APOGÉE, EN LANGAGE HUMAIN',
+                'THE DRINKING WINDOW, IN PLAIN WORDS',
+              )}
+            </div>
+            <h3 className="iq-h2 italic">
+              {t(
+                'Trois états. Un seul verdict clair.',
+                'Three states. One clear verdict.',
+              )}
+            </h3>
+          </div>
+        </FadeInOnScroll>
+
+        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          {/* Fil reliant les 3 cartes — timeline (desktop) */}
+          <span
+            className="hidden md:block absolute top-[34px] left-[16.66%] right-[16.66%] h-px bg-or/40"
+            aria-hidden
+          />
+          {APOGEE_STATES.map((s, i) => (
+            <FadeInOnScroll key={i} delay={0.1 + i * 0.1} className="h-full">
+              <article className="relative flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85 tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="h-px w-6 bg-or/40 shrink-0" aria-hidden />
+                  <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85">
+                    {s.label[locale]}
+                  </span>
+                </div>
+                <p className="iq-body text-foreground-dim leading-relaxed flex-1">
+                  {s.body[locale]}
+                </p>
+              </article>
+            </FadeInOnScroll>
+          ))}
+        </div>
+
+        <FadeInOnScroll delay={0.36}>
+          <p className="mt-10 text-center iq-body text-foreground-dim max-w-2xl mx-auto leading-relaxed">
+            {t(
+              'Et quand une grande bouteille approche de sa limite, Octave vous le dit — avant qu’il soit trop tard.',
+              'And when a great bottle nears its limit, Octave tells you — before it’s too late.',
+            )}
+          </p>
+        </FadeInOnScroll>
       </div>
 
       <FadeInOnScroll delay={0.3}>

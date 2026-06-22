@@ -29,17 +29,19 @@ const TOOLS = [
 interface Row {
   feature: { fr: string; en: string };
   cells: [Cell, Cell, Cell, Cell, Cell]; // ordre = TOOLS
+  exclusive?: boolean; // ligne inattaquable → libellé or/gras + préfixe « Exclusif »
 }
 
-// Exclusivités iQWine EN HAUT, puis forces partagées, concession honnête en bas.
+// Lignes ordonnées du plus INATTAQUABLE au plus partagé. Les exclusivités
+// iQWine (un seul « yes ») sont EN TÊTE et accentuées ; concession honnête en
+// bas. Bénéfices EN SITUATION (« sur place », « en direct »), pas des features.
 // Ordre cellules : iQWine · app de luxe · ChatGPT · Vivino · CellarTracker.
 const ROWS: Row[] = [
-  { feature: { fr: 'Stock SAQ en temps réel, par succursale', en: 'Live SAQ stock, by store' }, cells: ['yes', 'no', 'no', 'no', 'no'] },
-  { feature: { fr: 'Recommande selon votre palais qui apprend', en: 'Recommends by your palate, which learns' }, cells: ['yes', 'no', 'partial', 'partial', 'no'] },
-  { feature: { fr: 'Accord avec un plat précis, en direct', en: 'Pairs with a specific dish, live' }, cells: ['yes', 'no', 'partial', 'no', 'no'] },
-  { feature: { fr: 'Apogée conversationnelle', en: 'Conversational drinking windows' }, cells: ['yes', 'partial', 'no', 'no', 'partial'] },
-  { feature: { fr: 'Connaît votre cave personnelle', en: 'Knows your personal cellar' }, cells: ['yes', 'yes', 'no', 'partial', 'yes'] },
-  { feature: { fr: 'Scan d’une carte de restaurant', en: 'Scans a restaurant wine list' }, cells: ['yes', 'no', 'partial', 'no', 'no'] },
+  { feature: { fr: 'Stock SAQ en temps réel, par succursale', en: 'Live SAQ stock, by store' }, cells: ['yes', 'no', 'no', 'no', 'no'], exclusive: true },
+  { feature: { fr: 'Lit une carte de restaurant, sur place', en: 'Reads a restaurant wine list, on the spot' }, cells: ['yes', 'no', 'no', 'no', 'no'] },
+  { feature: { fr: 'Accorde avec votre plat précis, en direct', en: 'Pairs with your exact dish, live' }, cells: ['yes', 'no', 'partial', 'no', 'no'] },
+  { feature: { fr: 'Apogée en conversation, pas en tableur', en: 'Drinking windows in conversation, not a spreadsheet' }, cells: ['yes', 'partial', 'no', 'no', 'partial'] },
+  { feature: { fr: 'Ancré au marché québécois (SAQ, prix CAD)', en: 'Rooted in the Québec market (SAQ, CAD prices)' }, cells: ['yes', 'no', 'no', 'partial', 'no'] },
   { feature: { fr: 'Scan d’étiquette → fiche', en: 'Label scan → profile' }, cells: ['yes', 'partial', 'partial', 'yes', 'no'] },
   { feature: { fr: 'Cave 3D / localisation physique', en: '3D cellar / physical location' }, cells: ['no', 'yes', 'no', 'no', 'no'] },
 ];
@@ -88,8 +90,8 @@ export default function SectionComparison() {
             </h2>
             <p className="iq-lead mt-5 max-w-2xl mx-auto">
               {t(
-                'La seule app pensée pour décider, pas seulement pour ranger.',
-                'The only app built to decide, not just to organize.',
+                'Pensée pour décider, pas seulement pour ranger. Cinq choses que personne d’autre ne réunit : la SAQ en direct, votre palais, l’apogée en clair, l’accord en situation, et le Québec.',
+                'Built to decide, not just to organize. Five things no one else brings together: the SAQ live, your palate, drinking windows in plain language, pairing in the moment, and Québec.',
               )}
             </p>
           </div>
@@ -121,7 +123,18 @@ export default function SectionComparison() {
               <tbody>
                 {ROWS.map((row, ri) => (
                   <tr key={row.feature.en} className="border-t border-border">
-                    <td className="p-3 sm:p-4 iq-small text-foreground-dim">
+                    <td
+                      className={`p-3 sm:p-4 iq-small ${
+                        row.exclusive
+                          ? 'text-or font-semibold'
+                          : 'text-foreground-dim'
+                      }`}
+                    >
+                      {row.exclusive && (
+                        <span className="mr-2 font-mono text-[10px] tracking-[0.18em] uppercase text-or/80">
+                          {t('Exclusif', 'Only here')}
+                        </span>
+                      )}
                       {row.feature[locale]}
                     </td>
                     {row.cells.map((cell, ci) => {

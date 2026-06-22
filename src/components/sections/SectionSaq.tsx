@@ -1,6 +1,7 @@
 'use client';
 
-import { ArrowRight } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Button from '@/components/ui/Button';
@@ -18,7 +19,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 export default function SectionSaq() {
   const { locale } = useLocale();
-  const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
+  const t = <T extends ReactNode>(fr: T, en: T) => (locale === 'fr' ? fr : en);
 
   return (
     <SectionWrapper id="saq" tone="light" withDivider rhythm="standard">
@@ -47,7 +48,15 @@ export default function SectionSaq() {
             )}
           </p>
           <p className="mt-4 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint">
-            {t('Succursales SAQ du Québec', 'SAQ stores across Québec')}
+            {t(
+              <>
+                Plus de <span className="tabular-nums">400</span> succursales SAQ, en
+                direct
+              </>,
+              <>
+                <span className="tabular-nums">400</span>+ SAQ stores, live
+              </>,
+            )}
           </p>
         </FadeInOnScroll>
 
@@ -74,6 +83,63 @@ export default function SectionSaq() {
               rotation={-2}
             />
           </div>
+
+          {/* Artefact « LIVE » : une capture temps réel doit porter un signal
+              vivant — succursale réelle, statut stock, horodatage. */}
+          <div className="mt-7 flex justify-center">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-or/20 bg-or/[0.05] px-4 py-2 font-mono text-[11px] tracking-[0.06em] text-foreground/80">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-or/60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-or" />
+              </span>
+              <span>
+                {t(
+                  <>
+                    SAQ Sélection Outremont ·{' '}
+                    <span className="tabular-nums text-or">3</span> en tablette ·
+                    vérifié à l’instant
+                  </>,
+                  <>
+                    SAQ Sélection Outremont ·{' '}
+                    <span className="tabular-nums text-or">3</span> on shelf · checked
+                    just now
+                  </>,
+                )}
+              </span>
+            </div>
+          </div>
+        </FadeInOnScroll>
+
+        <FadeInOnScroll delay={0.3}>
+          {/* Démo chiffrée, présentée comme une réponse d'Octave (italique or). */}
+          <figure className="mt-12 mx-auto max-w-2xl rounded-2xl border border-or/15 bg-or/[0.03] p-7 text-left">
+            <figcaption className="font-mono text-[10px] tracking-[0.18em] uppercase text-or mb-3 inline-flex items-center gap-2">
+              <Sparkles size={13} strokeWidth={2} aria-hidden />
+              {t('Octave répond', 'Octave answers')}
+            </figcaption>
+            <blockquote className="font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
+              {t(
+                <>
+                  « À votre SAQ, le Guigal Côtes-du-Rhône à{' '}
+                  <span className="tabular-nums not-italic">24,50 $</span> est en
+                  tablette — charnu, épicé, parfait ce soir. »
+                </>,
+                <>
+                  “At your SAQ, the Guigal Côtes-du-Rhône at{' '}
+                  <span className="tabular-nums not-italic">$24.50</span> is on the
+                  shelf — fleshy, spiced, perfect tonight.”
+                </>,
+              )}
+            </blockquote>
+          </figure>
+
+          {/* Non-copiabilité : le « pourquoi personne d'autre ». Sobre, factuel. */}
+          <p className="iq-body mt-8 mx-auto max-w-2xl text-foreground-dim">
+            {t(
+              'Aucune app étrangère ne connaîtra la SAQ comme ça : la SAQ est un monopole d’État, succursale par succursale.',
+              'No foreign app will ever know the SAQ like this: the SAQ is a state monopoly, store by store.',
+            )}
+          </p>
         </FadeInOnScroll>
 
         <FadeInOnScroll delay={0.34}>

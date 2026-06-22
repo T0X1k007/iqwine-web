@@ -27,7 +27,7 @@ export default function SectionConfiance() {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   const badges = [
-    { icon: <FleurDeLys size={26} />, label: t('Conçu au Québec', 'Made in Québec') },
+    { icon: <FleurDeLys size={26} />, label: t('Québec-natif', 'Québec-native') },
     {
       icon: <Server size={24} strokeWidth={1.75} />,
       label: t('Hébergé au Canada', 'Hosted in Canada'),
@@ -46,8 +46,8 @@ export default function SectionConfiance() {
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {t(
-              'Conçu au Québec, vos données protégées, les disponibilités SAQ en direct. Le reste, c’est le plaisir.',
-              'Built in Québec, your data protected, live SAQ availability. The rest is pleasure.',
+              'Conçu au Québec, iQWine connaît la SAQ comme aucune app étrangère ne le pourra : succursale par succursale, en direct.',
+              'Built in Québec, iQWine knows the SAQ like no foreign app ever could: store by store, live.',
             )}
           </p>
         </div>

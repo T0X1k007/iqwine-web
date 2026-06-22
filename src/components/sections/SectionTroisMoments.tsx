@@ -109,7 +109,7 @@ export default function SectionTroisMoments() {
                 frame="iphone"
                 src={m.src}
                 alt={m.alt[locale]}
-                width={190}
+                width={i === 2 ? 264 : 190}
                 rotation={i === 1 ? -1 : 1}
                 glow
               />
@@ -128,6 +128,26 @@ export default function SectionTroisMoments() {
           </FadeInOnScroll>
         ))}
       </div>
+
+      {/* KILL-SHOT RESTO — le moat fort : le scan resto en situation. */}
+      <FadeInOnScroll delay={0.35}>
+        <div className="mt-16 sm:mt-20 text-center max-w-3xl mx-auto">
+          <div className="iq-eyebrow mb-5">
+            {locale === 'fr' ? 'Au restaurant' : 'At the restaurant'}
+          </div>
+          <p className="font-[family-name:var(--font-display)] text-foreground/90 text-xl sm:text-2xl leading-relaxed">
+            {locale === 'fr'
+              ? 'Vivino note une bouteille. ChatGPT ne voit pas la carte. Octave lit CETTE carte, pour CE plat, dans CE budget — à CETTE table.'
+              : 'Vivino rates a bottle. ChatGPT can’t see the list. Octave reads THIS list, for THIS dish, in THIS budget — at THIS table.'}
+          </p>
+          <span className="mx-auto mt-7 mb-6 block h-px w-12 bg-or/40" aria-hidden />
+          <p className="font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
+            {locale === 'fr'
+              ? 'Le seul sommelier qui vous suit jusqu’à la table du restaurant.'
+              : 'The only sommelier that follows you to the restaurant table.'}
+          </p>
+        </div>
+      </FadeInOnScroll>
 
       {/* Démo vidéo Octave — absorbée depuis SectionAI (OctaveDemoVideo). */}
       <FadeInOnScroll delay={0.45}>

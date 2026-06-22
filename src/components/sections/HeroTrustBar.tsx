@@ -18,23 +18,31 @@ export default function HeroTrustBar() {
   const { locale } = useLocale();
   const hero = getHero(locale);
 
+  // Seul le pilier SAQ (index 2) est un différenciateur — les 3 autres sont de
+  // l'hygiène. On le sort de la parité visuelle par un accent or léger.
   const items = [
-    { ...hero.trust[0], icon: <FleurDeLys size={30} /> },
-    { ...hero.trust[1], icon: <Lock size={26} strokeWidth={1.75} /> },
-    { ...hero.trust[2], icon: <SaqLive size={28} /> },
-    { ...hero.trust[3], icon: <ShieldCheck size={26} strokeWidth={1.75} /> },
+    { ...hero.trust[0], icon: <FleurDeLys size={30} />, accent: false },
+    { ...hero.trust[1], icon: <Lock size={26} strokeWidth={1.75} />, accent: false },
+    { ...hero.trust[2], icon: <SaqLive size={28} />, accent: true },
+    { ...hero.trust[3], icon: <ShieldCheck size={26} strokeWidth={1.75} />, accent: false },
   ];
 
   return (
     <div className="rounded-2xl border border-border bg-foreground/[0.03] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border">
-      {items.map(({ title, lines, icon }) => (
+      {items.map(({ title, lines, icon, accent }) => (
         <div
           key={title}
-          className="flex items-center gap-4 px-4 py-5 sm:px-6 lg:py-6 lg:justify-center"
+          className={`flex items-center gap-4 px-4 py-5 sm:px-6 lg:py-6 lg:justify-center ${
+            accent ? 'bg-or/[0.06]' : ''
+          }`}
         >
           <span className="text-or shrink-0">{icon}</span>
           <span className="flex flex-col gap-0.5">
-            <span className="text-sm font-semibold uppercase tracking-[0.08em] text-foreground leading-snug">
+            <span
+              className={`text-sm font-semibold uppercase tracking-[0.08em] leading-snug ${
+                accent ? 'text-or' : 'text-foreground'
+              }`}
+            >
               {title}
             </span>
             {lines.map((line) => (

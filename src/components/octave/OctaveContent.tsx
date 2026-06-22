@@ -83,8 +83,8 @@ const COMPARISON = {
     en: 'A full-bodied red would work, say a Bordeaux, a Syrah or a Côtes-du-Rhône.',
   },
   octave: {
-    fr: 'Ouvrez votre Barolo 2019 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, le Guigal Côtes-du-Rhône à 24,50 $ est en stock, charnu et épicé, parfait ce soir.',
-    en: 'Open your 2019 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, the Guigal Côtes-du-Rhône at $24.50 is in stock, fleshy and spiced, perfect tonight.',
+    fr: 'Ouvrez votre Barolo 2013 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, le Guigal Côtes-du-Rhône à 24,50 $ est en stock, charnu et épicé, parfait ce soir.',
+    en: 'Open your 2013 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, the Guigal Côtes-du-Rhône at $24.50 is in stock, fleshy and spiced, perfect tonight.',
   },
 };
 
