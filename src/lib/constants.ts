@@ -62,7 +62,6 @@ const PRODUCT_LINKS_MAP = {
 // Positionnement OS d'entrée + anchor concret + signal exclusivité subtil.
 const HERO_MAP = {
   en: {
-    badge: 'AI Sommelier · Cellar · SAQ · Restaurant',
     tagline: 'Your AI sommelier.',
     trust: [
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
@@ -71,26 +70,19 @@ const HERO_MAP = {
       { title: 'No card required', lines: ['Free 14-day trial', 'Cancel anytime'] },
     ],
     variantA: {
-      headlineTop: 'Your AI sommelier.',
-      headlineBottom: 'At home, at the SAQ, at the restaurant.',
-      headline: 'Your AI sommelier. At home, at the SAQ, at the restaurant.',
+      eyebrow: 'YOUR PERSONAL SOMMELIER',
+      headlineTop: 'Always know',
+      headlineBottom: 'which bottle to open.',
       subheadline:
-        'It knows your taste, your cellar, and live SAQ availability.',
-      anchor: 'Made in Québec · Live SAQ availability · Private & encrypted',
-    },
-    variantB: {
-      headlineTop: 'Your collection,',
-      headlineBottom: 'finally alive.',
-      headline: 'Your collection, finally alive.',
-      subheadline:
-        'Designed for collectors. Not for inventory.',
-      anchor: 'Scan. Understand. Open at the right moment.',
+        "Octave knows your cellar, your taste, every bottle's peak and your SAQ's live stock — and turns it all into one decision: the right bottle, at the right moment.",
+      categoryLine: 'Others organize your cellar. Octave tells you what to do with it.',
+      reassurance: '14 days free · No card · No cellar to enter',
+      ctaHeroPrimary: 'Find what to drink tonight',
+      ctaHeroSecondary: 'See Octave in action',
     },
     ctaPrimary: 'Free Trial 14 Days',
-    ctaSecondary: 'Try the live demo',
   },
   fr: {
-    badge: 'Sommelier IA · Cave · SAQ · Restaurant',
     tagline: 'Votre sommelier IA.',
     trust: [
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
@@ -99,23 +91,17 @@ const HERO_MAP = {
       { title: 'Aucune carte requise', lines: ['Essai gratuit 14 jours', 'Annulable en tout temps'] },
     ],
     variantA: {
-      headlineTop: 'Votre sommelier IA.',
-      headlineBottom: 'À la maison, à la SAQ, au restaurant.',
-      headline: 'Votre sommelier IA. À la maison, à la SAQ, au restaurant.',
+      eyebrow: 'VOTRE SOMMELIER PERSONNEL',
+      headlineTop: 'Sachez toujours',
+      headlineBottom: 'quelle bouteille ouvrir.',
       subheadline:
-        'Il connaît vos goûts, votre cave et la SAQ en temps réel.',
-      anchor: 'Conçu au Québec · Disponibilités SAQ en direct · Données privées & chiffrées',
-    },
-    variantB: {
-      headlineTop: 'Votre collection,',
-      headlineBottom: 'enfin vivante.',
-      headline: 'Votre collection, enfin vivante.',
-      subheadline:
-        'Pensé pour les collectionneurs. Pas pour des inventaires.',
-      anchor: 'Scannez. Comprenez. Ouvrez au bon moment.',
+        "Octave connaît votre cave, votre palais, l'apogée de chaque bouteille et le stock de votre SAQ en direct — et transforme tout ça en une décision : la bonne bouteille, au bon moment.",
+      categoryLine: 'Les autres rangent votre cave. Octave vous dit quoi en faire.',
+      reassurance: '14 jours gratuits · Sans carte · Aucune cave à saisir',
+      ctaHeroPrimary: 'Trouver quoi boire ce soir',
+      ctaHeroSecondary: 'Voir Octave en action',
     },
     ctaPrimary: 'Essai gratuit 14 jours',
-    ctaSecondary: 'Essayer la démo',
   },
 };
 

@@ -2,16 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import DemoPhone from '@/components/demo/DemoPhone';
-import { getDemoCards, mealLabel, DEMO_MEALS } from '@/lib/demoData';
+import Image from 'next/image';
+import { FrameChrome } from '@/components/screenshot/ScreenshotFrame';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * HeroDemo — remplace l'ancien emplacement photo du hero. Animation de SÉLECTION
- * de vin : Octave recommande une bouteille pour un plat, et fait défiler les plats
- * (lasagne d'abord) avec un fondu doux. Centré dans sa colonne. Téléphone en mode
- * sombre pour s'harmoniser au hero. reduced-motion : fige sur la lasagne.
+ * HeroDemo — visuel produit du hero. VRAIES captures de l'app iQWine présentées
+ * dans le cadre iPhone éditorial premium (FrameChrome), en crossfade automatique
+ * sur trois écrans qui montrent la valeur : recommandation depuis la cave →
+ * disponibilité SAQ en direct → apogée & palais. reduced-motion : fige sur le
+ * premier écran (la recommandation). Aucun mockup dessiné : produit réel, fini.
  */
+
+const SCENES = [
+  {
+    src: '/screenshots/02-home-suggestions.png',
+    fr: 'Octave recommande, depuis votre cave',
+    en: 'Octave recommends, from your cellar',
+  },
+  {
+    src: '/screenshots/06-recherche-hors-cave.png',
+    fr: 'En tablette, à votre SAQ — en direct',
+    en: 'On the shelf at your SAQ — live',
+  },
+  {
+    src: '/screenshots/01-fiche-vin.png',
+    fr: 'Apogée et palais, pour chaque bouteille',
+    en: 'Peak and palate, for every bottle',
+  },
+] as const;
+
+const WIDTH = 300;
+
 export default function HeroDemo() {
   const { locale } = useLocale();
   const reduced = useReducedMotion();
@@ -19,35 +41,52 @@ export default function HeroDemo() {
 
   useEffect(() => {
     if (reduced) return;
-    const id = setInterval(() => setI((p) => (p + 1) % DEMO_MEALS.length), 4500);
+    const id = setInterval(() => setI((p) => (p + 1) % SCENES.length), 4200);
     return () => clearInterval(id);
   }, [reduced]);
 
-  const meal = DEMO_MEALS[i] ?? 'lasagne';
-  const card = getDemoCards(meal, 'cave')[0];
-  if (!card) return null;
-
+  const scene = SCENES[i] ?? SCENES[0];
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
+  const caption = t(scene.fr, scene.en);
 
   return (
     <div className="flex w-full flex-col items-center">
-      <p className="mb-4 font-mono text-[11px] tracking-[0.24em] uppercase text-foreground-faint">
-        {t('Octave choisit pour', 'Octave picks for')}{' '}
-        <span className="text-or">{mealLabel(meal, locale)}</span>
+      <FrameChrome width={WIDTH} frame="iphone" glow rotation={-2}>
+        <AnimatePresence>
+          <motion.div
+            key={scene.src}
+            className="absolute inset-0"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{ willChange: 'opacity' }}
+          >
+            <Image
+              src={scene.src}
+              alt={caption}
+              fill
+              sizes={`${WIDTH}px`}
+              priority={i === 0}
+              style={{ objectFit: 'cover' }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </FrameChrome>
+
+      <p className="mt-6 min-h-[1.4em] text-center font-mono text-[11px] tracking-[0.24em] uppercase text-foreground-faint">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={scene.src}
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {caption}
+          </motion.span>
+        </AnimatePresence>
       </p>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={meal}
-          initial={reduced ? false : { opacity: 0, y: 16, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={reduced ? { opacity: 0 } : { opacity: 0, y: -16, scale: 0.97 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-[300px] lg:max-w-[290px] xl:max-w-[310px]"
-          style={{ willChange: 'transform, opacity' }}
-        >
-          <DemoPhone card={card} locale={locale} caption={t('Votre cave', 'Your cellar')} />
-        </motion.div>
-      </AnimatePresence>
     </div>
   );
 }

@@ -22,7 +22,7 @@ export default function FinalCta() {
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <FadeInOnScroll>
           <h2 className="iq-display italic">
-            {t('Votre prochaine bouteille vous attend.', 'Your next bottle is waiting.')}
+            {t('Trouvez votre prochaine bonne bouteille.', 'Find your next great bottle.')}
           </h2>
           <p className="iq-lead mt-6 max-w-xl mx-auto">
             {t(
@@ -41,7 +41,10 @@ export default function FinalCta() {
               </Button>
             </a>
             <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
-              {t('Aucune carte requise · Résiliable en un geste', 'No card required · Cancel anytime')}
+              {t(
+                '14 jours gratuits · Sans carte · Résiliable en un geste',
+                '14 free days · No card · Cancel anytime',
+              )}
             </p>
           </div>
         </FadeInOnScroll>

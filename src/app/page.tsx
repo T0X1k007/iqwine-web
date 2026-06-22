@@ -3,15 +3,16 @@
 import dynamic from 'next/dynamic';
 import HeroV4 from '@/components/sections/HeroV4';
 
-// Above-fold = eager (Hero seul, désormais sans framer-motion). Tout le reste =
-// code-split (next/dynamic, SSR conservé → SEO + 0 CLS) pour sortir framer-motion
-// du chemin critique et accélérer le LCP mobile.
+// Above-fold = eager (Hero seul). Tout le reste = code-split (next/dynamic, SSR
+// conservé → SEO + 0 CLS). Ordre Vague 1 : mémoire → palais → SAQ → preuve →
+// comment → pourquoi → confiance → décision.
 const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
-const SectionComparison = dynamic(() => import('@/components/sections/SectionComparison'));
-const SectionProof = dynamic(() => import('@/components/sections/SectionProof'));
-const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments'));
-const SectionAI = dynamic(() => import('@/components/sections/SectionAI'));
-const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb'));
+const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb')); // « Une cave qui se souvient » (pilier)
+const SectionPalais = dynamic(() => import('@/components/sections/SectionPalais'));
+const SectionSaq = dynamic(() => import('@/components/sections/SectionSaq'));
+const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments')); // absorbe Proof + vidéo
+const SectionCommentCaMarche = dynamic(() => import('@/components/sections/SectionCommentCaMarche'));
+const SectionComparison = dynamic(() => import('@/components/sections/SectionComparison')); // « Pourquoi les amateurs choisissent iQWine »
 const SectionConfiance = dynamic(() => import('@/components/sections/SectionConfiance'));
 const SectionTarifs = dynamic(() => import('@/components/sections/SectionTarifs'));
 const SectionFaq = dynamic(() => import('@/components/sections/SectionFaq'));
@@ -25,11 +26,12 @@ export default function Home() {
       <main>
         <HeroV4 />
         <SectionDemo />
-        <SectionComparison />
-        <SectionProof />
-        <SectionTroisMoments />
-        <SectionAI />
         <SectionCaveWeb />
+        <SectionPalais />
+        <SectionSaq />
+        <SectionTroisMoments />
+        <SectionCommentCaMarche />
+        <SectionComparison />
         <SectionConfiance />
         <SectionTarifs />
         <SectionFaq />

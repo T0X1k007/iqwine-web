@@ -13,8 +13,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * Hero V4, composition éditoriale 2 colonnes (lg+) / stack mobile.
  *
  * LEFT  : eyebrow + Cormorant H1 italic + sub + anchor + dual CTA + closer
- * RIGHT : iPhone avec capture fiche bouteille (placeholder en attendant
- *         Phase 2, Eric capture via Chrome MCP avec ses credentials)
+ * RIGHT : iPhone éditorial — vraies captures de l'app en crossfade (HeroDemo)
  *
  * Animations V4-bis :
  *   - Mount reveal staggered (CSS keyframes, zero JS observer)
@@ -51,15 +50,21 @@ export default function HeroV4() {
           {/* LEFT, bloc typographique éditorial */}
           <div className="lg:col-span-6 text-center lg:text-left">
             {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide.
-                Phase 7, hero épuré : eyebrow « SOMMELIER IA · CAVE · … » ET la ligne
-                d'ancrage « Conçu au Québec · … » retirées (redondantes, alourdissaient
-                le 1er frame). Titre = 1er élément. */}
+                Hero épuré : le titre est le 1er élément. */}
+            <p className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-or/90 mb-5">
+              {content.eyebrow}
+            </p>
+
             <h1 className="iq-hero italic">
               <span className="block text-foreground">{content.headlineTop}</span>
               <span className="block text-or">{content.headlineBottom}</span>
             </h1>
 
             <p className="iq-lead mt-6 max-w-xl lg:mx-0 mx-auto">{content.subheadline}</p>
+
+            <p className="mt-4 max-w-xl lg:mx-0 mx-auto font-[family-name:var(--font-display)] italic text-foreground/80 text-lg sm:text-xl leading-relaxed">
+              {content.categoryLine}
+            </p>
 
             <FadeInOnScroll delay={0.55}>
               <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
@@ -69,24 +74,26 @@ export default function HeroV4() {
                   className="w-full sm:w-auto"
                 >
                   <Button variant="cta" size="lg" className="w-full sm:w-auto">
-                    {hero.ctaPrimary}
+                    {content.ctaHeroPrimary}
                     <ArrowRight size={16} strokeWidth={1.75} />
                   </Button>
                 </a>
                 <a href="#demo" className="w-full sm:w-auto">
                   <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                    {hero.ctaSecondary}
+                    {content.ctaHeroSecondary}
                     <ChevronDown size={16} strokeWidth={1.75} />
                   </Button>
                 </a>
               </div>
             </FadeInOnScroll>
 
+            <p className="mt-5 iq-small text-foreground-dim text-center lg:text-left">
+              {content.reassurance}
+            </p>
+
           </div>
 
-          {/* RIGHT, emplacement photographie « art de vivre » (Q19 option B).
-              La démo vivante a migré en section 2 ; le hero s'ouvre sur
-              l'émotion. Vraie photo en Phase 7. */}
+          {/* RIGHT : visuel produit — vraies captures app (HeroDemo) dans le cadre iPhone premium. */}
           <div className="lg:col-span-6 flex flex-col items-center mt-12 lg:mt-0">
             <FadeInOnScroll delay={0.3} direction="left" className="w-full flex justify-center">
               <HeroDemo />

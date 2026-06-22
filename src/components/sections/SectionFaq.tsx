@@ -42,10 +42,20 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
     },
   },
   {
-    q: { fr: 'Dois-je saisir toute ma cave d’abord ?', en: 'Must I enter my whole cellar first?' },
+    q: { fr: 'Dois-je saisir toute ma cave ?', en: 'Do I have to enter my whole cellar?' },
     a: {
-      fr: 'Non. Commencez par un plat ou par la SAQ, ajoutez vos bouteilles quand vous voulez.',
-      en: 'No. Start from a dish or the SAQ, add your bottles whenever you like.',
+      fr: 'Non. Octave répond dès la première question ; ajoutez vos bouteilles à votre rythme.',
+      en: 'No. Octave answers from your very first question; add your bottles at your own pace.',
+    },
+  },
+  {
+    q: {
+      fr: 'Combien de temps avant ma première recommandation ?',
+      en: 'How long until my first recommendation?',
+    },
+    a: {
+      fr: 'Environ 30 secondes.',
+      en: 'About 30 seconds.',
     },
   },
   {

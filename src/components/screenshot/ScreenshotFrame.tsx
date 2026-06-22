@@ -29,7 +29,7 @@ import {
  *
  * Captures non-existantes : passer `src="placeholder:LABEL"`. Affiche un
  * placeholder éditorial chaud (gradient walnut + mono caption) jusqu'à ce
- * qu'Eric remplace par /screenshots/<file>.png en Phase 2.
+ * qu'une vraie capture /screenshots/<file>.png la remplace.
  *
  * Accessibilité :
  *   - prefers-reduced-motion : tous les modes scroll dégradent en static
@@ -115,7 +115,7 @@ const BEZEL = 6;
 const OUTER_RADIUS = 40;
 const INNER_RADIUS = 32;
 
-function FrameChrome({
+export function FrameChrome({
   width,
   frame = 'iphone',
   rotation = 0,

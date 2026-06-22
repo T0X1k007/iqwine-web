@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
+import Button from '@/components/ui/Button';
 import DemoControlPanel from '@/components/demo/DemoControlPanel';
 import DemoPhone from '@/components/demo/DemoPhone';
 import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { APP_SIGNUP_URL } from '@/lib/constants';
 import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
 
 /**
@@ -86,6 +89,30 @@ export default function SectionDemo() {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* CTA de capture — « Et avec VOTRE cave ? » */}
+        <FadeInOnScroll delay={0.1}>
+          <div className="mt-14 flex flex-col items-center gap-3 text-center">
+            <a
+              href={APP_SIGNUP_URL}
+              onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'demo' })}
+            >
+              <Button variant="cta" size="lg">
+                {t(
+                  'Et avec VOTRE cave ? — Essai gratuit',
+                  'And with YOUR cellar? — Free trial',
+                )}
+                <ArrowRight size={16} strokeWidth={1.75} />
+              </Button>
+            </a>
+            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+              {t(
+                '14 jours · sans carte · aucune cave à saisir',
+                '14 days · no card · no cellar to enter',
+              )}
+            </p>
+          </div>
+        </FadeInOnScroll>
       </div>
     </section>
   );

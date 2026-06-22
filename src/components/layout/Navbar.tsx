@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
@@ -18,26 +17,18 @@ export default function Navbar() {
   const hero = getHero(locale);
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const lastYRef = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 50);
-      // Disparaît au scroll vers le bas (passé l'en-tête), réapparaît au scroll vers le haut.
-      setHidden(y > 120 && y > lastYRef.current);
-      lastYRef.current = y;
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
-    <motion.header
-      animate={{ y: hidden && !mobileOpen ? '-100%' : '0%' }}
-      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+    <header
       style={scrolled ? { backgroundColor: 'rgba(15, 10, 8, 0.88)' } : undefined}
       className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] ${
         scrolled
@@ -119,9 +110,15 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile hamburger */}
-        <div className="md:hidden flex items-center gap-3">
+        {/* Mobile hamburger + CTA « Essai » compact toujours visible (hors menu) */}
+        <div className="md:hidden flex items-center gap-2">
           <LanguageToggle />
+          <a
+            href={APP_SIGNUP_URL}
+            onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav_mobile_bar' })}
+          >
+            <Button variant="or" size="sm">{t('Essai', 'Free trial')}</Button>
+          </a>
           <button
             className="text-foreground p-2"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -188,6 +185,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-    </motion.header>
+    </header>
   );
 }

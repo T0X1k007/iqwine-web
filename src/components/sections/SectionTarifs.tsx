@@ -3,13 +3,16 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import Pricing from '@/components/sections/Pricing';
+import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
+import { APP_SIGNUP_URL } from '@/lib/constants';
+import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * Section tarifs de la home (ancre #tarifs ciblée par la nav). Réutilise les
- * cartes Pricing, puis renvoie vers la page de décision complète /tarifs via un
- * lien évident « Comment ça fonctionne ? ».
+ * Section tarifs de la home (ancre #tarifs ciblée par la nav). Vague 1 : un CTA
+ * NEUTRE « Commencer l'essai » coiffe la grille — démarrer sans avoir à choisir
+ * un plan. La grille Pricing suit, puis le renvoi vers /tarifs.
  */
 export default function SectionTarifs() {
   const { locale } = useLocale();
@@ -17,6 +20,22 @@ export default function SectionTarifs() {
 
   return (
     <section id="tarifs" className="scroll-mt-28">
+      {/* CTA neutre — commencer l'essai sans présélectionner de plan. */}
+      <div className="px-6 pt-20 sm:pt-24 text-center">
+        <FadeInOnScroll>
+          <a
+            href={APP_SIGNUP_URL}
+            onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'pricing_top' })}
+            className="inline-block"
+          >
+            <Button variant="cta" size="lg">
+              {t('Commencer l’essai', 'Start the trial')}
+              <ArrowRight size={16} strokeWidth={1.75} />
+            </Button>
+          </a>
+        </FadeInOnScroll>
+      </div>
+
       <Pricing />
       <div className="px-6 pb-20 text-center">
         <FadeInOnScroll>
