@@ -52,10 +52,16 @@ export default function Navbar() {
 
   return (
     <header
-      style={scrolled ? { backgroundColor: 'rgba(15, 10, 8, 0.88)' } : undefined}
-      className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-[transform,background-color,backdrop-filter] duration-[280ms] ease-[cubic-bezier(.32,.72,0,1)] motion-reduce:transition-none will-change-transform ${
-        hidden && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
-      } ${
+      style={{
+        backgroundColor: scrolled ? 'rgba(15, 10, 8, 0.88)' : undefined,
+        transform:
+          hidden && !mobileOpen ? 'translateY(-100%)' : 'translateY(0)',
+        // Animation douce et fiable (inline = transition-property garantie).
+        transition:
+          'transform 550ms cubic-bezier(0.22, 1, 0.36, 1), background-color 320ms ease, backdrop-filter 320ms ease',
+        willChange: 'transform',
+      }}
+      className={`fixed top-0 left-0 right-0 z-50 pt-safe ${
         scrolled
           ? 'backdrop-blur-[20px] backdrop-saturate-150 border-b border-border'
           : ''
