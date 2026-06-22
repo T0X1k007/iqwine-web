@@ -121,21 +121,20 @@ export default function Pricing() {
               role="tab"
               aria-selected={billingPeriod === "yearly"}
               onClick={() => setBillingPeriod("yearly")}
-              className={`relative px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
+              className={`px-5 py-2 rounded-full text-sm transition-colors duration-[160ms] ${
                 billingPeriod === "yearly"
                   ? "bg-or text-on-gold font-medium"
                   : "text-foreground-dim hover:text-foreground"
               }`}
             >
               {t("Annuel", "Yearly")}
-              <span className="absolute -top-3 -right-2 rounded-full bg-[var(--color-wine-rouge)] px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white shadow-md">
-                {t("Promo", "Sale")}
-              </span>
             </button>
           </div>
-          <p className="font-[family-name:var(--font-display)] italic text-or text-base">
-            {t("Deux mois offerts sur l’annuel.", "Two months on the house, yearly.")}
-          </p>
+          <div className="flex justify-center">
+            <span className="rounded-full bg-or/12 text-or px-3 py-1 text-xs font-medium tracking-wide">
+              {t("2 mois offerts", "2 months included")}
+            </span>
+          </div>
         </div>
       </FadeInOnScroll>
 

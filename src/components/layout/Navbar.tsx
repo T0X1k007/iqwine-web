@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
-import { getNavLinks, getProductLinks, getHero, APP_SIGNUP_URL } from '@/lib/constants';
+import { getNavLinks, getProductLinks, getHero, APP_SIGNUP_URL, APP_LOGIN_URL } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
@@ -103,8 +103,14 @@ export default function Navbar() {
         </div>
 
         {/* Desktop right: toggle + CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
           <LanguageToggle />
+          <a
+            href={APP_LOGIN_URL}
+            className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white/70 hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
+          >
+            {t('Se connecter', 'Log in')}
+          </a>
           <a
             href={APP_SIGNUP_URL}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav' })}
@@ -171,6 +177,13 @@ export default function Navbar() {
               <Button variant="or" size="md" className="w-full">
                 {hero.ctaPrimary}
               </Button>
+            </a>
+            <a
+              href={APP_LOGIN_URL}
+              onClick={() => setMobileOpen(false)}
+              className="mt-3 text-center font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white/70 hover:text-or transition-colors py-2"
+            >
+              {t('Se connecter', 'Log in')}
             </a>
           </div>
         </div>

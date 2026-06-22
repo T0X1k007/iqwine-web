@@ -7,6 +7,7 @@ import DemoPhone from '@/components/demo/DemoPhone';
 import TestimonialRotator from '@/components/octave/TestimonialRotator';
 import { getDemoCards } from '@/lib/demoData';
 import { useLocale } from '@/lib/i18n';
+import { TESTIMONIALS } from '@/lib/testimonials';
 import { APP_SIGNUP_URL } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -152,38 +153,16 @@ const PILLARS: {
   },
 ];
 
-const TESTIMONIALS: { fr: string; en: string; who: { fr: string; en: string } }[] = [
-  {
-    fr: 'Je demande quoi ouvrir ce soir, et la réponse tombe juste, dans ma propre cave. Je ne fais plus tourner trois applications.',
-    en: 'I ask what to open tonight, and the answer is spot on, from my own cellar. No more juggling three apps.',
-    who: { fr: 'Bruno, Montréal', en: 'Bruno, Montreal' },
+// Témoignages réels (source partagée). Mappe nom + ville → who attendu par
+// TestimonialRotator. La ville n'a pas de traduction : même libellé FR/EN.
+const ROTATOR_TESTIMONIALS = TESTIMONIALS.map((item) => ({
+  fr: item.quoteFr,
+  en: item.quoteEn,
+  who: {
+    fr: `${item.name}, ${item.city}`,
+    en: `${item.name}, ${item.city}`,
   },
-  {
-    fr: 'Au restaurant, je photographie la carte et j’ai un accord à mon budget en quelques secondes. C’est devenu un réflexe.',
-    en: 'At the restaurant I snap the list and get a pairing within my budget in seconds. It’s become a reflex.',
-    who: { fr: 'Dany, Mirabel', en: 'Dany, Mirabel' },
-  },
-  {
-    fr: 'Plus je note mes bouteilles, plus ses suggestions me ressemblent. On dirait qu’il a fini par connaître mon goût mieux que moi.',
-    en: 'The more I rate my bottles, the more its picks sound like me. It’s ended up knowing my taste better than I do.',
-    who: { fr: 'Marie, Québec', en: 'Marie, Quebec City' },
-  },
-  {
-    fr: 'Il m’a évité d’ouvrir un cru trop tôt et m’a dit lequel buvait à son sommet. Une cave, ça se vit, ça ne se gère plus.',
-    en: 'It kept me from opening a wine too early and told me which one was at its peak. A cellar is something you live with now, not manage.',
-    who: { fr: 'Jean-Philippe, Laval', en: 'Jean-Philippe, Laval' },
-  },
-  {
-    fr: 'Quand je reçois, je lui dis qui vient et ce que je sers. Il compose la soirée. Mes invités pensent que j’ai un sommelier.',
-    en: 'When I host, I tell it who’s coming and what I’m serving. It composes the evening. My guests think I have a sommelier.',
-    who: { fr: 'Sophie, Sherbrooke', en: 'Sophie, Sherbrooke' },
-  },
-  {
-    fr: 'La bouteille qu’il me conseille, je la trouve vraiment à ma SAQ. Fini les recommandations introuvables.',
-    en: 'The bottle it suggests, I can actually find at my SAQ. No more recommendations I can’t buy.',
-    who: { fr: 'Carl, Gatineau', en: 'Carl, Gatineau' },
-  },
-];
+}));
 
 export default function OctaveContent() {
   const { locale } = useLocale();
@@ -498,8 +477,11 @@ export default function OctaveContent() {
             </div>
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.1}>
-            <TestimonialRotator items={TESTIMONIALS} />
+            <TestimonialRotator items={ROTATOR_TESTIMONIALS} />
           </FadeInOnScroll>
+          <p className="mt-8 text-center font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+            {t('Membres du programme bêta iQWine', 'iQWine beta program members')}
+          </p>
         </div>
       </section>
 

@@ -9,6 +9,13 @@ export const APP_SIGNUP_URL =
   process.env.NEXT_PUBLIC_APP_SIGNUP_URL || 'https://app.iqwine.ca/signup';
 
 /**
+ * URL de connexion (app produit) pour les utilisateurs existants.
+ * Override possible via NEXT_PUBLIC_APP_LOGIN_URL.
+ */
+export const APP_LOGIN_URL =
+  process.env.NEXT_PUBLIC_APP_LOGIN_URL || 'https://app.iqwine.ca/login';
+
+/**
  * Copywriting iQWine — voix sommelier d'hôtel particulier.
  * Positionnement : « Le système d'intelligence privé de votre cave. »
  * (OS du collectionneur, semé subtilement — pas d'acronyme tech en clair.)

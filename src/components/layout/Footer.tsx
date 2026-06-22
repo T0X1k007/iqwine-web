@@ -1,33 +1,42 @@
+'use client';
+
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo';
 import { LEGAL_ENTITY } from '@/lib/legal-meta';
+import { useLocale } from '@/lib/i18n';
 
 /**
- * Footer iQWine, grande maison discrète, désormais structuré en colonnes
+ * Footer iQWine, grande maison discrète, structuré en colonnes
  * (signal d'entreprise) sans perdre la signature éditoriale.
  *
- * Colonnes : Produit · Légal · Entreprise. Liens légaux RÉELS (plus de « # »),
- * mention « Conçu au Québec · Hébergé au Canada ». La langue est gérée par la
- * barre de navigation, pas dupliquée ici.
+ * Colonnes : Produit · Légal · Entreprise. Liens RÉELS alignés sur les IDs des
+ * sections de la home (#produit, #tarifs, #comparatif, #faq — plus de « # »
+ * morts). Bilingue FR/EN via le même pattern que la barre de navigation
+ * (useLocale + t(fr, en)).
  */
 
 type FooterLink = { label: string; href: string };
 
-const PRODUIT: FooterLink[] = [
-  { label: 'Fonctionnalités', href: '/#produit' },
-  { label: 'Tarifs', href: '/#pricing' },
-  { label: 'Comparatif', href: '/#comparatif' },
-  { label: 'Questions fréquentes', href: '/#faq' },
-];
-
-const LEGAL: FooterLink[] = [
-  { label: 'Confidentialité', href: '/confidentialite' },
-  { label: 'Conditions', href: '/conditions' },
-];
-
-const ENTREPRISE: FooterLink[] = [{ label: 'Contact', href: '/contact' }];
-
 export default function Footer() {
+  const { locale } = useLocale();
+  const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
+
+  const produit: FooterLink[] = [
+    { label: t('Fonctionnalités', 'Features'), href: '/#produit' },
+    { label: t('Tarifs', 'Pricing'), href: '/#tarifs' },
+    { label: t('Comparatif', 'Comparison'), href: '/#comparatif' },
+    { label: t('Questions fréquentes', 'FAQ'), href: '/#faq' },
+  ];
+
+  const legal: FooterLink[] = [
+    { label: t('Confidentialité', 'Privacy'), href: '/confidentialite' },
+    { label: t('Conditions', 'Terms'), href: '/conditions' },
+  ];
+
+  const entreprise: FooterLink[] = [
+    { label: t('Contact', 'Contact'), href: '/contact' },
+  ];
+
   return (
     <footer className="relative border-t border-border py-20">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
@@ -42,16 +51,19 @@ export default function Footer() {
               </span>
             </div>
             <p className="font-[family-name:var(--font-display)] italic text-foreground text-2xl tracking-tight leading-snug max-w-xs">
-              La cave qui se souvient.
+              {t('La cave qui se souvient.', 'The cellar that remembers.')}
             </p>
             <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
-              Conçu au Québec · Hébergé au Canada
+              {t(
+                'Conçu au Québec · Hébergé au Canada',
+                'Made in Québec · Hosted in Canada',
+              )}
             </p>
           </div>
 
-          <FooterColumn title="Produit" links={PRODUIT} />
-          <FooterColumn title="Légal" links={LEGAL} />
-          <FooterColumn title="Entreprise" links={ENTREPRISE} />
+          <FooterColumn title={t('Produit', 'Product')} links={produit} />
+          <FooterColumn title={t('Légal', 'Legal')} links={legal} />
+          <FooterColumn title={t('Entreprise', 'Company')} links={entreprise} />
         </div>
 
         {/* Bas de page, copyright */}

@@ -44,6 +44,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  // Base absolue pour résoudre les URL d'images sociales (opengraph-image /
+  // twitter-image générées par Next 16). Override possible via env si besoin.
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://iqwine.ca',
+  ),
   title: 'iQWine — Votre sommelier IA : cave, SAQ, restaurant',
   description:
     'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la SAQ en temps réel. Essai 14 jours, sans carte.',

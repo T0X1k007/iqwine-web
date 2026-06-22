@@ -5,15 +5,15 @@ import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { FleurDeLys, SaqLive } from '@/components/ui/brand-icons';
 import { useLocale } from '@/lib/i18n';
+import { TESTIMONIALS } from '@/lib/testimonials';
 
 /**
  * SectionConfiance, preuve sociale + confiance (Phase 8).
  *
- * Registre PLAISIR, jamais la peur : trois témoignages (placeholders
- * CLAIREMENT identifiés comme exemples, à remplacer par de vrais avis) +
- * quatre badges FACTUELS (Québec, Canada, chiffré, SAQ en direct). Aucun
- * chiffre inventé : aucune statistique tant qu'elle n'est pas vraie et
- * confirmée.
+ * Registre PLAISIR, jamais la peur : trois vrais témoignages (source partagée
+ * lib/testimonials) + quatre badges FACTUELS (Québec, Canada, chiffré, SAQ en
+ * direct). Aucun chiffre inventé : aucune statistique tant qu'elle n'est pas
+ * vraie et confirmée.
  *
  * Tonalité SOMBRE (chaude, jamais anxiogène), insérée entre CaveWeb (clair) et
  * Pricing (clair) : rétablit l'alternance Cave -> Confiance(sombre) -> Pricing
@@ -21,34 +21,6 @@ import { useLocale } from '@/lib/i18n';
  * section IA doit rester sombre à une parité contraire au hero/clôture, ce
  * placement ramène le rythme à un seul écart assumé, la paire TroisMoments+IA.)
  */
-
-type Testimonial = { quoteFr: string; quoteEn: string; name: string; city: string };
-
-const TESTIMONIALS: Testimonial[] = [
-  {
-    quoteFr:
-      'Je demande quoi ouvrir ce soir, et la réponse tombe juste, depuis ma propre cave.',
-    quoteEn:
-      'I ask what to open tonight, and the answer is spot on, from my own cellar.',
-    name: 'Éric',
-    city: 'Blainville, Québec',
-  },
-  {
-    quoteFr:
-      'Il me dit ce qui est en tablette à ma SAQ, ce soir même. Fini les allers pour rien.',
-    quoteEn:
-      'It tells me what’s on the shelf at my SAQ, tonight. No more wasted trips.',
-    name: 'André',
-    city: 'Terrebonne, Québec',
-  },
-  {
-    quoteFr:
-      'Il a appris mes goûts. Chaque suggestion me ressemble un peu plus.',
-    quoteEn: 'It learned my taste. Each suggestion feels a little more like me.',
-    name: 'François',
-    city: 'Saint-Jérôme, Québec',
-  },
-];
 
 export default function SectionConfiance() {
   const { locale } = useLocale();
@@ -81,14 +53,11 @@ export default function SectionConfiance() {
         </div>
       </FadeInOnScroll>
 
-      {/* Témoignages, EXEMPLES, à remplacer par de vrais avis au lancement. */}
+      {/* Témoignages réels, trois voix sur la home (grille 3 colonnes propre). */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {TESTIMONIALS.map((item, i) => (
+        {TESTIMONIALS.slice(0, 3).map((item, i) => (
           <FadeInOnScroll key={item.name} delay={0.12 + i * 0.1} className="h-full">
-            <figure className="relative flex h-full flex-col rounded-2xl border border-border-strong bg-card p-7">
-              <span className="absolute right-4 top-4 rounded-full border border-border-strong px-2.5 py-0.5 font-mono text-[9px] tracking-[0.18em] uppercase text-foreground-faint">
-                {t('Exemple', 'Sample')}
-              </span>
+            <figure className="flex h-full flex-col rounded-2xl border border-border-strong bg-card p-7">
               <blockquote className="font-[family-name:var(--font-display)] italic text-foreground text-lg leading-relaxed flex-1">
                 « {locale === 'fr' ? item.quoteFr : item.quoteEn} »
               </blockquote>
@@ -102,10 +71,7 @@ export default function SectionConfiance() {
       </div>
 
       <p className="mt-6 text-center font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
-        {t(
-          'Avis d’exemple, remplacés par de vrais témoignages au lancement',
-          'Sample reviews, replaced by real testimonials at launch',
-        )}
+        {t('Membres du programme bêta iQWine', 'iQWine beta program members')}
       </p>
 
       {/* Badges FACTUELS, sobres, registre plaisir, aucun chiffre. */}
