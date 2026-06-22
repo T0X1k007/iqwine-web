@@ -146,8 +146,8 @@ export default function NotreMaisonContent() {
               </blockquote>
               <figcaption className="mt-8 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
                 {t(
-                  'Éric · Fondateur, iQWine · Blainville, Québec',
-                  'Éric · Founder, iQWine · Blainville, Québec',
+                  'Éric · Fondateur, iQWine',
+                  'Éric · Founder, iQWine',
                 )}
               </figcaption>
             </figure>
