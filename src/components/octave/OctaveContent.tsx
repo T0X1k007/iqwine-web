@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, Wine, Heart, MapPin, ScanLine, Sparkles, Check } from 'lucide-react';
+import { ArrowRight, Wine, Heart, MapPin, ScanLine, Check } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import DemoPhone from '@/components/demo/DemoPhone';
@@ -19,34 +19,51 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 type T = (fr: string, en: string) => string;
 
+/**
+ * Monogramme « O » d'Octave — remplace l'icône IA générique (Sparkles). Un « O »
+ * en display italic dans le cercle or de marque. Le contenant ne contredit plus
+ * le propos (le copy rejette explicitement l'« IA générique »).
+ */
+function OctaveMonogram({ size = 'md' }: { size?: 'sm' | 'md' }) {
+  const dim = size === 'sm' ? 'h-5 w-5 text-[13px]' : 'h-9 w-9 text-[18px]';
+  return (
+    <span
+      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-or/30 bg-or/10 text-or ${dim}`}
+      aria-hidden
+    >
+      <span className="font-[family-name:var(--font-display)] italic leading-none">O</span>
+    </span>
+  );
+}
+
 const MOMENTS: { fr: [string, string]; en: [string, string] }[] = [
   {
-    fr: ['Je reçois des amis', 'Dites-lui qui vient et ce que vous servez. Octave compose la soirée, du verre d’ouverture au dernier plat.'],
-    en: ['I’m having friends over', 'Tell him who’s coming and what you’re serving. Octave composes the evening, from the opening glass to the last course.'],
+    fr: ['Je reçois des amis', 'Dites-moi qui vient et ce que vous servez. Je compose la soirée, du verre d’ouverture au dernier plat.'],
+    en: ['I’m having friends over', 'Tell me who’s coming and what you’re serving. I’ll compose the evening, from the opening glass to the last course.'],
   },
   {
-    fr: ['Je cuisine un repas spécial', 'Nommez le plat. Octave accorde, du choix le plus sûr au plus audacieux, et vous explique pourquoi.'],
-    en: ['I’m cooking something special', 'Name the dish. Octave pairs it, from the safest choice to the boldest, and tells you why.'],
+    fr: ['Je cuisine un repas spécial', 'Nommez le plat. J’accorde, du choix le plus sûr au plus audacieux, et je vous explique pourquoi.'],
+    en: ['I’m cooking something special', 'Name the dish. I’ll pair it, from the safest choice to the boldest, and tell you why.'],
   },
   {
-    fr: ['Je ne sais pas quoi ouvrir', 'Trois bouteilles de VOTRE cave, prêtes ce soir, présentées comme un sommelier vous les présenterait.'],
-    en: ['I don’t know what to open', 'Three bottles from YOUR cellar, ready tonight, presented the way a sommelier would present them.'],
+    fr: ['Je ne sais pas quoi ouvrir', 'Trois bouteilles de VOTRE cave, prêtes ce soir, que je vous présente comme un sommelier le ferait.'],
+    en: ['I don’t know what to open', 'Three bottles from YOUR cellar, ready tonight, that I present the way a sommelier would.'],
   },
   {
-    fr: ['Est-ce que cette bouteille est prête ?', 'Octave vous dit où elle en est, ce qu’elle offre maintenant, et combien de temps il vous reste.'],
-    en: ['Is this bottle ready?', 'Octave tells you where it stands, what it offers now, and how long you still have.'],
+    fr: ['Est-ce que cette bouteille est prête ?', 'Je vous dis où elle en est, ce qu’elle offre maintenant, et combien de temps il vous reste.'],
+    en: ['Is this bottle ready?', 'I’ll tell you where it stands, what it offers now, and how long you still have.'],
   },
   {
-    fr: ['J’hésite entre plusieurs', 'Octave tranche selon votre palais, le plat et le moment, et assume son choix.'],
-    en: ['I’m torn between a few', 'Octave decides by your palate, the dish and the moment, and stands by the choice.'],
+    fr: ['J’hésite entre plusieurs', 'Je tranche selon votre palais, le plat et le moment, et j’assume mon choix.'],
+    en: ['I’m torn between a few', 'I decide by your palate, the dish and the moment, and I stand by my choice.'],
   },
   {
-    fr: ['Je suis au restaurant', 'Photographiez la carte des vins. Octave accorde à votre plat, dans votre budget, en quelques secondes.'],
-    en: ['I’m at the restaurant', 'Snap the wine list. Octave pairs it to your dish, within your budget, in seconds.'],
+    fr: ['Je suis au restaurant', 'Photographiez la carte des vins. J’accorde à votre plat, dans votre budget, en quelques secondes.'],
+    en: ['I’m at the restaurant', 'Snap the wine list. I’ll pair it to your dish, within your budget, in seconds.'],
   },
   {
-    fr: ['J’achète une bouteille', 'Scannez l’étiquette. Octave la lit selon VOTRE palais, pas selon une note moyenne anonyme.'],
-    en: ['I’m buying a bottle', 'Scan the label. Octave reads it through YOUR palate, not an anonymous average score.'],
+    fr: ['J’achète une bouteille', 'Scannez l’étiquette. Je la lis selon VOTRE palais, pas selon une note moyenne anonyme.'],
+    en: ['I’m buying a bottle', 'Scan the label. I’ll read it through YOUR palate, not an anonymous average score.'],
   },
 ];
 
@@ -83,8 +100,8 @@ const COMPARISON = {
     en: 'A full-bodied red would work, say a Bordeaux, a Syrah or a Côtes-du-Rhône.',
   },
   octave: {
-    fr: 'Ouvrez votre Barolo 2013 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, le Guigal Côtes-du-Rhône à 24,50 $ est en stock, charnu et épicé, parfait ce soir.',
-    en: 'Open your 2013 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, the Guigal Côtes-du-Rhône at $24.50 is in stock, fleshy and spiced, perfect tonight.',
+    fr: 'Ouvrez votre Barolo 2013 de Pio Cesare : il est à son apogée, ses tanins fondus adorent un braisé. Sinon, à votre SAQ, je vois le Guigal Côtes-du-Rhône à 24,50 $ en stock, charnu et épicé, parfait ce soir.',
+    en: 'Open your 2013 Pio Cesare Barolo: it’s at its peak, its melted tannins love a braise. Otherwise, at your SAQ, I see the Guigal Côtes-du-Rhône at $24.50 in stock, fleshy and spiced, perfect tonight.',
   },
 };
 
@@ -221,6 +238,28 @@ export default function OctaveContent() {
         </div>
       </section>
 
+      {/* JE ME PRÉSENTE — Octave se présente lui-même, à la 1re personne */}
+      <section className="px-6 pb-16 lg:pb-20">
+        <div className="mx-auto max-w-3xl">
+          <FadeInOnScroll>
+            <figure className="relative rounded-2xl border border-or/30 bg-or/[0.06] p-8 lg:p-10 text-center">
+              <div className="flex justify-center mb-6">
+                <OctaveMonogram />
+              </div>
+              <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-[19px] sm:text-[22px] leading-relaxed">
+                {t(
+                  'Je ne note pas les vins. Je connais les vôtres. Je sais lequel est prêt ce soir, lequel attendra encore, et lequel fera dire à vos invités que vous vous y connaissez. Dites-moi le repas et le moment. Je m’occupe de la bouteille.',
+                  'I don’t score wines. I know yours. I know which one is ready tonight, which one can still wait, and which one will make your guests think you really know your wine. Tell me the meal and the moment. I’ll take care of the bottle.',
+                )}
+              </blockquote>
+              <figcaption className="mt-6 font-mono text-[10px] tracking-[0.18em] uppercase text-or">
+                {t('Octave', 'Octave')}
+              </figcaption>
+            </figure>
+          </FadeInOnScroll>
+        </div>
+      </section>
+
       {/* CE QU'OCTAVE FAIT */}
       <section className="px-6 py-16 lg:py-20 border-t border-white/5">
         <div className="mx-auto max-w-3xl text-center">
@@ -293,9 +332,7 @@ export default function OctaveContent() {
                       « {title} »
                     </p>
                     <div className="mt-4 flex gap-3.5 rounded-2xl border border-or/15 bg-or/[0.04] px-5 py-4">
-                      <span className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-full border border-or/30 bg-or/10 text-or">
-                        <Sparkles size={16} strokeWidth={1.75} aria-hidden />
-                      </span>
+                      <OctaveMonogram />
                       <div>
                         <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-or mb-1.5">
                           {t('Octave répond', 'Octave answers')}
@@ -392,7 +429,7 @@ export default function OctaveContent() {
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>
             <div className="text-center mb-4">
-              <p className="iq-eyebrow mb-5">{t('Pourquoi Octave est différent', 'Why Octave is different')}</p>
+              <p className="iq-eyebrow mb-5">{t('Octave a un avis', 'Octave has an opinion')}</p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
                 {t('Même question. Deux réponses.', 'Same question. Two answers.')}
               </h2>
@@ -418,7 +455,7 @@ export default function OctaveContent() {
             <FadeInOnScroll delay={0.22} className="h-full">
               <div className="h-full rounded-2xl border border-or/30 bg-or/[0.05] p-7">
                 <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-or mb-4 inline-flex items-center gap-2">
-                  <Sparkles size={13} strokeWidth={2} aria-hidden />
+                  <OctaveMonogram size="sm" />
                   Octave
                 </p>
                 <p className="font-[family-name:var(--font-display)] text-foreground text-[17px] leading-relaxed">{COMPARISON.octave[locale]}</p>
@@ -508,6 +545,9 @@ export default function OctaveContent() {
               {t('14 jours gratuits · Aucune carte requise', '14 days free · No card required')}
             </p>
           </div>
+          <p className="mt-14 font-[family-name:var(--font-display)] italic text-or/90 text-lg sm:text-xl">
+            {t('Dites-moi le moment. Je trouve la bouteille.', 'Tell me the moment. I’ll find the bottle.')}
+          </p>
         </FadeInOnScroll>
       </section>
     </main>

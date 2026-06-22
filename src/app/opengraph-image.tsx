@@ -114,6 +114,23 @@ export default function OpenGraphImage() {
           />
         </div>
 
+        {/* Signature de marque — discrète, en pied */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 78,
+            left: 0,
+            right: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            fontSize: 26,
+            fontStyle: 'italic',
+            color: 'rgba(224,182,86,0.62)',
+          }}
+        >
+          Une cave qui se souvient.
+        </div>
+
         {/* Filet or inférieur */}
         <div
           style={{

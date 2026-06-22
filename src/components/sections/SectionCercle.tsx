@@ -2,6 +2,7 @@
 
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
+import ShareButton from '@/components/ui/ShareButton';
 import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 
@@ -27,8 +28,8 @@ const PILIERS: Pilier[] = [
     eyebrow: { fr: 'L’HÔTE', en: 'THE HOST' },
     title: { fr: 'Recevoir', en: 'Hosting' },
     body: {
-      fr: 'Recevez, et faites dire à vos invités : « Tu t’y connais. »',
-      en: 'Host, and have your guests say: “You really know your wine.”',
+      fr: 'Recevoir n’est pas servir un verre. C’est choisir le bon, pour les bonnes personnes.',
+      en: 'Hosting isn’t pouring a glass. It’s choosing the right one, for the right people.',
     },
   },
   {
@@ -41,10 +42,10 @@ const PILIERS: Pilier[] = [
   },
   {
     eyebrow: { fr: 'LA CULTURE', en: 'THE CULTURE' },
-    title: { fr: 'Partager', en: 'Sharing' },
+    title: { fr: 'Vivre le vin', en: 'Living wine' },
     body: {
-      fr: 'Le plaisir du vin, partagé — pas une corvée de gestion.',
-      en: 'The pleasure of wine, shared — not a chore of inventory.',
+      fr: 'Le vin se vit, il ne se gère pas. Le plaisir d’abord, l’inventaire jamais.',
+      en: 'Wine is lived, not managed. Pleasure first, inventory never.',
     },
   },
 ];
@@ -68,8 +69,8 @@ export default function SectionCercle() {
           </h2>
           <p className="iq-lead mt-6">
             {t(
-              'Les membres d’iQWine partagent quelque chose. Ils ne possèdent pas simplement une cave — ils vivent avec elle. Une cave qui se souvient de ce qu’ils aiment, qui sait quand ouvrir, et qui fait d’eux l’hôte qui ne se trompe jamais.',
-              'iQWine members share something. They don’t simply own a cellar — they live with it. A cellar that remembers what they love, that knows when to open, and that makes them the host who never gets it wrong.',
+              'Les membres d’iQWine partagent une conviction : une bonne bouteille n’est jamais juste un achat, c’est un moment qu’on prépare. Ils ne possèdent pas une cave — ils vivent avec elle. Une cave qui se souvient de ce qu’ils aiment, qui sait quand ouvrir, et qui fait d’eux l’hôte qui ne se trompe jamais.',
+              'iQWine members share a conviction: a good bottle is never just a purchase, it’s a moment you prepare for. They don’t own a cellar — they live with it. A cellar that remembers what they love, that knows when to open, and that makes them the host who never gets it wrong.',
             )}
           </p>
         </FadeInOnScroll>
@@ -95,6 +96,32 @@ export default function SectionCercle() {
           </FadeInOnScroll>
         ))}
       </div>
+
+      <FadeInOnScroll delay={0.2}>
+        <p className="mt-12 text-center font-mono text-[11px] tracking-[0.18em] uppercase text-foreground-faint">
+          {t(
+            'Ce cercle existe déjà. Pour l’instant, on l’appelle le programme bêta.',
+            'This circle already exists. For now, we call it the beta program.',
+          )}
+        </p>
+      </FadeInOnScroll>
+
+      <FadeInOnScroll delay={0.25}>
+        <div className="mt-16 flex flex-col items-center text-center">
+          <p className="iq-body text-foreground">
+            {t(
+              'Faites découvrir Octave à quelqu’un qui aime le vin.',
+              'Introduce Octave to someone who loves wine.',
+            )}
+          </p>
+          <p className="iq-body text-foreground-dim mt-1.5">
+            {t('Comme on tend un verre.', 'Like passing a glass.')}
+          </p>
+          <div className="mt-6">
+            <ShareButton source="cercle" />
+          </div>
+        </div>
+      </FadeInOnScroll>
     </SectionWrapper>
   );
 }

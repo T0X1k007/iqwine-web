@@ -10,7 +10,7 @@ import { useLocale } from '@/lib/i18n';
  * (signal d'entreprise) sans perdre la signature éditoriale.
  *
  * Colonnes : Produit · Légal · Entreprise. Liens RÉELS alignés sur les IDs des
- * sections de la home (#produit, #tarifs, #comparatif, #faq — plus de « # »
+ * sections de la home (#cave-web, #tarifs, #comparatif, #faq — plus de « # »
  * morts). Bilingue FR/EN via le même pattern que la barre de navigation
  * (useLocale + t(fr, en)).
  */
@@ -22,7 +22,7 @@ export default function Footer() {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   const produit: FooterLink[] = [
-    { label: t('Fonctionnalités', 'Features'), href: '/#produit' },
+    { label: t('Fonctionnalités', 'Features'), href: '/#cave-web' },
     { label: t('Tarifs', 'Pricing'), href: '/#tarifs' },
     { label: t('Comparatif', 'Comparison'), href: '/#comparatif' },
     { label: t('Questions fréquentes', 'FAQ'), href: '/#faq' },
@@ -34,6 +34,7 @@ export default function Footer() {
   ];
 
   const entreprise: FooterLink[] = [
+    { label: t('Notre maison', 'Our house'), href: '/notre-maison' },
     { label: t('Contact', 'Contact'), href: '/contact' },
   ];
 
@@ -51,7 +52,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="font-[family-name:var(--font-display)] italic text-foreground text-2xl tracking-tight leading-snug max-w-xs">
-              {t('La cave qui se souvient.', 'The cellar that remembers.')}
+              {t('Une cave qui se souvient.', 'A cellar that remembers.')}
             </p>
             <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
               {t(
