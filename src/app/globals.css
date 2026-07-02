@@ -11,12 +11,12 @@
   /* ── Surfaces espresso/walnut/oak (warm — jamais noir pur) ──────────
      Aligné cellier-vin app/globals.css (CELLIER design tokens 2026-05-10).
      Warmer + plus chaud que V3 (#0F0A08 → #161210 espresso). */
-  --color-background: #161210;     /* espresso noir-cave — viewport */
-  --color-sunk: #0F0A08;            /* deeper — inputs, sub-elev */
-  --color-elev: #1b1512;            /* walnut noir-fumee — surfaces niveau 1 */
-  --color-card: #1b1512;            /* card */
-  --color-hi: #211a16;              /* oak noir-vapeur — élevé */
-  --color-overlay: #2b211c;         /* charcoal warm noir-ombre — popover */
+  --color-background: #150f0c;     /* espresso canvas — viewport (aligné app, VISUAL 2.0) */
+  --color-sunk: #100b08;            /* deeper — inputs (jamais noir pur) */
+  --color-elev: #2a2018;            /* walnut — surfaces niveau 1 (aligné app) */
+  --color-card: #2a2018;            /* card (aligné app) */
+  --color-hi: #322619;              /* oak — élevé niveau 2 (aligné app) */
+  --color-overlay: #362a1f;         /* warm — overlay niveau 3 (aligné app) */
 
   /* ── Bordeaux family — CTA principaux (canonical wine-rouge cellier-vin) ── */
   --color-bordeaux-50: #f8e5e2;
@@ -29,21 +29,21 @@
 
   /* ── Or family — accent métallique signature ──────
      Aligné cellier-vin : bronze-or vif (Eric 2026-05-14, post-update
-     #c8a977 trop "washed out" → #d4a548 saturé lisible sur dark). */
+     #d9b667 trop "washed out" → #d9b667 saturé lisible sur dark). */
   --color-or-50: #f5ead0;
   --color-or-100: #ecdcb1;
   --color-or-200: #e0c9a1;
   --color-or-300: #d4b889;
-  --color-or-500: #c8a977;          /* OR primary (laiton mat) */
+  --color-or-500: #d9b667;          /* OR primary (laiton mat) */
   --color-or-600: #b89562;          /* OR deep */
   --color-or-700: #a07f4f;
   --color-or-800: #8c6f44;
   --color-or-900: #5a4628;
 
   /* ── Text family — Ivoire/Sable/Cendre ──────────── */
-  --color-foreground: #f3ece7;                       /* ivoire */
+  --color-foreground: #f6eedf;                       /* ivoire */
   --color-foreground-dim: rgba(243, 236, 231, 0.74); /* sable proche */
-  --color-muted-foreground: #b8aaa0;                 /* sable */
+  --color-muted-foreground: #c3b5aa;                 /* sable — contraste ↑ (VISUAL 2.0) */
   --color-foreground-faint: #8a7b70;                 /* cendre */
 
   /* ── Accent primary (bordeaux pour CTA) ──────────── */
@@ -51,24 +51,24 @@
   --color-primary-hot: #a83a39;       /* hover */
   --color-primary-dim: #4a1a1a;       /* press */
   --color-primary-soft: #dc9189;
-  --color-primary-foreground: #f3ece7;
+  --color-primary-foreground: #f6eedf;
 
   /* ── Accent or vivant (bronze logo iQWine, signal premium fort, parcimonieux) ─
-     Eric 2026-05-14 : précédent #c9a36a trop washed out. Nouveau #d4a548
+     Eric 2026-05-14 : précédent #c9a36a trop washed out. Nouveau #d9b667
      = bronze-or vif, clairement saturé, lisible sur dark. */
-  --color-or: #d4a548;
-  --color-or-soft: #e0b656;
-  --color-or-deep: #b8862a;
+  --color-or: #d9b667;
+  --color-or-soft: #ebd7a6;
+  --color-or-deep: #a9812f;
 
   /* ── CTA adaptatif (Phase 6) — or plein sur fond SOMBRE (défaut), bordeaux
      profond sur fond CLAIR (.section-light). Même libellé partout : seule la
      couleur s'adapte au fond pour rester lisible, pas l'action. */
-  --color-cta: #d4a548; /* = or vif (sombre) */
-  --color-cta-hover: #e0b656; /* = or-soft */
-  --color-cta-active: #b8862a; /* = or-deep */
+  --color-cta: #d9b667; /* = or vif (sombre) */
+  --color-cta-hover: #ebd7a6; /* = or-soft */
+  --color-cta-active: #a9812f; /* = or-deep */
 
   /* Encre sombre pour le texte POSÉ SUR de l'or/laiton (badge, onglet actif) :
-     lisible aussi bien sur l'or vif (#d4a548) que sur le laiton clair
+     lisible aussi bien sur l'or vif (#d9b667) que sur le laiton clair
      (#b8924a). Stable, jamais re-mappée. */
   --color-on-gold: #1a130f;
 
@@ -80,18 +80,18 @@
   /* ── Borders quasi-invisibles, ivoire alpha ──────── */
   --color-border: rgba(243, 236, 231, 0.06);
   --color-border-strong: rgba(243, 236, 231, 0.10);
-  --color-border-hot: rgba(212, 165, 72, 0.32); /* or vif pour focus actif */
+  --color-border-hot: rgba(217, 182, 103, 0.32); /* or vif pour focus actif */
 
   /* ── Maturity (apogée) — sémantique vivante ──────── */
   --color-maturity-young: #4a6e8a;     /* jeune */
   --color-maturity-plateau: #5c8a60;   /* plateau optimal */
-  --color-maturity-peak: #c8a977;      /* apogée = or laiton mat */
+  --color-maturity-peak: #d9b667;      /* apogée = or laiton mat */
   --color-maturity-decline: #a56a48;   /* déclin */
   --color-maturity-past: #8a7b70;      /* passé */
 
   /* ── Module/feature accents — nuances chaudes harmonieuses ── */
-  --color-cellier: #d4a548;     /* OR vif — cellier vivant + recherche */
-  --color-sommelier: #b8862a;   /* OR-deep / laiton patiné — sommelier (Tonight + Restaurant) */
+  --color-cellier: #d9b667;     /* OR vif — cellier vivant + recherche */
+  --color-sommelier: #a9812f;   /* OR-deep / laiton patiné — sommelier (Tonight + Restaurant) */
   --color-decouverte: #c97b47;  /* CUIVRE — scanner + calibration */
 
   /* ── Wine semantic — couleur d'un vin (jamais UI) ── */
@@ -111,8 +111,8 @@
      Display = Cormorant Garamond serif éditoriale magazine luxe (titres, italiques,
      citations sommelier). Body = Inter sans-serif (lecture, boutons, UI). */
   --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
-  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+  --font-body: var(--font-hanken), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* ── Layout — hauteur réelle de la navbar fixe (h-20 + pt-safe mobile) ──
      Sert d'offset au hero pour que le contenu ne passe jamais sous la barre.
@@ -132,7 +132,7 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-glow-or: 0 0 0 1px rgba(212, 165, 72, 0.16), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-glow-or: 0 0 0 1px rgba(217, 182, 103, 0.16), 0 8px 24px rgba(0, 0, 0, 0.3);
   --shadow-glow-bordeaux: 0 0 60px rgba(142, 42, 42, 0.35);
 
   /* ── Shadows éditoriales (chaudes, dimensionnelles) — captures screenshots V4 ── */
@@ -221,9 +221,9 @@
     }
   }
 
-  /* Selection — or vif signature (#d4a548 aligné cellier-vin) */
+  /* Selection — or vif signature (#d9b667 aligné cellier-vin) */
   ::selection {
-    background: rgba(212, 165, 72, 0.32);
+    background: rgba(217, 182, 103, 0.32);
     color: var(--color-foreground);
   }
 
@@ -279,8 +279,12 @@
     --color-sunk: #efe7d9; /* sous-surface sur clair (champs, encarts) */
     --color-border: rgba(33, 27, 23, 0.1);
     --color-border-strong: rgba(33, 27, 23, 0.16);
-    --color-or: #b8924a; /* or laiton lisible sur ivoire */
-    --color-cta: #6e2230; /* bordeaux profond — CTA sur clair */
+    --color-or: #a9812f; /* or champagne deep — lisible sur ivoire (VISUAL 2.0) */
+    /* VISUAL 2.0 — Sprint 2 : l'alternance .section-light devient une exception
+       éditoriale RARE (mode sombre = référence). Le CTA bordeaux ci-dessous
+       disparaît avec le retrait de l'alternance ; conservé tel quel d'ici là
+       pour ne pas casser la lisibilité sur clair sans la refonte Home. */
+    --color-cta: #6e2230; /* bordeaux profond — CTA sur clair (retiré Sprint 2) */
     --color-cta-hover: #842b3b;
     --color-cta-active: #561a26;
     background: var(--color-background);
@@ -360,7 +364,7 @@
     line-height: 1.5;
   }
   .iq-eyebrow {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 11px;
     font-weight: 500;
     line-height: 1.2;
@@ -369,7 +373,7 @@
     color: var(--color-or);
   }
   .iq-eyebrow-mute {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 11px;
     font-weight: 500;
     line-height: 1.2;

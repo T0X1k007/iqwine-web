@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Inter, JetBrains_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Hanken_Grotesk } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
@@ -11,12 +11,12 @@ import './globals.css';
  * zero CLS sur fonts (size-adjust + fallback metric matching), zéro FOUT.
  * Élimine le @import url Google Fonts qui bloque le first paint.
  *
- * Direction éditoriale alignée cellier-vin (lib/fonts.ts) :
+ * Direction éditoriale alignée cellier-vin (lib/fonts.ts) — iQWine VISUAL 2.0 :
  *   - Display = Cormorant Garamond (serif magazine luxe, italic disponible)
  *     → titres, hero, citations, signatures, phrases sommelier
- *   - Body = Inter (sans-serif lisible, performance lecture)
- *     → labels, boutons, captions, prose
- *   - Mono = JetBrains Mono → eyebrows, IDs, codes éditoriaux
+ *   - Body = Hanken Grotesk (sans humaniste chaud, remplace Inter)
+ *     → labels, boutons, captions, prose, eyebrows
+ *   - Mono = pile système (JetBrains Mono retiré — aligné app, perf)
  */
 const cormorant = Cormorant_Garamond({
   subsets: ['latin', 'latin-ext'],
@@ -27,20 +27,12 @@ const cormorant = Cormorant_Garamond({
   fallback: ['Georgia', 'Times New Roman', 'serif'],
 });
 
-const inter = Inter({
+const hanken = Hanken_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '500', '600'], // 300/700 inutilisés — retirés
+  weight: ['400', '500', '600'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-hanken',
   fallback: ['-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  display: 'swap',
-  variable: '--font-jetbrains-mono',
-  fallback: ['ui-monospace', 'Menlo', 'monospace'],
 });
 
 export const metadata: Metadata = {
@@ -81,7 +73,7 @@ export default function RootLayout({
     <html
       lang="fr"
       suppressHydrationWarning
-      className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${cormorant.variable} ${hanken.variable}`}
     >
       <body>
         {/* Chrome GLOBAL (Q16 + Q18) — Navbar et Footer sur TOUTES les pages,

@@ -18,9 +18,9 @@ export const alt = 'iQWine — Votre sommelier personnel, propulsé par Octave';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const OR = '#d4a548';
-const OR_SOFT = '#e0b656';
-const CAVE = '#0a0705';
+const OR = '#d9b667'; // or champagne (VISUAL 2.0)
+const OR_SOFT = '#ebd7a6';
+const CAVE = '#150f0c'; // espresso canvas (aligné app — jamais noir pur)
 
 export default function OpenGraphImage() {
   return new ImageResponse(
