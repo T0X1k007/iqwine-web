@@ -64,35 +64,47 @@ export default function SectionCaveWeb() {
         {/* RIGHT, capture cockpit desktop (conservée) */}
         <div className="lg:col-span-7">
           <FadeInOnScroll delay={0.2} direction="left">
-            <div
-              className="relative rounded-xl overflow-hidden border border-or/15"
-              style={{
-                // Ombre adoucie en charbon chaud pour la section claire.
-                boxShadow:
-                  '0 28px 80px rgba(33, 27, 23, 0.22), 0 6px 20px rgba(33, 27, 23, 0.12)',
-                transform: 'rotate(-0.5deg)',
-              }}
-            >
+            <div className="relative">
+              {/* Scène lumineuse champagne derrière la capture (skin B — VISUAL 2.0) :
+                 la lumière fait flotter le cockpit et guide l'œil vers lui. */}
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 z-10"
+                className="pointer-events-none absolute -inset-x-8 -inset-y-12 -z-10 rounded-[48px] opacity-90 blur-[80px]"
                 style={{
                   background:
-                    'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(217, 182, 103, 0.08), transparent 70%)',
+                    'radial-gradient(60% 60% at 55% 42%, rgba(217, 182, 103, 0.20), rgba(217, 182, 103, 0.05) 50%, transparent 72%)',
                 }}
               />
-              <Image
-                src="/screenshots/08-cellier-desktop.png"
-                alt={t(
-                  'La cave Bigras, vue desktop complète avec sidebar et grid bouteilles',
-                  'Bigras cellar, full desktop view with sidebar and bottles grid',
-                )}
-                width={1487}
-                height={758}
-                sizes="(min-width: 1024px) 58vw, 100vw"
-                className="block w-full h-auto"
-                priority={false}
-              />
+              <div
+                className="relative rounded-xl overflow-hidden border border-or/20"
+                style={{
+                  // Skin B : ombre noire profonde + halo or → flotte sur l'espresso.
+                  boxShadow:
+                    '0 36px 100px rgba(0, 0, 0, 0.55), 0 0 64px rgba(217, 182, 103, 0.10)',
+                  transform: 'rotate(-0.5deg)',
+                }}
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 z-10"
+                  style={{
+                    background:
+                      'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(235, 215, 166, 0.12), transparent 70%)',
+                  }}
+                />
+                <Image
+                  src="/screenshots/08-cellier-desktop.png"
+                  alt={t(
+                    'La cave Bigras, vue desktop complète avec sidebar et grid bouteilles',
+                    'Bigras cellar, full desktop view with sidebar and bottles grid',
+                  )}
+                  width={1487}
+                  height={758}
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  className="block w-full h-auto"
+                  priority={false}
+                />
+              </div>
             </div>
           </FadeInOnScroll>
         </div>

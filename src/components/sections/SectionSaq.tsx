@@ -66,7 +66,13 @@ export default function SectionSaq() {
         </FadeInOnScroll>
 
         <FadeInOnScroll delay={0.26}>
-          <div className="mt-12 flex justify-center">
+          <div className="relative mt-12 flex justify-center">
+            {/* Scène lumineuse champagne derrière le téléphone (skin B — VISUAL 2.0) */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[440px] w-[540px] max-w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-85 blur-[90px]"
+              style={{ background: 'radial-gradient(50% 50% at 50% 45%, rgba(217,182,103,0.20), transparent 70%)' }}
+            />
             <ScreenshotFrame
               src="/screenshots/06-recherche-hors-cave.png"
               alt={t(
