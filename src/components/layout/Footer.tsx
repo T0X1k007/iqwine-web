@@ -54,7 +54,7 @@ export default function Footer() {
             <p className="font-[family-name:var(--font-display)] italic text-foreground text-2xl tracking-tight leading-snug max-w-xs">
               {t('Une cave qui se souvient.', 'A cellar that remembers.')}
             </p>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
+            <p className="font-body text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
               {t(
                 'Conçu au Québec · Hébergé au Canada',
                 'Made in Québec · Hosted in Canada',
@@ -69,7 +69,7 @@ export default function Footer() {
 
         {/* Bas de page, copyright + mention consommation responsable */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col gap-2">
-          <p className="font-mono text-[10px] tracking-[0.18em] text-foreground-faint">
+          <p className="font-body text-[10px] tracking-[0.18em] text-foreground-faint">
             © {new Date().getFullYear()} iQWine · {LEGAL_ENTITY.legalName}
           </p>
           <p className="text-[11px] text-foreground-faint">
@@ -87,7 +87,7 @@ export default function Footer() {
 function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <nav aria-label={title} className="flex flex-col gap-3.5">
-      <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-or">
+      <p className="font-body text-[10px] tracking-[0.28em] uppercase text-or">
         {title}
       </p>
       <ul className="flex flex-col gap-2.5">

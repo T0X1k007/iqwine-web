@@ -84,7 +84,7 @@ export default function SectionPalais() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           <FadeInOnScroll delay={0.26} className="h-full">
             <figure className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
-              <figcaption className="font-mono text-[11px] tracking-[0.24em] uppercase text-or tabular-nums mb-2">
+              <figcaption className="font-body text-[11px] tracking-[0.24em] uppercase text-or tabular-nums mb-2">
                 {t('Jour 1', 'Day 1')}
               </figcaption>
               <div className="h-px bg-or/40 mb-5" />
@@ -99,7 +99,7 @@ export default function SectionPalais() {
 
           <FadeInOnScroll delay={0.32} className="h-full">
             <figure className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
-              <figcaption className="font-mono text-[11px] tracking-[0.24em] uppercase text-or tabular-nums mb-2">
+              <figcaption className="font-body text-[11px] tracking-[0.24em] uppercase text-or tabular-nums mb-2">
                 {t('Mois 3', 'Month 3')}
               </figcaption>
               <div className="h-px bg-or/40 mb-5" />
@@ -114,7 +114,7 @@ export default function SectionPalais() {
 
           <FadeInOnScroll delay={0.38} className="h-full">
             <figure className="flex h-full flex-col rounded-2xl border border-or/30 bg-or/[0.06] p-7 sm:p-8">
-              <figcaption className="font-mono text-[11px] tracking-[0.24em] uppercase text-or tabular-nums mb-2">
+              <figcaption className="font-body text-[11px] tracking-[0.24em] uppercase text-or tabular-nums mb-2">
                 {t('Mois 12', 'Month 12')}
               </figcaption>
               <div className="h-px bg-or/40 mb-5" />
@@ -142,7 +142,7 @@ export default function SectionPalais() {
             glow
             rotation={2}
           />
-          <p className="mt-5 font-mono text-[11px] tracking-[0.24em] uppercase text-foreground-faint">
+          <p className="mt-5 font-body text-[11px] tracking-[0.24em] uppercase text-foreground-faint">
             {t('Votre carnet de dégustation', 'Your tasting journal')}
           </p>
         </div>

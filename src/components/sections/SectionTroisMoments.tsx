@@ -114,7 +114,7 @@ export default function SectionTroisMoments() {
                 glow
               />
               <div className="mt-8 flex items-baseline gap-3 mb-3">
-                <span className="font-mono text-[10px] tracking-[0.32em] uppercase text-or/85 tabular-nums">
+                <span className="font-body text-[10px] tracking-[0.32em] uppercase text-or/85 tabular-nums">
                   {m.eyebrow[locale]}
                 </span>
               </div>

@@ -139,7 +139,7 @@ export function FrameChrome({
           padding: BEZEL,
           boxShadow:
             'var(--shadow-bottle, 0 32px 96px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.3))',
-          border: '1px solid rgba(212, 165, 72, 0.15)',
+          border: '1px solid rgba(217, 182, 103, 0.15)',
         }
       : {
           width,
@@ -165,7 +165,7 @@ export function FrameChrome({
           className="pointer-events-none absolute -inset-10 blur-3xl"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(212, 165, 72, 0.16), transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(217, 182, 103, 0.16), transparent 70%)',
             borderRadius: OUTER_RADIUS + 24,
           }}
         />
@@ -447,7 +447,7 @@ function Placeholder({ text, tall = false }: { text: string; tall?: boolean }) {
       style={{
         height: tall ? '300%' : '100%',
         background:
-          'linear-gradient(180deg, #1b1512 0%, #161210 50%, #1b1512 100%)',
+          'linear-gradient(180deg, #2a2018 0%, #150f0c 50%, #2a2018 100%)',
         padding: 24,
         textAlign: 'center',
       }}
@@ -455,7 +455,7 @@ function Placeholder({ text, tall = false }: { text: string; tall?: boolean }) {
       <span
         style={{
           color: 'rgba(243, 236, 231, 0.32)',
-          fontFamily: 'var(--font-mono)',
+          fontFamily: 'var(--font-body)',
           fontSize: 10,
           letterSpacing: '0.28em',
           textTransform: 'uppercase',

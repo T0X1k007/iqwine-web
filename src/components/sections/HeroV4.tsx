@@ -51,7 +51,7 @@ export default function HeroV4() {
           <div className="lg:col-span-6 text-center lg:text-left">
             {/* Above-fold critique = rendu immédiat (pas d'opacity:0) pour un LCP rapide.
                 Hero épuré : le titre est le 1er élément. */}
-            <p className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-or/90 mb-5">
+            <p className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-or/90 mb-5">
               {content.eyebrow}
             </p>
 

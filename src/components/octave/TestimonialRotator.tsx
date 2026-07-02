@@ -46,7 +46,7 @@ export default function TestimonialRotator({ items }: { items: Testimonial[] }) 
             <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-xl sm:text-2xl leading-relaxed">
               {locale === 'fr' ? tm.fr : tm.en}
             </blockquote>
-            <figcaption className="mt-6 font-mono text-[11px] tracking-[0.16em] uppercase text-foreground-faint">
+            <figcaption className="mt-6 font-body text-[11px] tracking-[0.16em] uppercase text-foreground-faint">
               {locale === 'fr' ? tm.who.fr : tm.who.en}
             </figcaption>
           </motion.figure>

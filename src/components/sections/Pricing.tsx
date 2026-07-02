@@ -206,7 +206,7 @@ export default function Pricing() {
 
       <FadeInOnScroll delay={0.5}>
         <div className="mt-16 text-center max-w-2xl mx-auto">
-          <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint leading-relaxed">
+          <p className="font-body text-[10px] tracking-[0.22em] uppercase text-foreground-faint leading-relaxed">
             {locale === "fr"
               ? "14 jours gratuits · Aucune carte requise · TPS et TVQ en sus"
               : "14 free days · No credit card · GST/QST extra"}
@@ -247,7 +247,7 @@ function PlanCard({
     >
       {highlight && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-mono text-[10px] font-medium tracking-[0.22em] uppercase text-on-gold">
+          <span className="inline-flex items-center gap-2 rounded-full bg-or px-4 py-1 font-body text-[10px] font-medium tracking-[0.22em] uppercase text-on-gold">
             {t("Recommandé", "Recommended")}
           </span>
         </div>
@@ -267,15 +267,15 @@ function PlanCard({
           {formatPriceCad(bigCents, locale)}
         </span>
         {isYearly && (
-          <span className="text-foreground-faint font-mono text-base line-through tabular-nums">
+          <span className="text-foreground-faint font-body text-base line-through tabular-nums">
             {formatPriceCad(plan.priceMonthlyCents, locale)}
           </span>
         )}
-        <span className="text-foreground-faint font-mono text-[11px] tracking-[0.18em] uppercase">
+        <span className="text-foreground-faint font-body text-[11px] tracking-[0.18em] uppercase">
           $ CAD
         </span>
       </div>
-      <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-1.5">
+      <p className="font-body text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-1.5">
         {t("/ mois", "/ month")}
       </p>
       <p className="iq-small mb-5">

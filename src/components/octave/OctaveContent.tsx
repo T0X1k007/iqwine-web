@@ -252,7 +252,7 @@ export default function OctaveContent() {
                   'I don’t score wines. I know yours. I know which one is ready tonight, which one can still wait, and which one will make your guests think you really know your wine. Tell me the meal and the moment. I’ll take care of the bottle.',
                 )}
               </blockquote>
-              <figcaption className="mt-6 font-mono text-[10px] tracking-[0.18em] uppercase text-or">
+              <figcaption className="mt-6 font-body text-[10px] tracking-[0.18em] uppercase text-or">
                 {t('Octave', 'Octave')}
               </figcaption>
             </figure>
@@ -334,7 +334,7 @@ export default function OctaveContent() {
                     <div className="mt-4 flex gap-3.5 rounded-2xl border border-or/15 bg-or/[0.04] px-5 py-4">
                       <OctaveMonogram />
                       <div>
-                        <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-or mb-1.5">
+                        <p className="font-body text-[10px] tracking-[0.18em] uppercase text-or mb-1.5">
                           {t('Octave répond', 'Octave answers')}
                         </p>
                         <p className="text-foreground/90 text-[16px] leading-relaxed">{body}</p>
@@ -365,7 +365,7 @@ export default function OctaveContent() {
                   'This Châteauneuf-du-Pape is in a beautiful phase of expression. Blackberry, garrigue and sweet spice settle over melted tannins, and the balance is remarkable. It will pair perfectly with your herb-crusted rack of lamb, and stand up to a board of aged cheeses. It’s right near its peak: exceptional tonight, it will gain complexity over the next two to three years. If you’re opening it now, decant it for an hour.',
                 )}
               </blockquote>
-              <figcaption className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
+              <figcaption className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-body text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
                 <span>{t('Apogée · maintenant → 2 ans', 'Peak · now → 2 yrs')}</span>
                 <span>{t('Tanins · fondus', 'Tannins · melted')}</span>
                 <span>{t('Acidité · fraîche', 'Acidity · fresh')}</span>
@@ -443,7 +443,7 @@ export default function OctaveContent() {
           <div className="grid gap-6 md:grid-cols-2 items-stretch">
             <FadeInOnScroll delay={0.15} className="h-full">
               <div className="h-full rounded-2xl border border-white/5 bg-white/[0.015] p-7">
-                <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-foreground-faint mb-4">
+                <p className="font-body text-[11px] tracking-[0.18em] uppercase text-foreground-faint mb-4">
                   {t('Une IA générique', 'A generic AI')}
                 </p>
                 <p className="text-muted-foreground text-[16px] leading-relaxed">{COMPARISON.generic[locale]}</p>
@@ -454,7 +454,7 @@ export default function OctaveContent() {
             </FadeInOnScroll>
             <FadeInOnScroll delay={0.22} className="h-full">
               <div className="h-full rounded-2xl border border-or/30 bg-or/[0.05] p-7">
-                <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-or mb-4 inline-flex items-center gap-2">
+                <p className="font-body text-[11px] tracking-[0.18em] uppercase text-or mb-4 inline-flex items-center gap-2">
                   <OctaveMonogram size="sm" />
                   Octave
                 </p>
@@ -516,7 +516,7 @@ export default function OctaveContent() {
           <FadeInOnScroll delay={0.1}>
             <TestimonialRotator items={ROTATOR_TESTIMONIALS} />
           </FadeInOnScroll>
-          <p className="mt-8 text-center font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+          <p className="mt-8 text-center font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
             {t('Membres du programme bêta iQWine', 'iQWine beta program members')}
           </p>
         </div>
@@ -541,7 +541,7 @@ export default function OctaveContent() {
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+            <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t('14 jours gratuits · Aucune carte requise', '14 days free · No card required')}
             </p>
           </div>

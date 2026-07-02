@@ -9,7 +9,7 @@ export default function LanguageToggle() {
     <div
       role="group"
       aria-label={locale === 'fr' ? 'Langue' : 'Language'}
-      className="flex items-center rounded-md border border-border overflow-hidden font-mono text-[11px] font-medium tracking-[0.16em]"
+      className="flex items-center rounded-md border border-border overflow-hidden font-body text-[11px] font-medium tracking-[0.16em]"
     >
       <button
         type="button"

@@ -22,7 +22,7 @@ export function LegalPage({
       <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl tracking-tight text-foreground mb-2 leading-tight">
         {title}
       </h1>
-      <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-foreground-faint mb-12">
+      <p className="font-body text-[11px] tracking-[0.18em] uppercase text-foreground-faint mb-12">
         {meta}
       </p>
       {children}

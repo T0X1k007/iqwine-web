@@ -57,7 +57,7 @@ export default function SectionCommentCaMarche() {
       </div>
 
       <FadeInOnScroll delay={0.3}>
-        <p className="mt-12 text-center font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+        <p className="mt-12 text-center font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
           {t(
             'Première recommandation en 30 secondes. Aucune cave complète à saisir pour commencer.',
             'First recommendation in 30 seconds. No full cellar to enter to get started.',

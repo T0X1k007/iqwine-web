@@ -66,7 +66,7 @@ export default function DemoPhone({
 
   return (
     <div className="mx-auto w-full max-w-[350px]">
-      <p className="mb-4 text-center font-mono text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
+      <p className="mb-4 text-center font-body text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
         {caption ?? (isCave ? t('Votre cave', 'Your cellar') : t('Près de vous', 'Near you'))}
       </p>
 
@@ -107,7 +107,7 @@ export default function DemoPhone({
             {/* Rangée de chips : source + palais (cave) */}
             <div className="flex flex-wrap items-center gap-2">
               <span
-                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] uppercase ${
+                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-body text-[9px] tracking-[0.14em] uppercase ${
                   isCave ? 'bg-or/15 text-or' : 'bg-sunk text-foreground-dim'
                 }`}
               >
@@ -115,7 +115,7 @@ export default function DemoPhone({
                 {isCave ? t('Ma cave', 'My cellar') : t('Près de vous', 'Near you')}
               </span>
               {isCave && (
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-or/15 px-2.5 py-1 font-mono text-[9px] tracking-[0.14em] uppercase text-or">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-or/15 px-2.5 py-1 font-body text-[9px] tracking-[0.14em] uppercase text-or">
                   <Heart size={11} strokeWidth={2} />
                   {t('Pour votre palais', 'For your palate')}
                 </span>
@@ -134,7 +134,7 @@ export default function DemoPhone({
             {/* Badge apogée / prix + dispo */}
             <div className="mt-2.5 flex flex-wrap items-center gap-2">
               {isCave && card.atPeak && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-or/40 bg-or/12 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-or">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-or/40 bg-or/12 px-2.5 py-1 font-body text-[10px] tracking-[0.14em] uppercase text-or">
                   <Sparkles size={12} strokeWidth={2} />
                   {t('À son meilleur', 'At its peak')}
                 </span>
@@ -147,7 +147,7 @@ export default function DemoPhone({
                       : ''}
                   </span>
                   {card.available && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-signal)]/45 bg-[var(--color-signal)]/12 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--color-signal)]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-signal)]/45 bg-[var(--color-signal)]/12 px-2.5 py-1 font-body text-[10px] tracking-[0.14em] uppercase text-[var(--color-signal)]">
                       <MapPin size={12} strokeWidth={2} />
                       {t('Disponible', 'In stock')}
                     </span>
@@ -158,7 +158,7 @@ export default function DemoPhone({
 
             {/* Encadré « Octave recommande » */}
             <div className="mt-3 rounded-2xl bg-sunk border border-or/15 px-3.5 py-3">
-              <p className="inline-flex items-center gap-1.5 font-mono text-[9px] tracking-[0.18em] uppercase text-or mb-1.5">
+              <p className="inline-flex items-center gap-1.5 font-body text-[9px] tracking-[0.18em] uppercase text-or mb-1.5">
                 <Sparkles size={11} strokeWidth={2} />
                 {t('Octave recommande', 'Octave recommends')}
               </p>
@@ -169,10 +169,10 @@ export default function DemoPhone({
 
             {/* Carte fenêtre de dégustation */}
             <div className="mt-2.5 rounded-2xl border border-[var(--color-foreground)]/8 px-3.5 py-3">
-              <p className="font-mono text-[9px] tracking-[0.18em] uppercase text-foreground-faint mb-2">
+              <p className="font-body text-[9px] tracking-[0.18em] uppercase text-foreground-faint mb-2">
                 {t('Fenêtre de dégustation', 'Drinking window')}
               </p>
-              <div className="flex items-center justify-between font-mono text-[9px] tracking-[0.1em] uppercase text-foreground-faint tabular-nums">
+              <div className="flex items-center justify-between font-body text-[9px] tracking-[0.1em] uppercase text-foreground-faint tabular-nums">
                 <span>{card.windowFrom}</span>
                 <span className="text-or font-medium">
                   {t('Apogée', 'Peak')} {card.windowPeak}
@@ -207,7 +207,7 @@ export default function DemoPhone({
                   className={`flex flex-col items-center gap-1 ${tab.on ? 'text-or' : 'text-foreground-faint'}`}
                 >
                   <Icon size={17} strokeWidth={tab.on ? 2 : 1.75} aria-hidden />
-                  <span className="font-mono text-[8px] tracking-[0.1em] uppercase">{tab.label}</span>
+                  <span className="font-body text-[8px] tracking-[0.1em] uppercase">{tab.label}</span>
                 </span>
               );
             })}

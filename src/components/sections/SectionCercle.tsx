@@ -82,7 +82,7 @@ export default function SectionCercle() {
             <article className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
               <div className="flex items-center gap-3 mb-5">
                 <span className="h-px w-6 bg-or/40 shrink-0" aria-hidden />
-                <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85">
+                <span className="font-body text-[10px] tracking-[0.28em] uppercase text-or/85">
                   {p.eyebrow[locale]}
                 </span>
               </div>
@@ -98,7 +98,7 @@ export default function SectionCercle() {
       </div>
 
       <FadeInOnScroll delay={0.2}>
-        <p className="mt-12 text-center font-mono text-[11px] tracking-[0.18em] uppercase text-foreground-faint">
+        <p className="mt-12 text-center font-body text-[11px] tracking-[0.18em] uppercase text-foreground-faint">
           {t(
             'Ce cercle existe déjà. Pour l’instant, on l’appelle le programme bêta.',
             'This circle already exists. For now, we call it the beta program.',

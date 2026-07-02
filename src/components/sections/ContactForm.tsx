@@ -107,7 +107,7 @@ export default function ContactForm() {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="contact-category"
-          className="font-mono text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
+          className="font-body text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
         >
           {t('Sujet', 'Subject')}
         </label>
@@ -148,7 +148,7 @@ export default function ContactForm() {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="contact-message"
-          className="font-mono text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
+          className="font-body text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
         >
           Message
         </label>
@@ -175,7 +175,7 @@ export default function ContactForm() {
         className="absolute -left-[9999px] w-px h-px opacity-0"
       />
 
-      {error && <p className="font-mono text-[12px] text-danger">{error}</p>}
+      {error && <p className="font-body text-[12px] text-danger">{error}</p>}
 
       <Button type="submit" variant="or" size="lg" disabled={submitting} className="w-full">
         {submitting ? t('Envoi…', 'Sending…') : t('Envoyer', 'Send')}

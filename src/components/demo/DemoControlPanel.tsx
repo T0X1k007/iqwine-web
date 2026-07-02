@@ -36,7 +36,7 @@ export default function DemoControlPanel({
     <div className="glass rounded-2xl border border-or/20 ring-1 ring-white/5 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.7)] px-5 py-6 sm:px-8 sm:py-7">
       {/* Plat */}
       <div className="sm:flex sm:items-center sm:gap-5">
-        <span className="block sm:w-44 sm:shrink-0 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint mb-2.5 sm:mb-0">
+        <span className="block sm:w-44 sm:shrink-0 font-body text-[10px] tracking-[0.22em] uppercase text-foreground-faint mb-2.5 sm:mb-0">
           {t('Ce soir je mange', 'Tonight I’m eating')}
         </span>
         <div className="grid grid-cols-2 sm:flex sm:flex-1 gap-1 rounded-xl border border-border-strong bg-sunk p-1">
@@ -71,7 +71,7 @@ export default function DemoControlPanel({
 
       {/* Source */}
       <div className="sm:flex sm:items-center sm:gap-5">
-        <span className="block sm:w-44 sm:shrink-0 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint mb-2.5 sm:mb-0">
+        <span className="block sm:w-44 sm:shrink-0 font-body text-[10px] tracking-[0.22em] uppercase text-foreground-faint mb-2.5 sm:mb-0">
           {t('La source', 'The source')}
         </span>
         <div

@@ -74,7 +74,7 @@ export default function HeroDemo() {
         </AnimatePresence>
       </FrameChrome>
 
-      <p className="mt-6 min-h-[1.4em] text-center font-mono text-[11px] tracking-[0.24em] uppercase text-foreground-faint">
+      <p className="mt-6 min-h-[1.4em] text-center font-body text-[11px] tracking-[0.24em] uppercase text-foreground-faint">
         <AnimatePresence mode="wait">
           <motion.span
             key={scene.src}

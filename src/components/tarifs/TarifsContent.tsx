@@ -297,7 +297,7 @@ export default function TarifsContent() {
               <table className="w-full min-w-[480px] text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="p-4 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint font-normal">
+                    <th className="p-4 font-body text-[11px] tracking-[0.14em] uppercase text-foreground-faint font-normal">
                       {t('Fonctionnalité', 'Feature')}
                     </th>
                     {PLANS.map((p) => (
@@ -307,7 +307,7 @@ export default function TarifsContent() {
                       >
                         {PLAN_NAMES[p.id]}
                         {p.highlight && (
-                          <span className="block font-mono not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
+                          <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
                             {t('Populaire', 'Popular')}
                           </span>
                         )}
@@ -445,7 +445,7 @@ export default function TarifsContent() {
 
       {/* PLATEFORMES */}
       <section className="px-6 py-14 border-t border-white/5 text-center">
-        <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted-foreground">
+        <p className="font-body text-[11px] tracking-[0.22em] uppercase text-muted-foreground">
           {t('Disponible sur iPhone et sur le web', 'Available on iPhone and on the web')}
         </p>
       </section>

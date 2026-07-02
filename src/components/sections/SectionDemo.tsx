@@ -105,7 +105,7 @@ export default function SectionDemo() {
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+            <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t(
                 '14 jours · sans carte · aucune cave à saisir',
                 '14 days · no card · no cellar to enter',

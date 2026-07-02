@@ -78,7 +78,7 @@ export default function SectionCaveWeb() {
                 className="pointer-events-none absolute inset-0 z-10"
                 style={{
                   background:
-                    'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(212, 165, 72, 0.08), transparent 70%)',
+                    'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(217, 182, 103, 0.08), transparent 70%)',
                 }}
               />
               <Image

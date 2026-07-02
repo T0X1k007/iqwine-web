@@ -70,7 +70,7 @@ export default function SectionConfiance() {
         ))}
       </div>
 
-      <p className="mt-6 text-center font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+      <p className="mt-6 text-center font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
         {t('Membres du programme bêta iQWine', 'iQWine beta program members')}
       </p>
 
@@ -80,7 +80,7 @@ export default function SectionConfiance() {
           {badges.map((b) => (
             <div key={b.label} className="flex items-center gap-2.5 text-foreground">
               <span className="text-or shrink-0">{b.icon}</span>
-              <span className="font-mono text-[11px] tracking-[0.18em] uppercase">
+              <span className="font-body text-[11px] tracking-[0.18em] uppercase">
                 {b.label}
               </span>
             </div>

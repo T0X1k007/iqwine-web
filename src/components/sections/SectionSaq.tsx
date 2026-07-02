@@ -48,7 +48,7 @@ export default function SectionSaq() {
               'Local availability, verified store by store, across Québec. You no longer head out blind: you know before you even leave.',
             )}
           </p>
-          <p className="mt-4 font-mono text-[10px] tracking-[0.22em] uppercase text-foreground-faint">
+          <p className="mt-4 font-body text-[10px] tracking-[0.22em] uppercase text-foreground-faint">
             {t(
               <>Un réseau de points de vente, partout au Québec</>,
               <>A network of stores, across Québec</>,
@@ -84,7 +84,7 @@ export default function SectionSaq() {
               quantité exacte ni horodatage — la dispo est best-effort). Le
               point animé reste un décor visuel, pas une promesse temps réel. */}
           <div className="mt-7 flex justify-center">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-or/20 bg-or/[0.05] px-4 py-2 font-mono text-[11px] tracking-[0.06em] text-foreground/80">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-or/20 bg-or/[0.05] px-4 py-2 font-body text-[11px] tracking-[0.06em] text-foreground/80">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-or/60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-or" />
@@ -102,7 +102,7 @@ export default function SectionSaq() {
         <FadeInOnScroll delay={0.3}>
           {/* Démo chiffrée, présentée comme une réponse d'Octave (italique or). */}
           <figure className="mt-12 mx-auto max-w-2xl rounded-2xl border border-or/15 bg-or/[0.03] p-7 text-left">
-            <figcaption className="font-mono text-[10px] tracking-[0.18em] uppercase text-or mb-3 inline-flex items-center gap-2">
+            <figcaption className="font-body text-[10px] tracking-[0.18em] uppercase text-or mb-3 inline-flex items-center gap-2">
               <Sparkles size={13} strokeWidth={2} aria-hidden />
               {t('Octave répond', 'Octave answers')}
             </figcaption>

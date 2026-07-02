@@ -117,11 +117,11 @@ export default function SectionMomentsEnjeu() {
           <FadeInOnScroll key={i} delay={0.1 + i * 0.08} className="h-full">
             <article className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
               <div className="flex items-center gap-3 mb-4">
-                <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85 tabular-nums">
+                <span className="font-body text-[10px] tracking-[0.28em] uppercase text-or/85 tabular-nums">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <span className="h-px w-6 bg-or/40 shrink-0" aria-hidden />
-                <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85">
+                <span className="font-body text-[10px] tracking-[0.28em] uppercase text-or/85">
                   {m.eyebrow[locale]}
                 </span>
               </div>
@@ -162,11 +162,11 @@ export default function SectionMomentsEnjeu() {
             <FadeInOnScroll key={i} delay={0.1 + i * 0.1} className="h-full">
               <article className="relative flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85 tabular-nums">
+                  <span className="font-body text-[10px] tracking-[0.28em] uppercase text-or/85 tabular-nums">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className="h-px w-6 bg-or/40 shrink-0" aria-hidden />
-                  <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-or/85">
+                  <span className="font-body text-[10px] tracking-[0.28em] uppercase text-or/85">
                     {s.label[locale]}
                   </span>
                 </div>

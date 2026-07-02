@@ -67,11 +67,11 @@ export default function Navbar() {
           : ''
       }`}
     >
-      <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 md:h-28">
+      <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 lg:h-28">
         {/* Logo lockup — image officielle + wordmark + tagline */}
         <Link href="/" aria-label="Accueil iQWine" className="flex items-center gap-3">
-          <Logo size={60} className="md:hidden" />
-          <Logo size={80} className="hidden md:block" />
+          <Logo size={60} className="lg:hidden" />
+          <Logo size={80} className="hidden lg:block" />
           <span className="flex flex-col">
             <span className="font-[family-name:var(--font-display)] text-[26px] md:text-[38px] font-semibold tracking-tight leading-none">
               <span className="text-foreground/85">iQ</span>
@@ -84,12 +84,12 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav — mono eyebrow style */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {/* Produit — dropdown vers les pages dédiées */}
           <div className="relative group">
             <button
               type="button"
-              className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)] inline-flex items-center gap-1.5"
+              className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)] inline-flex items-center gap-1.5"
             >
               {t('Produit', 'Product')}
               <ChevronDown
@@ -117,7 +117,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
+              className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
             >
               {link.label}
             </a>
@@ -125,11 +125,11 @@ export default function Navbar() {
         </div>
 
         {/* Desktop right: toggle + CTA */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           <LanguageToggle />
           <a
             href={APP_LOGIN_URL}
-            className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white/70 hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
+            className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white/70 hover:text-or transition-colors duration-[140ms] ease-[cubic-bezier(.32,.72,0,1)]"
           >
             {t('Se connecter', 'Log in')}
           </a>
@@ -142,7 +142,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile hamburger + CTA « Essai » compact toujours visible (hors menu) */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-2">
           <LanguageToggle />
           <a
             href={buildSignupUrl('nav_mobile_bar', { lang: locale })}
@@ -165,10 +165,10 @@ export default function Navbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-[14px] border-b border-border px-6 pb-5">
+        <div className="lg:hidden bg-background/95 backdrop-blur-[14px] border-b border-border px-6 pb-5">
           <div className="flex flex-col gap-1">
             {/* Produit — pages dédiées */}
-            <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-2 pb-1">
+            <p className="font-body text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-2 pb-1">
               {t('Produit', 'Product')}
             </p>
             {productLinks.map((l) => (
@@ -176,19 +176,19 @@ export default function Navbar() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
-                className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border"
+                className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border"
               >
                 {l.label}
               </Link>
             ))}
-            <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-4 pb-1">
+            <p className="font-body text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-4 pb-1">
               {t('Explorer', 'Explore')}
             </p>
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border last:border-b-0"
+                className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border last:border-b-0"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -209,7 +209,7 @@ export default function Navbar() {
             <a
               href={APP_LOGIN_URL}
               onClick={() => setMobileOpen(false)}
-              className="mt-3 text-center font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-white/70 hover:text-or transition-colors py-2"
+              className="mt-3 text-center font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white/70 hover:text-or transition-colors py-2"
             >
               {t('Se connecter', 'Log in')}
             </a>

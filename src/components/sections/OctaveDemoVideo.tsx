@@ -21,7 +21,7 @@ export default function OctaveDemoVideo({ locale }: { locale: Locale }) {
 
   return (
     <div className="mx-auto w-full max-w-[320px]">
-      <p className="mb-4 text-center font-mono text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
+      <p className="mb-4 text-center font-body text-[11px] tracking-[0.26em] uppercase text-foreground-faint">
         {t('Octave en action', 'Octave in action')}
       </p>
 

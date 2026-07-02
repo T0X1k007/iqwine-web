@@ -156,6 +156,7 @@
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
+    overflow-x: clip; /* VISUAL 2.0 — coupe tout débordement horizontal parasite (préserve position:sticky) */
     /* Mobile native iOS smoothness — momentum scroll + no rubber band overscroll */
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: none;
@@ -262,33 +263,16 @@
      clair/sombre. Une ambiance locale très subtile reste possible sur le seul
      hero (cf. HeroV4), jamais un halo de page. */
 
-  /* ── Section CLAIRE (alternance magazine, Phase 6) — re-mappe les tokens
-     sémantiques vers la palette ivoire le temps de la section. Les composants
-     bâtis sur les tokens basculent automatiquement (texte, surfaces, bordures,
-     accent). CTA → bordeaux profond sur clair. */
+  /* ── RESPIRATION LUMINEUSE (iQWine VISUAL 2.0 — skin B, gel DA 2026-07-02).
+     PLUS d'alternance claire : cette classe ne bascule plus vers l'ivoire. Elle
+     devient un moment qui RAYONNE sur la peau sombre — un halo chaud d'or
+     champagne fondu dans l'espresso — jamais un bloc ivoire, jamais un CTA
+     bordeaux. Tokens sombres inchangés (texte clair sur sombre, CTA = or). Le
+     rythme vient de la lumière, jamais du clair. */
   .section-light {
-    --color-background: #f6f1e9; /* ivoire chaud, jamais blanc clinique */
-    --color-foreground: #211b17; /* charbon chaud */
-    --color-foreground-dim: rgba(33, 27, 23, 0.74);
-    --color-muted-foreground: #6b5f52;
-    --color-foreground-faint: #8a7b70;
-    --color-elev: #fcf8f1; /* carte sur clair */
-    --color-card: #fcf8f1;
-    --color-hi: #f1e7d7;
-    --color-overlay: #ece4d7;
-    --color-sunk: #efe7d9; /* sous-surface sur clair (champs, encarts) */
-    --color-border: rgba(33, 27, 23, 0.1);
-    --color-border-strong: rgba(33, 27, 23, 0.16);
-    --color-or: #a9812f; /* or champagne deep — lisible sur ivoire (VISUAL 2.0) */
-    /* VISUAL 2.0 — Sprint 2 : l'alternance .section-light devient une exception
-       éditoriale RARE (mode sombre = référence). Le CTA bordeaux ci-dessous
-       disparaît avec le retrait de l'alternance ; conservé tel quel d'ici là
-       pour ne pas casser la lisibilité sur clair sans la refonte Home. */
-    --color-cta: #6e2230; /* bordeaux profond — CTA sur clair (retiré Sprint 2) */
-    --color-cta-hover: #842b3b;
-    --color-cta-active: #561a26;
-    background: var(--color-background);
-    color: var(--color-foreground);
+    background:
+      radial-gradient(120% 85% at 50% -6%, rgba(217, 182, 103, 0.08), transparent 60%),
+      linear-gradient(180deg, #1e150f 0%, var(--color-background) 72%);
   }
 }
 

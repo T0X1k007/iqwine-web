@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={id}
-            className="font-mono text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
+            className="font-body text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
           >
             {label}
           </label>
@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <p className="font-mono text-[11px] tracking-wide text-danger">{error}</p>
+          <p className="font-body text-[11px] tracking-wide text-danger">{error}</p>
         )}
       </div>
     );

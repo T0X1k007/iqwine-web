@@ -153,7 +153,7 @@ export default function SectionComparison() {
                       }`}
                     >
                       {row.exclusive && (
-                        <span className="mr-2 font-mono text-[10px] tracking-[0.18em] uppercase text-or/80">
+                        <span className="mr-2 font-body text-[10px] tracking-[0.18em] uppercase text-or/80">
                           {t('Exclusif', 'Only here')}
                         </span>
                       )}
@@ -183,7 +183,7 @@ export default function SectionComparison() {
         </FadeInOnScroll>
 
         <FadeInOnScroll delay={0.15}>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
             <span className="inline-flex items-center gap-1.5"><Check size={13} className="text-or" /> {t('Oui', 'Yes')}</span>
             <span className="inline-flex items-center gap-1.5"><Minus size={13} /> {t('Partiel', 'Partial')}</span>
             <span className="inline-flex items-center gap-1.5">— {t('Non', 'No')}</span>

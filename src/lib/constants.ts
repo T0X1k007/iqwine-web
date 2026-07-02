@@ -73,12 +73,12 @@ const NAV_LINKS_MAP = {
 const PRODUCT_LINKS_MAP = {
   en: [
     { label: 'The smart cellar', href: '/' },
-    { label: 'AI Sommelier', href: '/sommelier-ia' },
+    { label: 'Octave', href: '/sommelier-ia' },
     { label: 'Pricing', href: '/tarifs' },
   ],
   fr: [
     { label: 'La cave intelligente', href: '/' },
-    { label: 'Sommelier IA', href: '/sommelier-ia' },
+    { label: 'Octave', href: '/sommelier-ia' },
     { label: 'Tarifs', href: '/tarifs' },
   ],
 } as const;

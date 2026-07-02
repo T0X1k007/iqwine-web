@@ -144,7 +144,7 @@ export default function NotreMaisonContent() {
                   '“I didn’t set out to build one more app. I wanted a cellar that remembers — and a sommelier who draws the right bottle from it, at the right moment. That is all we build.”',
                 )}
               </blockquote>
-              <figcaption className="mt-8 font-mono text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
+              <figcaption className="mt-8 font-body text-[11px] tracking-[0.14em] uppercase text-foreground-faint">
                 {t(
                   'Éric · Fondateur, iQWine',
                   'Éric · Founder, iQWine',
@@ -172,7 +172,7 @@ export default function NotreMaisonContent() {
                   <ArrowRight size={16} strokeWidth={1.75} />
                 </Button>
               </a>
-              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+              <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
                 {t('14 jours gratuits · Aucune carte requise', '14 days free · No card required')}
               </p>
             </div>

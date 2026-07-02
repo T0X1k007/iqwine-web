@@ -40,7 +40,7 @@ export default function FinalCta() {
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
+            <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t(
                 '14 jours gratuits · Sans carte · Résiliable en un geste',
                 '14 free days · No card · Cancel anytime',

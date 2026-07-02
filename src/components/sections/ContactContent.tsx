@@ -55,7 +55,7 @@ export default function ContactContent() {
     <main className="min-h-screen px-6 py-24">
       <div className="w-full max-w-xl mx-auto">
         <header className="mb-10 text-center">
-          <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
+          <p className="font-body text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
             {t('Nous écrire', 'Get in touch')}
           </p>
           <h1 className="iq-display italic text-foreground mt-3">
