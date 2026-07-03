@@ -40,9 +40,13 @@ export default function HeroV4() {
       {/* Phase 6, plus de blob « spotlight » daté. Ambiance locale TRÈS
           subtile, au hero seul : un dégradé chaud diffus en haut (faible
           opacité) + une fine ligne or discrète. Jamais un halo de page. */}
+      {/* Hero « La Matière » (VISUAL 2.0) : lumière de bougie champagne + arête de
+          laiton brossé + profondeur (vignette). Matière, lumière, profondeur —
+          aucun bordeaux ambiant (le bordeaux reste rare). */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute inset-x-0 top-0 h-[55%] bg-[radial-gradient(ellipse_60%_80%_at_50%_0%,rgba(142,42,42,0.10),transparent_70%)]" />
-        <div className="absolute left-1/2 top-[12%] h-px w-[min(720px,80%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-or/20 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-[62%] bg-[radial-gradient(ellipse_64%_78%_at_50%_-6%,rgba(217,182,103,0.11),transparent_66%)]" />
+        <div className="absolute left-1/2 top-[10%] h-px w-[min(760px,82%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-or-soft/30 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(125%_95%_at_50%_38%,transparent_54%,rgba(0,0,0,0.38))]" />
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-12">
@@ -93,20 +97,37 @@ export default function HeroV4() {
 
           </div>
 
-          {/* RIGHT : visuel produit — vraies captures app (HeroDemo) dans le cadre iPhone premium. */}
+          {/* RIGHT : visuel produit — vraies captures app (HeroDemo), flottant sur une
+              nappe champagne, avec la présence subtile de l'Anneau d'Octave (matière + profondeur). */}
           <div className="lg:col-span-6 flex flex-col items-center mt-12 lg:mt-0">
-            <FadeInOnScroll delay={0.3} direction="left" className="w-full flex justify-center">
-              <HeroDemo />
-            </FadeInOnScroll>
-
-            {/* Citation, italique éditoriale sous le mockup (réplique iQForge) */}
-            <FadeInOnScroll delay={0.85}>
-              <p className="mt-6 lg:mt-8 text-center font-[family-name:var(--font-display)] italic text-foreground/80 text-lg sm:text-xl leading-relaxed">
-                {locale === 'fr'
-                  ? '« Ne plus gérer une cave. Vivre avec elle. »'
-                  : '"Stop managing a cellar. Live with it."'}
-              </p>
-            </FadeInOnScroll>
+            <div className="relative w-full flex justify-center">
+              {/* Présence subtile de l'Anneau d'Octave — « Octave veille » */}
+              <svg
+                viewBox="0 0 120 120"
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[520px] w-[520px] max-w-[135%] -translate-x-1/2 -translate-y-1/2 opacity-60"
+              >
+                <defs>
+                  <radialGradient id="heroAnneauNode">
+                    <stop offset="0" stopColor="#fff7e6" />
+                    <stop offset="0.4" stopColor="#ebd7a6" />
+                    <stop offset="1" stopColor="#d9b667" stopOpacity="0" />
+                  </radialGradient>
+                </defs>
+                <circle cx="60" cy="60" r="42" fill="none" stroke="rgba(217,182,103,0.20)" strokeWidth="0.7" />
+                <circle cx="60" cy="18" r="10" fill="url(#heroAnneauNode)" />
+                <circle cx="60" cy="18" r="1.8" fill="#fff7e6" />
+              </svg>
+              {/* Nappe lumineuse champagne — le mockup flotte comme un objet lit */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[440px] w-[420px] max-w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-80 blur-[100px]"
+                style={{ background: 'radial-gradient(50% 50% at 50% 46%, rgba(217,182,103,0.22), transparent 70%)' }}
+              />
+              <FadeInOnScroll delay={0.3} direction="left" className="w-full flex justify-center">
+                <HeroDemo />
+              </FadeInOnScroll>
+            </div>
           </div>
         </div>
 
