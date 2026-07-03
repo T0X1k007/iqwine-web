@@ -19,7 +19,7 @@ export default function SectionPalais() {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   return (
-    <SectionWrapper id="palais" withDivider rhythm="standard">
+    <SectionWrapper id="palais" withDivider rhythm="standard" className="section-breathe">
       <FadeInOnScroll>
         <div className="text-center mb-12 sm:mb-16">
           <div className="iq-eyebrow mb-5">

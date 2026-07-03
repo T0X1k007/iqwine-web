@@ -37,7 +37,7 @@ export default function SectionConfiance() {
   ];
 
   return (
-    <SectionWrapper id="confiance" withDivider rhythm="editorial">
+    <SectionWrapper id="confiance" withDivider rhythm="editorial" className="section-breathe">
       <FadeInOnScroll>
         <div className="text-center mb-12 sm:mb-16">
           <div className="iq-eyebrow mb-5">{t('Confiance', 'Trust')}</div>

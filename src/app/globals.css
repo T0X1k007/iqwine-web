@@ -275,6 +275,13 @@
       radial-gradient(75% 55% at 50% 46%, rgba(217, 182, 103, 0.055), transparent 72%),
       linear-gradient(180deg, #1f160f 0%, var(--color-background) 66%);
   }
+
+  /* ── RESPIRATION SUBTILE (skin B — VISUAL 2.0) : harmonise les sections restees
+     sombres. Un souffle chaud TRES leger en haut (meme grammaire que le reste),
+     sans en faire une scene. Aucune section ne doit paraitre plus vieille. */
+  .section-breathe {
+    background: radial-gradient(110% 58% at 50% -2%, rgba(217, 182, 103, 0.05), transparent 55%);
+  }
 }
 
 /* ─────────────────────────────────────────────────

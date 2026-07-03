@@ -86,7 +86,7 @@ export default function SectionTroisMoments() {
   const { locale } = useLocale();
 
   return (
-    <SectionWrapper id="trois-moments" withDivider rhythm="standard">
+    <SectionWrapper id="trois-moments" withDivider rhythm="standard" className="section-breathe">
       <FadeInOnScroll>
         <div className="text-center mb-14 sm:mb-20 max-w-3xl mx-auto">
           <div className="iq-eyebrow mb-6">

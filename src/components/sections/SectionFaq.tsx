@@ -139,7 +139,7 @@ export default function SectionFaq() {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   return (
-    <SectionWrapper id="faq" withDivider rhythm="standard">
+    <SectionWrapper id="faq" withDivider rhythm="standard" className="section-breathe">
       <FadeInOnScroll>
         <div className="text-center mb-10 sm:mb-14">
           <div className="iq-eyebrow mb-5">{t('Questions', 'Questions')}</div>

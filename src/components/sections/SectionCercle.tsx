@@ -55,7 +55,7 @@ export default function SectionCercle() {
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   return (
-    <SectionWrapper id="cercle" withDivider rhythm="editorial">
+    <SectionWrapper id="cercle" withDivider rhythm="editorial" className="section-breathe">
       <div className="max-w-3xl mx-auto text-center">
         <FadeInOnScroll>
           <div className="iq-eyebrow mb-5">
