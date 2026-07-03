@@ -12,7 +12,6 @@ const SectionPalais = dynamic(() => import('@/components/sections/SectionPalais'
 const SectionSaq = dynamic(() => import('@/components/sections/SectionSaq'));
 const SectionMomentsEnjeu = dynamic(() => import('@/components/sections/SectionMomentsEnjeu')); // V2.6 « Les soirs où il ne faut pas se tromper »
 const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments')); // absorbe Proof + vidéo
-const SectionCommentCaMarche = dynamic(() => import('@/components/sections/SectionCommentCaMarche'));
 const SectionComparison = dynamic(() => import('@/components/sections/SectionComparison')); // « Pourquoi les amateurs choisissent iQWine »
 const SectionConfiance = dynamic(() => import('@/components/sections/SectionConfiance'));
 const SectionCercle = dynamic(() => import('@/components/sections/SectionCercle')); // V2.5 « Le Cercle iQWine »
@@ -25,15 +24,19 @@ const ScrollDepthTracker = dynamic(() => import('@/components/analytics/ScrollDe
 export default function Home() {
   return (
     <>
+      {/* Home VISUAL 2.0 — resserrée vers les 9 mouvements : « Une cave qui se
+          souvient » remonte juste après le hero (colonne vertébrale émotionnelle),
+          la démo suit, « Comment ça marche » retirée (redondante avec la démo).
+          Sections neuves « Pourquoi iQWine existe » + « Les grands piliers » + Film
+          = build dédié à venir. */}
       <main>
         <HeroV4 />
-        <SectionDemo />
         <SectionCaveWeb />
+        <SectionDemo />
         <SectionPalais />
         <SectionSaq />
         <SectionMomentsEnjeu />
         <SectionTroisMoments />
-        <SectionCommentCaMarche />
         <SectionComparison />
         <SectionConfiance />
         <SectionCercle />
