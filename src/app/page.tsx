@@ -6,6 +6,7 @@ import HeroV4 from '@/components/sections/HeroV4';
 // Above-fold = eager (Hero seul). Tout le reste = code-split (next/dynamic, SSR
 // conservé → SEO + 0 CLS). Ordre : mémoire → palais → disponibilité locale → moments à enjeu →
 // preuve → comment → pourquoi → confiance → cercle → décision.
+const SectionFilm = dynamic(() => import('@/components/sections/SectionFilm')); // Experience 2.0 — film de marque (mvt #2)
 const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
 const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb')); // « Une cave qui se souvient » (pilier)
 const SectionPourquoi = dynamic(() => import('@/components/sections/SectionPourquoi')); // tension (mvt 3)
@@ -33,6 +34,7 @@ export default function Home() {
           = build dédié à venir. */}
       <main>
         <HeroV4 />
+        <SectionFilm />
         <SectionPourquoi />
         <SectionCaveWeb />
         <SectionPiliers />
