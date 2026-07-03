@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { MapPin, Sparkles, ChevronLeft, Heart, Wine, Search } from 'lucide-react';
+import { MapPin, Sun, ChevronLeft, Heart, Wine, Search } from 'lucide-react';
+import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import type { DemoCard } from '@/lib/demoData';
 import type { Locale } from '@/lib/i18n';
 import { formatPriceCad } from '@/lib/plans';
@@ -135,7 +136,8 @@ export default function DemoPhone({
             <div className="mt-2.5 flex flex-wrap items-center gap-2">
               {isCave && card.atPeak && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-or/40 bg-or/12 px-2.5 py-1 font-body text-[10px] tracking-[0.14em] uppercase text-or">
-                  <Sparkles size={12} strokeWidth={2} />
+                  {/* Apogée = zénith → Sun (parité app). */}
+                  <Sun size={12} strokeWidth={2} />
                   {t('À son meilleur', 'At its peak')}
                 </span>
               )}
@@ -159,7 +161,8 @@ export default function DemoPhone({
             {/* Encadré « Octave recommande » */}
             <div className="mt-3 rounded-2xl bg-sunk border border-or/15 px-3.5 py-3">
               <p className="inline-flex items-center gap-1.5 font-body text-[9px] tracking-[0.18em] uppercase text-or mb-1.5">
-                <Sparkles size={11} strokeWidth={2} />
+                {/* Octave recommande → son Anneau (Octave-sujet). */}
+                <OctaveAnneau size={12} className="text-or-soft shrink-0" ariaLabel="" />
                 {t('Octave recommande', 'Octave recommends')}
               </p>
               <p className="font-[family-name:var(--font-display)] text-foreground text-[14px] leading-relaxed line-clamp-3">
@@ -196,7 +199,9 @@ export default function DemoPhone({
           {/* Barre d'onglets iOS */}
           <div className="flex items-center justify-around border-t border-[var(--color-foreground)]/8 px-2 pt-2.5 pb-4">
             {[
-              { icon: Sparkles, label: t('Sommelier', 'Sommelier'), on: true },
+              // Onglet Sommelier = royaume d'Octave → son Anneau (marque, pas une icône
+              // générique). `icon: null` = rendu spécial Anneau.
+              { icon: null, label: t('Sommelier', 'Sommelier'), on: true },
               { icon: Wine, label: t('Cave', 'Cellar'), on: false },
               { icon: Search, label: t('Cherche', 'Search'), on: false },
             ].map((tab) => {
@@ -206,7 +211,11 @@ export default function DemoPhone({
                   key={tab.label}
                   className={`flex flex-col items-center gap-1 ${tab.on ? 'text-or' : 'text-foreground-faint'}`}
                 >
-                  <Icon size={17} strokeWidth={tab.on ? 2 : 1.75} aria-hidden />
+                  {Icon ? (
+                    <Icon size={17} strokeWidth={tab.on ? 2 : 1.75} aria-hidden />
+                  ) : (
+                    <OctaveAnneau size={17} className="text-or-soft shrink-0" ariaLabel="" />
+                  )}
                   <span className="font-body text-[8px] tracking-[0.1em] uppercase">{tab.label}</span>
                 </span>
               );

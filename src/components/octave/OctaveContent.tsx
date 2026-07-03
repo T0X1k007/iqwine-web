@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowRight, Wine, Heart, MapPin, ScanLine, Check } from 'lucide-react';
+import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import DemoPhone from '@/components/demo/DemoPhone';
@@ -18,23 +19,6 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  */
 
 type T = (fr: string, en: string) => string;
-
-/**
- * Monogramme « O » d'Octave — remplace l'icône IA générique (Sparkles). Un « O »
- * en display italic dans le cercle or de marque. Le contenant ne contredit plus
- * le propos (le copy rejette explicitement l'« IA générique »).
- */
-function OctaveMonogram({ size = 'md' }: { size?: 'sm' | 'md' }) {
-  const dim = size === 'sm' ? 'h-5 w-5 text-[13px]' : 'h-9 w-9 text-[18px]';
-  return (
-    <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-or/30 bg-or/10 text-or ${dim}`}
-      aria-hidden
-    >
-      <span className="font-[family-name:var(--font-display)] italic leading-none">O</span>
-    </span>
-  );
-}
 
 const MOMENTS: { fr: [string, string]; en: [string, string] }[] = [
   {
@@ -244,7 +228,7 @@ export default function OctaveContent() {
           <FadeInOnScroll>
             <figure className="relative rounded-2xl border border-or/30 bg-or/[0.06] p-8 lg:p-10 text-center">
               <div className="flex justify-center mb-6">
-                <OctaveMonogram />
+                <OctaveAnneau size={36} className="text-or-soft" ariaLabel="Octave" />
               </div>
               <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-[19px] sm:text-[22px] leading-relaxed">
                 {t(
@@ -332,7 +316,7 @@ export default function OctaveContent() {
                       « {title} »
                     </p>
                     <div className="mt-4 flex gap-3.5 rounded-2xl border border-or/15 bg-or/[0.04] px-5 py-4">
-                      <OctaveMonogram />
+                      <OctaveAnneau size={36} className="text-or-soft" ariaLabel="Octave" />
                       <div>
                         <p className="font-body text-[10px] tracking-[0.18em] uppercase text-or mb-1.5">
                           {t('Octave répond', 'Octave answers')}
@@ -455,7 +439,7 @@ export default function OctaveContent() {
             <FadeInOnScroll delay={0.22} className="h-full">
               <div className="h-full rounded-2xl border border-or/30 bg-or/[0.05] p-7">
                 <p className="font-body text-[11px] tracking-[0.18em] uppercase text-or mb-4 inline-flex items-center gap-2">
-                  <OctaveMonogram size="sm" />
+                  <OctaveAnneau size={18} className="text-or-soft shrink-0" ariaLabel="" />
                   Octave
                 </p>
                 <p className="font-[family-name:var(--font-display)] text-foreground text-[17px] leading-relaxed">{COMPARISON.octave[locale]}</p>

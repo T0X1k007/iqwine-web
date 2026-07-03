@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Wine, MessageCircle, Sparkles, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle } from 'lucide-react';
+import { ArrowRight, Wine, MessageCircle, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle } from 'lucide-react';
+import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Pricing from '@/components/sections/Pricing';
@@ -47,7 +48,7 @@ const STEPS: { icon: typeof Wine; fr: [string, string]; en: [string, string] }[]
     en: ['Ask Octave', 'The meal, the moment, the mood, just tell him, like a sommelier.'],
   },
   {
-    icon: Sparkles,
+    icon: Wine,
     fr: ['Ouvrez la bonne bouteille', 'La bonne, au bon moment. Et vous savez pourquoi.'],
     en: ['Open the right bottle', 'The right one, at the right time. And you know why.'],
   },
@@ -198,7 +199,12 @@ export default function TarifsContent() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[55%] bg-[radial-gradient(ellipse_60%_80%_at_50%_0%,rgba(142,42,42,0.10),transparent_70%)]" aria-hidden />
         <div className="relative mx-auto max-w-3xl">
           <p className="iq-eyebrow mb-6">{t('Tarifs', 'Pricing')}</p>
-          <h1 className="iq-display italic">{t('Trouvez votre Octave.', 'Find your Octave.')}</h1>
+          {/* Moment d'identité — le mot-symbole ◯ctave dans le grand titre Cormorant
+              italique (anneau incliné pour lire comme un O italique). */}
+          <h1 className="iq-display italic">
+            {t('Trouvez votre ', 'Find your ')}
+            <OctaveWordmark italic />.
+          </h1>
           <p className="iq-lead mt-7 max-w-2xl mx-auto">
             {t(
               'Chaque formule commence par 14 jours gratuits, sans carte. Vous découvrez Octave, puis vous choisissez, ou pas.',
@@ -429,7 +435,8 @@ export default function TarifsContent() {
             {BENEFITS.map((b, i) => (
               <FadeInOnScroll key={i} delay={Math.min(i * 0.05, 0.25)}>
                 <li className="flex items-center gap-4 bg-white/[0.015] px-6 py-5">
-                  <Sparkles size={18} strokeWidth={1.5} className="text-or shrink-0" aria-hidden />
+                  {/* Bénéfices = raisons de choisir → Check (sémantique honnête, pas déco). */}
+                  <Check size={18} strokeWidth={1.75} className="text-or shrink-0" aria-hidden />
                   <span className="font-[family-name:var(--font-display)] italic text-lg text-foreground">
                     {locale === 'fr' ? b.fr : b.en}
                   </span>

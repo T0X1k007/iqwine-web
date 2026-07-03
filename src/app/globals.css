@@ -109,7 +109,8 @@
 
   /* ── Type families — variables CSS injectées par next/font (cf. layout.tsx) ──
      Display = Cormorant Garamond serif éditoriale magazine luxe (titres, italiques,
-     citations sommelier). Body = Inter sans-serif (lecture, boutons, UI). */
+     citations sommelier). Body = Hanken Grotesk (lecture, boutons, UI — VISUAL 2.0,
+     remplace Inter, « une seule peau » avec l'app). */
   --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
   --font-body: var(--font-hanken), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
@@ -435,6 +436,18 @@
 .iq-fade-left  { animation-name: iq-fade-left; }
 .iq-fade-right { animation-name: iq-fade-right; }
 
+/* Anneau d'Octave — état « thinking » (parité app) : le nœud orbite sur
+   l'anneau. transform-box: view-box → origine = centre du viewBox (60,60). */
+@keyframes octave-anneau-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.octave-anneau-orbit {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: octave-anneau-orbit 3.6s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .iq-fade-up,
   .iq-fade-down,
@@ -443,5 +456,8 @@
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+  .octave-anneau-orbit {
+    animation: none !important;
   }
 }

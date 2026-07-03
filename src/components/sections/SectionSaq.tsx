@@ -1,7 +1,8 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Button from '@/components/ui/Button';
@@ -109,7 +110,8 @@ export default function SectionSaq() {
           {/* Démo chiffrée, présentée comme une réponse d'Octave (italique or). */}
           <figure className="mt-12 mx-auto max-w-2xl rounded-2xl border border-or/15 bg-or/[0.03] p-7 text-left">
             <figcaption className="font-body text-[10px] tracking-[0.18em] uppercase text-or mb-3 inline-flex items-center gap-2">
-              <Sparkles size={13} strokeWidth={2} aria-hidden />
+              {/* Octave parle → son Anneau (Octave-sujet). */}
+              <OctaveAnneau size={13} className="text-or-soft shrink-0" ariaLabel="" />
               {t('Octave répond', 'Octave answers')}
             </figcaption>
             <blockquote className="font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
