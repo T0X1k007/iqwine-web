@@ -1,0 +1,3 @@
+Cormorant Garamond & Hanken Grotesk — SIL Open Font License 1.1 (OFL).
+Static latin-subset WOFF via @fontsource, embarquées pour le rendu OG/share Satori
+(next/og ne supporte pas next/font ; WOFF supporté, WOFF2 non).
