@@ -152,12 +152,7 @@ export default function SectionMomentsEnjeu() {
           </div>
         </FadeInOnScroll>
 
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          {/* Fil reliant les 3 cartes — timeline (desktop) */}
-          <span
-            className="hidden md:block absolute top-[34px] left-[16.66%] right-[16.66%] h-px bg-or/40"
-            aria-hidden
-          />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {APOGEE_STATES.map((s, i) => (
             <FadeInOnScroll key={i} delay={0.1 + i * 0.1} className="h-full">
               <article className="relative flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">

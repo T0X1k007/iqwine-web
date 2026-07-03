@@ -10,7 +10,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * SectionComparison (#comparatif), « Pourquoi iQWine ? ».
  * Vague 1 : re-framé. L'intention est de VENDRE iQWine et de RASSURER, pas de
  * lancer un benchmark. iQWine est en TÊTE de colonne, mis en valeur. Le
- * concurrent premium reste mais NON NOMMÉ → « Une app de cave de luxe ».
+ * concurrent premium reste mais NON NOMMÉ → « Une app de cave ».
  * Les lignes EXCLUSIVES iQWine sont EN HAUT ; une concession honnête (cave 3D /
  * localisation physique) ferme le tableau en posture, pas en faiblesse.
  * Jamais de dénigrement. Animation : scroll-reveal uniquement (FadeInOnScroll).
@@ -20,7 +20,7 @@ type Cell = 'yes' | 'partial' | 'no';
 // Colonnes : iQWine D'ABORD, puis l'app de luxe (non nommée), puis secondaires.
 const TOOLS = [
   { fr: 'iQWine', en: 'iQWine' },
-  { fr: 'Une app de cave de luxe', en: 'A luxury cellar app' },
+  { fr: 'Une app de cave', en: 'A cellar app' },
   { fr: 'ChatGPT', en: 'ChatGPT' },
   { fr: 'Vivino', en: 'Vivino' },
   { fr: 'CellarTracker', en: 'CellarTracker' },

@@ -94,48 +94,34 @@ export default function SectionPiliers() {
       <div className="max-w-5xl mx-auto flex flex-col gap-16 sm:gap-24">
         {PILIERS.map((p, i) => (
           <FadeInOnScroll key={p.num} delay={0.06 * i}>
-            <a href={p.href} className="group relative block">
-              {/* Lumière du chapitre — halo champagne alterné G/D, s'intensifie au survol */}
+            <a href={p.href} className="group relative block text-center max-w-2xl mx-auto">
+              {/* Lumière du chapitre — halo champagne centré, s'intensifie au survol */}
               <div
                 aria-hidden
-                className={`pointer-events-none absolute top-1/2 -z-10 h-[300px] w-[440px] max-w-[82%] -translate-y-1/2 rounded-full opacity-60 blur-[100px] transition-opacity duration-500 group-hover:opacity-90 ${
-                  i % 2 === 0 ? 'left-0 -translate-x-1/5' : 'right-0 translate-x-1/5'
-                }`}
+                className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[340px] w-[560px] max-w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[100px] transition-opacity duration-500 group-hover:opacity-90"
                 style={{
                   background:
                     'radial-gradient(50% 50% at 50% 50%, rgba(217,182,103,0.16), transparent 70%)',
                 }}
               />
 
-              <div
-                className={`flex flex-col md:flex-row items-center gap-6 md:gap-12 ${
-                  i % 2 === 1 ? 'md:flex-row-reverse' : ''
-                }`}
-              >
-                {/* Numéral + nom du chapitre */}
-                <div className="md:w-5/12 text-center md:text-left">
-                  <div className="flex items-center gap-4 justify-center md:justify-start">
-                    <span className="font-[family-name:var(--font-display)] text-5xl sm:text-6xl leading-none text-or/40 tabular-nums">
-                      {p.num}
-                    </span>
-                    <span className="h-px w-10 bg-or/30 shrink-0" aria-hidden />
-                  </div>
-                  <h3 className="iq-h2 italic mt-4">{p.name[locale]}</h3>
-                </div>
+              {/* Numéral + nom du chapitre — centrés */}
+              <span className="block font-[family-name:var(--font-display)] text-5xl sm:text-6xl leading-none text-or/40 tabular-nums">
+                {p.num}
+              </span>
+              <h3 className="iq-h2 italic mt-3">{p.name[locale]}</h3>
+              <span className="mx-auto mt-6 block h-px w-12 bg-or/30" aria-hidden />
 
-                {/* Émotion + tagline + line + lien */}
-                <div className="md:w-7/12 text-center md:text-left">
-                  <div className="iq-eyebrow mb-4">{p.emotion[locale]}</div>
-                  <p className="iq-lead">{p.tagline[locale]}</p>
-                  <p className="mt-3 iq-body text-foreground-dim max-w-md mx-auto md:mx-0">
-                    {p.line[locale]}
-                  </p>
-                  <span className="mt-6 inline-flex items-center gap-2 font-body text-[13px] font-medium tracking-[0.02em] text-or transition-transform duration-300 group-hover:translate-x-1">
-                    {locale === 'fr' ? 'Découvrir' : 'Discover'}
-                    <ArrowRight size={15} strokeWidth={1.75} aria-hidden />
-                  </span>
-                </div>
-              </div>
+              {/* Émotion + tagline + line + lien — centrés */}
+              <div className="iq-eyebrow mt-6 mb-4">{p.emotion[locale]}</div>
+              <p className="iq-lead">{p.tagline[locale]}</p>
+              <p className="mt-3 iq-body text-foreground-dim max-w-md mx-auto">
+                {p.line[locale]}
+              </p>
+              <span className="mt-6 inline-flex items-center gap-2 font-body text-[13px] font-medium tracking-[0.02em] text-or transition-transform duration-300 group-hover:translate-x-1">
+                {locale === 'fr' ? 'Découvrir' : 'Discover'}
+                <ArrowRight size={15} strokeWidth={1.75} aria-hidden />
+              </span>
             </a>
           </FadeInOnScroll>
         ))}

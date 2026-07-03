@@ -109,8 +109,8 @@ export default function SectionTroisMoments() {
                 frame="iphone"
                 src={m.src}
                 alt={m.alt[locale]}
-                width={i === 2 ? 264 : 190}
-                rotation={i === 1 ? -1 : 1}
+                width={264}
+                rotation={1}
                 glow
               />
               <div className="mt-8 flex items-baseline gap-3 mb-3">

@@ -176,7 +176,7 @@ export default function OctaveContent() {
       caption: t('Scan d’étiquette', 'Label scan'),
       sub: t('Octave lit l’étiquette selon VOTRE palais.', 'Octave reads the label through YOUR palate.'),
       card: getDemoCards('sushi', 'cave')[0],
-      lift: 'lg:mt-10',
+      lift: '',
     },
     {
       caption: t('Un plat, l’accord', 'A dish, the pairing'),
@@ -188,7 +188,7 @@ export default function OctaveContent() {
       caption: t('Trouvé près de vous', 'Found near you'),
       sub: t('En rupture chez vous ? Octave la trouve près de vous.', 'Out at home? Octave finds it near you.'),
       card: getDemoCards('huitres', 'saq')[0],
-      lift: 'lg:mt-10',
+      lift: '',
     },
   ];
 
