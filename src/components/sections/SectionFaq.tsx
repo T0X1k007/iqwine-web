@@ -75,8 +75,8 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
   {
     q: { fr: 'Octave peut-il se tromper ?', en: 'Can Octave be wrong?' },
     a: {
-      fr: 'Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts — pas sur une IA générique. Et il vous dit quand il hésite plutôt que d’inventer.',
-      en: 'Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste — not a generic AI. And it tells you when it’s unsure rather than making things up.',
+      fr: 'Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts — pas sur un assistant générique. Et il vous dit quand il hésite plutôt que d’inventer.',
+      en: 'Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste — not a generic assistant. And it tells you when it’s unsure rather than making things up.',
     },
   },
   {

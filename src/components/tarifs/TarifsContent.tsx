@@ -365,8 +365,8 @@ export default function TarifsContent() {
               </h3>
               <p className="text-muted-foreground text-[15px] mt-1">
                 {t(
-                  'Voyez Octave à l’œuvre, et pourquoi ce n’est pas une IA générique.',
-                  'See Octave at work, and why it isn’t a generic AI.',
+                  'Voyez Octave à l’œuvre, et pourquoi ce n’est pas un assistant générique.',
+                  'See Octave at work, and why it isn’t a generic assistant.',
                 )}
               </p>
             </div>

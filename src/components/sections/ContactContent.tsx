@@ -29,8 +29,8 @@ export default function ContactContent() {
       icon: BookOpen,
       title: t("Lire les articles d'aide", 'Read help articles'),
       body: t(
-        'Réponses aux questions fréquentes sur la cave et le sommelier IA.',
-        'Answers to common questions about the cellar and the AI sommelier.',
+        'Réponses aux questions fréquentes sur la cave et Octave, votre sommelier.',
+        'Answers to common questions about the cellar and Octave, your sommelier.',
       ),
     },
     {

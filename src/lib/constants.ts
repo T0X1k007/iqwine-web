@@ -87,7 +87,7 @@ const PRODUCT_LINKS_MAP = {
 // Positionnement OS d'entrée + anchor concret + signal exclusivité subtil.
 const HERO_MAP = {
   en: {
-    tagline: 'Your AI sommelier.',
+    tagline: 'Your personal sommelier.',
     trust: [
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
       { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
@@ -108,7 +108,7 @@ const HERO_MAP = {
     ctaPrimary: 'Free Trial 14 Days',
   },
   fr: {
-    tagline: 'Votre sommelier IA.',
+    tagline: 'Votre sommelier personnel.',
     trust: [
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
       { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },

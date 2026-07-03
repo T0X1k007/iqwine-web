@@ -389,7 +389,7 @@ export default function OctaveContent() {
             <div className="text-center mb-12">
               <p className="iq-eyebrow mb-5">{t('Comment je vous connais', 'How I know you')}</p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
-                {t('Trois choses qu’aucune IA générique ne sait.', 'Three things no generic AI knows.')}
+                {t('Trois choses qu’aucun assistant générique ne sait.', 'Three things no generic assistant knows.')}
               </h2>
             </div>
           </FadeInOnScroll>
@@ -431,7 +431,7 @@ export default function OctaveContent() {
             <div className="text-center mb-4">
               <p className="iq-eyebrow mb-5">{t('Octave a un avis', 'Octave has an opinion')}</p>
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
-                {t('Une IA répond. Octave vous répond, à vous.', 'A generic AI answers. I answer you, personally.')}
+                {t('Un assistant répond à tout le monde. Octave vous répond, à vous.', 'A generic assistant answers. I answer you, personally.')}
               </h2>
             </div>
           </FadeInOnScroll>
@@ -444,7 +444,7 @@ export default function OctaveContent() {
             <FadeInOnScroll delay={0.15} className="h-full">
               <div className="h-full rounded-2xl border border-white/5 bg-white/[0.015] p-7">
                 <p className="font-body text-[11px] tracking-[0.18em] uppercase text-foreground-faint mb-4">
-                  {t('Une IA générique', 'A generic AI')}
+                  {t('Un assistant générique', 'A generic assistant')}
                 </p>
                 <p className="text-muted-foreground text-[16px] leading-relaxed">{COMPARISON.generic[locale]}</p>
                 <p className="mt-5 text-[13px] text-foreground-faint italic">

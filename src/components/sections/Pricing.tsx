@@ -305,7 +305,7 @@ function PlanCard({
           <span className="tabular-nums font-medium">
             {plan.monthlyRecommendations}
           </span>{" "}
-          {t("recommandations IA / mois", "AI recommendations / month")}
+          {t("recommandations d’Octave / mois", "Octave recommendations / month")}
         </p>
         <p className="text-foreground-dim text-(length:--text-body-sm) leading-snug mt-1">
           <span className="tabular-nums font-medium">{plan.includedUsers}</span>{" "}

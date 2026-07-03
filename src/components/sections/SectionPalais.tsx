@@ -36,7 +36,7 @@ export default function SectionPalais() {
         <FadeInOnScroll delay={0.1} className="h-full">
           <figure className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
             <figcaption className="iq-eyebrow-mute mb-5">
-              {t('IA générique', 'Generic AI')}
+              {t('Assistant générique', 'Generic assistant')}
             </figcaption>
             <blockquote className="font-[family-name:var(--font-display)] italic text-foreground-dim text-xl leading-relaxed flex-1">
               «&nbsp;
@@ -158,8 +158,8 @@ export default function SectionPalais() {
           </p>
           <p className="mt-4 iq-lead text-foreground">
             {t(
-              'Une IA générique vous redécouvre à chaque question. Octave, lui, ne repart jamais de zéro.',
-              'A generic AI rediscovers you with every question. Octave never starts from scratch.',
+              'Un assistant générique vous redécouvre à chaque question. Octave, lui, ne repart jamais de zéro.',
+              'A generic assistant rediscovers you with every question. Octave never starts from scratch.',
             )}
           </p>
         </div>
