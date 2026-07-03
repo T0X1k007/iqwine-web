@@ -29,7 +29,15 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
 
       {/* Hero du chapitre */}
       <section className="relative px-6 pt-32 sm:pt-40 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
+        {/* Numéral de chapitre fantôme — ouverture éditoriale, comme une page de
+            chapitre. Cormorant, champagne très basse opacité, clippé par overflow. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-14 -z-10 -translate-x-1/2 select-none font-[family-name:var(--font-display)] text-[8rem] italic leading-none text-or/[0.045] sm:top-16 sm:text-[16rem]"
+        >
+          {p.num}
+        </span>
+        <div className="relative mx-auto max-w-3xl text-center">
           <Link
             href="/#piliers"
             className="mb-8 inline-flex items-center gap-2 font-body text-[13px] text-foreground-dim transition-colors hover:text-or"
