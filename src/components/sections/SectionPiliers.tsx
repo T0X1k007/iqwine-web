@@ -29,7 +29,7 @@ type Pilier = {
 const PILIERS: Pilier[] = [
   {
     num: 'I',
-    href: '#demo', // futur /octave
+    href: '/octave',
     emotion: { fr: 'Confiance', en: 'Trust' },
     name: { fr: 'Octave', en: 'Octave' },
     tagline: { fr: 'Le sommelier qui vous connaît.', en: 'The sommelier who knows you.' },
@@ -40,7 +40,7 @@ const PILIERS: Pilier[] = [
   },
   {
     num: 'II',
-    href: '#moments-enjeu', // futur /apogee
+    href: '/apogee',
     emotion: { fr: 'Anticipation', en: 'Anticipation' },
     name: { fr: 'Apogée', en: 'Peak' },
     tagline: { fr: 'Chaque bouteille à son sommet.', en: 'Every bottle at its peak.' },
@@ -51,7 +51,7 @@ const PILIERS: Pilier[] = [
   },
   {
     num: 'III',
-    href: '#saq', // futur /recherche
+    href: '/recherche',
     emotion: { fr: 'Assurance', en: 'Assurance' },
     name: { fr: 'Recherche', en: 'Search' },
     tagline: { fr: 'De votre cave, ou près de vous.', en: 'From your cellar, or near you.' },
@@ -62,7 +62,7 @@ const PILIERS: Pilier[] = [
   },
   {
     num: 'IV',
-    href: '#trois-moments', // futur /recevoir
+    href: '/recevoir',
     emotion: { fr: 'Convivialité', en: 'Conviviality' },
     name: { fr: 'Recevoir', en: 'Hosting' },
     tagline: { fr: 'Chaque repas, son fil de vins.', en: 'Every meal, its thread of wines.' },

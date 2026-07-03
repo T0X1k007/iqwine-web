@@ -50,9 +50,16 @@ export default function SectionFilm() {
           <div className="aspect-[1280/588] w-full">
             <FilmPlayer variant="teaser" src="/video/film-teaser.mp4" poster="/video/film-iqwine-poster.jpg" />
           </div>
-          {/* voile bas + bouton lecture */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-background/85 via-background/10 to-transparent px-5 py-5 sm:px-8 sm:py-7">
-            <span className="font-[family-name:var(--font-display)] text-lg italic text-foreground sm:text-2xl">
+          {/* scrim bas dédié — layout éditorial desktop */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-background via-background/45 to-transparent"
+          />
+          {/* scrim uniforme léger — mobile, pour un bouton centré parfaitement lisible */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-background/35 sm:hidden" />
+          {/* affordances — bouton centré sur mobile, éditorial (label + bouton) en bas sur desktop */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-5 py-5 sm:items-end sm:justify-between sm:px-8 sm:py-7">
+            <span className="hidden font-[family-name:var(--font-display)] text-lg italic text-foreground sm:inline-block sm:text-2xl">
               iQWine — {t('le film', 'the film')}
             </span>
             <span className="inline-flex items-center gap-2 rounded-pill bg-or px-5 py-2.5 text-[13px] font-medium tracking-[0.02em] text-on-gold shadow-lg transition-transform duration-300 group-hover:scale-[1.04]">
