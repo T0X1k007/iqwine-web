@@ -8,6 +8,8 @@ import HeroV4 from '@/components/sections/HeroV4';
 // preuve → comment → pourquoi → confiance → cercle → décision.
 const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
 const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb')); // « Une cave qui se souvient » (pilier)
+const SectionPourquoi = dynamic(() => import('@/components/sections/SectionPourquoi')); // tension (mvt 3)
+const SectionPiliers = dynamic(() => import('@/components/sections/SectionPiliers')); // 4 chapitres (mvt 4)
 const SectionPalais = dynamic(() => import('@/components/sections/SectionPalais'));
 const SectionSaq = dynamic(() => import('@/components/sections/SectionSaq'));
 const SectionMomentsEnjeu = dynamic(() => import('@/components/sections/SectionMomentsEnjeu')); // V2.6 « Les soirs où il ne faut pas se tromper »
@@ -31,7 +33,9 @@ export default function Home() {
           = build dédié à venir. */}
       <main>
         <HeroV4 />
+        <SectionPourquoi />
         <SectionCaveWeb />
+        <SectionPiliers />
         <SectionDemo />
         <SectionPalais />
         <SectionSaq />
