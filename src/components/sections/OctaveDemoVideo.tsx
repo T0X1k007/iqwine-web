@@ -7,7 +7,7 @@ import type { Locale } from '@/lib/i18n';
  * OctaveDemoVideo — démo réelle de l'app (screen-recording) dans un cadre
  * iPhone premium, en boucle automatique et muette.
  *
- * Le bezel reprend le style sombre de DemoPhone (rounded-[3rem], #0b0b0d,
+ * Le bezel reprend le style sombre de DemoPhone (rounded-[3rem], bg-sunk,
  * ring-white/5) MAIS sans l'encoche : la vidéo possède déjà sa propre barre
  * de statut iOS retirée au montage (crop), fondu entrée/sortie pour une boucle
  * douce. Ratio vidéo 600×1220 ≈ 30:61 → object-cover remplit sans crop.
@@ -26,9 +26,9 @@ export default function OctaveDemoVideo({ locale }: { locale: Locale }) {
       </p>
 
       {/* Cadre iPhone (bezel sombre, sans encoche) — profondeur */}
-      <div className="relative rounded-[3rem] border border-black/30 bg-[#0b0b0d] p-3 shadow-[0_50px_120px_-35px_rgba(40,28,16,0.55)] ring-1 ring-white/5">
+      <div className="relative rounded-[3rem] border border-black/30 bg-sunk p-3 shadow-[0_50px_120px_-35px_rgba(40,28,16,0.55)] ring-1 ring-white/5">
         {/* ÉCRAN — la vidéo le remplit (ratio ≈ écran, object-cover propre) */}
-        <div className="relative overflow-hidden rounded-[2.4rem] bg-[#0b0b0d]">
+        <div className="relative overflow-hidden rounded-[2.4rem] bg-sunk">
           <video
             className="block aspect-[30/61] w-full h-full object-cover"
             poster="/video/octave-demo-poster.jpg"

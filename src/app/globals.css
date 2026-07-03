@@ -10,7 +10,7 @@
 @theme {
   /* ── Surfaces espresso/walnut/oak (warm — jamais noir pur) ──────────
      Aligné cellier-vin app/globals.css (CELLIER design tokens 2026-05-10).
-     Warmer + plus chaud que V3 (#0F0A08 → #161210 espresso). */
+     Warmer que les bases pré-refonte (#0F0A08/#161210). Canvas actuel = #150f0c (VISUAL 2.0, aligné app). */
   --color-background: #150f0c;     /* espresso canvas — viewport (aligné app, VISUAL 2.0) */
   --color-sunk: #100b08;            /* deeper — inputs (jamais noir pur) */
   --color-elev: #2a2018;            /* walnut — surfaces niveau 1 (aligné app) */
@@ -142,7 +142,7 @@
   --shadow-bottle: 0 32px 96px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.3);
 
   /* ── Motion (iOS-like) ───────────────────────────── */
-  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-brand: cubic-bezier(0.32, 0.72, 0.16, 1); /* = app --ease-luxe : signature éditoriale « une seule peau » (VISUAL 2.0) */
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -428,7 +428,7 @@
 .iq-fade-right {
   opacity: 0;
   animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  animation-timing-function: var(--ease-brand);
   animation-duration: 0.42s;
 }
 .iq-fade-up    { animation-name: iq-fade-up; }

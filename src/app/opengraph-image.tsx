@@ -3,8 +3,8 @@ import { ImageResponse } from 'next/og';
 /**
  * Image Open Graph de marque (1200×630) — partage social premium.
  *
- * Rendu sobre, dark-luxe : fond cave sombre (#0a0705), wordmark iQWine en
- * or de marque (#d4a548), mention « Octave » (le sommelier IA), tagline
+ * Rendu sobre, dark-luxe : fond cave sombre (#150f0c), wordmark iQWine en
+ * or champagne (#d9b667), mention « Octave » (le sommelier IA), tagline
  * « Votre sommelier IA ». Aucune dépendance image externe : tout est dessiné
  * via ImageResponse (next/og) pour rester déterministe et léger.
  *
@@ -36,7 +36,7 @@ export default function OpenGraphImage() {
           backgroundColor: CAVE,
           // Vignette chaude discrète vers le centre — profondeur de cave.
           backgroundImage:
-            'radial-gradient(circle at 50% 38%, rgba(212,165,72,0.14), rgba(10,7,5,0) 60%)',
+            'radial-gradient(circle at 50% 38%, rgba(217,182,103,0.14), rgba(21,15,12,0) 60%)',
           position: 'relative',
           fontFamily: 'Georgia, "Times New Roman", serif',
         }}
@@ -49,7 +49,7 @@ export default function OpenGraphImage() {
             left: 80,
             right: 80,
             height: 1,
-            backgroundColor: 'rgba(212,165,72,0.32)',
+            backgroundColor: 'rgba(217,182,103,0.32)',
           }}
         />
 
@@ -59,8 +59,8 @@ export default function OpenGraphImage() {
             fontSize: 22,
             letterSpacing: 12,
             textTransform: 'uppercase',
-            color: 'rgba(224,182,86,0.72)',
-            fontFamily: 'Inter, system-ui, sans-serif',
+            color: 'rgba(217,182,103,0.72)',
+            fontFamily: 'system-ui, sans-serif',
             marginBottom: 28,
           }}
         >
@@ -100,17 +100,17 @@ export default function OpenGraphImage() {
             alignItems: 'center',
             gap: 16,
             marginTop: 40,
-            fontFamily: 'Inter, system-ui, sans-serif',
+            fontFamily: 'system-ui, sans-serif',
           }}
         >
           <div
-            style={{ width: 36, height: 1, backgroundColor: 'rgba(212,165,72,0.5)' }}
+            style={{ width: 36, height: 1, backgroundColor: 'rgba(217,182,103,0.5)' }}
           />
           <div style={{ fontSize: 24, letterSpacing: 4, color: OR_SOFT }}>
             propulsé par Octave
           </div>
           <div
-            style={{ width: 36, height: 1, backgroundColor: 'rgba(212,165,72,0.5)' }}
+            style={{ width: 36, height: 1, backgroundColor: 'rgba(217,182,103,0.5)' }}
           />
         </div>
 
@@ -125,7 +125,7 @@ export default function OpenGraphImage() {
             justifyContent: 'center',
             fontSize: 26,
             fontStyle: 'italic',
-            color: 'rgba(224,182,86,0.62)',
+            color: 'rgba(217,182,103,0.62)',
           }}
         >
           Une cave qui se souvient.
@@ -139,7 +139,7 @@ export default function OpenGraphImage() {
             left: 80,
             right: 80,
             height: 1,
-            backgroundColor: 'rgba(212,165,72,0.32)',
+            backgroundColor: 'rgba(217,182,103,0.32)',
           }}
         />
       </div>

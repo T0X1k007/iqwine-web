@@ -135,7 +135,7 @@ export function FrameChrome({
           width,
           height,
           borderRadius: OUTER_RADIUS,
-          background: '#0F0A08',
+          background: '#100b08', // = --color-sunk : bezel iPhone unifié (DemoPhone/OctaveDemoVideo)
           padding: BEZEL,
           boxShadow:
             'var(--shadow-bottle, 0 32px 96px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.3))',

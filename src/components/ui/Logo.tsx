@@ -40,7 +40,7 @@ export default function Logo({
         height: size,
         aspectRatio: `${RATIO_W} / ${RATIO_H}`,
         filter: glow
-          ? 'drop-shadow(0 0 32px rgba(201, 163, 106, 0.45))'
+          ? 'drop-shadow(0 0 32px rgba(217, 182, 103, 0.45))'
           : undefined,
       }}
     />
