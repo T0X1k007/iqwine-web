@@ -7,7 +7,7 @@ import type { MetadataRoute } from 'next';
  * Experience 2.0 → déclarées pour l'indexation. /octave n'est PAS listé : il
  * redirige vers /sommelier-ia (on ne déclare que la canonique).
  */
-const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://iqwine.ca';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iqwine.ca';
 
 type Entry = MetadataRoute.Sitemap[number];
 type Freq = Entry['changeFrequency'];

@@ -35,11 +35,41 @@ const hanken = Hanken_Grotesk({
   fallback: ['-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
 });
 
+/**
+ * Données structurées site-wide (Organization + WebSite) — éligibilité rich
+ * results + graphe de connaissances Google. Rendu SSR (JSON-LD) dans le <body>.
+ */
+const SITE_JSONLD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://www.iqwine.ca/#organization',
+      name: 'iQWine',
+      url: 'https://www.iqwine.ca',
+      logo: 'https://www.iqwine.ca/icon.png',
+      description:
+        'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander.',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://www.iqwine.ca/#website',
+      name: 'iQWine',
+      url: 'https://www.iqwine.ca',
+      publisher: { '@id': 'https://www.iqwine.ca/#organization' },
+      inLanguage: 'fr-CA',
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   // Base absolue pour résoudre les URL d'images sociales (opengraph-image /
   // twitter-image générées par Next 16). Override possible via env si besoin.
+  // Canonique = www (l'hôte réellement servi ; l'apex 307-redirige vers www).
+  // Aligne canonical/OG/sitemap/robots sur l'URL NON redirigée (un canonical
+  // qui pointe une URL qui redirige = pénalité SEO).
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://iqwine.ca',
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iqwine.ca',
   ),
   title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
   description:
@@ -76,6 +106,10 @@ export default function RootLayout({
       className={`${cormorant.variable} ${hanken.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSONLD) }}
+        />
         {/* Chrome GLOBAL (Q16 + Q18) — Navbar et Footer sur TOUTES les pages,
             plus aucune page « avec pied mais sans tête ». I18nProvider remonté
             ici (la Navbar et les sections en ont besoin) ; il enveloppe tout le
