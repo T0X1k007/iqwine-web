@@ -17,6 +17,7 @@ export const ANALYTICS_EVENTS = {
   PLAN_SELECTED: 'plan_selected', // CTA d'une carte de plan (props: plan, period)
   BILLING_PERIOD_TOGGLE: 'billing_period_toggle', // bascule mensuel/annuel (prop: period)
   CONTACT_SUBMITTED: 'contact_submitted', // formulaire contact envoyé (prop: category)
+  BETA_SUBMITTED: 'beta_submitted', // candidature bêta-testeur envoyée
   SHARE_CLICK: 'share_click', // partage du site (props: method = native|copy, source)
 } as const;
 

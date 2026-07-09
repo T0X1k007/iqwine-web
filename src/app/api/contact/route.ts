@@ -11,7 +11,7 @@ import { NextResponse } from 'next/server';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 // Catégories SITE acceptées (alignées sur l'app cellier-vin).
-const ALLOWED_CATEGORIES = new Set(['CONTACT', 'DEMO', 'PARTNERSHIP']);
+const ALLOWED_CATEGORIES = new Set(['CONTACT', 'DEMO', 'PARTNERSHIP', 'BETA']);
 const IQWINE_APP_URL = process.env.IQWINE_APP_URL || 'https://app.iqwine.ca';
 const FORWARD_TIMEOUT_MS = 4000;
 const LIMITS = { name: 200, email: 254, message: 5000, maxBodyBytes: 16 * 1024 } as const;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
@@ -194,12 +195,12 @@ export default function Pricing() {
       <FadeInOnScroll delay={0.4}>
         <p className="mt-12 text-center iq-small text-foreground-dim max-w-xl mx-auto">
           {t("Plus de quatre membres ? ", "More than four members? ")}
-          <a
-            href="mailto:bonjour@iqwine.ca"
+          <Link
+            href="/contact"
             className="text-or underline underline-offset-4 hover:text-or/80"
           >
             {t("Écrivez-nous", "Write to us")}
-          </a>
+          </Link>
           {t(", on compose l’accès qu’il vous faut.", ", we’ll tailor the right access.")}
         </p>
       </FadeInOnScroll>

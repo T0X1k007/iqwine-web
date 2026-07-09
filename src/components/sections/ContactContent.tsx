@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { BookOpen, LifeBuoy, FlaskConical, ArrowUpRight } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
 import ContactForm from '@/components/sections/ContactForm';
@@ -18,6 +19,7 @@ type OptionCard = {
   icon: typeof BookOpen;
   title: string;
   body: string;
+  href: string;
 };
 
 export default function ContactContent() {
@@ -27,6 +29,7 @@ export default function ContactContent() {
   const cards: OptionCard[] = [
     {
       icon: BookOpen,
+      href: '/#faq',
       title: t("Lire les articles d'aide", 'Read help articles'),
       body: t(
         'Réponses aux questions fréquentes sur la cave et Octave, votre sommelier.',
@@ -35,6 +38,7 @@ export default function ContactContent() {
     },
     {
       icon: LifeBuoy,
+      href: '#contact-form',
       title: t('Contacter le soutien', 'Contact support'),
       body: t(
         'Un pépin ou une question précise ? Notre équipe vous répond par courriel.',
@@ -43,6 +47,7 @@ export default function ContactContent() {
     },
     {
       icon: FlaskConical,
+      href: '/beta',
       title: t('Devenir beta testeur', 'Become a beta tester'),
       body: t(
         'Accédez en avant-première aux nouvelles fonctions et partagez vos commentaires pour aider à améliorer iQWine.',
@@ -70,10 +75,10 @@ export default function ContactContent() {
         </header>
 
         <div className="grid gap-3 sm:grid-cols-3 mb-12">
-          {cards.map(({ icon: Icon, title, body }) => (
-            <a
+          {cards.map(({ icon: Icon, title, body, href }) => (
+            <Link
               key={title}
-              href="#contact-form"
+              href={href}
               className="group flex flex-col gap-2.5 rounded-xl border border-border bg-sunk p-4 text-left hover:border-or/50 transition-colors duration-[140ms]"
             >
               <span className="inline-flex w-9 h-9 rounded-lg bg-or/15 items-center justify-center">
@@ -90,7 +95,7 @@ export default function ContactContent() {
               <span className="text-[12px] leading-snug text-muted-foreground">
                 {body}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
 
