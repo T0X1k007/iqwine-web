@@ -23,8 +23,8 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
   {
     q: { fr: 'Puis-je résilier ?', en: 'Can I cancel?' },
     a: {
-      fr: 'Oui, à tout moment. La résiliation prend effet au renouvellement : vous gardez l’accès jusqu’à la fin de la période déjà réglée (mensuelle ou annuelle), sans remboursement du temps restant.',
-      en: 'Yes, anytime. Cancellation takes effect at renewal: you keep access until the end of the period you’ve already paid for (monthly or annual), with no refund for the remaining time.',
+      fr: 'Oui, à tout moment. La résiliation prend effet au renouvellement de votre terme mensuel ou annuel.',
+      en: 'Yes, anytime. Cancellation takes effect at the renewal of your monthly or annual term.',
     },
   },
   {
