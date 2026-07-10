@@ -26,6 +26,13 @@ export default function Footer() {
     { label: t('Tarifs', 'Pricing'), href: '/#tarifs' },
     { label: t('Comparatif', 'Comparison'), href: '/#comparatif' },
     { label: t('Questions fréquentes', 'FAQ'), href: '/#faq' },
+    // Liens entrants SEO vers la vitrine publique de l'app (P24) — liens suivis
+    // (pas de nofollow), pointant vers app.iqwine.ca (domaine porteur du contenu).
+    { label: t('Apprendre le vin', 'Learn wine'), href: 'https://app.iqwine.ca/apprendre' },
+    {
+      label: t('Octave vérifiable', 'Verifiable Octave'),
+      href: 'https://app.iqwine.ca/octave-verifiable',
+    },
   ];
 
   const legal: FooterLink[] = [
