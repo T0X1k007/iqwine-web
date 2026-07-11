@@ -30,7 +30,7 @@ const FILM_JSONLD = {
     'Sept chapitres, un seul sommelier — du verre ouvert au bon moment à la carte déchiffrée au restaurant.',
   thumbnailUrl: 'https://www.iqwine.ca/video/film-iqwine-poster.jpg',
   contentUrl: 'https://www.iqwine.ca/video/film-iqwine.mp4',
-  uploadDate: '2026-07-03',
+  uploadDate: '2026-07-03T09:00:00-04:00',
   duration: 'PT1M6S',
 };
 
