@@ -9,7 +9,12 @@
  * Côté APPLICATION (cellier-vin), la SOT est la table Plan (DB seed) — ces
  * valeurs DOIVENT y être répliquées (cf. runbook). Ce fichier-ci couvre le site.
  */
-export type PlanId = "standard" | "pro" | "famille";
+export type PlanId =
+  /** La porte d'entrée — PAS un produit vendable (aucun prix, aucun paiement). */
+  | "gratuit"
+  | "standard"
+  | "pro"
+  | "famille";
 
 export interface MarketingPlan {
   id: PlanId;
@@ -22,6 +27,42 @@ export interface MarketingPlan {
   /** Forfait mis en avant visuellement. */
   highlight?: boolean;
 }
+
+/**
+ * P22 « Gratuit repositionné » — la PORTE D'ENTRÉE, pas un produit vendable.
+ *
+ * Délibérément SÉPARÉE de `PLANS` : ce tableau pilote les cartes de prix et le
+ * parcours d'achat ; le Gratuit n'a ni prix, ni paiement, ni price ID Stripe.
+ * Même séparation que dans l'app (`FREE_DISPLAY` hors de `PLAN_CATALOG`) — les
+ * deux repos racontent la même architecture.
+ *
+ * ⚠️ SOT DOUBLE — LIRE AVANT DE TOUCHER À UN CHIFFRE.
+ * Ces valeurs DOIVENT refléter la grille FREE réellement posée en base par la
+ * migration `20260716_0121_free_reposition` (repo cellier-vin), dont le miroir TS
+ * est `FREE_LIMITS` dans `lib/billing/plan-catalog.ts`.
+ *
+ * AUCUNE garde automatique ne peut vérifier cela : les deux repos ont des CI
+ * séparés — une garde intra-repo ne détecte pas une divergence inter-repos. C'est
+ * exactement pourquoi l'AUDIT modélise cette sync comme la décision humaine
+ * récurrente **D6**, à rejouer à CHAQUE changement de grille.
+ *
+ * Historique de ce qu'un décalage coûte : le site a affiché « Priorité à Octave »
+ * et « Profil de goût avancé » pendant un mois APRÈS que l'app les eut retirées
+ * comme non câblées (P21A Lot D) ; et « Cave partagée » y était affichée AVANT
+ * d'exister (P26 l'a rendue vraie le 2026-07-16).
+ */
+export const FREE_PLAN = {
+  id: 'gratuit',
+  priceMonthlyCents: 0,
+  priceYearlyCents: 0,
+  includedUsers: 1,
+  monthlyRecommendations: 2,
+} as const satisfies MarketingPlan;
+
+/** Plafond de la cave-mémoire du Gratuit (aucun palier payant n'en a besoin :
+ *  ils l'expriment autrement). Hors de `MarketingPlan` — c'est une spécificité
+ *  de la porte d'entrée, pas une colonne du modèle de vente. */
+export const FREE_MAX_BOTTLES = 75;
 
 export const PLANS: MarketingPlan[] = [
   {

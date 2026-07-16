@@ -9,7 +9,7 @@ import Pricing from '@/components/sections/Pricing';
 import SectionFaq from '@/components/sections/SectionFaq';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
-import { PLANS, formatPriceCad } from '@/lib/plans';
+import { PLANS, FREE_PLAN, formatPriceCad, type MarketingPlan } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -96,47 +96,58 @@ type CompareCell = boolean | { level: 1 | 2 | 3 } | { text: { fr: string; en: st
 const COMPARE_FEATURES: {
   label: { fr: string; en: string };
   hint?: { fr: string; en: string };
-  values: [CompareCell, CompareCell, CompareCell];
+  /** [Gratuit, Standard, Pro, Passionné] */
+  values: [CompareCell, CompareCell, CompareCell, CompareCell];
 }[] = [
   {
     label: { fr: 'Octave apprend votre palais', en: 'Octave learns your palate' },
     hint: { fr: 'Dès la première recommandation', en: 'From your very first recommendation' },
-    values: [true, true, true],
+    // Le palais s'apprend sur TOUS les plans, Gratuit compris : c'est une capacité
+    // universelle (la démo du moat), jamais un différenciateur.
+    values: [true, true, true, true],
   },
-  {
-    label: { fr: 'Profil de goût qui s’affine', en: 'Taste profile that sharpens' },
-    hint: {
-      fr: 'Plus vous échangez, plus il vous cerne',
-      en: 'The more you interact, the better he reads you',
-    },
-    values: [{ level: 1 }, { level: 2 }, { level: 3 }],
-  },
+  // RETIRÉ (P22/R3, 2026-07-16) — « Profil de goût qui s'affine » affichait trois
+  // niveaux croissants (1→2→3) : un différenciateur INVENTÉ. Le palais est
+  // universel et identique sur tous les plans ; la ligne précédente le dit déjà.
+  // L'app a retiré la même promesse (« Profil de goût avancé » / « Apprentissage
+  // du palais ») en P21A Lot D — sa garde CI `pricing↔gates` les interdit désormais.
   {
     label: { fr: 'Mode restaurant', en: 'Restaurant mode' },
     hint: { fr: 'Un accord à partir de la carte', en: 'A pairing from the wine list' },
-    values: [true, true, true],
+    values: [true, true, true, true],
   },
   {
     label: { fr: 'Disponibilité locale en direct', en: 'Live local availability' },
-    values: [true, true, true],
+    values: [true, true, true, true],
   },
   {
     label: { fr: 'Carnet de dégustation', en: 'Tasting journal' },
-    values: [true, true, true],
+    // La cave-mémoire est la promesse du Gratuit : le carnet en fait partie.
+    values: [true, true, true, true],
   },
   {
     label: { fr: 'Cave partagée', en: 'Shared cellar' },
-    hint: { fr: 'Plusieurs palais, une cave', en: 'Several palates, one cellar' },
-    values: [false, false, true],
+    // Enfin VRAIE (P26, 2026-07-16) : inviter un compte existant, basculer de cave,
+    // rôle lecture seule hermétique, journal familial. Elle était affichée ici
+    // AVANT d'exister — le produit l'a rattrapée.
+    hint: { fr: 'Jusqu’à 4 personnes, une cave', en: 'Up to 4 people, one cellar' },
+    values: [false, false, false, true],
   },
-  {
-    label: { fr: 'Priorité à Octave', en: 'Priority with Octave' },
-    hint: { fr: 'Vos demandes passent devant', en: 'Your requests move to the front' },
-    values: [false, true, true],
-  },
+  // RETIRÉ (P22/R3, 2026-07-16) — « Priorité à Octave / Vos demandes passent devant »
+  // n'a JAMAIS existé : aucune file prioritaire n'est câblée. L'app l'a retirée en
+  // P21A Lot D et sa garde CI l'interdit (`/priorité ia/i` dans BANNED). Le site
+  // était le dernier endroit où cette promesse survivait.
 ];
 
-const PLAN_NAMES: Record<string, string> = { standard: 'Standard', pro: 'Pro', famille: 'Passionné' };
+const PLAN_NAMES: Record<string, string> = {
+  gratuit: 'Gratuit',
+  standard: 'Standard',
+  pro: 'Pro',
+  famille: 'Passionné',
+};
+
+/** Colonnes du comparatif : la porte gratuite EN TÊTE, puis les 3 vendables. */
+const COMPARE_COLUMNS: MarketingPlan[] = [FREE_PLAN, ...PLANS];
 
 // Rendu d’une cellule du comparatif. Le niveau d’intensité (1→3) se lit comme
 // trois pastilles : plus elles sont dorées, plus le bénéfice s’enrichit avec le
@@ -180,15 +191,17 @@ export default function TarifsContent() {
   const numericRows = [
     {
       label: t('Prix par mois', 'Price per month'),
-      cells: PLANS.map((p) => `${formatPriceCad(p.priceMonthlyCents, locale)} $`),
+      cells: COMPARE_COLUMNS.map((p) =>
+        p.priceMonthlyCents === 0 ? t('0 $', '$0') : `${formatPriceCad(p.priceMonthlyCents, locale)} $`,
+      ),
     },
     {
       label: t('Recommandations d’Octave / mois', 'Octave recommendations / mo'),
-      cells: PLANS.map((p) => p.monthlyRecommendations.toString()),
+      cells: COMPARE_COLUMNS.map((p) => p.monthlyRecommendations.toString()),
     },
     {
       label: t('Utilisateurs inclus', 'Users included'),
-      cells: PLANS.map((p) => p.includedUsers.toString()),
+      cells: COMPARE_COLUMNS.map((p) => p.includedUsers.toString()),
     },
   ];
 
@@ -306,7 +319,7 @@ export default function TarifsContent() {
                     <th className="p-4 font-body text-[11px] tracking-[0.14em] uppercase text-foreground-faint font-normal">
                       {t('Fonctionnalité', 'Feature')}
                     </th>
-                    {PLANS.map((p) => (
+                    {COMPARE_COLUMNS.map((p) => (
                       <th
                         key={p.id}
                         className={`p-4 text-center font-[family-name:var(--font-display)] italic text-lg ${p.highlight ? 'text-or' : 'text-foreground'}`}

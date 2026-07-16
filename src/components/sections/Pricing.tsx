@@ -31,11 +31,27 @@ interface PlanCopy {
 }
 
 const COPY: Record<PlanId, PlanCopy> = {
+  // P22 — la porte d'entrée. Elle n'a PAS de carte d'achat (rien à acheter) : elle
+  // vit dans le comparatif, avec ses vrais chiffres. Miroir exact de l'app, qui
+  // l'affiche aussi en bloc, jamais en bouton de paiement.
+  gratuit: {
+    name: "Gratuit",
+    tagline: {
+      fr: "Votre cave, pour toujours.",
+      en: "Your cellar, forever.",
+    },
+    features: [
+      { fr: "Jusqu’à 75 bouteilles, à vie", en: "Up to 75 bottles, for life" },
+      { fr: "Votre cave et vos souvenirs, sans date de fin", en: "Your cellar and memories, with no end date" },
+      { fr: "Un avant-goût d’Octave chaque mois", en: "A taste of Octave every month" },
+      { fr: "Sans carte de crédit", en: "No credit card" },
+    ],
+  },
   standard: {
     name: "Standard",
     tagline: {
-      fr: "L’amateur, sa cave personnelle.",
-      en: "The wine lover, a personal cellar.",
+      fr: "La cave vivante — l’amateur, sa cave personnelle.",
+      en: "The living cellar — the wine lover, a personal cellar.",
     },
     features: [
       { fr: "Octave vous dit quoi ouvrir, soir après soir", en: "Octave tells you what to open, night after night" },
@@ -48,8 +64,8 @@ const COPY: Record<PlanId, PlanCopy> = {
   pro: {
     name: "Pro",
     tagline: {
-      fr: "L’habitué, un usage régulier, une plus grande cave.",
-      en: "The regular, frequent use, a larger cellar.",
+      fr: "La veille — l’habitué, un usage régulier, une plus grande cave.",
+      en: "The watch — the regular, frequent use, a larger cellar.",
     },
     features: [
       { fr: "Tout ce que fait le Standard, en plus généreux", en: "Everything Standard does, more generously" },
@@ -61,8 +77,8 @@ const COPY: Record<PlanId, PlanCopy> = {
   famille: {
     name: "Passionné",
     tagline: {
-      fr: "Plusieurs profils, plusieurs palais, une cave partagée.",
-      en: "Several profiles, several palates, a shared cellar.",
+      fr: "Le foyer & le patrimoine — plusieurs palais, une cave partagée.",
+      en: "The household & the collection — several palates, one shared cellar.",
     },
     features: [
       { fr: "Tout ce que fait le Pro, pour toute la maisonnée", en: "Everything Pro does, for the whole household" },
