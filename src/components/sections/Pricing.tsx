@@ -69,7 +69,12 @@ const COPY: Record<PlanId, PlanCopy> = {
     },
     features: [
       { fr: "Tout ce que fait le Standard, en plus généreux", en: "Everything Standard does, more generously" },
-      { fr: "Un profil de goût qui s’affine en profondeur", en: "A taste profile that deepens over time" },
+      // RETIRÉ (D6, 2026-07-16) — « Un profil de goût qui s'affine en profondeur »
+      // était un faux différenciateur : le palais s'apprend IDENTIQUEMENT sur tous
+      // les plans (c'est la démo du moat, pas une option payante). Remplacé par la
+      // capacité RÉELLE qui distingue Pro : son quota. Même règle que la garde
+      // `pricing↔gates` de l'app — une puce = une capacité câblée.
+      { fr: "110 recommandations d’Octave par mois", en: "110 Octave recommendations per month" },
       { fr: "Des accords puisés dans votre cave, près de vous, ou les deux", en: "Pairings drawn from your cellar, near you, or both" },
       { fr: "De quoi accompagner une cave qui grandit", en: "Room for a cellar that keeps growing" },
     ],
@@ -84,7 +89,11 @@ const COPY: Record<PlanId, PlanCopy> = {
       { fr: "Tout ce que fait le Pro, pour toute la maisonnée", en: "Everything Pro does, for the whole household" },
       { fr: "Plusieurs palais, chacun le sien, dans une cave partagée", en: "Several palates, each its own, in one shared cellar" },
       { fr: "Octave suit votre rythme, même soutenu", en: "Octave keeps your pace, however lively" },
-      { fr: "Vos recommandations passent devant", en: "Your recommendations come first" },
+      // RETIRÉ (D6, 2026-07-16) — « Vos recommandations passent devant » est
+      // « Priorité à Octave » REFORMULÉE : aucune file prioritaire n'existe, ni
+      // n'a jamais existé. Retirée du comparatif ET d'ici. Remplacée par la
+      // capacité RÉELLE du Passionné : sa cave sans plafond.
+      { fr: "Une cave sans plafond", en: "A cellar with no ceiling" },
     ],
   },
 };
