@@ -1,57 +1,29 @@
-'use client';
+import type { Metadata } from 'next';
+import HomeClient from '@/components/home/HomeClient';
 
-import dynamic from 'next/dynamic';
-import HeroV4 from '@/components/sections/HeroV4';
-
-// Above-fold = eager (Hero seul). Tout le reste = code-split (next/dynamic, SSR
-// conservé → SEO + 0 CLS). Ordre : mémoire → palais → disponibilité locale → moments à enjeu →
-// preuve → comment → pourquoi → confiance → cercle → décision.
-const SectionFilm = dynamic(() => import('@/components/sections/SectionFilm')); // Experience 2.0 — film de marque (mvt #2)
-const SectionDemo = dynamic(() => import('@/components/sections/SectionDemo'));
-const SectionCaveWeb = dynamic(() => import('@/components/sections/SectionCaveWeb')); // « Une cave qui se souvient » (pilier)
-const SectionPourquoi = dynamic(() => import('@/components/sections/SectionPourquoi')); // tension (mvt 3)
-const SectionPiliers = dynamic(() => import('@/components/sections/SectionPiliers')); // 4 chapitres (mvt 4)
-const SectionPalais = dynamic(() => import('@/components/sections/SectionPalais'));
-const SectionSaq = dynamic(() => import('@/components/sections/SectionSaq'));
-const SectionMomentsEnjeu = dynamic(() => import('@/components/sections/SectionMomentsEnjeu')); // V2.6 « Les soirs où il ne faut pas se tromper »
-const SectionTroisMoments = dynamic(() => import('@/components/sections/SectionTroisMoments')); // absorbe Proof + vidéo
-const SectionComparison = dynamic(() => import('@/components/sections/SectionComparison')); // « Pourquoi les amateurs choisissent iQWine »
-const SectionConfiance = dynamic(() => import('@/components/sections/SectionConfiance'));
-const SectionCercle = dynamic(() => import('@/components/sections/SectionCercle')); // V2.5 « Le Cercle iQWine »
-const SectionTarifs = dynamic(() => import('@/components/sections/SectionTarifs'));
-const SectionFaq = dynamic(() => import('@/components/sections/SectionFaq'));
-const FinalCta = dynamic(() => import('@/components/sections/FinalCta'));
-const StickyCTA = dynamic(() => import('@/components/ui/StickyCTA'));
-const ScrollDepthTracker = dynamic(() => import('@/components/analytics/ScrollDepthTracker'));
+/**
+ * Home — coquille SERVEUR (P49, 2026-07-17).
+ *
+ * ── Pourquoi ce fichier existe ────────────────────────────────────────────
+ * La home portait `'use client'` et assemblait directement les sections. Or un
+ * fichier client ne peut pas exporter `metadata` : elle était donc la SEULE
+ * page publique du site sans `canonical`, et ça n'était pas un oubli — c'était
+ * structurel. Sans canonical, c'est Google qui choisit quelle URL indexer pour
+ * la page la plus importante du site.
+ *
+ * Le corps est parti dans `components/home/HomeClient.tsx`, à l'identique. On
+ * adopte simplement le pattern standard Next (page serveur → composant client),
+ * déjà utilisé par les 6 autres pages du site : `page.tsx` sert les métadonnées,
+ * le client fait le rendu. Aucun changement de comportement, aucun changement
+ * de rendu — seulement la métadonnée qui manquait.
+ *
+ * `title`/`description` restent hérités du layout (ils y sont déjà justes) :
+ * on n'ajoute ICI que ce qui manquait, pour ne pas dupliquer une source.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 export default function Home() {
-  return (
-    <>
-      {/* Home VISUAL 2.0 — resserrée vers les 9 mouvements : « Une cave qui se
-          souvient » remonte juste après le hero (colonne vertébrale émotionnelle),
-          la démo suit, « Comment ça marche » retirée (redondante avec la démo).
-          Sections neuves « Pourquoi iQWine existe » + « Les grands piliers » + Film
-          = build dédié à venir. */}
-      <main>
-        <HeroV4 />
-        <SectionFilm />
-        <SectionPourquoi />
-        <SectionCaveWeb />
-        <SectionPiliers />
-        <SectionDemo />
-        <SectionPalais />
-        <SectionSaq />
-        <SectionMomentsEnjeu />
-        <SectionTroisMoments />
-        <SectionComparison />
-        <SectionConfiance />
-        <SectionCercle />
-        <SectionTarifs />
-        <SectionFaq />
-        <FinalCta />
-      </main>
-      <StickyCTA />
-      <ScrollDepthTracker />
-    </>
-  );
+  return <HomeClient />;
 }
