@@ -4,6 +4,7 @@ import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/conditions' },
   title: 'Conditions d’utilisation — iQWine',
   description: 'Conditions d’utilisation du service iQWine.',
 };

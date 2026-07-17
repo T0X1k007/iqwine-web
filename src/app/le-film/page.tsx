@@ -39,7 +39,7 @@ export default function Page() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(FILM_JSONLD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FILM_JSONLD).replace(/</g, "\\u003c") }}
       />
       <LeFilmContent />
     </>

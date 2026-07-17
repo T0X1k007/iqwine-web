@@ -4,6 +4,7 @@ import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/confidentialite' },
   title: 'Politique de confidentialité — iQWine',
   description:
     'Politique de confidentialité et protection des renseignements personnels (Loi 25).',

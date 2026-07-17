@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 /**
  * Sitemap — routes publiques indexables (iQWine). Le domaine suit metadataBase
- * (layout.tsx) : canonique non-www iqwine.ca. Les 4 chapitres (Octave via
+ * (layout.tsx) : canonique = www.iqwine.ca (l'hôte reellement servi ; l'apex 307-redirige vers www, cote hebergeur). Les 4 chapitres (Octave via
  * /sommelier-ia, Apogée, Recherche, Recevoir) + /le-film sont des destinations
  * Experience 2.0 → déclarées pour l'indexation. /octave n'est PAS listé : il
  * redirige vers /sommelier-ia (on ne déclare que la canonique).

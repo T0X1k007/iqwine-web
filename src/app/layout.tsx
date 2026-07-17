@@ -39,6 +39,18 @@ const hanken = Hanken_Grotesk({
  * Données structurées site-wide (Organization + WebSite) — éligibilité rich
  * results + graphe de connaissances Google. Rendu SSR (JSON-LD) dans le <body>.
  */
+/**
+ * P49 — sérialisation JSON-LD SÛRE. `JSON.stringify` seul laisse passer un
+ * `</script>` littéral : le navigateur fermerait la balise et exécuterait la
+ * suite. Inoffensif tant que le graph est statique — mais c'est exactement le
+ * motif qui devient une XSS le jour où l'on y injecte du contenu variable
+ * (FAQ, avis, nom de page). On le durcit AVANT d'en avoir besoin, pas après.
+ * Miroir de `lib/guide/jsonld.ts` côté app (source unique du raisonnement).
+ */
+function serializeJsonLd(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
 const SITE_JSONLD = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -108,7 +120,7 @@ export default function RootLayout({
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSONLD) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(SITE_JSONLD) }}
         />
         {/* Chrome GLOBAL (Q16 + Q18) — Navbar et Footer sur TOUTES les pages,
             plus aucune page « avec pied mais sans tête ». I18nProvider remonté

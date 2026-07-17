@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ContactContent from '@/components/sections/ContactContent';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/contact' },
   title: 'Contact — iQWine',
   description:
     'Contactez l’équipe iQWine : information, démonstration ou partenariat.',
