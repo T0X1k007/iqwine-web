@@ -16,13 +16,27 @@ const IQWINE_APP_URL = process.env.IQWINE_APP_URL || 'https://app.iqwine.ca';
 const FORWARD_TIMEOUT_MS = 4000;
 const LIMITS = { name: 200, email: 254, message: 5000, maxBodyBytes: 16 * 1024 } as const;
 
-// Rate-limit mémoire (par IP, 5 req / heure) — même pattern que beta-signup.
+// Rate-limit mémoire (par IP, 5 req / heure).
+//
+// ⚠️ LIMITE CONNUE ET ASSUMÉE (audit 2026-07-28) : sur Vercel, les instances
+// sont éphémères et réparties — cette `Map` se réinitialise, donc ce plafond est
+// un ralentisseur, pas une barrière. Le VRAI plafond vit côté application
+// (`checkAndIncrementContactIp`, seau Redis dédié et fail-closed) : c'est lui
+// qui protège la réputation d'envoi. On garde celui-ci pour absorber les
+// rafales triviales sans aller-retour réseau, et on PURGE les entrées mortes
+// pour qu'une IP usurpée ne fasse plus croître le tas indéfiniment (avant, la
+// Map n'évinçait que sur répétition de la même clé → fuite mémoire).
 const RATE_WINDOW_MS = 60 * 60 * 1000;
 const RATE_MAX = 5;
 const buckets = new Map<string, { count: number; resetAt: number }>();
 
 function checkRate(ip: string): boolean {
   const now = Date.now();
+  // Purge des entrées expirées : borne la mémoire quelle que soit la cardinalité
+  // des clés (une IP usurpée par requête créait sinon une entrée immortelle).
+  if (buckets.size > 500) {
+    for (const [k, v] of buckets) if (now > v.resetAt) buckets.delete(k);
+  }
   const b = buckets.get(ip);
   if (!b || now > b.resetAt) {
     buckets.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
@@ -33,9 +47,27 @@ function checkRate(ip: string): boolean {
   return true;
 }
 
+/**
+ * IP du client, telle que Vercel la garantit.
+ *
+ * AUDIT 2026-07-28 — on lisait le PREMIER élément de `x-forwarded-for`, qui est
+ * précisément la partie ÉCRITE PAR LE CLIENT. `curl -H 'X-Forwarded-For: 1.2.3.4'`
+ * en incrémentant l'octet donnait donc une identité neuve à chaque requête, et
+ * le plafond de 5/heure ne plafonnait rien. C'est l'erreur que l'application a
+ * corrigée de son côté (P50) ; ce relais était resté en arrière.
+ *
+ * Sur Vercel, `x-vercel-forwarded-for` est posé par la plateforme et n'est pas
+ * falsifiable ; le DERNIER élément de `x-forwarded-for` est le repli correct —
+ * c'est celui qu'ajoute le proxy de confiance, pas celui qu'envoie le client.
+ */
 function getClientIp(req: Request): string {
+  const vercel = req.headers.get('x-vercel-forwarded-for');
+  if (vercel) return vercel.split(',')[0]!.trim();
   const fwd = req.headers.get('x-forwarded-for');
-  if (fwd) return fwd.split(',')[0]!.trim();
+  if (fwd) {
+    const parts = fwd.split(',').map((p) => p.trim()).filter(Boolean);
+    if (parts.length > 0) return parts[parts.length - 1]!;
+  }
   return req.headers.get('x-real-ip') || 'unknown';
 }
 
@@ -93,7 +125,9 @@ export async function POST(request: Request) {
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         return NextResponse.json(
-          { error: 'Envoi impossible pour le moment. Réessayez.', detail: text.slice(0, 120) },
+          // `detail` retiré (audit 2026-07-28) : il exposait jusqu'à 120 caractères
+          // de la réponse d'erreur INTERNE de l'application à un appelant anonyme.
+          { error: 'Envoi impossible pour le moment. Réessayez.' },
           { status: 502 },
         );
       }
