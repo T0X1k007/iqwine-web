@@ -133,13 +133,13 @@ export default function SectionMomentsEnjeu() {
         ))}
       </div>
 
-      {/* L'APOGÉE EN LANGAGE HUMAIN — frise 3 états, reliés par un fil (timeline) */}
+      {/* L'APOGÉE EN LANGAGE CLAIR — frise 3 états, reliés par un fil (timeline) */}
       <div className="mt-20 max-w-5xl mx-auto">
         <FadeInOnScroll>
           <div className="text-center mb-12">
             <div className="iq-eyebrow mb-4">
               {t(
-                'L’APOGÉE, EN LANGAGE HUMAIN',
+                'L’APOGÉE, EN LANGAGE CLAIR',
                 'THE DRINKING WINDOW, IN PLAIN WORDS',
               )}
             </div>
