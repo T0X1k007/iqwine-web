@@ -89,8 +89,8 @@ export function softwareApplicationLd(locale: Locale) {
     // Le plafond de bouteilles, qui distingue réellement les paliers.
     description:
       locale === 'en'
-        ? `${maxBottlesLabel(p, 'en')} · ${p.monthlyRecommendations} Octave recommendations per month · ${p.includedUsers} user(s)`
-        : `${maxBottlesLabel(p, 'fr')} · ${p.monthlyRecommendations} recommandations d'Octave par mois · ${p.includedUsers} utilisateur(s)`,
+        ? `${maxBottlesLabel(p, 'en')} · ${p.monthlyRecommendations} interactions with Octave per month · ${p.includedUsers} user(s)`
+        : `${maxBottlesLabel(p, 'fr')} · ${p.monthlyRecommendations} interactions avec Octave par mois · ${p.includedUsers} utilisateur(s)`,
   }));
 
   return {

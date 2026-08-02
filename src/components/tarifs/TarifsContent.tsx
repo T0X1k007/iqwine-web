@@ -204,7 +204,7 @@ export default function TarifsContent() {
       ),
     },
     {
-      label: t('Recommandations d’Octave / mois', 'Octave recommendations / mo'),
+      label: t('Interactions avec Octave / mois', 'Interactions with Octave / mo'),
       cells: COMPARE_COLUMNS.map((p) => p.monthlyRecommendations.toString()),
     },
     {

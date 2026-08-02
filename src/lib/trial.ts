@@ -47,8 +47,8 @@ export type SiteLocale = 'fr' | 'en';
  * conditions. Un texte qui présente l'essai sans elle est un texte faux.
  */
 export const TRIAL_FULL: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} recommandations d'Octave — au premier des deux`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} of Octave's recommendations — whichever comes first`,
+  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions avec Octave — au premier des deux`,
+  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions with Octave — whichever comes first`,
 };
 
 /**
@@ -65,6 +65,6 @@ export const TRIAL_CTA: Record<SiteLocale, string> = {
 
 /** Forme brève mais HONNÊTE — tient sur une ligne de réassurance. */
 export const TRIAL_SHORT: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} recommandations`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} recommendations`,
+  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions`,
+  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions`,
 };

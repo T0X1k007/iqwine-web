@@ -16,6 +16,7 @@ import {
   formatPriceCad,
   annualSavingsCents,
   monthlyEquivalentCents,
+  maxBottlesLabel,
   type PlanId,
 } from "@/lib/plans";
 
@@ -34,6 +35,18 @@ interface PlanCopy {
   name: Record<'fr' | 'en', string>;
   tagline: Record<Locale, string>;
   features: Array<Record<Locale, string>>;
+}
+
+/**
+ * Le nombre d'utilisateurs inclus, LU depuis la grille.
+ *
+ * Le Passionné se vend sur le partage : sa promesse nomme donc un nombre de
+ * personnes. L'écrire à la main dans une phrase le condamnerait à diverger le
+ * jour où la grille change — et une promesse commerciale fausse coûte plus cher
+ * qu'un tableau faux, parce qu'elle est lue avant l'achat, pas après.
+ */
+function utilisateursInclus(id: PlanId): number {
+  return PLANS.find((p) => p.id === id)?.includedUsers ?? 1;
 }
 
 const COPY: Record<PlanId, PlanCopy> = {
@@ -56,33 +69,61 @@ const COPY: Record<PlanId, PlanCopy> = {
   standard: {
     name: { fr: 'Standard', en: 'Standard' },
     tagline: {
-      fr: "La cave vivante — l’amateur, sa cave personnelle.",
-      en: "The living cellar — the wine lover, a personal cellar.",
+      fr: "L’essentiel — votre cave, et la bonne bouteille chez vous.",
+      en: "The essentials — your cellar, and the right bottle at home.",
     },
     features: [
-      { fr: "Octave vous dit quoi ouvrir, soir après soir", en: "Octave tells you what to open, night after night" },
-      { fr: "Un palais qui apprend à chaque verre", en: "A palate that learns with every glass" },
-      { fr: "La disponibilité près de vous, en direct", en: "What’s in stock near you, live" },
-      { fr: "Votre cave, toujours à jour", en: "Your cellar, always up to date" },
-      { fr: "Une étiquette scannée, une bouteille rangée", en: "Scan a label, file a bottle" },
+      { fr: "Plus de liberté pour demander chaque soir, sans rationner", en: "More freedom to ask every evening, without rationing" },
+      { fr: "Plus de liberté pour photographier vos plats et laisser Octave choisir", en: "More freedom to photograph your dishes and let Octave choose" },
+      { fr: "Plus de liberté pour gérer votre cave, étiquette après étiquette", en: "More freedom to manage your cellar, label after label" },
     ],
   },
   pro: {
     name: { fr: 'Pro', en: 'Pro' },
     tagline: {
-      fr: "La veille — l’habitué, un usage régulier, une plus grande cave.",
-      en: "The watch — the regular, frequent use, a larger cellar.",
+      fr: "Le forfait de l’amateur — partout où le vin se choisit.",
+      en: "The wine lover’s plan — everywhere wine gets chosen.",
     },
     features: [
-      { fr: "Tout ce que fait le Standard, en plus généreux", en: "Everything Standard does, more generously" },
+      { fr: "Tout ce que fait le Standard", en: "Everything Standard does" },
       // RETIRÉ (D6, 2026-07-16) — « Un profil de goût qui s'affine en profondeur »
       // était un faux différenciateur : le palais s'apprend IDENTIQUEMENT sur tous
-      // les plans (c'est la démo du moat, pas une option payante). Remplacé par la
-      // capacité RÉELLE qui distingue Pro : son quota. Même règle que la garde
-      // `pricing↔gates` de l'app — une puce = une capacité câblée.
-      { fr: "110 recommandations d’Octave par mois", en: "110 Octave recommendations per month" },
-      { fr: "Des accords puisés dans votre cave, près de vous, ou les deux", en: "Pairings drawn from your cellar, near you, or both" },
-      { fr: "De quoi accompagner une cave qui grandit", en: "Room for a cellar that keeps growing" },
+      // les plans (c'est la démo du moat, pas une option payante). Remplacé alors
+      // par la capacité RÉELLE qui distingue Pro : son quota.
+      //
+      // RETIRÉ À NOUVEAU (Eric, 2026-08-02) — le remplacement était juste sur le
+      // fond et faux dans l'ensemble : le Pro était le SEUL des trois à répéter
+      // son quota en puce, si bien qu'il avait l'air d'être le seul forfait
+      // plafonné. Les trois le sont. Les trois chiffres vivent maintenant dans
+      // l'encadré, à la même place sur chaque carte ; les puces redeviennent ce
+      // qu'elles doivent être — des bénéfices, pas des limites.
+      //
+      // Ne pas réintroduire ici un nombre déjà porté par l'encadré : c'est
+      // exactement ce qui a produit l'asymétrie.
+      //
+      // ── LA RÈGLE D'ÉCRITURE DE CES PUCES (Eric, 2026-08-02) ──────────────
+      // Une puce dit ce que le VOLUME rend possible. Jamais ce qu'il
+      // « débloque ».
+      //
+      // Le fait technique qui l'impose : le quota est UN SEUL budget mensuel,
+      // que tous les gestes d'Octave consomment — l'accord du soir, le plat
+      // photographié, la carte des vins d'un restaurant, l'étiquette scannée
+      // en boutique, la soirée accordée plat par plat. Aucune de ces
+      // fonctions n'est réservée à un forfait : elles existent TOUTES dès le
+      // Standard. Seule la fréquence à laquelle on peut s'en servir change.
+      //
+      // Écrire « le Pro permet de photographier la carte des vins » serait
+      // donc faux, et exactement le faux différenciateur que D6 avait purgé.
+      // Écrire « de quoi photographier la carte des vins sans compter » est
+      // vrai, et c'est ce qui donne envie : ce n'est pas une porte qui
+      // s'ouvre, c'est une arithmétique qui disparaît.
+      //
+      // Le levier de désir est là : une soirée reçue consomme une dizaine
+      // d'interactions d'un coup. Sur 50, on y pense. Sur 110, on n'y pense
+      // plus. C'est la vraie différence, et elle se dit sans exagérer.
+      { fr: "Plus de liberté pour être guidé au restaurant, carte des vins en main", en: "More freedom to be guided at the restaurant, wine list in hand" },
+      { fr: "Plus de liberté pour concevoir des menus dégustation, plat par plat", en: "More freedom to design tasting menus, course by course" },
+      { fr: "Plus de liberté pour explorer en boutique, étiquette après étiquette", en: "More freedom to explore in store, label after label" },
     ],
   },
   famille: {
@@ -90,18 +131,27 @@ const COPY: Record<PlanId, PlanCopy> = {
     // Même identifiant, même priceId, même accès — seul le mot affiché change.
     name: { fr: 'Passionné', en: 'Enthusiast' },
     tagline: {
-      fr: "Le foyer & le patrimoine — plusieurs palais, une cave partagée.",
-      en: "The household & the collection — several palates, one shared cellar.",
+      fr: "À plusieurs — un Octave partagé, une cave sans fin.",
+      en: "Together — one shared Octave, an endless cellar.",
     },
     features: [
-      { fr: "Tout ce que fait le Pro, pour toute la maisonnée", en: "Everything Pro does, for the whole household" },
-      { fr: "Plusieurs palais, chacun le sien, dans une cave partagée", en: "Several palates, each its own, in one shared cellar" },
-      { fr: "Octave suit votre rythme, même soutenu", en: "Octave keeps your pace, however lively" },
+      { fr: "Tout ce que fait le Pro", en: "Everything Pro does" },
+      {
+        // « avec les vôtres — N personnes », et non « avec N personnes » :
+        // `includedUsers` compte le TOTAL, propriétaire compris. L'application
+        // le dit ainsi dans sa propre grille (« Cave partagée — 4 personnes »).
+        // Écrit « partager avec 4 personnes », le client en comprend cinq, et
+        // découvre l'écart au moment d'inviter le dernier — c'est-à-dire après
+        // avoir payé.
+        fr: `Plus de liberté pour partager Octave avec les vôtres — ${utilisateursInclus("famille")} personnes, chacun son palais`,
+        en: `More freedom to share Octave with your household — ${utilisateursInclus("famille")} people, each their own palate`,
+      },
+      { fr: "Plus de liberté pour recevoir toutes les semaines, sans rationner", en: "More freedom to host every week, without rationing" },
       // RETIRÉ (D6, 2026-07-16) — « Vos recommandations passent devant » est
       // « Priorité à Octave » REFORMULÉE : aucune file prioritaire n'existe, ni
       // n'a jamais existé. Retirée du comparatif ET d'ici. Remplacée par la
       // capacité RÉELLE du Passionné : sa cave sans plafond.
-      { fr: "Une cave sans plafond", en: "A cellar with no ceiling" },
+      { fr: "Plus de liberté pour collectionner sans plafond — la cave d’une vie", en: "More freedom to collect with no ceiling — a lifetime’s cellar" },
     ],
   },
 };
@@ -333,13 +383,36 @@ function PlanCard({
         )}
       </p>
 
-      {/* Ce qui est inclus — recommandations IA + utilisateurs (jamais tokens) */}
+      {/* Ce qui est inclus — LES TROIS limites réelles, jamais de tokens.
+       *
+       * ── Ce que cet encadré a corrigé (Eric, 2026-08-02) ──────────────────
+       * Il n'annonçait que les recommandations et les utilisateurs. Le plafond
+       * de BOUTEILLES n'apparaissait nulle part sur la carte — ni ici, ni dans
+       * les puces — alors que c'est la limite qui arrête un client pour de
+       * vrai : 200 en Standard, 1 000 en Pro. On vendait un plafond sans le
+       * dire, et l'acheteur le découvrait en le heurtant.
+       *
+       * Les trois chiffres sont lus depuis `PLANS`, jamais écrits ici : le
+       * comparatif plus bas lit la même source, et deux tableaux de prix qui
+       * divergent est une faute qu'on ne voit qu'une fois vendue.
+       *
+       * Corollaire tenu ailleurs dans ce fichier : plus aucune puce ne répète
+       * un de ces nombres. Le Pro le faisait, seul des trois, ce qui le faisait
+       * passer pour le seul forfait plafonné. */}
       <div className="rounded-lg border border-border bg-sunk px-4 py-3 mb-7">
-        <p className="text-foreground text-(length:--text-body-sm) leading-snug">
+        {/* `tabular-nums` sur le paragraphe entier, et non sur un `<span>` :
+         * l'étiquette rend une phrase complète (« Jusqu'à 1 000 bouteilles »,
+         * ou « Bouteilles illimitées » quand il n'y a pas de plafond), le
+         * nombre n'est donc pas isolable. Sans ça, le « 200 » du Standard et
+         * le « 1 000 » du Pro ne s'alignent pas d'une carte à l'autre. */}
+        <p className="text-foreground text-(length:--text-body-sm) leading-snug tabular-nums">
+          {maxBottlesLabel(plan, locale)}
+        </p>
+        <p className="text-foreground text-(length:--text-body-sm) leading-snug mt-1">
           <span className="tabular-nums font-medium">
             {plan.monthlyRecommendations}
           </span>{" "}
-          {t("recommandations d’Octave / mois", "Octave recommendations / month")}
+          {t("interactions avec Octave / mois", "interactions with Octave / month")}
         </p>
         <p className="text-foreground-dim text-(length:--text-body-sm) leading-snug mt-1">
           <span className="tabular-nums font-medium">{plan.includedUsers}</span>{" "}

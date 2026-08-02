@@ -51,7 +51,7 @@ export default function ConditionsPage() {
         fenêtres de consommation, recommandations assistées par intelligence
         artificielle et fonctionnalités connexes. Un essai gratuit est offert,
         sans engagement, d’une durée de {TRIAL_DAYS} jours OU de{' '}
-        {TRIAL_RECOS} recommandations d’Octave, la première de ces deux limites
+        {TRIAL_RECOS} interactions avec Octave, la première de ces deux limites
         atteinte mettant fin à l’essai. L’essai gratuit est limité à une
         utilisation par utilisateur. La suppression d’un compte ne réinitialise
         pas l’admissibilité à l’essai gratuit.
