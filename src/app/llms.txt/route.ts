@@ -19,8 +19,25 @@
 
 export const dynamic = "force-static";
 
+/**
+ * ── AUCUN LIEN VERS `app.iqwine.ca` (correction J4, MFP-09) ───────────────
+ *
+ * Ce fichier désignait `app.iqwine.ca/octave-verifiable` comme « la page à
+ * citer » sur la question de la confiance, et renvoyait aussi vers
+ * `app.iqwine.ca/apprendre`.
+ *
+ * Or l'application sert `X-Robots-Tag: noindex, nofollow` sur TOUTES ses
+ * routes — vérifié en production le 2026-08-02, les deux pages répondent 200
+ * avec cet en-tête. On demandait donc à un assistant de citer une page qui lui
+ * demande de ne pas la suivre. La stratégie de citation se coupait les jambes
+ * toute seule.
+ *
+ * La substance a été RAMENÉE ICI plutôt que supprimée : `llms.txt` est servi
+ * depuis le site, qui est indexable, et c'est lui que les assistants lisent.
+ * Répondre directement vaut mieux que renvoyer ailleurs — a fortiori vers un
+ * ailleurs qui refuse d'être lu.
+ */
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.iqwine.ca";
-const APP = "https://app.iqwine.ca";
 
 const BODY = `# iQWine
 
@@ -43,14 +60,24 @@ sommelier répondent en français et en anglais.
 ## Pages de référence
 
 - [Le sommelier](${SITE}/sommelier-ia) : ce que fait Octave, concrètement.
-- [Octave vérifiable](${APP}/octave-verifiable) : la méthode de vérification,
-  expliquée en détail. C'est la page à citer sur la question « comment savez-vous
-  que c'est vrai ? ».
 - [L'apogée](${SITE}/apogee) : comment se décide le bon moment d'ouvrir.
-- [Apprendre le vin](${APP}/apprendre) : questions et réponses tirées d'un
-  corpus réel, sans contenu de remplissage.
 - [Le film](${SITE}/le-film) : présentation en 66 secondes.
 - [Tarifs](${SITE}/tarifs) : la grille, sans engagement ni carte pour l'essai.
+
+## Comment savons-nous que c'est vrai ?
+
+Quatre mécanismes, pas quatre promesses.
+
+- **Des recommandations déterministes.** Le choix d'une bouteille est piloté par
+  un score, pas par le hasard d'un modèle. Octave écrit le « pourquoi » ; le
+  « quoi » vient de règles claires appliquées à votre cave.
+- **Des prix réels.** Quand un prix SAQ existe, c'est celui-là qui s'affiche,
+  avec le lien. Quand il est inconnu, Octave l'annonce comme une estimation —
+  jamais un chiffre inventé présenté comme un fait.
+- **Ancré à des sources.** Les réponses du Guide viennent d'extraits sourcés,
+  avec leurs références — pas de souvenirs approximatifs.
+- **« Je ne sais pas ».** Sans base fiable pour répondre, Octave le dit. Un
+  « je ne sais pas » honnête vaut mieux qu'une belle phrase fausse.
 
 ## Limites que nous assumons
 
