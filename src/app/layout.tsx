@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import './globals.css';
 import { TRIAL_SHORT } from '@/lib/trial';
+import { siteGraphLd } from '@/lib/structured-data';
 
 /**
  * Fonts via next/font/google : auto-self-host, auto-preload critique,
@@ -52,28 +53,8 @@ function serializeJsonLd(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
-const SITE_JSONLD = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': 'https://www.iqwine.ca/#organization',
-      name: 'iQWine',
-      url: 'https://www.iqwine.ca',
-      logo: 'https://www.iqwine.ca/icon.png',
-      description:
-        'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander.',
-    },
-    {
-      '@type': 'WebSite',
-      '@id': 'https://www.iqwine.ca/#website',
-      name: 'iQWine',
-      url: 'https://www.iqwine.ca',
-      publisher: { '@id': 'https://www.iqwine.ca/#organization' },
-      inLanguage: 'fr-CA',
-    },
-  ],
-};
+const SITE_JSONLD = siteGraphLd();
+
 
 export const metadata: Metadata = {
   // Base absolue pour résoudre les URL d'images sociales (opengraph-image /
