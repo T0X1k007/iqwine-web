@@ -10,6 +10,7 @@ import { useLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { buildSignupUrl } from "@/lib/constants";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
+import { TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
 import {
   PLANS,
   formatPriceCad,
@@ -123,8 +124,8 @@ export default function Pricing() {
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {locale === "fr"
-              ? "14 jours offerts, sans engagement. Aucune carte demandée."
-              : "14 days on the house, no strings. No card required."}
+              ? `Essai offert : ${TRIAL_FULL.fr}. Sans engagement, aucune carte demandée.`
+              : `Trial on the house: ${TRIAL_FULL.en}. No strings, no card required.`}
           </p>
 
           {/* Ancrage remonté au-dessus de la grille : on cadre la valeur avant
@@ -234,8 +235,8 @@ export default function Pricing() {
         <div className="mt-16 text-center max-w-2xl mx-auto">
           <p className="font-body text-[10px] tracking-[0.22em] uppercase text-foreground-faint leading-relaxed">
             {locale === "fr"
-              ? "14 jours gratuits · Aucune carte requise · TPS et TVQ en sus"
-              : "14 free days · No credit card · GST/QST extra"}
+              ? `${TRIAL_SHORT.fr} · Aucune carte requise · TPS et TVQ en sus`
+              : `${TRIAL_SHORT.en} · No credit card · GST/QST extra`}
           </p>
         </div>
       </FadeInOnScroll>

@@ -11,6 +11,7 @@ import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { buildSignupUrl } from '@/lib/constants';
 import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
+import { TRIAL_SHORT } from '@/lib/trial';
 
 /**
  * SectionDemo — la vitrine d'Octave (Concept A premium). Panneau de contrôle en
@@ -114,8 +115,8 @@ export default function SectionDemo() {
             </a>
             <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t(
-                '14 jours · sans carte · aucune cave à saisir',
-                '14 days · no card · no cellar to enter',
+                `${TRIAL_SHORT.fr} · sans carte · aucune cave à saisir`,
+                `${TRIAL_SHORT.en} · no card · no cellar to enter`,
               )}
             </p>
           </div>

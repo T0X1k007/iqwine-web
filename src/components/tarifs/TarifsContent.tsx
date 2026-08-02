@@ -11,6 +11,7 @@ import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { PLANS, FREE_PLAN, formatPriceCad, type MarketingPlan } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { TRIAL_CTA, TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
 
 /**
  * /tarifs, page de DÉCISION. Aide le visiteur à choisir (positionnement par
@@ -66,8 +67,8 @@ const BENEFITS: { fr: string; en: string }[] = [
 const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string, string] }[] = [
   {
     icon: CalendarClock,
-    fr: ['Essai gratuit 14 jours', 'Découvrez Octave avant tout choix.'],
-    en: ['Free trial, 14 days', 'Discover Octave before you choose.'],
+    fr: [TRIAL_CTA.fr, `${TRIAL_FULL.fr}. Découvrez Octave avant tout choix.`],
+    en: [TRIAL_CTA.en, `${TRIAL_FULL.en}. Discover Octave before you choose.`],
   },
   {
     icon: XCircle,
@@ -203,6 +204,23 @@ export default function TarifsContent() {
       label: t('Utilisateurs inclus', 'Users included'),
       cells: COMPARE_COLUMNS.map((p) => p.includedUsers.toString()),
     },
+    {
+      /**
+       * MFP-09 — le plafond de bouteilles, enfin visible.
+       *
+       * Il est appliqué par l'application depuis toujours et n'apparaissait
+       * NULLE PART sur le site : un collectionneur de 400 bouteilles pouvait
+       * souscrire Standard et heurter un mur à 200 — après avoir importé sa
+       * cave. C'est aussi le seul argument Standard → Pro qui existait déjà et
+       * que personne n'utilisait.
+       */
+      label: t('Bouteilles au cellier', 'Bottles in the cellar'),
+      cells: COMPARE_COLUMNS.map((p) =>
+        p.maxBottles < 0
+          ? t('Illimité', 'Unlimited')
+          : p.maxBottles.toLocaleString(locale === 'en' ? 'en-CA' : 'fr-CA'),
+      ),
+    },
   ];
 
   return (
@@ -220,8 +238,8 @@ export default function TarifsContent() {
           </h1>
           <p className="iq-lead mt-7 max-w-2xl mx-auto">
             {t(
-              'Chaque formule commence par 14 jours gratuits, sans carte. Vous découvrez Octave, puis vous choisissez, ou pas.',
-              'Every plan starts with 14 free days, no card. You discover Octave, then you choose, or not.',
+              `Chaque formule commence par un essai gratuit — ${TRIAL_FULL.fr} —, sans carte. Vous découvrez Octave, puis vous choisissez, ou pas.`,
+              `Every plan starts with a free trial — ${TRIAL_FULL.en} —, no card. You discover Octave, then you choose, or not.`,
             )}
           </p>
           <p className="mt-5 font-[family-name:var(--font-display)] italic text-or/90 text-base sm:text-lg">
@@ -236,7 +254,7 @@ export default function TarifsContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-hero' })}
             >
               <Button variant="cta" size="lg">
-                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
+                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
@@ -477,7 +495,7 @@ export default function TarifsContent() {
             {t('Commencez ce soir.', 'Start tonight.')}
           </h2>
           <p className="iq-lead mt-6 max-w-xl mx-auto">
-            {t('14 jours pour rencontrer Octave. Aucune carte requise.', '14 days to meet Octave. No card required.')}
+            {t(`${TRIAL_SHORT.fr} pour rencontrer Octave. Aucune carte requise.`, `${TRIAL_SHORT.en} to meet Octave. No card required.`)}
           </p>
           <div className="mt-10 flex justify-center">
             <a
@@ -485,7 +503,7 @@ export default function TarifsContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-final' })}
             >
               <Button variant="cta" size="lg">
-                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
+                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>

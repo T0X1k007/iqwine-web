@@ -12,12 +12,14 @@ import { useLocale } from '@/lib/i18n';
  * accessible (button + aria-expanded). reduced-motion : fondu simple.
  */
 
+import { TRIAL_DAYS, TRIAL_RECOS, TRIAL_FULL } from '@/lib/trial';
+
 const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] = [
   {
     q: { fr: 'Dois-je donner ma carte de crédit ?', en: 'Do I need a credit card?' },
     a: {
-      fr: 'Non. L’essai dure 14 jours, sans carte. Vous décidez ensuite.',
-      en: 'No. The trial is 14 days, no card. You decide afterwards.',
+      fr: `Non. L’essai dure ${TRIAL_FULL.fr}, sans carte. Vous décidez ensuite.`,
+      en: `No. The trial runs for ${TRIAL_FULL.en}, no card. You decide afterwards.`,
     },
   },
   {
@@ -66,10 +68,17 @@ const QA: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] =
     },
   },
   {
-    q: { fr: 'Que se passe-t-il à la fin des 14 jours ?', en: 'What happens after 14 days?' },
+    q: {
+      fr: 'Quand mon essai se termine-t-il, exactement ?',
+      en: 'When exactly does my trial end?',
+    },
     a: {
-      fr: 'Rien d’automatique. Comme l’essai est sans carte, vous n’êtes jamais débité par surprise : à la fin des 14 jours, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.',
-      en: 'Nothing automatic. Since the trial needs no card, you’re never charged by surprise: after 14 days, you choose whether to continue. Your cellar and your palate stay with you.',
+      // La question portait « à la fin des 14 jours » et ne décrivait que la
+      // barrière temporelle. Un utilisateur actif peut atteindre les douze
+      // recommandations en trois jours : la réponse doit nommer les DEUX
+      // bornes, et dire laquelle arrive en premier.
+      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} recommandations d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première — c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
+      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} of Octave’s recommendations. If you use it a lot, the second limit can arrive before the first — that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
     },
   },
   {

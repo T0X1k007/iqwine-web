@@ -7,6 +7,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
 
 /**
  * /notre-maison — page de marque (Vague 4). La maison où vit Octave, votre
@@ -168,12 +169,12 @@ export default function NotreMaisonContent() {
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'notre-maison' })}
               >
                 <Button variant="cta" size="lg">
-                  {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
+                  {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
                   <ArrowRight size={16} strokeWidth={1.75} />
                 </Button>
               </a>
               <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
-                {t('14 jours gratuits · Aucune carte requise', '14 days free · No card required')}
+                {t(`${TRIAL_SHORT.fr} · Aucune carte requise`, `${TRIAL_SHORT.en} · No card required`)}
               </p>
             </div>
           </FadeInOnScroll>

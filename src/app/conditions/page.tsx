@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
+import { TRIAL_DAYS, TRIAL_RECOS } from '@/lib/trial';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/conditions' },
@@ -35,8 +36,10 @@ export default function ConditionsPage() {
       <LegalSection title="3. Le service">
         iQWine est un assistant numérique de gestion de cave à vin : inventaire,
         fenêtres de consommation, recommandations assistées par intelligence
-        artificielle et fonctionnalités connexes. Un essai gratuit de 14 jours
-        est offert, sans engagement. L’essai gratuit est limité à une
+        artificielle et fonctionnalités connexes. Un essai gratuit est offert,
+        sans engagement, d’une durée de {TRIAL_DAYS} jours OU de{' '}
+        {TRIAL_RECOS} recommandations d’Octave, la première de ces deux limites
+        atteinte mettant fin à l’essai. L’essai gratuit est limité à une
         utilisation par utilisateur. La suppression d’un compte ne réinitialise
         pas l’admissibilité à l’essai gratuit.
       </LegalSection>

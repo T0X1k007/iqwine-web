@@ -24,6 +24,22 @@ export interface MarketingPlan {
   priceYearlyCents: number;
   includedUsers: number;
   monthlyRecommendations: number;
+  /**
+   * Plafond de bouteilles. **`-1` = illimité**, exactement la sentinelle de
+   * `PLAN_CATALOG` dans le dépôt applicatif : la copie est LITTÉRALE pour
+   * qu'une divergence saute aux yeux plutôt que de se cacher dans une
+   * traduction de conventions.
+   *
+   * ── Pourquoi il apparaît enfin (MFP-09) ─────────────────────────────────
+   * Ces plafonds sont appliqués par l'application et étaient ABSENTS du site,
+   * dont le comparatif ne comportait que trois lignes chiffrées. Un
+   * collectionneur de 400 bouteilles pouvait souscrire Standard et heurter un
+   * mur à 200 — après avoir importé sa cave.
+   *
+   * Les afficher est doublement gagnant : c'est honnête, et c'est le seul
+   * argument Standard → Pro qui existe déjà et que personne n'utilisait.
+   */
+  maxBottles: number;
   /** Forfait mis en avant visuellement. */
   highlight?: boolean;
 }
@@ -57,12 +73,19 @@ export const FREE_PLAN = {
   priceYearlyCents: 0,
   includedUsers: 1,
   monthlyRecommendations: 2,
+  maxBottles: 75,
 } as const satisfies MarketingPlan;
 
-/** Plafond de la cave-mémoire du Gratuit (aucun palier payant n'en a besoin :
- *  ils l'expriment autrement). Hors de `MarketingPlan` — c'est une spécificité
- *  de la porte d'entrée, pas une colonne du modèle de vente. */
-export const FREE_MAX_BOTTLES = 75;
+/**
+ * Plafond de la cave-mémoire du Gratuit.
+ *
+ * Il vit désormais AUSSI dans `FREE_PLAN.maxBottles` : depuis que les paliers
+ * payants affichent le leur (MFP-09), le plafond est devenu une colonne du
+ * modèle de vente, et non plus une spécificité de la porte d'entrée. Cette
+ * constante reste pour les appelants existants — les deux valeurs sont
+ * dérivées l'une de l'autre pour qu'elles ne puissent pas diverger.
+ */
+export const FREE_MAX_BOTTLES = FREE_PLAN.maxBottles;
 
 export const PLANS: MarketingPlan[] = [
   {
@@ -71,6 +94,7 @@ export const PLANS: MarketingPlan[] = [
     priceYearlyCents: 14900,
     includedUsers: 1,
     monthlyRecommendations: 50,
+    maxBottles: 200,
   },
   {
     id: "pro",
@@ -78,6 +102,7 @@ export const PLANS: MarketingPlan[] = [
     priceYearlyCents: 29900,
     includedUsers: 2,
     monthlyRecommendations: 110,
+    maxBottles: 1000,
     highlight: true,
   },
   {
@@ -86,8 +111,22 @@ export const PLANS: MarketingPlan[] = [
     priceYearlyCents: 59900,
     includedUsers: 4,
     monthlyRecommendations: 200,
+    maxBottles: -1,
   },
 ];
+
+/**
+ * Le plafond de bouteilles, en toutes lettres. `-1` → « illimitées ».
+ *
+ * Rendre la sentinelle telle quelle afficherait « -1 bouteilles » — c'est
+ * exactement le genre de fuite d'une convention interne vers la page de vente
+ * qu'un chiffre non traduit produit.
+ */
+export function maxBottlesLabel(plan: MarketingPlan, locale: "fr" | "en"): string {
+  if (plan.maxBottles < 0) return locale === "en" ? "Unlimited bottles" : "Bouteilles illimitées";
+  const n = plan.maxBottles.toLocaleString(locale === "en" ? "en-CA" : "fr-CA");
+  return locale === "en" ? `Up to ${n} bottles` : `Jusqu'à ${n} bouteilles`;
+}
 
 /** « 14,95 » (fr) / « 14.95 » (en) depuis des cents. */
 export function formatPriceCad(cents: number, locale: "fr" | "en"): string {

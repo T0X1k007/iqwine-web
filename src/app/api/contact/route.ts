@@ -123,10 +123,26 @@ export async function POST(request: Request) {
         signal: controller.signal,
       });
       if (!res.ok) {
-        const text = await res.text().catch(() => '');
+        /**
+         * Le corps de la réponse amont est LU puis JOURNALISÉ côté serveur,
+         * jamais renvoyé.
+         *
+         * `detail` avait été retiré de la réponse (audit 2026-07-28) parce
+         * qu'il exposait jusqu'à 120 caractères de l'erreur INTERNE de
+         * l'application à un appelant anonyme. Mais la lecture était restée
+         * sans emploi : on payait le coût de lire le corps pour le jeter, et
+         * un 502 ne laissait plus AUCUNE trace exploitable. On perdait le
+         * diagnostic sans rien gagner de plus en confidentialité.
+         *
+         * Ici, le détail va dans les journaux du serveur — là où il est utile
+         * et où l'appelant ne le voit pas.
+         */
+        const detail = await res.text().catch(() => '');
+        console.error('[contact] relais amont en échec', {
+          status: res.status,
+          detail: detail.slice(0, 300),
+        });
         return NextResponse.json(
-          // `detail` retiré (audit 2026-07-28) : il exposait jusqu'à 120 caractères
-          // de la réponse d'erreur INTERNE de l'application à un appelant anonyme.
           { error: 'Envoi impossible pour le moment. Réessayez.' },
           { status: 502 },
         );

@@ -1,8 +1,11 @@
 import type { Locale } from './i18n';
+import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
 
 /**
  * URL d'essai self-serve (app produit). Le CTA primaire mène à un essai
- * RÉEL 14 jours sans carte — plus de gate bloquant côté marketing.
+ * RÉEL sans carte — plus de gate bloquant côté marketing. La DURÉE de
+ * l'essai n'est pas écrite ici : elle vit dans `src/lib/trial.ts`, seule
+ * source, parce qu'elle a deux bornes et qu'on n'en a longtemps écrit qu'une.
  * Override possible via NEXT_PUBLIC_APP_SIGNUP_URL.
  */
 export const APP_SIGNUP_URL =
@@ -92,7 +95,7 @@ const HERO_MAP = {
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
       { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
       { title: 'Local availability', lines: ['Verified store by store, near you'] },
-      { title: 'No card required', lines: ['Free 14-day trial', 'Cancel anytime'] },
+      { title: 'No card required', lines: [TRIAL_SHORT.en, 'Cancel anytime'] },
     ],
     variantA: {
       eyebrow: 'YOUR PERSONAL SOMMELIER',
@@ -101,11 +104,11 @@ const HERO_MAP = {
       subheadline:
         "Octave knows your cellar, your taste, every bottle's peak and where to find it near you — and turns it all into one decision: the right bottle, at the right moment.",
       categoryLine: 'Others organize your cellar. Octave tells you what to do with it.',
-      reassurance: '14 days free · No card · No cellar to enter',
+      reassurance: `${TRIAL_SHORT.en} · No card · No cellar to enter`,
       ctaHeroPrimary: 'Find what to drink tonight',
       ctaHeroSecondary: 'See Octave in action',
     },
-    ctaPrimary: 'Free Trial 14 Days',
+    ctaPrimary: TRIAL_CTA.en,
   },
   fr: {
     tagline: 'Votre sommelier personnel.',
@@ -113,7 +116,7 @@ const HERO_MAP = {
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
       { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },
       { title: 'Disponibilité locale', lines: ['Vérifiée magasin par magasin, près de vous'] },
-      { title: 'Aucune carte requise', lines: ['Essai gratuit 14 jours', 'Annulable en tout temps'] },
+      { title: 'Aucune carte requise', lines: [TRIAL_SHORT.fr, 'Annulable en tout temps'] },
     ],
     variantA: {
       eyebrow: 'VOTRE SOMMELIER PERSONNEL',
@@ -122,11 +125,11 @@ const HERO_MAP = {
       subheadline:
         "Octave connaît votre cave, votre palais, l'apogée de chaque bouteille et où la trouver près de vous — et transforme tout ça en une décision : la bonne bouteille, au bon moment.",
       categoryLine: 'Les autres rangent votre cave. Octave vous dit quoi en faire.',
-      reassurance: '14 jours gratuits · Sans carte · Aucune cave à saisir',
+      reassurance: `${TRIAL_SHORT.fr} · Sans carte · Aucune cave à saisir`,
       ctaHeroPrimary: 'Trouver quoi boire ce soir',
       ctaHeroSecondary: 'Voir Octave en action',
     },
-    ctaPrimary: 'Essai gratuit 14 jours',
+    ctaPrimary: TRIAL_CTA.fr,
   },
 };
 

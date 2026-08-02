@@ -7,7 +7,7 @@ import { FleurDeLys } from '@/components/ui/brand-icons';
 
 /**
  * Cartouche de confiance hero — 4 piliers dans une boîte arrondie bordée
- * alignée sur la largeur du contenu (flush CTA « 14 jours » → bord droit
+ * alignée sur la largeur du contenu (flush CTA d’essai → bord droit
  * de la démo Sommelier iQWine ; demande Eric 2026-06-11) : icône or à
  * gauche + titre gras + deux sous-lignes muted, séparés par des filets
  * verticaux (desktop). Ordre fixe aligné sur HERO_MAP.trust :

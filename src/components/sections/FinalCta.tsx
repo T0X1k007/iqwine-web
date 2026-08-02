@@ -6,6 +6,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
 
 /**
  * FinalCta, clôture plein écran, dernier point de conversion. Un seul bouton,
@@ -36,14 +37,14 @@ export default function FinalCta() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'final' })}
             >
               <Button variant="cta" size="lg">
-                {t('Essai gratuit 14 jours', 'Free Trial 14 Days')}
+                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
             <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t(
-                '14 jours gratuits · Sans carte · Résiliable en un geste',
-                '14 free days · No card · Cancel anytime',
+                `${TRIAL_SHORT.fr} · Sans carte · Résiliable en un geste`,
+                `${TRIAL_SHORT.en} · No card · Cancel anytime`,
               )}
             </p>
           </div>

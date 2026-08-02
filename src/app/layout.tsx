@@ -5,6 +5,7 @@ import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import './globals.css';
+import { TRIAL_SHORT } from '@/lib/trial';
 
 /**
  * Fonts via next/font/google : auto-self-host, auto-preload critique,
@@ -85,11 +86,11 @@ export const metadata: Metadata = {
   ),
   title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
   description:
-    'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la disponibilité locale, magasin par magasin. Essai 14 jours, sans carte.',
+    `Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la disponibilité locale, magasin par magasin. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
   openGraph: {
     title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
     description:
-      'Recommande depuis votre cave, la disponibilité locale (magasin par magasin) ou les deux. Scan de carte et d\'étiquette, profil de goût qui apprend. Essai 14 jours, sans carte.',
+      `Recommande depuis votre cave, la disponibilité locale (magasin par magasin) ou les deux. Scan de carte et d'étiquette, profil de goût qui apprend. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
     type: 'website',
     locale: 'fr_CA',
     siteName: 'iQWine',
@@ -98,7 +99,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
     description:
-      'Quoi ouvrir ce soir ? Où l\'acheter près de vous ? Votre sommelier IA le sait. Essai 14 jours, sans carte.',
+      `Quoi ouvrir ce soir ? Où l'acheter près de vous ? Votre sommelier IA le sait. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   robots: {
     index: true,
