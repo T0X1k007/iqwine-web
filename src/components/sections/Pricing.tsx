@@ -146,7 +146,7 @@ const COPY: Record<PlanId, PlanCopy> = {
         fr: `Plus de liberté pour partager Octave avec les vôtres — ${utilisateursInclus("famille")} personnes, chacun son palais`,
         en: `More freedom to share Octave with your household — ${utilisateursInclus("famille")} people, each their own palate`,
       },
-      { fr: "Plus de liberté pour recevoir toutes les semaines, sans compter les interactions d’Octave", en: "More freedom to host every week, without counting your Octave interactions" },
+      { fr: "Plus de liberté pour recevoir toutes les semaines, sans compter vos interactions mensuelles avec Octave", en: "More freedom to host every week, without counting your monthly Octave interactions" },
       // RETIRÉ (D6, 2026-07-16) — « Vos recommandations passent devant » est
       // « Priorité à Octave » REFORMULÉE : aucune file prioritaire n'existe, ni
       // n'a jamais existé. Retirée du comparatif ET d'ici. Remplacée par la
