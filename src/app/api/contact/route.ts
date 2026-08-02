@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 /**
  * POST /api/contact — formulaire « Contactez-nous / Démonstration / Partenariat »
- * du site iqwine.ca. Forward best-effort vers l'app cellier-vin
+ * du site iqwine.ai. Forward best-effort vers l'app cellier-vin
  * (POST /api/contact) qui persiste la demande + notifie l'admin. Aucune adresse
  * courriel publique exposée.
  *
@@ -12,7 +12,11 @@ import { NextResponse } from 'next/server';
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 // Catégories SITE acceptées (alignées sur l'app cellier-vin).
 const ALLOWED_CATEGORIES = new Set(['CONTACT', 'DEMO', 'PARTNERSHIP', 'BETA']);
-const IQWINE_APP_URL = process.env.IQWINE_APP_URL || 'https://app.iqwine.ca';
+// Bascule du 2026-08-02. Un POST vers l'ancien hôte survivrait au 308 (qui
+// préserve la méthode et le corps), mais il traverserait une redirection à
+// chaque envoi de formulaire — et le jour où elle tombera, le formulaire de
+// contact cessera de fonctionner sans qu'aucun test ne l'annonce.
+const IQWINE_APP_URL = process.env.IQWINE_APP_URL || 'https://app.iqwine.ai';
 const FORWARD_TIMEOUT_MS = 4000;
 const LIMITS = { name: 200, email: 254, message: 5000, maxBodyBytes: 16 * 1024 } as const;
 

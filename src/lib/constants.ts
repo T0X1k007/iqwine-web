@@ -9,14 +9,14 @@ import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
  * Override possible via NEXT_PUBLIC_APP_SIGNUP_URL.
  */
 export const APP_SIGNUP_URL =
-  process.env.NEXT_PUBLIC_APP_SIGNUP_URL || 'https://app.iqwine.ca/signup';
+  process.env.NEXT_PUBLIC_APP_SIGNUP_URL || 'https://app.iqwine.ai/signup';
 
 /**
  * URL de connexion (app produit) pour les utilisateurs existants.
  * Override possible via NEXT_PUBLIC_APP_LOGIN_URL.
  */
 export const APP_LOGIN_URL =
-  process.env.NEXT_PUBLIC_APP_LOGIN_URL || 'https://app.iqwine.ca/login';
+  process.env.NEXT_PUBLIC_APP_LOGIN_URL || 'https://app.iqwine.ai/login';
 
 /**
  * Construit l'URL d'essai en propageant l'attribution vers l'app (cross-domain) :

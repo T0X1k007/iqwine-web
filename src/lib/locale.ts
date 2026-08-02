@@ -158,15 +158,19 @@ export function negotiateLocale(acceptLanguage: string | null | undefined): Loca
 /**
  * L'origine canonique du site.
  *
- * ── Préparée pour la bascule vers `iqwine.ai` ─────────────────────────────
- * Elle est lue depuis l'environnement, en un seul endroit. Le jour de la
- * migration, changer `NEXT_PUBLIC_SITE_URL` déplace ENSEMBLE les canonicals,
- * les `hreflang`, le sitemap, les données structurées et les redirections —
- * ce qui est exactement ce qu'il faut pour que domaine et langue changent en
- * UNE opération, sans chaîne de redirections intermédiaire.
+ * ── La bascule a EU LIEU le 2026-08-02 ────────────────────────────────────
+ * Elle est lue depuis l'environnement, en un seul endroit — et c'est ce qui a
+ * permis de déplacer ENSEMBLE les canonicals, les `hreflang`, le sitemap, les
+ * données structurées et les redirections, en une opération.
+ *
+ * Le repli suit maintenant la variable : `https://iqwine.ai`, **l'apex**, pas
+ * `www.` — depuis la bascule, c'est `www.` qui redirige vers l'apex, et non
+ * l'inverse. Laisser l'ancienne valeur ferait annoncer un domaine mort partout
+ * où la variable manque, sans qu'aucun build n'échoue : la panne la plus chère
+ * d'une migration est celle qui a l'air d'avoir réussi.
  */
 export const SITE_ORIGIN = (
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iqwine.ca'
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://iqwine.ai'
 ).replace(/\/$/, '');
 
 /** URL absolue et canonique d'un chemin nu, dans une langue. */

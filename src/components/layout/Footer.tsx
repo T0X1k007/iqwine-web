@@ -26,12 +26,19 @@ export default function Footer() {
     { label: t('Tarifs', 'Pricing'), href: '/#tarifs' },
     { label: t('Comparatif', 'Comparison'), href: '/#comparatif' },
     { label: t('Questions fréquentes', 'FAQ'), href: '/#faq' },
-    // Liens entrants SEO vers la vitrine publique de l'app (P24) — liens suivis
-    // (pas de nofollow), pointant vers app.iqwine.ca (domaine porteur du contenu).
-    { label: t('Apprendre le vin', 'Learn wine'), href: 'https://app.iqwine.ca/apprendre' },
+    // Deux pages de contenu servies par l'application (P24). Le domaine suit la
+    // bascule du 2026-08-02 : `app.iqwine.ca` redirige, mais un lien de pied de
+    // page vit des années et ne doit pas dépendre d'une redirection.
+    //
+    // Le commentaire d'origine les présentait comme des « liens entrants SEO ».
+    // Mesuré le 2026-08-02, les deux répondent `x-robots-tag: noindex, nofollow`
+    // — l'application entière est fermée aux moteurs, et c'est voulu. Ce sont
+    // donc des liens pour des HUMAINS, pas un levier de référencement : ne pas
+    // les compter comme tel en jugeant le SEO du site.
+    { label: t('Apprendre le vin', 'Learn wine'), href: 'https://app.iqwine.ai/apprendre' },
     {
       label: t('Octave vérifiable', 'Verifiable Octave'),
-      href: 'https://app.iqwine.ca/octave-verifiable',
+      href: 'https://app.iqwine.ai/octave-verifiable',
     },
   ];
 
