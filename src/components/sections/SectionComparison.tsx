@@ -130,6 +130,11 @@ export default function SectionComparison() {
                     return (
                       <th
                         key={tool.en}
+                        // `scope` EXPLICITE : sans lui, un lecteur d'écran ne
+                        // sait pas si cette cellule titre une colonne ou une
+                        // ligne, et n'annonce donc AUCUN en-tête en lisant les
+                        // données. Lighthouse le signalait en `td-has-header`.
+                        scope="col"
                         className={`p-3 sm:p-4 text-center font-[family-name:var(--font-display)] text-base sm:text-lg align-bottom ${
                           isUs
                             ? 'text-or border-t border-x border-or/30 rounded-t-xl bg-or/[0.06]'
@@ -145,8 +150,14 @@ export default function SectionComparison() {
               <tbody>
                 {ROWS.map((row, ri) => (
                   <tr key={row.feature.en} className="border-t border-border">
-                    <td
-                      className={`p-3 sm:p-4 iq-small ${
+                    {/* En-tête de LIGNE, pas une cellule de données : c'est
+                        le nom de la fonctionnalité comparée. Sans lui, les
+                        « ✓ » et « — » des colonnes se lisent sans qu'on sache
+                        de quoi ils parlent — l'information du tableau tient
+                        justement dans le croisement des deux. */}
+                    <th
+                      scope="row"
+                      className={`p-3 sm:p-4 iq-small text-left font-normal ${
                         row.exclusive
                           ? 'text-or font-semibold'
                           : 'text-foreground-dim'
@@ -158,7 +169,7 @@ export default function SectionComparison() {
                         </span>
                       )}
                       {row.feature[locale]}
-                    </td>
+                    </th>
                     {row.cells.map((cell, ci) => {
                       const isUs = ci === 0;
                       const last = ri === ROWS.length - 1;

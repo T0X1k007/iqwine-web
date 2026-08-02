@@ -69,7 +69,18 @@ export default function Navbar() {
     >
       <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 lg:h-28">
         {/* Logo lockup — image officielle + wordmark + tagline */}
-        <LocaleLink href="/" aria-label="Accueil iQWine" className="flex items-center gap-3">
+        {/* `aria-label` RETIRÉ, il nuisait au lieu d'aider.
+         *
+         * Le lien contient déjà son texte : « iQWine » et sa signature. Poser
+         * `aria-label="Accueil iQWine"` REMPLACE ce texte par une chaîne qui ne
+         * le contient pas — Lighthouse le signale en
+         * `label-content-name-mismatch`, et la conséquence est concrète : une
+         * personne qui pilote au contrôle vocal dit ce qu'elle VOIT
+         * (« iQWine »), et rien ne se passe, parce que le nom accessible est
+         * « Accueil iQWine ».
+         *
+         * Sans attribut, le nom accessible redevient le texte visible. */}
+        <LocaleLink href="/" className="flex items-center gap-3">
           <Logo size={60} className="lg:hidden" />
           <Logo size={80} className="hidden lg:block" />
           <span className="flex flex-col">

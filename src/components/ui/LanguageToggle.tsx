@@ -70,7 +70,11 @@ export default function LanguageToggle() {
             lang={BCP47[l]}
             className={`px-2.5 py-1.5 transition-colors duration-[140ms] ease-[cubic-bezier(.2,.8,.2,1)] ${
               actif
-                ? 'bg-or text-primary-foreground'
+                ? // Même défaut que les boutons dorés : l'ivoire sur l'or ne
+                  // donnait que 1,68 de contraste, pour 4,5 exigés — et ici sur
+                  // du 11 px, la taille la plus fragile de la page. `on-gold`
+                  // porte le ratio à 9,8.
+                  'bg-or text-on-gold'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >

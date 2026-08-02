@@ -124,10 +124,21 @@ export default function DemoPhone({
             </div>
 
             {/* Identité */}
-            <h4 className="mt-2.5 font-[family-name:var(--font-display)] text-foreground text-xl leading-tight">
+            {/* `h3`, et non `h4`.
+             *
+             * Ce titre suit directement un `h2` de section : sauter au `h4`
+             * créait un niveau fantôme. Un lecteur d'écran qui navigue de titre
+             * en titre annonce alors une sous-sous-section dont la
+             * sous-section n'existe pas, et l'utilisateur cherche ce qu'il a
+             * manqué.
+             *
+             * L'apparence ne bouge pas : la taille vient des classes, pas de la
+             * balise. C'est d'ailleurs pourquoi l'erreur avait pu passer —
+             * rien ne se voyait. */}
+            <h3 className="mt-2.5 font-[family-name:var(--font-display)] text-foreground text-xl leading-tight">
               {card.cuvee}
               {card.vintage ? <span className="text-or tabular-nums"> {card.vintage}</span> : null}
-            </h4>
+            </h3>
             <p className="text-foreground-dim text-[13px] mt-0.5">
               {card.producer} · {card.region}
             </p>
