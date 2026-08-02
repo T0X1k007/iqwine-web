@@ -11,7 +11,7 @@ const TEXTES = {
   en: {
     title: 'AI Sommelier — Octave | iQWine',
     description:
-      'Octave is not an AI feature: it is a personal sommelier that knows your cellar, your palate and what is available near you, and tells you which bottle to open tonight.',
+      'Octave is not an AI feature. It is a personal sommelier that knows your cellar, your palate and local stock, and says which bottle to open tonight.',
   },
 } as const;
 

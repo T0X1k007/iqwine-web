@@ -114,12 +114,20 @@ for (const p of ['/', '/tarifs', '/apogee']) {
     const canonical = corps.match(/<link rel="canonical" href="([^"]+)"/)?.[1] || '';
     const aFr = /hrefLang="fr-CA"/i.test(corps);
     const aEn = /hrefLang="en-CA"/i.test(corps);
-    const aDefault = /hrefLang="x-default"/i.test(corps);
     verifier(
-      `${chemin} canonical + 3 hreflang`,
-      canonical.endsWith(chemin) && aFr && aEn && aDefault,
+      `${chemin} canonical + hreflang fr/en`,
+      canonical.endsWith(chemin) && aFr && aEn,
       canonical,
     );
+
+    /**
+     * `x-default` doit rester NEUTRE : il désigne le chemin SANS langue, qui
+     * négocie. Y trouver `/fr` signifierait qu'on déclare le français comme
+     * réponse universelle — alors que ce n'est qu'un repli opérationnel.
+     */
+    const xd = corps.match(/hrefLang="x-default" href="([^"]+)"/i)?.[1] || '';
+    const neutre = !/\/(fr|en)(\/|$)/.test(new URL(xd).pathname);
+    verifier(`${chemin} x-default NEUTRE`, neutre, xd);
   }
 }
 
@@ -153,6 +161,12 @@ console.log('\n7. Sitemap bilingue, découvrable');
   const urls = (corps.match(/<loc>/g) || []).length;
   verifier('22 URL (11 pages × 2 langues)', urls === 22, `${urls} trouvées`);
   verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 22);
+  // Aucun `x-default` ne doit désigner une URL de langue dans le sitemap non plus.
+  const xdefaults = [...corps.matchAll(/hreflang="x-default" href="([^"]+)"/g)].map((m) => m[1]);
+  verifier(
+    'aucun x-default ne pointe vers /fr ou /en',
+    xdefaults.every((u) => !/\/(fr|en)(\/|$)/.test(new URL(u).pathname)),
+  );
   const robots = await html('/robots.txt');
   verifier('robots.txt annonce le sitemap', robots.corps.includes('/sitemap.xml'));
 }

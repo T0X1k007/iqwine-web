@@ -11,10 +11,10 @@ const TEXTES = {
     ogDescription: 'Octave compose la séquence de vins de votre soirée.',
   },
   en: {
-    title: 'Hosting — Every meal, its thread of wines | iQWine',
+    title: 'Entertaining — Every meal, its thread of wines | iQWine',
     description:
       'Guests at the table: Octave composes the wine sequence for your whole evening. The right wine, on the right dish, in the right order.',
-    ogTitle: 'Hosting — Every meal, its thread of wines',
+    ogTitle: 'Entertaining — Every meal, its thread of wines',
     ogDescription: 'Octave composes the wine sequence for your evening.',
   },
 } as const;

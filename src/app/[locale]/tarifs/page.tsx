@@ -10,7 +10,7 @@ const TEXTES = {
   },
   en: {
     title: 'Pricing — iQWine',
-    description: `Find the iQWine plan that fits you. Every plan starts with a free trial — ${TRIAL_SHORT.en} —, no card. Standard, Pro, Passionné — one for each profile.`,
+    description: `Find the plan that fits you. Every plan starts with a free trial: ${TRIAL_SHORT.en}, no card. Standard, Pro, Passionné — one per profile.`,
   },
 } as const;
 

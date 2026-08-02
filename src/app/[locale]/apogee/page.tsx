@@ -11,10 +11,10 @@ const TEXTES = {
     ogDescription: 'Octave veille sur l’apogée de chaque bouteille.',
   },
   en: {
-    title: 'Peak — Every bottle at its best | iQWine',
+    title: 'Drinking window — Every bottle at its best | iQWine',
     description:
       'Octave tracks each bottle’s drinking window: you open it at the right moment, never too early, never too late. Three states, one clear verdict.',
-    ogTitle: 'Peak — Every bottle at its best',
+    ogTitle: 'Drinking window — Every bottle at its best',
     ogDescription: 'Octave watches over each bottle’s drinking window.',
   },
 } as const;

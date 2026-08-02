@@ -26,9 +26,16 @@ export const LOCALES = ['fr', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 
 /**
- * Le français est le défaut : le produit est québécois, le marché d'origine
- * est francophone, et c'est ce que le site servait jusqu'ici. Un `x-default`
- * pointant vers le français est donc la vérité, pas une commodité.
+ * Le REPLI final de la négociation — pas la langue « par défaut du site ».
+ *
+ * La nuance est celle qu'Eric a tranchée. Le français est le repli
+ * OPÉRATIONNEL du lancement au Québec : c'est ce qu'on sert quand ni le
+ * souvenir, ni le profil, ni le navigateur ne disent rien. Ce n'est pas une
+ * propriété du site, et `x-default` ne le déclare donc PAS — il désigne la
+ * racine neutre, qui négocie.
+ *
+ * Le jour où l'anglais pèse davantage, changer cette ligne change le repli
+ * sans rien dire de faux aux moteurs entre-temps.
  */
 export const DEFAULT_LOCALE: Locale = 'fr';
 
@@ -49,11 +56,29 @@ export function isLocale(v: unknown): v is Locale {
 }
 
 /**
- * Le cookie qui mémorise un choix MANUEL.
+ * Le cookie de langue — MÊME NOM que celui de l'application.
  *
- * Il ne sert qu'à la redirection depuis la racine. Une fois sur `/fr/…` ou
- * `/en/…`, c'est l'URL qui décide — le cookie ne peut jamais contredire le
- * chemin, sinon on retomberait sur « deux langues sous une même URL ».
+ * ── Ce que ce partage de nom résout ──────────────────────────────────────
+ * L'application écrit `iqwine-locale` depuis `User.locale`, la langue du
+ * PROFIL. Dès que ce cookie porte un domaine couvrant les deux hôtes
+ * (`.iqwine.ai`), le site marketing le lit sans code supplémentaire : la
+ * priorité « langue du profil pour un utilisateur connecté » tombe d'elle-même.
+ *
+ * ── L'ordre réel, et pourquoi il vaut mieux qu'une cascade rigide ────────
+ * Les deux premières priorités d'Eric — choix mémorisé, puis langue du profil —
+ * écrivent le MÊME cookie. C'est donc le geste le plus RÉCENT qui l'emporte :
+ * changer sa langue dans l'application la propage au site, cliquer FR/EN sur le
+ * site l'emporte à son tour. Une cascade à quatre niveaux, elle, aurait figé
+ * une préséance et fait ignorer l'un des deux gestes selon l'ordre — sans
+ * jamais dire lequel.
+ *
+ * Viennent ensuite `Accept-Language`, puis le repli.
+ *
+ * ── Ce que le cookie ne fait JAMAIS ──────────────────────────────────────
+ * Il ne sert qu'à la redirection depuis un chemin sans langue. Une fois sur
+ * `/fr/…` ou `/en/…`, c'est l'URL qui décide : le cookie ne peut pas
+ * contredire le chemin, sinon on retomberait sur « deux langues sous une même
+ * URL ».
  */
 export const LOCALE_COOKIE = 'iqwine-locale';
 
@@ -152,9 +177,22 @@ export function absoluteUrl(rest: string, locale: Locale): string {
 /**
  * Le bloc `alternates` de Next : canonical + hreflang + x-default.
  *
- * `x-default` pointe vers le FRANÇAIS et non vers la racine : la racine
- * redirige, et déclarer une URL qui redirige comme `x-default` fait pointer les
- * moteurs vers un saut plutôt que vers une page.
+ * ── `x-default` pointe vers la RACINE, et c'est délibéré (décision d'Eric) ─
+ * Il désigne le point d'entrée NEUTRE : `https://iqwine.ai/`, qui négocie et
+ * oriente. Il ne désigne pas le français.
+ *
+ * La distinction n'est pas théorique. `x-default` répond à « quelle version
+ * servir à quelqu'un dont je ne sais pas la langue ? ». Y mettre le français
+ * répondrait « le français », ce qui est un repli OPÉRATIONNEL — vrai pour le
+ * lancement au Québec — et non une propriété du site. Le jour où l'anglais
+ * pèse davantage, la réponse changerait sans qu'aucune balise ne l'ait dit.
+ *
+ * ── Et pourquoi une URL qui REDIRIGE est ici correcte ────────────────────
+ * Un `canonical` ne doit jamais pointer vers une redirection — il désigne LA
+ * page, et un saut n'est pas une page. `x-default` désigne au contraire un
+ * comportement : Google documente explicitement la page qui détecte et
+ * redirige comme son cas d'usage. Les deux règles se contrediraient si elles
+ * répondaient à la même question ; elles n'y répondent pas.
  */
 export function alternatesFor(rest: string, locale: Locale) {
   return {
@@ -162,7 +200,10 @@ export function alternatesFor(rest: string, locale: Locale) {
     languages: {
       'fr-CA': absoluteUrl(rest, 'fr'),
       'en-CA': absoluteUrl(rest, 'en'),
-      'x-default': absoluteUrl(rest, DEFAULT_LOCALE),
+      // La racine du CHEMIN, sans langue : `/tarifs` pour la page tarifs,
+      // `/` pour l'accueil. Chacune a son propre point d'entrée neutre, qui
+      // négocie et redirige vers la bonne langue de CETTE page.
+      'x-default': `${SITE_ORIGIN}${rest === '/' ? '/' : rest}`,
     },
   };
 }

@@ -90,8 +90,8 @@ const TEXTES_ACCUEIL = {
     ogDescription: `Recommande depuis votre cave, la disponibilité locale (magasin par magasin) ou les deux. Scan de carte et d'étiquette, profil de goût qui apprend. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
-    title: 'iQWine — Your AI sommelier: cellar, local availability, restaurant',
-    description: `The AI sommelier that knows what to open, what to buy and what to order. It knows your taste, your cellar and what is in stock near you, store by store. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    title: 'iQWine — Your AI sommelier for cellar and restaurant',
+    description: `Knows what to open, what to buy, what to order — from your taste, your cellar and local stock. Free trial: ${TRIAL_SHORT.en}, no card.`,
     ogTitle: 'iQWine — Your AI sommelier: cellar, local availability, restaurant',
     ogDescription: `Recommends from your cellar, from local availability (store by store), or both. Wine-list and label scanning, a taste profile that learns. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
