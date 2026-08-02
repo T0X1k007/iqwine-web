@@ -20,11 +20,27 @@
 
 export const dynamic = 'force-dynamic';
 
-export function GET(): Response {
+export function GET(request: Request): Response {
   const key = process.env.INDEXNOW_KEY;
   if (!key || key.length < 8) {
     return new Response('IndexNow non configuré', { status: 404 });
   }
+
+  // ── LA CLÉ N'EST SERVIE QU'À SON PROPRE NOM DE FICHIER ──────────────────
+  //
+  // La réécriture (`next.config.ts`) mappe `/<quelquechose>.txt` ici. Sans ce
+  // contrôle, `/nimportequoi.txt` révélerait la clé — et le protocole repose
+  // entièrement sur le fait que seul le propriétaire du domaine sait à QUELLE
+  // adresse elle se trouve.
+  //
+  // Le paramètre est absent quand la route est appelée en direct
+  // (`/api/indexnow-key`) : on tolère ce chemin, il ne sert qu'au diagnostic
+  // et n'expose rien de plus que la réécriture correcte.
+  const demandee = new URL(request.url).searchParams.get('k');
+  if (demandee !== null && demandee !== key) {
+    return new Response('Not found', { status: 404 });
+  }
+
   return new Response(key, {
     headers: {
       'content-type': 'text/plain; charset=utf-8',

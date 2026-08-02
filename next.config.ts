@@ -59,6 +59,37 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  /**
+   * ── INDEXNOW : LE FICHIER DE CLÉ DOIT VIVRE À LA RACINE ──────────────────
+   *
+   * Le protocole exige de prouver qu'on contrôle le domaine en servant, à
+   * `https://iqwine.ai/<clé>.txt`, un fichier dont le CONTENU est la clé.
+   * L'adresse fait partie de la preuve : Bing va chercher là, et nulle part
+   * ailleurs.
+   *
+   * La route existait, mais sous `/api/indexnow-key` — donc introuvable pour
+   * le moteur, et de surcroît sous un chemin que notre `robots.txt` interdit.
+   * Elle était prête et inatteignable ; c'est le genre d'écart qui se raconte
+   * comme « IndexNow est fait ».
+   *
+   * ── Pourquoi la clé est passée en paramètre ────────────────────────────
+   * Sans elle, la réécriture servirait le même contenu pour n'importe quel nom
+   * de fichier : `/nimportequoi.txt` révélerait la clé. La route compare donc
+   * ce qui est demandé à ce qu'elle connaît, et ne répond que s'ils coïncident.
+   *
+   * Le motif est borné (8 à 128 caractères alphanumériques) pour ne pas
+   * intercepter d'autres `.txt` — `robots.txt` et `llms.txt` gardent leurs
+   * propres routes, et le motif ne les capture pas.
+   */
+  async rewrites() {
+    return [
+      {
+        source: '/:cle([A-Za-z0-9]{8,128}).txt',
+        destination: '/api/indexnow-key?k=:cle',
+      },
+    ];
+  },
+
   async redirects() {
     /**
      * ── LES ANCIENNES URL VERS LES NOUVELLES — EN UN SEUL SAUT ────────────
