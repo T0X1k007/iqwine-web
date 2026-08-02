@@ -1,4 +1,4 @@
-import { PLANS, formatPriceCad, maxBottlesLabel, type MarketingPlan } from '@/lib/plans';
+import { PLANS, formatPriceCad, maxBottlesLabel, planLabel } from '@/lib/plans';
 import { FAQ } from '@/lib/faq';
 import { TRIAL_DAYS, TRIAL_FULL } from '@/lib/trial';
 import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
@@ -30,13 +30,7 @@ import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
 
 const SITE = SITE_ORIGIN;
 
-/** Nom commercial d'un forfait, tel qu'affiché. */
-const NOM_FORFAIT: Record<MarketingPlan['id'], string> = {
-  gratuit: 'Gratuit',
-  standard: 'Standard',
-  pro: 'Pro',
-  famille: 'Passionné',
-};
+
 
 /**
  * L'organisation, enrichie.
@@ -78,7 +72,8 @@ export function organizationLd(locale: Locale) {
 export function softwareApplicationLd(locale: Locale) {
   const offres = PLANS.map((p) => ({
     '@type': 'Offer',
-    name: NOM_FORFAIT[p.id],
+    // Le libellé LOCALISÉ — le balisage doit refléter ce que la page affiche.
+    name: planLabel(p.id, locale),
     price: formatPriceCad(p.priceMonthlyCents, 'en'),
     priceCurrency: 'CAD',
     availability: 'https://schema.org/InStock',

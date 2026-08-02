@@ -6,11 +6,11 @@ import { TRIAL_SHORT } from '@/lib/trial';
 const TEXTES = {
   fr: {
     title: 'Tarifs — iQWine',
-    description: `Trouvez la formule iQWine faite pour vous. Chaque plan commence par un essai gratuit — ${TRIAL_SHORT.fr} —, sans carte. Standard, Pro, Passionné — chacun son profil.`,
+    description: `Trouvez la formule faite pour vous. Chaque plan commence par un essai : ${TRIAL_SHORT.fr}, sans carte. Standard, Pro, Passionné.`,
   },
   en: {
     title: 'Pricing — iQWine',
-    description: `Find the plan that fits you. Every plan starts with a free trial: ${TRIAL_SHORT.en}, no card. Standard, Pro, Passionné — one per profile.`,
+    description: `Find the plan that fits you. Every plan starts with a free trial: ${TRIAL_SHORT.en}, no card. Standard, Pro, Enthusiast — one per profile.`,
   },
 } as const;
 

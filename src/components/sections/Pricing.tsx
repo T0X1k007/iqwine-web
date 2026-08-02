@@ -26,7 +26,12 @@ import {
  */
 
 interface PlanCopy {
-  name: string;
+  /**
+   * Le nom AFFICHÉ, par langue. Il était un `string` unique — ce qui rendait
+   * impossible de localiser « Passionné » sans en faire un cas particulier.
+   * Tout est bilingue, donc rien n'est une exception.
+   */
+  name: Record<'fr' | 'en', string>;
   tagline: Record<Locale, string>;
   features: Array<Record<Locale, string>>;
 }
@@ -36,7 +41,7 @@ const COPY: Record<PlanId, PlanCopy> = {
   // vit dans le comparatif, avec ses vrais chiffres. Miroir exact de l'app, qui
   // l'affiche aussi en bloc, jamais en bouton de paiement.
   gratuit: {
-    name: "Gratuit",
+    name: { fr: 'Gratuit', en: 'Free' },
     tagline: {
       fr: "Votre cave, pour toujours.",
       en: "Your cellar, forever.",
@@ -49,7 +54,7 @@ const COPY: Record<PlanId, PlanCopy> = {
     ],
   },
   standard: {
-    name: "Standard",
+    name: { fr: 'Standard', en: 'Standard' },
     tagline: {
       fr: "La cave vivante — l’amateur, sa cave personnelle.",
       en: "The living cellar — the wine lover, a personal cellar.",
@@ -63,7 +68,7 @@ const COPY: Record<PlanId, PlanCopy> = {
     ],
   },
   pro: {
-    name: "Pro",
+    name: { fr: 'Pro', en: 'Pro' },
     tagline: {
       fr: "La veille — l’habitué, un usage régulier, une plus grande cave.",
       en: "The watch — the regular, frequent use, a larger cellar.",
@@ -81,7 +86,9 @@ const COPY: Record<PlanId, PlanCopy> = {
     ],
   },
   famille: {
-    name: "Passionné",
+    // Le seul forfait dont le nom est localisé : « Passionné » / « Enthusiast ».
+    // Même identifiant, même priceId, même accès — seul le mot affiché change.
+    name: { fr: 'Passionné', en: 'Enthusiast' },
     tagline: {
       fr: "Le foyer & le patrimoine — plusieurs palais, une cave partagée.",
       en: "The household & the collection — several palates, one shared cellar.",
@@ -282,7 +289,7 @@ function PlanCard({
 
       <div className="mb-6">
         <h3 className="font-[family-name:var(--font-display)] italic text-3xl sm:text-4xl text-foreground mb-2 tracking-[-0.01em]">
-          {copy.name}
+          {copy.name[locale]}
         </h3>
         <p className="iq-small text-foreground-dim sm:min-h-[2.75rem]">{copy.tagline[locale]}</p>
       </div>
@@ -377,7 +384,7 @@ function PlanCard({
             size="lg"
             className="w-full"
           >
-            {t(`Choisir ${copy.name}`, `Choose ${copy.name}`)}
+            {t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
             <ArrowRight size={16} strokeWidth={1.75} />
           </Button>
         </a>

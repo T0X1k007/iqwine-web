@@ -9,7 +9,7 @@ import Pricing from '@/components/sections/Pricing';
 import SectionFaq from '@/components/sections/SectionFaq';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
-import { PLANS, FREE_PLAN, formatPriceCad, type MarketingPlan } from '@/lib/plans';
+import { PLANS, FREE_PLAN, formatPriceCad, planLabel, type MarketingPlan } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { TRIAL_CTA, TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
 
@@ -32,8 +32,8 @@ const POSITIONS: { fr: [string, string]; en: [string, string]; highlight?: boole
     highlight: true,
   },
   {
-    fr: ['Passionné', 'Plusieurs utilisateurs, plusieurs palais, une cave partagée.'],
-    en: ['Passionné', 'Several users, several palates, one shared cellar.'],
+    fr: [planLabel('famille', 'fr'), 'Plusieurs utilisateurs, plusieurs palais, une cave partagée.'],
+    en: [planLabel('famille', 'en'), 'Several users, several palates, one shared cellar.'],
   },
 ];
 
@@ -140,12 +140,19 @@ const COMPARE_FEATURES: {
   // était le dernier endroit où cette promesse survivait.
 ];
 
-const PLAN_NAMES: Record<string, string> = {
-  gratuit: 'Gratuit',
-  standard: 'Standard',
-  pro: 'Pro',
-  famille: 'Passionné',
-};
+/**
+ * Les noms de forfaits, LOCALISÉS.
+ *
+ * C'était une table figée en français. Depuis la décision d'Eric, `famille`
+ * s'affiche « Passionné » ou « Enthusiast » selon la langue — un LIBELLÉ, pas
+ * un second produit : l'identifiant, le priceId et l'accès sont identiques.
+ */
+const planNames = (locale: 'fr' | 'en'): Record<string, string> => ({
+  gratuit: planLabel('gratuit', locale),
+  standard: planLabel('standard', locale),
+  pro: planLabel('pro', locale),
+  famille: planLabel('famille', locale),
+});
 
 /** Colonnes du comparatif : la porte gratuite EN TÊTE, puis les 3 vendables. */
 const COMPARE_COLUMNS: MarketingPlan[] = [FREE_PLAN, ...PLANS];
@@ -342,7 +349,7 @@ export default function TarifsContent() {
                         key={p.id}
                         className={`p-4 text-center font-[family-name:var(--font-display)] italic text-lg ${p.highlight ? 'text-or' : 'text-foreground'}`}
                       >
-                        {PLAN_NAMES[p.id]}
+                        {planNames(locale)[p.id]}
                         {p.highlight && (
                           <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
                             {t('Populaire', 'Popular')}

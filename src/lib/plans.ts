@@ -150,3 +150,32 @@ export function annualSavingsCents(plan: MarketingPlan): number {
 export function monthlyEquivalentCents(plan: MarketingPlan): number {
   return Math.round(plan.priceYearlyCents / 12);
 }
+
+/**
+ * LE LIBELLÉ D'UN FORFAIT — localisé, pour UNE seule identité (Eric 2026-08-02).
+ *
+ * `famille` s'affiche « Passionné » en français et « Enthusiast » en anglais.
+ * C'est un LIBELLÉ, rien d'autre : l'identifiant reste `famille`, le `priceId`
+ * Stripe reste le même, l'accès est identique. Il n'y a **pas** deux produits.
+ *
+ * ── La limite Stripe, vérifiée dans le SDK et non supposée ────────────────
+ * `Product.name` est un `string` unique : aucun champ de variante linguistique.
+ * Le paramètre `locale` d'une session Checkout ou du portail client localise
+ * l'interface DE STRIPE — « the locale the Customer Portal is displayed IN » —
+ * pas le contenu fourni par le marchand.
+ *
+ * Les surfaces Stripe afficheront donc UN seul nom. Dupliquer le produit pour
+ * contourner cela coûterait deux historiques d'abonnement, deux rapports de
+ * revenus et deux jeux de price IDs — pour un mot. Voir
+ * `docs/libelle-forfait-localise.md`.
+ */
+const PLAN_LABELS: Record<PlanId, Record<'fr' | 'en', string>> = {
+  gratuit: { fr: 'Gratuit', en: 'Free' },
+  standard: { fr: 'Standard', en: 'Standard' },
+  pro: { fr: 'Pro', en: 'Pro' },
+  famille: { fr: 'Passionné', en: 'Enthusiast' },
+};
+
+export function planLabel(id: PlanId, locale: 'fr' | 'en'): string {
+  return PLAN_LABELS[id][locale];
+}

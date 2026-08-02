@@ -84,8 +84,8 @@ const BASE_METADATA: Metadata = {
  */
 const TEXTES_ACCUEIL = {
   fr: {
-    title: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
-    description: `Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander. Il connaît vos goûts, votre cave et la disponibilité locale, magasin par magasin. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
+    title: 'iQWine — Votre sommelier IA : cave, magasin, restaurant',
+    description: `Quoi ouvrir, quoi acheter, quoi commander — d'après vos goûts, votre cave et le stock local. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
     ogTitle: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
     ogDescription: `Recommande depuis votre cave, la disponibilité locale (magasin par magasin) ou les deux. Scan de carte et d'étiquette, profil de goût qui apprend. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
   },

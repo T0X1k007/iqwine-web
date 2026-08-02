@@ -6,7 +6,7 @@ const TEXTES = {
   fr: {
     title: 'Sommelier IA — Octave | iQWine',
     description:
-      'Octave n’est pas une fonctionnalité IA : c’est un sommelier personnel qui connaît votre cave, votre palais et la disponibilité locale, et vous dit quelle bouteille ouvrir ce soir.',
+      'Octave n’est pas une fonctionnalité IA. C’est un sommelier personnel qui connaît votre cave, votre palais et le stock local, et dit quoi ouvrir ce soir.',
   },
   en: {
     title: 'AI Sommelier — Octave | iQWine',
