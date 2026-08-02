@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import HomeClient from '@/components/home/HomeClient';
 
 /**
@@ -17,12 +16,19 @@ import HomeClient from '@/components/home/HomeClient';
  * le client fait le rendu. Aucun changement de comportement, aucun changement
  * de rendu — seulement la métadonnée qui manquait.
  *
- * `title`/`description` restent hérités du layout (ils y sont déjà justes) :
- * on n'ajoute ICI que ce qui manquait, pour ne pas dupliquer une source.
+ * ── Et pourquoi il n'exporte plus de métadonnées (MFP-09) ────────────────
+ * Il posait `alternates: { canonical: '/' }`. C'était juste tant qu'il n'y
+ * avait qu'une seule accueil ; depuis que chaque langue a la sienne, ce
+ * canonical en dur ÉCRASAIT celui du layout et faisait déclarer aux deux pages
+ * la même URL racine — celle-là même qui redirige.
+ *
+ * Une page qui se déclare canonique vers une redirection disparaît de l'index
+ * en désignant elle-même sa remplaçante. Et rien ne l'aurait signalé : la page
+ * s'affiche parfaitement.
+ *
+ * Le layout produit désormais titre, description, canonical, `hreflang` et
+ * Open Graph pour l'accueil de chaque langue. Ce fichier n'a plus rien à dire.
  */
-export const metadata: Metadata = {
-  alternates: { canonical: '/' },
-};
 
 export default function Home() {
   return <HomeClient />;

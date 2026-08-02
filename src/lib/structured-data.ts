@@ -1,6 +1,7 @@
 import { PLANS, formatPriceCad, maxBottlesLabel, type MarketingPlan } from '@/lib/plans';
 import { FAQ } from '@/lib/faq';
 import { TRIAL_DAYS, TRIAL_FULL } from '@/lib/trial';
+import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
 
 /**
  * DONNÉES STRUCTURÉES — dérivées des sources typées, jamais écrites à la main.
@@ -16,17 +17,18 @@ import { TRIAL_DAYS, TRIAL_FULL } from '@/lib/trial';
  * prix affiché n'est pas seulement inexact, il rend la page inéligible aux
  * résultats enrichis. La dérivation est donc la condition, pas le confort.
  *
- * ── Une seule langue, et il faut le dire ──────────────────────────────────
- * Le site choisit sa langue côté CLIENT (`localStorage`, appliqué après le
- * montage). Un robot ne voit donc jamais que le rendu par défaut : le français.
- * Ces données sont produites en français et déclarées `fr-CA`, ce qui est la
- * vérité de ce qui est servi.
+ * ── Une langue par URL, et le balisage suit ───────────────────────────────
+ * Depuis que chaque langue a ses propres URL, ce module PRODUIT le graphe dans
+ * la langue demandée : les descriptions, la langue déclarée et les liens
+ * pointent tous vers la version servie.
  *
- * Tant que l'anglais n'a pas ses propres URL, poser des `hreflang` serait
- * déclarer des variantes qui n'existent pas — pire que leur absence.
+ * Servir un balisage français sous une URL anglaise ferait décrire la page par
+ * autre chose que ce qu'elle est — et Google exige que le balisage corresponde
+ * au contenu VISIBLE. Ce n'est donc pas un raffinement : c'est la condition
+ * d'éligibilité.
  */
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iqwine.ca';
+const SITE = SITE_ORIGIN;
 
 /** Nom commercial d'un forfait, tel qu'affiché. */
 const NOM_FORFAIT: Record<MarketingPlan['id'], string> = {
@@ -43,7 +45,7 @@ const NOM_FORFAIT: Record<MarketingPlan['id'], string> = {
  * réel, la zone desservie et la langue — trois faits qu'un assistant reprend
  * volontiers et qu'aucune autre source de la page ne porte.
  */
-export function organizationLd() {
+export function organizationLd(locale: Locale) {
   return {
     '@type': 'Organization',
     '@id': `${SITE}/#organization`,
@@ -52,13 +54,15 @@ export function organizationLd() {
     url: SITE,
     logo: `${SITE}/icon.png`,
     description:
-      'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander.',
+      locale === 'en'
+        ? 'The AI sommelier that knows what to open, what to buy and what to order.'
+        : 'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander.',
     areaServed: { '@type': 'AdministrativeArea', name: 'Québec, Canada' },
     knowsLanguage: ['fr-CA', 'en-CA'],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
-      url: `${SITE}/contact`,
+      url: absoluteUrl('/contact', locale),
       availableLanguage: ['fr', 'en'],
     },
   };
@@ -71,14 +75,14 @@ export function organizationLd() {
  * type porte des propriétés que `Product` n'a pas (catégorie d'application,
  * plateforme). L'essai est déclaré par sa VRAIE règle — les deux bornes.
  */
-export function softwareApplicationLd() {
+export function softwareApplicationLd(locale: Locale) {
   const offres = PLANS.map((p) => ({
     '@type': 'Offer',
     name: NOM_FORFAIT[p.id],
     price: formatPriceCad(p.priceMonthlyCents, 'en'),
     priceCurrency: 'CAD',
     availability: 'https://schema.org/InStock',
-    url: `${SITE}/tarifs`,
+    url: absoluteUrl('/tarifs', locale),
     // La périodicité, sans quoi « 14.95 » ne veut rien dire.
     priceSpecification: {
       '@type': 'UnitPriceSpecification',
@@ -88,7 +92,10 @@ export function softwareApplicationLd() {
       billingIncrement: 1,
     },
     // Le plafond de bouteilles, qui distingue réellement les paliers.
-    description: `${maxBottlesLabel(p, 'fr')} · ${p.monthlyRecommendations} recommandations d'Octave par mois · ${p.includedUsers} utilisateur(s)`,
+    description:
+      locale === 'en'
+        ? `${maxBottlesLabel(p, 'en')} · ${p.monthlyRecommendations} Octave recommendations per month · ${p.includedUsers} user(s)`
+        : `${maxBottlesLabel(p, 'fr')} · ${p.monthlyRecommendations} recommandations d'Octave par mois · ${p.includedUsers} utilisateur(s)`,
   }));
 
   return {
@@ -98,14 +105,17 @@ export function softwareApplicationLd() {
     applicationCategory: 'LifestyleApplication',
     operatingSystem: 'Web, iOS',
     publisher: { '@id': `${SITE}/#organization` },
-    inLanguage: 'fr-CA',
+    inLanguage: BCP47[locale],
     offers: offres,
     // L'essai, énoncé par sa règle complète — c'est l'écart D5 qu'on ne
     // reproduit pas ici.
     potentialAction: {
       '@type': 'RegisterAction',
-      name: `Essai gratuit : ${TRIAL_FULL.fr}`,
-      target: `${SITE}/tarifs`,
+      name:
+        locale === 'en'
+          ? `Free trial: ${TRIAL_FULL.en}`
+          : `Essai gratuit : ${TRIAL_FULL.fr}`,
+      target: absoluteUrl('/tarifs', locale),
     },
   };
 }
@@ -117,34 +127,34 @@ export function softwareApplicationLd() {
  * apostrophe typographique ou un tiret cadratin y sont parfaitement valides —
  * c'est le HTML qui n'a rien à y faire.
  */
-export function faqLd() {
+export function faqLd(locale: Locale) {
   return {
     '@type': 'FAQPage',
     '@id': `${SITE}/#faq`,
     mainEntity: FAQ.map((item) => ({
       '@type': 'Question',
-      name: item.q.fr,
-      acceptedAnswer: { '@type': 'Answer', text: item.a.fr },
+      name: item.q[locale],
+      acceptedAnswer: { '@type': 'Answer', text: item.a[locale] },
     })),
   };
 }
 
 /** Le graphe complet posé sur la page d'accueil. */
-export function siteGraphLd() {
+export function siteGraphLd(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@graph': [
-      organizationLd(),
+      organizationLd(locale),
       {
         '@type': 'WebSite',
         '@id': `${SITE}/#website`,
         name: 'iQWine',
-        url: SITE,
+        url: absoluteUrl('/', locale),
         publisher: { '@id': `${SITE}/#organization` },
-        inLanguage: 'fr-CA',
+        inLanguage: BCP47[locale],
       },
-      softwareApplicationLd(),
-      faqLd(),
+      softwareApplicationLd(locale),
+      faqLd(locale),
     ],
   };
 }

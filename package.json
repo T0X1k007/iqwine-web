@@ -11,7 +11,8 @@
     "start": "next start -p 3020",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verifier:routage": "node scripts/verifier-routage.mjs"
   },
   "keywords": [],
   "author": "",

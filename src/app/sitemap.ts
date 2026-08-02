@@ -1,37 +1,60 @@
 import type { MetadataRoute } from 'next';
+import { LOCALES, absoluteUrl, DEFAULT_LOCALE } from '@/lib/locale';
 
 /**
- * Sitemap — routes publiques indexables (iQWine). Le domaine suit metadataBase
- * (layout.tsx) : canonique = www.iqwine.ca (l'hôte reellement servi ; l'apex 307-redirige vers www, cote hebergeur). Les 4 chapitres (Octave via
- * /sommelier-ia, Apogée, Recherche, Recevoir) + /le-film sont des destinations
- * Experience 2.0 → déclarées pour l'indexation. /octave n'est PAS listé : il
- * redirige vers /sommelier-ia (on ne déclare que la canonique).
+ * SITEMAP BILINGUE — chaque page, dans chaque langue, avec ses alternatives.
+ *
+ * ── Ce qui a changé, et pourquoi ce n'est pas cosmétique ──────────────────
+ * Le sitemap déclarait onze URL en une seule langue, parce qu'il n'existait
+ * qu'une URL par page : l'anglais vivait sous la même adresse, choisi côté
+ * client. Un moteur ne pouvait donc PAS découvrir la version anglaise — elle
+ * n'avait pas d'adresse à découvrir.
+ *
+ * Il déclare désormais vingt-deux URL, et chacune porte ses `alternates`. C'est
+ * le canal par lequel Google et Bing apprennent qu'il existe deux versions et
+ * laquelle servir à qui — le sitemap étant, avec les balises `hreflang`, l'un
+ * des deux moyens reconnus de le dire. Nous faisons les deux.
+ *
+ * ── `/beta` reste hors sitemap ────────────────────────────────────────────
+ * Elle n'était pas listée avant et ne l'est pas davantage : c'est une page
+ * d'atterrissage à diffusion contrôlée, pas une destination d'acquisition.
+ * L'omettre est une décision, pas un oubli — d'où cette phrase.
  */
-const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iqwine.ca';
+
+/** Les chemins NUS, sans langue. La langue est appliquée ci-dessous. */
+const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
+  { path: '/', priority: 1.0, freq: 'monthly' },
+  { path: '/sommelier-ia', priority: 0.9, freq: 'monthly' },
+  { path: '/le-film', priority: 0.8, freq: 'monthly' },
+  { path: '/apogee', priority: 0.8, freq: 'monthly' },
+  { path: '/recherche', priority: 0.8, freq: 'monthly' },
+  { path: '/recevoir', priority: 0.8, freq: 'monthly' },
+  { path: '/tarifs', priority: 0.7, freq: 'monthly' },
+  { path: '/notre-maison', priority: 0.5, freq: 'yearly' },
+  { path: '/contact', priority: 0.4, freq: 'yearly' },
+  { path: '/conditions', priority: 0.3, freq: 'yearly' },
+  { path: '/confidentialite', priority: 0.3, freq: 'yearly' },
+];
 
 type Entry = MetadataRoute.Sitemap[number];
 type Freq = Entry['changeFrequency'];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  const route = (path: string, priority: number, changeFrequency: Freq): Entry => ({
-    url: `${BASE}${path}`,
-    lastModified,
-    changeFrequency,
-    priority,
-  });
 
-  return [
-    route('/', 1.0, 'monthly'),
-    route('/sommelier-ia', 0.9, 'monthly'),
-    route('/le-film', 0.8, 'monthly'),
-    route('/apogee', 0.8, 'monthly'),
-    route('/recherche', 0.8, 'monthly'),
-    route('/recevoir', 0.8, 'monthly'),
-    route('/tarifs', 0.7, 'monthly'),
-    route('/notre-maison', 0.5, 'yearly'),
-    route('/contact', 0.4, 'yearly'),
-    route('/conditions', 0.3, 'yearly'),
-    route('/confidentialite', 0.3, 'yearly'),
-  ];
+  return PAGES.flatMap((page) =>
+    LOCALES.map((locale) => ({
+      url: absoluteUrl(page.path, locale),
+      lastModified,
+      changeFrequency: page.freq,
+      priority: page.priority,
+      alternates: {
+        languages: {
+          'fr-CA': absoluteUrl(page.path, 'fr'),
+          'en-CA': absoluteUrl(page.path, 'en'),
+          'x-default': absoluteUrl(page.path, DEFAULT_LOCALE),
+        },
+      },
+    })),
+  );
 }

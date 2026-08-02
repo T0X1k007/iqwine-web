@@ -1,14 +1,27 @@
+import LocaleLink from '@/components/ui/LocaleLink';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
 import { TRIAL_DAYS, TRIAL_RECOS } from '@/lib/trial';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/conditions' },
-  title: 'Conditions d’utilisation — iQWine',
-  description: 'Conditions d’utilisation du service iQWine.',
-};
+const TEXTES = {
+  fr: {
+    title: 'Conditions d’utilisation — iQWine',
+    description:
+      'Conditions d’utilisation du service iQWine.',
+  },
+  en: {
+    title: 'Terms of Use — iQWine',
+    description:
+      'Terms of use for the iQWine service.',
+  },
+} as const;
+
+export async function generateMetadata({ params }: ParamsLocale): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata('/conditions', locale, TEXTES);
+}
 
 /**
  * /conditions — Conditions d’utilisation publiques du site iQWine. Contenu
@@ -27,9 +40,9 @@ export default function ConditionsPage() {
       <LegalSection title="2. Acceptation">
         En créant un compte ou en utilisant iQWine, vous acceptez les présentes
         conditions ainsi que la{' '}
-        <Link href="/confidentialite" className="text-or underline underline-offset-2 hover:text-foreground">
+        <LocaleLink href="/confidentialite" className="text-or underline underline-offset-2 hover:text-foreground">
           Politique de confidentialité
-        </Link>
+        </LocaleLink>
         . Si vous n’y consentez pas, n’utilisez pas le service.
       </LegalSection>
 
@@ -138,9 +151,9 @@ export default function ConditionsPage() {
       <LegalSection title="14. Contact">
         Pour toute question relative aux présentes conditions : depuis
         l’application (section Support) ou via notre page{' '}
-        <Link href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
+        <LocaleLink href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
           Contact
-        </Link>
+        </LocaleLink>
         .
       </LegalSection>
     </LegalPage>

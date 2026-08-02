@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import LocaleLink from '@/components/ui/LocaleLink';
 import { ArrowRight } from 'lucide-react';
 import Pricing from '@/components/sections/Pricing';
 import Button from '@/components/ui/Button';
@@ -39,7 +39,7 @@ export default function SectionTarifs() {
       <Pricing />
       <div className="px-6 pb-20 text-center">
         <FadeInOnScroll>
-          <Link
+          <LocaleLink
             href="/tarifs"
             className="group inline-flex items-center gap-2 rounded-pill border border-or/30 bg-or/[0.04] px-6 py-3 text-or hover:bg-or/[0.08] font-[family-name:var(--font-display)] italic text-lg transition-colors"
           >
@@ -49,7 +49,7 @@ export default function SectionTarifs() {
               strokeWidth={1.75}
               className="transition-transform group-hover:translate-x-0.5"
             />
-          </Link>
+          </LocaleLink>
         </FadeInOnScroll>
       </div>
     </section>

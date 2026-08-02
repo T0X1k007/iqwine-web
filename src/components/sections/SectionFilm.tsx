@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import LocaleLink from '@/components/ui/LocaleLink';
 import { Play } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
@@ -34,7 +34,7 @@ export default function SectionFilm() {
       </FadeInOnScroll>
 
       <FadeInOnScroll delay={0.15}>
-        <Link
+        <LocaleLink
           href="/le-film"
           aria-label={t('Voir le film iQWine', 'Watch the iQWine film')}
           className="group relative mx-auto block max-w-5xl overflow-hidden rounded-[20px] border border-or/15 shadow-[0_50px_140px_-50px_rgba(0,0,0,0.8)] ring-1 ring-white/5 transition-colors duration-500 hover:border-or/35"
@@ -67,7 +67,7 @@ export default function SectionFilm() {
               {t('Voir le film', 'Watch the film')}
             </span>
           </div>
-        </Link>
+        </LocaleLink>
       </FadeInOnScroll>
     </SectionWrapper>
   );

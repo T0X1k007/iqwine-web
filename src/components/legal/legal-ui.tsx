@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import LocaleLink from '@/components/ui/LocaleLink';
 import type { ReactNode } from 'react';
 
 /**
@@ -27,9 +27,9 @@ export function LegalPage({
       </p>
       {children}
       <p className="mt-16">
-        <Link href="/" className="text-or underline underline-offset-4 hover:text-foreground">
+        <LocaleLink href="/" className="text-or underline underline-offset-4 hover:text-foreground">
           ← Retour à l’accueil
-        </Link>
+        </LocaleLink>
       </p>
     </main>
   );

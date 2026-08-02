@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import LocaleLink from '@/components/ui/LocaleLink';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import FilmPlayer from '@/components/film/FilmPlayer';
 import Button from '@/components/ui/Button';
@@ -32,13 +32,13 @@ export default function LeFilmContent() {
 
       <section className="relative px-6 pb-10 pt-32 sm:pt-40 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <Link
+          <LocaleLink
             href="/"
             className="mb-8 inline-flex items-center gap-2 font-body text-[13px] text-foreground-dim transition-colors hover:text-or"
           >
             <ArrowLeft size={15} strokeWidth={1.75} aria-hidden />
             {t('Retour', 'Back')}
-          </Link>
+          </LocaleLink>
           <div className="iq-eyebrow mb-5">{t('Le film', 'The film')}</div>
           <h1 className="iq-h1 italic">{t('iQWine, en une minute.', 'iQWine, in one minute.')}</h1>
           <p className="iq-lead mx-auto mt-6 max-w-2xl">

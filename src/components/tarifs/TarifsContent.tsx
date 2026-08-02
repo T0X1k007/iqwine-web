@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import LocaleLink from '@/components/ui/LocaleLink';
 import { ArrowRight, Wine, MessageCircle, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle } from 'lucide-react';
 import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import Button from '@/components/ui/Button';
@@ -407,12 +407,12 @@ export default function TarifsContent() {
                 )}
               </p>
             </div>
-            <Link href="/sommelier-ia" className="shrink-0">
+            <LocaleLink href="/sommelier-ia" className="shrink-0">
               <Button variant="secondary" size="lg">
                 {t('Voir ce qu’Octave peut faire', 'See what Octave can do')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
-            </Link>
+            </LocaleLink>
           </div>
         </FadeInOnScroll>
       </section>

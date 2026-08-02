@@ -1,14 +1,26 @@
+import LocaleLink from '@/components/ui/LocaleLink';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/confidentialite' },
-  title: 'Politique de confidentialité — iQWine',
-  description:
-    'Politique de confidentialité et protection des renseignements personnels (Loi 25).',
-};
+const TEXTES = {
+  fr: {
+    title: 'Politique de confidentialité — iQWine',
+    description:
+      'Politique de confidentialité et protection des renseignements personnels (Loi 25).',
+  },
+  en: {
+    title: 'Privacy Policy — iQWine',
+    description:
+      'Privacy policy and protection of personal information (Quebec’s Law 25).',
+  },
+} as const;
+
+export async function generateMetadata({ params }: ParamsLocale): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata('/confidentialite', locale, TEXTES);
+}
 
 /**
  * /confidentialite — Politique de confidentialité publique du site iQWine.
@@ -27,9 +39,9 @@ export default function ConfidentialitePage() {
         personnels au sens de la Loi 25. Toute demande (accès, rectification,
         suppression, retrait du consentement, plainte) peut être transmise
         depuis l’application (section Support) ou via notre page{' '}
-        <Link href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
+        <LocaleLink href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
           Contact
-        </Link>
+        </LocaleLink>
         , et est traitée par notre responsable de la protection des
         renseignements personnels.
       </LegalSection>

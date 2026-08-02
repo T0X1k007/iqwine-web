@@ -1,7 +1,7 @@
 'use client';
 
+import LocaleLink from '@/components/ui/LocaleLink';
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { useLocale } from '@/lib/i18n';
@@ -69,7 +69,7 @@ export default function Navbar() {
     >
       <nav className="max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-20 lg:h-28">
         {/* Logo lockup — image officielle + wordmark + tagline */}
-        <Link href="/" aria-label="Accueil iQWine" className="flex items-center gap-3">
+        <LocaleLink href="/" aria-label="Accueil iQWine" className="flex items-center gap-3">
           <Logo size={60} className="lg:hidden" />
           <Logo size={80} className="hidden lg:block" />
           <span className="flex flex-col">
@@ -81,7 +81,7 @@ export default function Navbar() {
               {hero.tagline}
             </span>
           </span>
-        </Link>
+        </LocaleLink>
 
         {/* Desktop nav — mono eyebrow style */}
         <div className="hidden lg:flex items-center gap-8">
@@ -102,13 +102,13 @@ export default function Navbar() {
             <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
               <div className="min-w-[220px] rounded-xl border border-border bg-background/95 backdrop-blur-[14px] p-1.5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]">
                 {productLinks.map((l) => (
-                  <Link
+                  <LocaleLink
                     key={l.href}
                     href={l.href}
                     className="block rounded-lg px-3 py-2.5 text-[13px] text-white/90 hover:text-or hover:bg-white/5 transition-colors"
                   >
                     {l.label}
-                  </Link>
+                  </LocaleLink>
                 ))}
               </div>
             </div>
@@ -172,14 +172,14 @@ export default function Navbar() {
               {t('Produit', 'Product')}
             </p>
             {productLinks.map((l) => (
-              <Link
+              <LocaleLink
                 key={l.href}
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
                 className="font-body text-[11px] font-medium tracking-[0.28em] uppercase text-white hover:text-or transition-colors py-3 border-b border-border"
               >
                 {l.label}
-              </Link>
+              </LocaleLink>
             ))}
             <p className="font-body text-[10px] tracking-[0.28em] uppercase text-foreground-faint pt-4 pb-1">
               {t('Explorer', 'Explore')}

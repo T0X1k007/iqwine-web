@@ -77,12 +77,46 @@ export default tseslint.config(
           message:
             "La durée de l'essai ne s'écrit pas en dur, même dans un gabarit : importer depuis '@/lib/trial'.",
         },
+
+        /**
+         * ── AUCUN LIEN INTERNE NON LOCALISÉ ────────────────────────────────
+         *
+         * Depuis que chaque langue a ses propres URL, un `href="/tarifs"`
+         * écrit en dur renvoie un anglophone vers la version française. Il ne
+         * CASSE rien — il affiche une page — et c'est ce qui le rend dangereux :
+         * la personne sort de sa langue sans qu'aucune erreur ne le signale.
+         *
+         * Pour un robot, c'est pire : `/tarifs` est désormais une redirection
+         * permanente. Chaque lien interne qui la vise fait passer le crawl par
+         * un saut inutile — on redirigerait notre propre maillage.
+         *
+         * `<LocaleLink href="/tarifs">` préfixe la langue courante.
+         */
+        {
+          // `JSXOpeningElement[name.name!='LocaleLink']` : c'est justement le
+          // rôle de LocaleLink de recevoir un chemin NU — l'y interdire
+          // rendrait la règle auto-contradictoire.
+          selector:
+            "JSXOpeningElement[name.name!='LocaleLink'] > JSXAttribute[name.name='href'] > Literal[value=/^\\/(apogee|beta|conditions|confidentialite|contact|le-film|notre-maison|recevoir|recherche|sommelier-ia|tarifs|octave)(\\/|$|#|\\?)/]",
+          message:
+            "Lien interne non localisé. Utiliser <LocaleLink href=\"/…\"> : chaque langue a ses propres URL, et un href en dur sort l'utilisateur de sa langue sans rien signaler.",
+        },
       ],
     },
   },
   {
     // La source de la règle a le DROIT de nommer les nombres — c'est son travail.
-    files: ['src/lib/trial.ts'],
+    files: ['src/lib/trial.ts', 'src/components/ui/LocaleLink.tsx', 'src/lib/locale.ts'],
+    rules: { 'no-restricted-syntax': 'off' },
+  },
+  {
+    /**
+     * Les scripts d'outillage tournent sous Node, pas dans un navigateur.
+     * Sans cette déclaration, ESLint leur reproche `process`, `console` et
+     * `fetch` — c'est-à-dire tout ce qu'un script de vérification utilise.
+     */
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: { ...globals.node } },
     rules: { 'no-restricted-syntax': 'off' },
   },
 );

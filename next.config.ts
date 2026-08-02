@@ -60,9 +60,72 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
+    /**
+     * ── LES ANCIENNES URL VERS LES NOUVELLES — EN UN SEUL SAUT ────────────
+     *
+     * Toutes les pages ont pris un segment de langue : `/tarifs` est devenue
+     * `/fr/tarifs`. Chaque ancienne URL doit donc recevoir une redirection
+     * PERMANENTE — un lien partagé, un signet, un courriel déjà envoyé doivent
+     * continuer d'aboutir.
+     *
+     * ── Pourquoi vers le FRANÇAIS, et pas vers la racine ─────────────────
+     * `/tarifs` a toujours servi du français : c'était le rendu par défaut, le
+     * seul que les moteurs aient jamais vu. La redirection préserve donc ce que
+     * la page ÉTAIT. La renvoyer vers `/` la ferait passer par la négociation,
+     * ce qui ajoute un saut et fait dépendre d'un en-tête la destination d'une
+     * redirection permanente — deux choses qu'un 308 ne doit pas faire.
+     *
+     * ── LA MIGRATION DE DOMAINE EST PRÉPARÉE ICI, PAS PLUS TARD ──────────
+     * `REDIRECT_ORIGIN` est vide aujourd'hui : les redirections restent
+     * relatives et le domaine ne change pas. Le jour de la bascule vers
+     * `iqwine.ai`, on la pose à `https://iqwine.ai` et CES MÊMES règles
+     * envoient directement `iqwine.ca/tarifs` → `iqwine.ai/fr/tarifs`.
+     *
+     * C'est ce qui évite la chaîne. Sans cela, on obtiendrait
+     * `iqwine.ca/tarifs` → `iqwine.ca/fr/tarifs` → `iqwine.ai/fr/tarifs` :
+     * deux sauts, une part de l'autorité perdue à chacun, et un délai
+     * supplémentaire pour chaque visiteur venu d'un vieux lien. Domaine et
+     * langue changent donc en UNE opération, comme demandé.
+     *
+     * ── Ce qui survit à la redirection ───────────────────────────────────
+     * Next recopie la chaîne de requête par défaut : les paramètres de campagne
+     * (`utm_*`, `ref`) arrivent intacts. Les ancres ne transitent jamais par le
+     * serveur — le navigateur les rattache lui-même à la destination. Un lien
+     * profond partagé reste donc un lien profond, avec son attribution.
+     */
+    const ORIGIN = (process.env.REDIRECT_ORIGIN || '').replace(/\/$/, '');
+    const vers = (path: string) => `${ORIGIN}/fr${path === '/' ? '' : path}`;
+
+    /** Les chemins nus qui existaient AVANT le segment de langue. */
+    const ANCIENNES = [
+      '/apogee',
+      '/beta',
+      '/conditions',
+      '/confidentialite',
+      '/contact',
+      '/le-film',
+      '/notre-maison',
+      '/recevoir',
+      '/recherche',
+      '/sommelier-ia',
+      '/tarifs',
+    ];
+
     return [
-      // SEO : /octave renommée /sommelier-ia (le nom « Octave » reste dans le contenu).
-      { source: '/octave', destination: '/sommelier-ia', permanent: true },
+      /**
+       * `/octave` → `/fr/sommelier-ia`, en UN saut.
+       *
+       * Elle pointait vers `/sommelier-ia`, qui redirige maintenant elle-même.
+       * L'avoir laissée telle quelle aurait créé exactement la chaîne que tout
+       * ce bloc cherche à éviter — et sur la page la plus liée du site.
+       */
+      { source: '/octave', destination: vers('/sommelier-ia'), permanent: true },
+
+      ...ANCIENNES.map((path) => ({
+        source: path,
+        destination: vers(path),
+        permanent: true,
+      })),
     ];
   },
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import LocaleLink from '@/components/ui/LocaleLink';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { useLocale } from '@/lib/i18n';
@@ -38,13 +38,13 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
           {p.num}
         </span>
         <div className="relative mx-auto max-w-3xl text-center">
-          <Link
+          <LocaleLink
             href="/#piliers"
             className="mb-8 inline-flex items-center gap-2 font-body text-[13px] text-foreground-dim transition-colors hover:text-or"
           >
             <ArrowLeft size={15} strokeWidth={1.75} aria-hidden />
             {t('Les piliers', 'The pillars')}
-          </Link>
+          </LocaleLink>
           <div className="flex items-center justify-center gap-4">
             <span className="font-[family-name:var(--font-display)] text-4xl leading-none text-or/40 tabular-nums">
               {p.num}
@@ -99,7 +99,7 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {others.map((o) => (
-              <Link
+              <LocaleLink
                 key={o.slug}
                 href={o.href}
                 className="group rounded-2xl border border-border bg-card/40 p-6 transition-colors hover:border-or/40"
@@ -116,7 +116,7 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
                   {t('Découvrir', 'Discover')}
                   <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
                 </span>
-              </Link>
+              </LocaleLink>
             ))}
           </div>
         </div>
