@@ -73,7 +73,7 @@ const COPY: Record<PlanId, PlanCopy> = {
       en: "The essentials — your cellar, and the right bottle at home.",
     },
     features: [
-      { fr: "Plus de liberté pour demander chaque soir, sans rationner", en: "More freedom to ask every evening, without rationing" },
+      { fr: "Plus de liberté pour demander des accords vins & mets", en: "More freedom to ask for food & wine pairings" },
       { fr: "Plus de liberté pour photographier vos plats et laisser Octave choisir", en: "More freedom to photograph your dishes and let Octave choose" },
       { fr: "Plus de liberté pour gérer votre cave, étiquette après étiquette", en: "More freedom to manage your cellar, label after label" },
     ],
@@ -123,7 +123,7 @@ const COPY: Record<PlanId, PlanCopy> = {
       // plus. C'est la vraie différence, et elle se dit sans exagérer.
       { fr: "Plus de liberté pour être guidé au restaurant, carte des vins en main", en: "More freedom to be guided at the restaurant, wine list in hand" },
       { fr: "Plus de liberté pour concevoir des menus dégustation, plat par plat", en: "More freedom to design tasting menus, course by course" },
-      { fr: "Plus de liberté pour explorer en boutique, étiquette après étiquette", en: "More freedom to explore in store, label after label" },
+      { fr: "Plus de liberté pour explorer en succursale, étiquette après étiquette", en: "More freedom to explore in store, label after label" },
     ],
   },
   famille: {
@@ -146,7 +146,7 @@ const COPY: Record<PlanId, PlanCopy> = {
         fr: `Plus de liberté pour partager Octave avec les vôtres — ${utilisateursInclus("famille")} personnes, chacun son palais`,
         en: `More freedom to share Octave with your household — ${utilisateursInclus("famille")} people, each their own palate`,
       },
-      { fr: "Plus de liberté pour recevoir toutes les semaines, sans rationner", en: "More freedom to host every week, without rationing" },
+      { fr: "Plus de liberté pour recevoir toutes les semaines, sans compter les interactions d’Octave", en: "More freedom to host every week, without counting your Octave interactions" },
       // RETIRÉ (D6, 2026-07-16) — « Vos recommandations passent devant » est
       // « Priorité à Octave » REFORMULÉE : aucune file prioritaire n'existe, ni
       // n'a jamais existé. Retirée du comparatif ET d'ici. Remplacée par la
