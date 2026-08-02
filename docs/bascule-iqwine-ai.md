@@ -80,7 +80,26 @@ qu'un fichier oublié continue d'annoncer l'ancien.
 5. **Soumettre le sitemap** sur Search Console et Bing, et déclencher IndexNow
    si la clé est posée.
 
-6. **Laisser l'ancien domaine redirigier indéfiniment.** Les courriels déjà
+6. **Mettre à jour le webhook Stripe.** L'endpoint LIVE créé le 2026-08-02
+   (`we_1U03QCRqF3byzS5tPe6drAxM`, « iQWine production ») pointe sur
+   `https://app.iqwine.ca/api/billing/stripe/webhook`. Il doit suivre le
+   domaine.
+
+   > **Pourquoi ce point mérite sa propre étape.** Un webhook laissé sur
+   > l'ancien domaine ne « casse » rien de visible : les clients paient, Stripe
+   > encaisse, et l'application n'en entend jamais parler. Aucune erreur
+   > n'apparaît dans le produit — seulement des abonnements qui ne s'activent
+   > pas, découverts un par un par des clients mécontents. C'est la panne la
+   > plus coûteuse de toute la bascule, et la moins bruyante.
+   >
+   > La redirection permanente ne sauve pas : Stripe signe la requête pour
+   > l'URL déclarée, et **ne suit pas les redirections** en POST.
+   >
+   > Le filet existe — `cellier-cron-billing-stripe-reconcile` rattrape les
+   > webhooks manqués — mais il n'est **pas installé en production** au
+   > 2026-08-02. Voir `docs/ops/derive-unites-systemd.md` du dépôt applicatif.
+
+7. **Laisser l'ancien domaine redirigier indéfiniment.** Les courriels déjà
    partis, les liens déjà partagés, les signets : ils ne se corrigent jamais.
    Une redirection permanente qu'on retire est un lien mort de plus, des années
    après.
