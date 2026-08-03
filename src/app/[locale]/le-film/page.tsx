@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
       type: 'video.other',
       videos: [
         {
-          url: 'https://www.iqwine.ca/video/film-iqwine.mp4',
+          url: 'https://iqwine.ai/video/film-iqwine.mp4',
           type: 'video/mp4',
           width: 1920,
           height: 882,
@@ -55,8 +55,15 @@ const FILM_JSONLD = {
   name: 'iQWine — le film',
   description:
     'Sept chapitres, un seul sommelier — du verre ouvert au bon moment à la carte déchiffrée au restaurant.',
-  thumbnailUrl: 'https://www.iqwine.ca/video/film-iqwine-poster.jpg',
-  contentUrl: 'https://www.iqwine.ca/video/film-iqwine.mp4',
+  // ── Le domaine COMPTE ici, plus qu'ailleurs ─────────────────────────────
+  // Ces deux adresses ne sont pas lues par un navigateur mais par l'indexeur
+  // vidéo de Google, qui va CHERCHER les fichiers. `www.iqwine.ca` répond 308
+  // vers `iqwine.ai` — une redirection inter-domaines sur la ressource même
+  // que le schema déclare. Au mieux la vidéo est attribuée à l'ancien domaine,
+  // au pire elle n'est pas indexée du tout. Vérifié le 2026-08-03 : les deux
+  // fichiers répondent 206 sur `iqwine.ai`.
+  thumbnailUrl: 'https://iqwine.ai/video/film-iqwine-poster.jpg',
+  contentUrl: 'https://iqwine.ai/video/film-iqwine.mp4',
   uploadDate: '2026-07-03T09:00:00-04:00',
   duration: 'PT1M6S',
 };

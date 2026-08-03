@@ -18,7 +18,11 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * jamais au rendu.
  */
 
-const SHARE_URL = 'https://www.iqwine.ca/?src=share';
+// `iqwine.ai`, pas `www.iqwine.ca` : l'ancien domaine redirige (308), mais un
+// lien PARTAGÉ n'est pas un lien qu'on suit une fois. Il vit dans des messages,
+// des favoris, des aperçus de réseaux sociaux — chacun affichant le domaine
+// qu'on lui a donné. Partager l'ancien, c'est continuer à le faire vivre.
+const SHARE_URL = 'https://iqwine.ai/?src=share';
 
 type LabelPair = Record<Locale, string>;
 

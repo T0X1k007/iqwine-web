@@ -122,8 +122,8 @@ export async function POST(request: Request) {
     try {
       const res = await fetch(`${IQWINE_APP_URL}/api/contact`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Origin: 'https://iqwine.ca' },
-        body: JSON.stringify({ category, email, message, name: name || null, sourceUrl: 'iqwine.ca/contact' }),
+        headers: { 'Content-Type': 'application/json', Origin: 'https://iqwine.ai' },
+        body: JSON.stringify({ category, email, message, name: name || null, sourceUrl: 'iqwine.ai/contact' }),
         signal: controller.signal,
       });
       if (!res.ok) {

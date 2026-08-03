@@ -179,3 +179,53 @@ for (const p of ['/de/tarifs', '/nimporte-quoi']) {
 
 console.log(`\n${controles - echecs}/${controles} contrôles passés.\n`);
 process.exit(echecs === 0 ? 0 : 1);
+
+// ── 9. AUCUNE ADRESSE DE L'ANCIEN DOMAINE DANS LE CODE VIVANT ──────────────
+//
+// Ce contrôle ne regarde pas le réseau mais les SOURCES, et c'est voulu : trois
+// adresses `iqwine.ca` avaient survécu à la bascule du 2026-08-02, invisibles
+// parce que l'ancien domaine redirige (308) et que tout « marche » quand même.
+//
+//   · `ShareButton` partageait `www.iqwine.ca/?src=share` — or un lien partagé
+//     n'est pas un lien qu'on suit une fois : il vit dans des messages, des
+//     favoris, des aperçus de réseaux sociaux, chacun affichant le domaine
+//     qu'on lui a donné ;
+//   · les données structurées du film déclaraient `contentUrl` sur
+//     `www.iqwine.ca` — lues non par un navigateur mais par l'indexeur vidéo de
+//     Google, qui va CHERCHER le fichier et tombe sur une redirection
+//     inter-domaines vers la ressource même que le schéma déclare ;
+//   · le repli de `llms.txt` pointait sur l'ancien domaine, masqué tant que la
+//     variable d'environnement est posée — donc invisible jusqu'au jour où elle
+//     ne l'est pas, c'est-à-dire un changement de plateforme.
+//
+// Une redirection qui fonctionne est exactement ce qui rend ces erreurs
+// silencieuses. Seule une lecture des sources les voit.
+console.log('\n9. Aucune adresse de l’ancien domaine dans le code');
+{
+  const { readdirSync, readFileSync, statSync } = await import('node:fs');
+  const { join, extname } = await import('node:path');
+
+  const fichiers = [];
+  (function parcourir(dossier) {
+    for (const e of readdirSync(dossier)) {
+      const p = join(dossier, e);
+      if (statSync(p).isDirectory()) parcourir(p);
+      else if (['.ts', '.tsx'].includes(extname(e))) fichiers.push(p);
+    }
+  })('src');
+
+  // On retire les commentaires AVANT de chercher : la mémoire de la bascule est
+  // précieuse et doit pouvoir citer l'ancien domaine sans faire rougir la porte.
+  const fautifs = [];
+  for (const f of fichiers) {
+    const sansCommentaires = readFileSync(f, 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/(^|[^:])\/\/.*$/gm, '$1');
+    if (/iqwine\.ca/.test(sansCommentaires)) fautifs.push(f);
+  }
+  verifier(
+    `${fichiers.length} fichiers lus, aucun ne cite iqwine.ca hors commentaire`,
+    fautifs.length === 0,
+    fautifs.join(', '),
+  );
+}

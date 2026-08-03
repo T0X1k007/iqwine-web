@@ -37,7 +37,11 @@ export const dynamic = "force-static";
  * Répondre directement vaut mieux que renvoyer ailleurs — a fortiori vers un
  * ailleurs qui refuse d'être lu.
  */
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.iqwine.ca";
+// Le repli disait encore `www.iqwine.ca`. Il est masqué tant que la variable
+// est posée — donc invisible jusqu'au jour où elle ne l'est pas : un
+// changement de plateforme d'hébergement, où toutes les variables se
+// recréent à la main. Un repli n'est utile que s'il est JUSTE.
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://iqwine.ai";
 
 const BODY = `# iQWine
 
