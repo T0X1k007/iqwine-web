@@ -12,7 +12,13 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
-    "verifier:routage": "node scripts/verifier-routage.mjs"
+    "verifier:routage": "node scripts/verifier-routage.mjs",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:taille": "node scripts/verifier-taille-worker.mjs",
+    "cf:previsualiser": "opennextjs-cloudflare preview",
+    "images:generer": "node scripts/generer-images.mjs",
+    "images:verifier": "node scripts/generer-images.mjs --verifier",
+    "polices:generer": "node scripts/generer-polices-og.mjs"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +40,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@next/eslint-plugin-next": "^16.2.9",
+    "@opennextjs/cloudflare": "^1.20.2",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -41,6 +48,8 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.6.0",
-    "typescript-eslint": "^8.61.1"
+    "sharp": "^0.35.3",
+    "typescript-eslint": "^8.61.1",
+    "wrangler": "^4.118.0"
   }
 }

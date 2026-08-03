@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { BCP47, alternatesFor, isLocale, type Locale } from '@/lib/locale';
+import { BCP47, absoluteUrl, alternatesFor, isLocale, type Locale } from '@/lib/locale';
 
 /**
  * MÉTADONNÉES DE PAGE — une par langue, canonical et hreflang compris.
@@ -54,6 +54,23 @@ export function pageMetadata(
     openGraph: {
       title: t.ogTitle ?? t.title,
       description: t.ogDescription ?? t.description,
+      /**
+       * `og:url` — absent jusqu'ici, et Next ne le déduit PAS du canonical.
+       *
+       * Vérifié en production le 2026-08-03 : les pages émettaient `og:title`,
+       * `og:description`, `og:locale` et `og:type`, mais aucun `og:url`. Deux
+       * conséquences, discrètes parce qu'un partage « marche » quand même :
+       *
+       *   · les plateformes qui dédoublonnent par `og:url` traitaient deux
+       *     partages de la même page comme deux objets distincts, chacun
+       *     accumulant ses propres compteurs ;
+       *   · un lien partagé avec des paramètres de campagne (`?utm_…`) était
+       *     pris pour l'adresse de la page, faute d'une adresse déclarée.
+       *
+       * Il porte la version LOCALISÉE, donc le slug traduit : la carte de
+       * partage d'une page anglaise annonce `/en/pricing`, pas `/en/tarifs`.
+       */
+      url: absoluteUrl(rest, locale),
       locale: BCP47[locale],
       type: 'website',
       siteName: 'iQWine',

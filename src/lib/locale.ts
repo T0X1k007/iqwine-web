@@ -51,6 +51,102 @@ export const LOCALE_NAME: Record<Locale, string> = {
   en: 'English',
 };
 
+/**
+ * LES SLUGS SONT TRADUITS — une adresse anglaise se lit en anglais.
+ *
+ * ── Le défaut que cela corrige ────────────────────────────────────────────
+ * Les pages anglaises existaient, étaient réellement en anglais et étaient
+ * correctement déclarées en `hreflang` — mais leurs adresses restaient
+ * françaises : `iqwine.ai/en/notre-maison`, `/en/confidentialite`. Deux coûts,
+ * et le second est le plus lourd :
+ *
+ *   · un lecteur anglophone voit une adresse qu'il ne comprend pas, à l'endroit
+ *     précis où il décide s'il est au bon endroit — dans la barre d'adresse,
+ *     dans un résultat de recherche, dans un lien partagé ;
+ *   · le slug est l'un des rares signaux de pertinence que Google lit sans
+ *     ambiguïté. `/en/pricing` dit ce que `/en/tarifs` ne dira jamais à
+ *     quelqu'un qui cherche « wine cellar app pricing ».
+ *
+ * ── Pourquoi MAINTENANT, et pas après le lancement (décision d'Eric) ──────
+ * Une migration d'URL coûte d'autant plus cher que les anciennes adresses ont
+ * accumulé de l'autorité. Aujourd'hui elles n'en ont presque aucune : le site
+ * vient d'être indexé. Dans six mois, la même opération se paierait en
+ * classement perdu.
+ *
+ * ── LA CLÉ EST LE NOM DU DOSSIER, pas le slug français ────────────────────
+ * Les dossiers de `app/[locale]/` portent des noms français — c'est
+ * l'identifiant INTERNE d'une page, celui qui ne change jamais. `localePath`
+ * traduit vers l'extérieur, `splitLocalePath` retraduit vers l'intérieur, et
+ * tout le reste du site continue de raisonner en chemins canoniques sans
+ * savoir qu'une traduction existe.
+ *
+ * C'est ce qui rend la migration tenable : sitemap, `hreflang`, canonical,
+ * sélecteur de langue, données structurées et middleware passent tous par ces
+ * deux fonctions. Aucun d'eux n'a été modifié.
+ */
+export const SEGMENTS: Record<string, Record<Locale, string>> = {
+  'sommelier-ia': { fr: 'sommelier-ia', en: 'ai-sommelier' },
+  'le-film': { fr: 'le-film', en: 'the-film' },
+  // « Apogée » n'a pas d'équivalent d'un mot en anglais œnologique courant.
+  // Le titre anglais de la page dit déjà « Drinking window » — le slug le suit,
+  // parce qu'un slug qui contredit son titre est un slug qu'on retraduira.
+  apogee: { fr: 'apogee', en: 'drinking-window' },
+  recherche: { fr: 'recherche', en: 'search' },
+  recevoir: { fr: 'recevoir', en: 'entertaining' },
+  tarifs: { fr: 'tarifs', en: 'pricing' },
+  'notre-maison': { fr: 'notre-maison', en: 'our-story' },
+  // Identiques dans les deux langues : on les déclare quand même, pour que la
+  // table soit la liste EXHAUSTIVE des pages et non un cas particulier.
+  contact: { fr: 'contact', en: 'contact' },
+  conditions: { fr: 'conditions', en: 'terms' },
+  confidentialite: { fr: 'confidentialite', en: 'privacy' },
+  beta: { fr: 'beta', en: 'beta' },
+};
+
+/** Slug localisé → segment canonique. Construit une seule fois. */
+const CANONIQUE: Record<Locale, Record<string, string>> = LOCALES.reduce(
+  (acc, locale) => {
+    acc[locale] = Object.fromEntries(
+      Object.entries(SEGMENTS).map(([canonique, slugs]) => [slugs[locale], canonique]),
+    );
+    return acc;
+  },
+  {} as Record<Locale, Record<string, string>>,
+);
+
+/** Le slug PUBLIC d'une page dans une langue. Inconnu → inchangé. */
+export function segmentLocalise(canonique: string, locale: Locale): string {
+  return SEGMENTS[canonique]?.[locale] ?? canonique;
+}
+
+/** L'inverse : le segment canonique derrière un slug public. */
+export function segmentCanonique(slug: string, locale: Locale): string {
+  return CANONIQUE[locale]?.[slug] ?? slug;
+}
+
+/**
+ * LES ALIAS — d'anciennes adresses qui désignent une page existante.
+ *
+ * `/octave` était le nom de la page du sommelier avant qu'elle ne s'appelle
+ * `/sommelier-ia`. Elle a été liée, partagée, indexée sous ce nom.
+ *
+ * Elle est résolue ICI plutôt que par une redirection de configuration, et la
+ * raison tient en un mot : LA LANGUE. Une redirection de `next.config` ne peut
+ * pas négocier — elle enverrait tout le monde vers le français, ou créerait un
+ * second saut vers le chemin nu. Résolue dans le middleware, `/octave` devient
+ * `/en/ai-sommelier` pour un anglophone, en UN saut.
+ */
+export const ALIAS: Record<string, string> = {
+  octave: 'sommelier-ia',
+};
+
+/** Résout un chemin nu vers son segment canonique. `/octave` → `/sommelier-ia`. */
+export function resoudreAlias(rest: string): string {
+  const seg = rest.replace(/^\//, '');
+  const cible = ALIAS[seg];
+  return cible ? `/${cible}` : rest;
+}
+
 export function isLocale(v: unknown): v is Locale {
   return typeof v === 'string' && (LOCALES as readonly string[]).includes(v);
 }
@@ -88,23 +184,31 @@ export const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 /**
  * Découpe un chemin en (langue, reste).
  *
- * `/fr/tarifs` → `{ locale: 'fr', rest: '/tarifs' }`
- * `/tarifs`    → `{ locale: null, rest: '/tarifs' }`
+ * `/fr/tarifs`  → `{ locale: 'fr', rest: '/tarifs' }`
+ * `/en/pricing` → `{ locale: 'en', rest: '/tarifs' }`  ← retraduit
+ * `/tarifs`     → `{ locale: null, rest: '/tarifs' }`
  */
 export function splitLocalePath(pathname: string): { locale: Locale | null; rest: string } {
   const segments = pathname.split('/');
   const premier = segments[1];
   if (isLocale(premier)) {
-    const rest = '/' + segments.slice(2).join('/');
-    return { locale: premier, rest: rest === '/' ? '/' : rest.replace(/\/$/, '') };
+    const brut = '/' + segments.slice(2).join('/');
+    const nettoye = brut === '/' ? '/' : brut.replace(/\/$/, '');
+    // Retraduction vers le segment CANONIQUE : `/en/pricing` rend `/tarifs`.
+    // Sans cela, le sélecteur de langue enverrait `/fr/pricing`, qui n'existe
+    // pas — et le changement de langue perdrait la page qu'il doit préserver.
+    const seg = nettoye.slice(1);
+    const rest = seg ? `/${segmentCanonique(seg, premier)}` : '/';
+    return { locale: premier, rest };
   }
   return { locale: null, rest: pathname };
 }
 
-/** Construit l'URL localisée d'un chemin nu. `/tarifs` + `en` → `/en/tarifs`. */
+/** Construit l'URL localisée d'un chemin nu. `/tarifs` + `en` → `/en/pricing`. */
 export function localePath(rest: string, locale: Locale): string {
   const propre = rest === '/' ? '' : rest.startsWith('/') ? rest : `/${rest}`;
-  return `/${locale}${propre}`;
+  const seg = propre.slice(1);
+  return `/${locale}${seg ? `/${segmentLocalise(seg, locale)}` : ''}`;
 }
 
 /**

@@ -4,6 +4,7 @@ import {
   LOCALE_COOKIE_MAX_AGE,
   isLocale,
   localePath,
+  resoudreAlias,
   negotiateLocale,
   splitLocalePath,
 } from '@/lib/locale';
@@ -56,7 +57,11 @@ export function middleware(req: NextRequest): NextResponse {
     : negotiateLocale(req.headers.get('accept-language'));
 
   const url = req.nextUrl.clone();
-  url.pathname = localePath(rest, cible);
+  // `resoudreAlias` AVANT `localePath` : `/octave` devient `/sommelier-ia`,
+  // puis se localise en `/en/ai-sommelier`. Un seul saut, dans la bonne langue.
+  // Passer par une redirection de configuration aurait imposé le français, ou
+  // ajouté un second saut.
+  url.pathname = localePath(resoudreAlias(rest), cible);
   // Les paramètres de campagne et les ancres survivent : `search` est recopié,
   // et un fragment n'atteint jamais le serveur — le navigateur le rattache
   // lui-même à la destination. Un lien profond partagé reste un lien profond.

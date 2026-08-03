@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import Image from 'next/image';
+import { ImageStatique } from '@/components/ui/ImageStatique';
 import { FrameChrome } from '@/components/screenshot/ScreenshotFrame';
 import { useLocale } from '@/lib/i18n';
 
@@ -62,13 +62,24 @@ export default function HeroDemo() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{ willChange: 'opacity' }}
           >
-            <Image
+            <ImageStatique
               src={scene.src}
               alt={caption}
-              fill
+              // `fill` de next/image n'existe pas sur `<img>` : on rend
+              // explicitement ce qu'il faisait. Les dimensions restent
+              // déclarées pour que la place soit réservée avant l'arrivée.
+              width={WIDTH}
+              height={Math.round(WIDTH * 2.164)}
               sizes={`${WIDTH}px`}
-              priority={i === 0}
-              style={{ objectFit: 'cover' }}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchPriority={i === 0 ? 'high' : 'auto'}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
             />
           </motion.div>
         </AnimatePresence>

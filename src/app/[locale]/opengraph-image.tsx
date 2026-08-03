@@ -1,6 +1,5 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
+import { CORMORANT_500ITALIC, CORMORANT_600, HANKEN_500 } from '../_og-fonts/polices';
 
 /**
  * Image Open Graph de marque (1200×630) — partage social premium.
@@ -13,10 +12,24 @@ import { ImageResponse } from 'next/og';
  * fournit donc les buffers WOFF (statiques, subset latin, @fontsource, OFL) :
  *   - Cormorant Garamond (600 + 500 italic) = display serif (wordmark, taglines)
  *   - Hanken Grotesk (500)                  = sans (eyebrow, signature)
- * WOFF est supporté par Satori (WOFF2 non). Buffers lus du disque (readFileSync,
- * relatif à process.cwd() = racine projet) : robuste en webpack-dev ET au build
- * turbopack qui PRÉREND ce PNG (○ static) — pas de fetch(URL) qui casse en dev.
- * Cf. src/app/_og-fonts/ (LICENSE.txt).
+ * WOFF est supporté par Satori (WOFF2 non).
+ *
+ * ── LES OCTETS SONT EMBARQUÉS, ET C'EST UNE DÉCISION (2026-08-03) ─────────
+ * Ils étaient lus du disque par `readFileSync`. Robuste sous Node, impossible
+ * sous Cloudflare Workers : il n'y a pas de système de fichiers. Et l'appel
+ * étant au niveau MODULE, le fichier n'aurait même pas pu être IMPORTÉ dans ce
+ * runtime — que la route s'exécute ou non.
+ *
+ * L'autre solution habituelle, `fetch(new URL(…, import.meta.url))`, casse en
+ * développement : `import.meta.url` désigne alors un chemin `file://`, que le
+ * `fetch` de Node ne sait pas ouvrir. L'en-tête d'origine le disait déjà —
+ * « pas de fetch(URL) qui casse en dev ». Leçon déjà payée, non repayée.
+ *
+ * Restent les octets embarqués en base64 : ni disque, ni réseau, identiques
+ * dans les deux runtimes. 80 Ko de WOFF, chargés uniquement par cette route —
+ * qui est PRÉRENDUE. Aucun visiteur ne les télécharge.
+ *
+ * Cf. src/app/_og-fonts/ (LICENSE.txt) et scripts/generer-polices-og.mjs.
  *
  * `twitter-image.tsx` réexporte ce module (même typo/visuel summary_large_image).
  */
@@ -30,26 +43,10 @@ const CAVE = '#150f0c'; // espresso canvas (aligné app — jamais noir pur)
 const DISPLAY = 'Cormorant Garamond';
 const SANS = 'Hanken Grotesk';
 
-const FONT_DIR = join(process.cwd(), 'src/app/_og-fonts');
 const FONTS = [
-  {
-    name: DISPLAY,
-    data: readFileSync(join(FONT_DIR, 'cormorant-600.woff')),
-    weight: 600 as const,
-    style: 'normal' as const,
-  },
-  {
-    name: DISPLAY,
-    data: readFileSync(join(FONT_DIR, 'cormorant-500italic.woff')),
-    weight: 500 as const,
-    style: 'italic' as const,
-  },
-  {
-    name: SANS,
-    data: readFileSync(join(FONT_DIR, 'hanken-500.woff')),
-    weight: 500 as const,
-    style: 'normal' as const,
-  },
+  { name: DISPLAY, data: CORMORANT_600, weight: 600 as const, style: 'normal' as const },
+  { name: DISPLAY, data: CORMORANT_500ITALIC, weight: 500 as const, style: 'italic' as const },
+  { name: SANS, data: HANKEN_500, weight: 500 as const, style: 'normal' as const },
 ];
 
 export default function OpenGraphImage() {

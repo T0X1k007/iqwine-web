@@ -39,3 +39,7 @@ next-env.d.ts
 # Backup directories
 src_backup_*/
 
+
+# Sortie de l'adaptateur Cloudflare — régénérée à chaque construction.
+.open-next/
+.wrangler/

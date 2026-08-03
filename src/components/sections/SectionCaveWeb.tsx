@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { ImageStatique } from '@/components/ui/ImageStatique';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
@@ -92,7 +92,7 @@ export default function SectionCaveWeb() {
                       'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(235, 215, 166, 0.12), transparent 70%)',
                   }}
                 />
-                <Image
+                <ImageStatique
                   src="/screenshots/08-cellier-desktop.png"
                   alt={t(
                     'La cave Bigras, vue desktop complète avec sidebar et grid bouteilles',
@@ -100,9 +100,14 @@ export default function SectionCaveWeb() {
                   )}
                   width={1487}
                   height={758}
+                  // Deux variantes, parce que celle-ci est la seule assez grande
+                  // pour que l'écart compte : 58vw sur un écran de 1920 fait
+                  // ~1114 px, soit ~2230 px à 2×. Le navigateur choisit d'après
+                  // `sizes` ; générer une seule largeur servirait trop d'octets
+                  // à un téléphone, ou trop peu à un grand écran.
+                  largeurs={[1487, 2974]}
                   sizes="(min-width: 1024px) 58vw, 100vw"
                   className="block w-full h-auto"
-                  priority={false}
                 />
               </div>
             </div>

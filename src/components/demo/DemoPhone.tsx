@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import { ImageStatique } from '@/components/ui/ImageStatique';
 import { MapPin, Sun, ChevronLeft, Heart, Wine, Search } from 'lucide-react';
 import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import type { DemoCard } from '@/lib/demoData';
@@ -90,7 +90,7 @@ export default function DemoPhone({
             style={{ background: `radial-gradient(60% 70% at 50% 42%, ${WINE_TINT[card.color]}, transparent 76%)` }}
           >
             {photo && !imgError ? (
-              <Image
+              <ImageStatique
                 src={photo}
                 alt={`${card.cuvee} — ${card.producer}`}
                 width={160}

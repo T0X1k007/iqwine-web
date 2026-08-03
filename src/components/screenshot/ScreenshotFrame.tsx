@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, type ReactNode, type CSSProperties } from 'react';
-import Image from 'next/image';
+import { ImageStatique } from '@/components/ui/ImageStatique';
 import {
   motion,
   useScroll,
@@ -216,13 +216,17 @@ function StaticFrame({
         {isPlaceholder(src) ? (
           <Placeholder text={placeholderLabel(src)} />
         ) : (
-          <Image
+          <ImageStatique
             src={src}
             alt={alt}
+            // Les dimensions déclarées sont celles du CADRE, pas de la source :
+            // c'est le rapport qu'il faut réserver pour qu'aucun texte ne saute
+            // quand l'image arrive. `objectFit: cover` fait le reste.
             width={innerWidth * 2}
             height={innerHeight * 2}
             sizes={`${width}px`}
-            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         )}
@@ -355,7 +359,23 @@ function CrossfadeLayer({
       {isPlaceholder(src) ? (
         <Placeholder text={placeholderLabel(src)} />
       ) : (
-        <Image src={src} alt={alt} fill sizes="320px" style={{ objectFit: 'cover' }} />
+        // `fill` de next/image n'a pas d'équivalent sur une balise `<img>` :
+        // on rend explicitement ce qu'il faisait — occuper le parent en
+        // absolu. Les dimensions restent déclarées pour le rapport d'aspect.
+        <ImageStatique
+          src={src}
+          alt={alt}
+          width={320}
+          height={Math.round(320 * IPHONE_ASPECT)}
+          sizes="320px"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
       )}
     </motion.div>
   );
@@ -410,7 +430,7 @@ function ScrollInsideFrame({
               className="absolute inset-x-0 top-0"
               style={{ y, willChange: 'transform' }}
             >
-              <Image
+              <ImageStatique
                 src={src}
                 alt={alt}
                 width={innerWidth * 2}

@@ -1,10 +1,38 @@
 import type { NextConfig } from 'next';
+// La table des slugs est IMPORTÉE, jamais recopiée. Deux listes de routes qui
+// dérivent l'une de l'autre, c'est une redirection qui pointe dans le vide le
+// jour où l'on en ajoute une seule d'un côté.
+import { SEGMENTS } from './src/lib/locale';
+
+/**
+ * Les pages dont le slug anglais DIFFÈRE du nom de dossier. Ce sont les seules
+ * qui demandent une réécriture et une redirection ; `contact` et `beta`, dont
+ * le mot est le même dans les deux langues, n'ont besoin de rien.
+ */
+const SLUGS_ANGLAIS = Object.entries(SEGMENTS)
+  .filter(([dossier, slugs]) => slugs.en !== dossier)
+  .map(([dossier, slugs]) => ({ dossier, en: slugs.en }));
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    formats: ['image/avif', 'image/webp'],
+    /**
+     * ── L'OPTIMISEUR N'EST PLUS UTILISÉ, ET ON LE DIT (2026-08-03) ────────
+     *
+     * Toutes les images sont pré-converties en AVIF et WebP
+     * (`scripts/generer-images.mjs`) et servies par `<picture>` via
+     * `components/ui/ImageStatique`. Plus aucun `next/image` dans le dépôt.
+     *
+     * Le déclarer explicitement plutôt que de laisser la configuration
+     * traîner : sur Cloudflare Workers, un `next/image` réintroduit par
+     * distraction exigerait Cloudflare Images — un produit facturé — et la
+     * panne se manifesterait en production, pas à la construction.
+     *
+     * Mesuré : 7 621 Ko de PNG → 304 Ko d'AVIF, soit 96 % d'octets en moins,
+     * sans différence perceptible à la taille réelle d'affichage.
+     */
+    unoptimized: true,
   },
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
@@ -87,6 +115,32 @@ const nextConfig: NextConfig = {
         source: '/:cle([A-Za-z0-9]{8,128}).txt',
         destination: '/api/indexnow-key?k=:cle',
       },
+
+      /**
+       * ── LES SLUGS ANGLAIS SERVENT LES PAGES, SANS REDIRECTION ──────────
+       *
+       * `/en/pricing` rend le contenu de `app/[locale]/tarifs/`. C'est une
+       * RÉÉCRITURE, donc invisible : l'adresse affichée reste `/en/pricing`,
+       * et c'est elle que le visiteur copie, partage et met en signet.
+       *
+       * Une redirection aurait fait l'inverse — l'anglophone aurait vu
+       * l'adresse française réapparaître dans sa barre, ce que toute cette
+       * migration cherche précisément à supprimer.
+       *
+       * ── Pourquoi cela ne boucle pas avec la redirection ci-dessous ─────
+       * Next applique les redirections AVANT les réécritures, et la
+       * destination d'une réécriture n'est pas re-soumise aux redirections.
+       * `/en/tarifs` reçoit donc son 301 quand il arrive de l'extérieur,
+       * tandis que la réécriture l'atteint par l'intérieur sans le déclencher.
+       *
+       * C'est le point le plus risqué de cette migration — une boucle ici
+       * rendrait le site injoignable —, donc il est VÉRIFIÉ par le contrôle 10
+       * de `scripts/verifier-routage.mjs` et non supposé.
+       */
+      ...SLUGS_ANGLAIS.map(({ dossier, en }) => ({
+        source: `/en/${en}`,
+        destination: `/en/${dossier}`,
+      })),
     ];
   },
 
@@ -125,36 +179,49 @@ const nextConfig: NextConfig = {
      * profond partagé reste donc un lien profond, avec son attribution.
      */
     const ORIGIN = (process.env.REDIRECT_ORIGIN || '').replace(/\/$/, '');
-    const vers = (path: string) => `${ORIGIN}/fr${path === '/' ? '' : path}`;
 
-    /** Les chemins nus qui existaient AVANT le segment de langue. */
-    const ANCIENNES = [
-      '/apogee',
-      '/beta',
-      '/conditions',
-      '/confidentialite',
-      '/contact',
-      '/le-film',
-      '/notre-maison',
-      '/recevoir',
-      '/recherche',
-      '/sommelier-ia',
-      '/tarifs',
-    ];
+    /**
+     * ── LES CHEMINS NUS NE SONT PLUS REDIRIGÉS ICI ──────────────────────
+     *
+     * `/tarifs`, `/octave` et les neuf autres avaient une redirection
+     * permanente vers `/fr/…`. Elle est retirée, et il faut dire pourquoi
+     * plutôt que de la voir disparaître d'un diff.
+     *
+     * ── Ce qui n'allait pas, MESURÉ le 2026-08-03 ───────────────────────
+     * Ces redirections s'exécutent AVANT le middleware — vérifié : `/tarifs`
+     * rendait 308 vers `/fr/tarifs` quel que soit l'`Accept-Language`, tandis
+     * que `/nimporte-quoi`, absent de la liste, était bien négocié en 307 vers
+     * `/fr/…` ou `/en/…`.
+     *
+     * Or `alternatesFor` déclare `x-default` sur ces chemins nus, en affirmant
+     * qu'ils « négocient et redirigent vers la bonne langue de CETTE page ».
+     * C'était vrai pour l'accueil seulement. Pour toutes les autres pages,
+     * `x-default` désignait une adresse qui envoie tout le monde au français —
+     * donc un doublon de la déclaration `fr-CA`, et un anglophone arrivant par
+     * ce chemin atterrissait dans la mauvaise langue.
+     *
+     * ── Pourquoi la raison d'origine ne tient plus ──────────────────────
+     * Le commentaire retiré disait : « un 308 ne doit pas dépendre d'un
+     * en-tête ». C'est juste — et c'est exactement pourquoi ces chemins ne
+     * doivent PAS être des 308. Le middleware les rend en 307, temporaire par
+     * nature, ce qu'une négociation doit être. La règle est respectée en
+     * changeant de code, pas en forçant une langue.
+     *
+     * ── Et aucune chaîne n'apparaît ─────────────────────────────────────
+     * Mesuré : `iqwine.ca/tarifs` faisait DÉJÀ deux sauts (le domaine est
+     * redirigé au bord, avant l'application). Après ce changement il en fait
+     * toujours deux — mais le second négocie. Sur le domaine actuel,
+     * `/tarifs` reste à un seul saut, désormais vers la bonne langue et le bon
+     * slug : `/en/pricing` pour un anglophone.
+     *
+     * `/octave` est résolu par le middleware via `ALIAS` (cf. `lib/locale`),
+     * ce qui lui donne lui aussi la négociation et un seul saut.
+     */
 
     return [
-      /**
-       * `/octave` → `/fr/sommelier-ia`, en UN saut.
-       *
-       * Elle pointait vers `/sommelier-ia`, qui redirige maintenant elle-même.
-       * L'avoir laissée telle quelle aurait créé exactement la chaîne que tout
-       * ce bloc cherche à éviter — et sur la page la plus liée du site.
-       */
-      { source: '/octave', destination: vers('/sommelier-ia'), permanent: true },
-
-      ...ANCIENNES.map((path) => ({
-        source: path,
-        destination: vers(path),
+      ...SLUGS_ANGLAIS.map(({ dossier, en }) => ({
+        source: `/en/${dossier}`,
+        destination: `${ORIGIN}/en/${en}`,
         permanent: true,
       })),
     ];

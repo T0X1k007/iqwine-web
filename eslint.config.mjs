@@ -16,6 +16,11 @@ export default tseslint.config(
   {
     ignores: [
       '.next/**',
+      // Sortie de l'adaptateur Cloudflare : du code GÉNÉRÉ, régénéré à chaque
+      // construction. Le linter y trouvait 19 811 « erreurs » qui noyaient les
+      // vraies — et un rapport qu'on ne peut plus lire ne sert plus à rien.
+      '.open-next/**',
+      '.wrangler/**',
       'node_modules/**',
       'next-env.d.ts',
       'eslint.config.mjs',
