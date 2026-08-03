@@ -74,11 +74,39 @@ export function pageMetadata(
       locale: BCP47[locale],
       type: 'website',
       siteName: 'iQWine',
+      /**
+       * `images` — absent jusqu'au 2026-08-03, et c'est ce silence qui coûtait.
+       *
+       * `src/app/[locale]/opengraph-image.tsx` produit bien une image, et les
+       * deux pages d'accueil l'affichaient. Mais dès qu'une page déclare son
+       * propre objet `openGraph`, Next cesse d'y joindre l'image du segment
+       * parent. Toutes les pages construites par cet assistant — c'est-à-dire
+       * TOUTES sauf les accueils — annonçaient donc `summary_large_image`,
+       * une carte conçue autour d'une grande image, sans aucune image.
+       *
+       * Mesuré en production : `/fr`, `/en` avaient `og:image` ; `/fr/tarifs`,
+       * `/en/pricing`, `/fr/notre-maison`, `/en/our-story`, `/fr/sommelier-ia`,
+       * `/en/ai-sommelier`, `/fr/contact` n'en avaient pas.
+       *
+       * Le défaut ne casse rien : le lien partagé fonctionne, il est seulement
+       * NU. Sur Messenger, LinkedIn, iMessage ou Slack, la page de tarifs — le
+       * lien le plus partagé d'un site commercial — arrivait sans visuel.
+       *
+       * On pointe la route localisée SANS son empreinte de cache (`?hash`) :
+       * vérifié le 2026-08-03, `/fr/opengraph-image` et `/en/opengraph-image`
+       * rendent 200 et 120 Ko de PNG. L'empreinte est un cache-buster que Next
+       * ajoute lui-même quand il compose la balise ; l'écrire ici la figerait
+       * au build courant et servirait une image périmée au suivant.
+       */
+      images: [absoluteUrl('/opengraph-image', locale)],
     },
     twitter: {
       card: 'summary_large_image',
       title: t.ogTitle ?? t.title,
       description: t.ogDescription ?? t.description,
+      // Même raison, même correctif : `summary_large_image` sans image est une
+      // promesse que la carte ne peut pas tenir.
+      images: [absoluteUrl('/twitter-image', locale)],
     },
   };
 }
