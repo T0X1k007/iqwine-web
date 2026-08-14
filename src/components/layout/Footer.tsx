@@ -97,10 +97,19 @@ export default function Footer() {
           <FooterColumn title={t('Légal', 'Legal')} links={legal} />
         </div>
 
-        {/* Bas de page, copyright + mention consommation responsable */}
+        {/* Bas de page, copyright + avis de marque + consommation responsable */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col gap-2">
           <p className="font-body text-[10px] tracking-[0.18em] text-foreground-faint">
             © {new Date().getFullYear()} iQWine · {LEGAL_ENTITY.legalName}
+          </p>
+          {/* Avis de marque — IDENTIQUE sur /fr et /en, volontairement jamais
+              traduit : c'est l'ancrage français que la Charte de la langue
+              française exige quand `iQWine` s'affiche en contexte anglais
+              (audit OQLF 2026-08-14). « sommelier virtuel » = le générique
+              déclaré au REQ. ™ tant que la marque n'est pas ENREGISTRÉE à
+              l'OPIC (demande 2494635) — jamais ®, jamais « marque déposée ». */}
+          <p className="text-[11px] text-foreground-faint">
+            iQWine™ — sommelier virtuel — est une marque de commerce de {LEGAL_ENTITY.legalName}
           </p>
           <p className="text-[11px] text-foreground-faint">
             {t(

@@ -1,20 +1,18 @@
-import LocaleLink from '@/components/ui/LocaleLink';
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
-import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
-import { TRIAL_DAYS, TRIAL_RECOS } from '@/lib/trial';
+import { TexteRiche } from '@/components/legal/TexteRiche';
+import { NOTICE_EN, texteLegal, type LangueLegale } from '@/lib/legal-terms';
+import type { ReactNode } from 'react';
 
 const TEXTES = {
   fr: {
     title: 'Conditions d’utilisation · iQWine',
-    description:
-      'Conditions d’utilisation du service iQWine.',
+    description: 'Conditions d’utilisation du service iQWine.',
   },
   en: {
     title: 'Terms of Use · iQWine',
-    description:
-      'Terms of use for the iQWine service.',
+    description: 'Terms of use for the iQWine service.',
   },
 } as const;
 
@@ -24,138 +22,116 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 }
 
 /**
- * /conditions, Conditions d’utilisation publiques du site iQWine. Contenu
- * aligné sur la page canonique de l’application. À garder synchrone avec
- * cellier-vin (lib/legal/legal-meta.ts).
+ * /conditions — les Conditions d'utilisation publiques du site.
+ *
+ * Le texte n'est PLUS rédigé ici : il vient de `legal-terms.generated.json`,
+ * copie committée du canonique (clés `Legal.terms.*` de cellier-vin),
+ * régénérée par `npm run legal:synchroniser` et gardée par
+ * `npm run legal:verifier`. La version EN est une vraie traduction ; le
+ * bandeau rappelle que le français fait foi. 21 sections, mêmes numéros que
+ * l'application — c'est le même contrat.
  */
-export default function ConditionsPage() {
+export default async function ConditionsPage({ params }: ParamsLocale) {
+  const { locale } = await params;
+  const langue: LangueLegale = locale === 'en' ? 'en' : 'fr';
+  const t = (cle: string) => texteLegal(langue, cle);
+
+  const appleItems = Array.from({ length: 9 }, (_, i) => t(`s13AppleItem${i + 1}`));
+
   return (
-    <LegalPage title="Conditions d’utilisation" meta={`En vigueur le ${LEGAL_EFFECTIVE_DATE}`}>
-      <LegalSection title="1. Qui nous sommes">
-        iQWine est un service exploité par {LEGAL_ENTITY.legalName} (« iQWine »,
-        « nous »), entreprise constituée au {LEGAL_ENTITY.jurisdiction}. Les
-        présentes conditions régissent votre utilisation du service.
+    <LegalPage title={t('h1')} meta={t('effectiveOn')}>
+      {langue === 'en' && (
+        <p className="mb-10 rounded-lg border border-border px-4 py-3 text-[13px] leading-relaxed text-muted-foreground">
+          {NOTICE_EN}
+        </p>
+      )}
+
+      <LegalSection title={t('s1Title')}>{t('s1Body')}</LegalSection>
+
+      <LegalSection title={t('s2Title')}>
+        <p>
+          <TexteRiche>{t('s2Body')}</TexteRiche>
+        </p>
+        <p>{t('s2Age')}</p>
       </LegalSection>
 
-      <LegalSection title="2. Acceptation">
-        En créant un compte ou en utilisant iQWine, vous acceptez les présentes
-        conditions ainsi que la{' '}
-        <LocaleLink href="/confidentialite" className="text-or underline underline-offset-2 hover:text-foreground">
-          Politique de confidentialité
-        </LocaleLink>
-        . Si vous n’y consentez pas, n’utilisez pas le service.
+      <LegalSection title={t('s3Title')}>{t('s3Body')}</LegalSection>
+      <LegalSection title={t('s4Title')}>{t('s4Body')}</LegalSection>
+
+      <LegalSection title={t('s5Title')}>
+        {t('s5Intro')}
+        <LegalList items={[t('s5Item1'), t('s5Item2'), t('s5Item3')]} />
+        <p>
+          <TexteRiche>{t('s5Price')}</TexteRiche>
+        </p>
+        <p>
+          <TexteRiche>{t('s5Refund')}</TexteRiche>
+        </p>
       </LegalSection>
 
-      <LegalSection title="3. Le service">
-        iQWine est un assistant numérique de gestion de cave à vin : inventaire,
-        fenêtres de consommation, recommandations assistées par intelligence
-        artificielle et fonctionnalités connexes. Un essai gratuit est offert,
-        sans engagement, d’une durée de {TRIAL_DAYS} jours OU de{' '}
-        {TRIAL_RECOS} interactions avec Octave, la première de ces deux limites
-        atteinte mettant fin à l’essai. L’essai gratuit est limité à une
-        utilisation par utilisateur. La suppression d’un compte ne réinitialise
-        pas l’admissibilité à l’essai gratuit.
+      <LegalSection title={t('s6Title')}>
+        <TexteRiche>{t('s6Body')}</TexteRiche>
+      </LegalSection>
+      <LegalSection title={t('s7Title')}>{t('s7Body')}</LegalSection>
+      <LegalSection title={t('s8Title')}>{t('s8Body')}</LegalSection>
+      <LegalSection title={t('s9Title')}>{t('s9Body')}</LegalSection>
+
+      <LegalSection title={t('s10Title')}>
+        <p>{t('s10Body')}</p>
+        <p>{t('s10Mark')}</p>
       </LegalSection>
 
-      <LegalSection title="4. Votre compte">
-        Vous êtes responsable de la confidentialité de vos identifiants et de
-        l’exactitude des renseignements fournis. Un seul compte par personne,
-        sauf forfaits multi-utilisateurs.
+      <LegalSection title={t('s11Title')}>{t('s11Body')}</LegalSection>
+
+      <LegalSection title={t('s12Title')}>
+        <p>{t('s12Body')}</p>
+        <p>{t('s12Auto')}</p>
+        <p>{t('s12Pro')}</p>
       </LegalSection>
 
-      <LegalSection title="5. Forfaits, facturation et changements">
-        Les forfaits payants sont facturés d’avance selon la périodicité choisie
-        (mensuelle ou annuelle). Les limites d’utilisation dépendent du forfait.
-        <LegalList
-          items={[
-            'Bonification (forfait supérieur) : effet immédiat, avec ajustement du montant au prorata de la période en cours.',
-            'Réduction de forfait : effective au prochain renouvellement ; vous conservez votre forfait actuel jusque-là.',
-            'Changement de périodicité (mensuel ↔ annuel) : effectif au prochain renouvellement.',
-          ]}
-        />
-        <strong className="text-foreground">Aucun remboursement.</strong> Les
-        sommes versées ne sont pas remboursables, en tout ou en partie, et aucun
-        crédit remboursable n’est émis. La seule exception est la bonification
-        vers un forfait supérieur, dont l’accès supplémentaire est fourni
-        immédiatement contre l’ajustement proraté correspondant. Vous pouvez
-        changer ou résilier votre forfait à tout moment depuis votre espace de
-        facturation ; la résiliation prend effet à la fin de la période en cours,
-        sans remboursement de la période entamée.
+      <LegalSection title={t('s13Title')}>
+        <p>{t('s13Intro')}</p>
+        <SousTitre>{t('s13AppleTitle')}</SousTitre>
+        <p>{t('s13AppleIntro')}</p>
+        <LegalList items={appleItems} />
+        <SousTitre>{t('s13GoogleTitle')}</SousTitre>
+        <p>{t('s13GoogleBody')}</p>
       </LegalSection>
 
-      <LegalSection title="6. Le Sommelier Virtuel et les recommandations">
-        Les fenêtres de consommation (apogée, période de garde), les
-        recommandations de service, les accords mets-vins et les autres
-        suggestions du Sommelier Virtuel constituent une{' '}
-        <strong className="text-foreground">aide à la décision</strong> fondée
-        sur les données disponibles et l’expertise du moteur. Le comportement
-        réel d’une bouteille donnée dépend notamment de sa conservation, de son
-        transport, de l’état du bouchon, de l’environnement et de variations
-        propres au produit et au millésime. iQWine ne garantit pas le
-        comportement réel d’une bouteille spécifique, ni un résultat de
-        dégustation. Ces recommandations ne constituent pas un avis
-        professionnel et ne remplacent pas votre propre jugement.
+      <LegalSection title={t('s14Title')}>{t('s14Body')}</LegalSection>
+      <LegalSection title={t('s15Title')}>{t('s15Body')}</LegalSection>
+      <LegalSection title={t('s16Title')}>{t('s16Body')}</LegalSection>
+      <LegalSection title={t('s17Title')}>{t('s17Body')}</LegalSection>
+      <LegalSection title={t('s18Title')}>{t('s18Body')}</LegalSection>
+
+      <LegalSection title={t('s19Title')}>
+        <p>
+          <TexteRiche>{t('s19Item1')}</TexteRiche>
+        </p>
+        <p>
+          <TexteRiche>{t('s19Item2')}</TexteRiche>
+        </p>
+        <p>
+          <TexteRiche>{t('s19Item3')}</TexteRiche>
+        </p>
+        <p>
+          <TexteRiche>{t('s19Item4')}</TexteRiche>
+        </p>
       </LegalSection>
 
-      <LegalSection title="7. Données de tiers et disponibilités">
-        Certaines informations relatives aux produits, aux prix, aux
-        disponibilités et aux points de vente peuvent provenir de sources
-        publiques ou de détaillants tiers. Elles sont fournies à titre
-        informatif seulement et peuvent différer de celles affichées par les
-        détaillants concernés. Malgré nos efforts pour les maintenir à jour,
-        leur exactitude, leur disponibilité et leur exhaustivité ne peuvent être
-        garanties. iQWine n’est pas responsable de l’exactitude, de la
-        disponibilité ni des prix affichés par des tiers.
-      </LegalSection>
+      <LegalSection title={t('s20Title')}>{t('s20Body')}</LegalSection>
 
-      <LegalSection title="8. Enrichissement automatique">
-        Les fiches de vin peuvent être complétées automatiquement à partir de
-        sources multiples et de synthèses générées par IA, signalées comme
-        telles. Ces contenus sont fournis à titre d’information et peuvent
-        comporter des imprécisions.
-      </LegalSection>
-
-      <LegalSection title="9. Usage acceptable">
-        Vous vous engagez à ne pas détourner le service, à ne pas contourner ses
-        limites techniques ou de sécurité, et à respecter les droits des tiers.
-      </LegalSection>
-
-      <LegalSection title="10. Limitation de responsabilité">
-        Le service est fourni « tel quel » et « selon disponibilité ». Dans les
-        limites permises par le droit applicable, iQWine ne saurait être tenue
-        responsable des décisions prises sur la base des recommandations, de la
-        perte de valeur, de la dégradation ou de la non-conformité d’une
-        bouteille, ni des informations provenant de tiers. Rien dans les
-        présentes ne limite les droits que la loi vous accorde de manière
-        impérative.
-      </LegalSection>
-
-      <LegalSection title="11. Résiliation">
-        Vous pouvez supprimer votre compte à tout moment depuis vos paramètres.
-        Nous pouvons suspendre ou résilier un compte en cas de manquement aux
-        présentes conditions.
-      </LegalSection>
-
-      <LegalSection title="12. Modifications">
-        Nous pouvons modifier les présentes conditions. En cas de modification
-        importante, votre acceptation vous sera redemandée avant que vous
-        puissiez continuer à utiliser le service. La date d’entrée en vigueur
-        ci-dessus indique la version applicable.
-      </LegalSection>
-
-      <LegalSection title="13. Droit applicable">
-        Les présentes conditions sont régies par les lois applicables au{' '}
-        {LEGAL_ENTITY.jurisdiction}, sans égard aux règles de conflit de lois.
-      </LegalSection>
-
-      <LegalSection title="14. Contact">
-        Pour toute question relative aux présentes conditions : depuis
-        l’application (section Support) ou via notre page{' '}
-        <LocaleLink href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
-          Contact
-        </LocaleLink>
-        .
+      <LegalSection title={t('s21Title')}>
+        <TexteRiche>{t('s21Body')}</TexteRiche>
       </LegalSection>
     </LegalPage>
+  );
+}
+
+function SousTitre({ children }: { children: ReactNode }) {
+  return (
+    <h3 className="pt-2 font-[family-name:var(--font-display)] text-lg tracking-tight text-encre">
+      {children}
+    </h3>
   );
 }
