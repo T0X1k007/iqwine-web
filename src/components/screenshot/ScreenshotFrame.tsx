@@ -11,21 +11,21 @@ import {
 } from 'framer-motion';
 
 /**
- * ScreenshotFrame — capture app iQWine présentée en frame iPhone éditorial.
+ * ScreenshotFrame, capture app iQWine présentée en frame iPhone éditorial.
  *
  * Direction V4-bis (Eric 2026-05-20) : remplacer les mockups codés par de
  * vraies captures, MAIS conserver une expérience iPhone vivante et
  * interactive (sticky, scroll dans téléphone, crossfade entre écrans).
  *
  * Modes :
- *   - 'static'        — image figée, optionnels rotation/glow
- *   - 'sticky'        — frame se colle au viewport, idéal pour scènes narratives
- *   - 'crossfade'     — N captures, fondu enchaîné piloté par le scroll
- *   - 'scroll-inside' — capture verticale haute, scroll vertical dans la frame
+ *   - 'static'       , image figée, optionnels rotation/glow
+ *   - 'sticky'       , frame se colle au viewport, idéal pour scènes narratives
+ *   - 'crossfade'    , N captures, fondu enchaîné piloté par le scroll
+ *   - 'scroll-inside', capture verticale haute, scroll vertical dans la frame
  *
  * Frames :
- *   - 'iphone' — bezel arrondi 40px + dynamic island + or alpha subtle (def)
- *   - 'simple' — image directe avec shadow-bottle (pas de bezel)
+ *   - 'iphone', bezel arrondi 40px + dynamic island + or alpha subtle (def)
+ *   - 'simple', image directe avec shadow-bottle (pas de bezel)
  *
  * Captures non-existantes : passer `src="placeholder:LABEL"`. Affiche un
  * placeholder éditorial chaud (gradient walnut + mono caption) jusqu'à ce
@@ -360,7 +360,7 @@ function CrossfadeLayer({
         <Placeholder text={placeholderLabel(src)} />
       ) : (
         // `fill` de next/image n'a pas d'équivalent sur une balise `<img>` :
-        // on rend explicitement ce qu'il faisait — occuper le parent en
+        // on rend explicitement ce qu'il faisait, occuper le parent en
         // absolu. Les dimensions restent déclarées pour le rapport d'aspect.
         <ImageStatique
           src={src}

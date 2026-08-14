@@ -71,7 +71,7 @@ function CellIcon({ state, locale }: { state: Cell; locale: Locale }) {
       className="block text-center text-foreground-faint/50"
       aria-label={label('non', 'no')}
     >
-      —
+      ,
     </span>
   );
 }
@@ -152,8 +152,8 @@ export default function SectionComparison() {
                   <tr key={row.feature.en} className="border-t border-border">
                     {/* En-tête de LIGNE, pas une cellule de données : c'est
                         le nom de la fonctionnalité comparée. Sans lui, les
-                        « ✓ » et « — » des colonnes se lisent sans qu'on sache
-                        de quoi ils parlent — l'information du tableau tient
+                        « ✓ » et «, » des colonnes se lisent sans qu'on sache
+                        de quoi ils parlent, l'information du tableau tient
                         justement dans le croisement des deux. */}
                     <th
                       scope="row"
@@ -197,7 +197,7 @@ export default function SectionComparison() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
             <span className="inline-flex items-center gap-1.5"><Check size={13} className="text-or" /> {t('Oui', 'Yes')}</span>
             <span className="inline-flex items-center gap-1.5"><Minus size={13} /> {t('Partiel', 'Partial')}</span>
-            <span className="inline-flex items-center gap-1.5">— {t('Non', 'No')}</span>
+            <span className="inline-flex items-center gap-1.5">, {t('Non', 'No')}</span>
           </div>
         </FadeInOnScroll>
 

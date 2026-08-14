@@ -1,10 +1,10 @@
-// ⚠ FICHIER GÉNÉRÉ — ne pas éditer à la main.
+// ⚠ FICHIER GÉNÉRÉ, ne pas éditer à la main.
 //
 // Source : les `.woff` de ce dossier. Régénérer avec :
 //     node scripts/generer-polices-og.mjs
 //
 // Les octets sont embarqués en base64 pour que le module fonctionne SANS
-// système de fichiers — condition nécessaire sous Cloudflare Workers, où
+// système de fichiers, condition nécessaire sous Cloudflare Workers, où
 // `readFileSync` n'existe pas et où un appel au niveau module empêcherait
 // jusqu'à l'import du fichier. Cf. l'en-tête du script pour les deux autres
 // approches et pourquoi elles ne tiennent pas.

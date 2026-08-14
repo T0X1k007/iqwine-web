@@ -10,8 +10,8 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
 
 /**
- * /notre-maison — page de marque (Vague 4). La maison où vit Octave, votre
- * sommelier. On RÉVÈLE la mission déjà présente — on ne l'invente pas : aucun
+ * /notre-maison, page de marque (Vague 4). La maison où vit Octave, votre
+ * sommelier. On RÉVÈLE la mission déjà présente, on ne l'invente pas : aucun
  * fait fabriqué (pas d'événement, de chiffre, de certification, de biographie).
  * Voix : vouvoiement éditorial luxe, phrases courtes, sans exclamation.
  */
@@ -60,8 +60,8 @@ export default function NotreMaisonContent() {
             </h2>
             <p className="iq-lead mt-7 max-w-2xl mx-auto">
               {t(
-                'On connaît tous ce moment : des invités arrivent, et la question tombe — quoi ouvrir ? On hésite, on choisit par défaut, et la bouteille qu’il fallait reste couchée, passée son apogée. Les outils existants comptent les bouteilles. Aucun ne répond à la seule question qui compte : celle-ci, ce soir ?',
-                'We all know the moment: guests arrive, and the question lands — what to open? We hesitate, we settle, and the bottle that was right stays lying down, past its peak. The tools out there count bottles. None answer the only question that matters: this one, tonight?',
+                'On connaît tous ce moment : des invités arrivent, et la question tombe, quoi ouvrir ? On hésite, on choisit par défaut, et la bouteille qu’il fallait reste couchée, passée son apogée. Les outils existants comptent les bouteilles. Aucun ne répond à la seule question qui compte : celle-ci, ce soir ?',
+                'We all know the moment: guests arrive, and the question lands, what to open? We hesitate, we settle, and the bottle that was right stays lying down, past its peak. The tools out there count bottles. None answer the only question that matters: this one, tonight?',
               )}
             </p>
           </FadeInOnScroll>
@@ -78,8 +78,8 @@ export default function NotreMaisonContent() {
             </h2>
             <p className="iq-lead mt-7 max-w-2xl mx-auto">
               {t(
-                'C’est notre seule obsession. Une cave qui retient ce que vous avez aimé, qui suit l’apogée de chaque bouteille, qui apprend votre palais à chaque dégustation. Pas un inventaire qui oublie — une mémoire qui vous connaît. De cette mémoire est né Octave : le sommelier qui transforme tout ce que votre cave sait en une seule décision.',
-                'It is our only obsession. A cellar that holds what you loved, that follows the peak of every bottle, that learns your palate with every tasting. Not an inventory that forgets — a memory that knows you. From that memory came Octave: the sommelier who turns everything your cellar knows into a single decision.',
+                'C’est notre seule obsession. Une cave qui retient ce que vous avez aimé, qui suit l’apogée de chaque bouteille, qui apprend votre palais à chaque dégustation. Pas un inventaire qui oublie, une mémoire qui vous connaît. De cette mémoire est né Octave : le sommelier qui transforme tout ce que votre cave sait en une seule décision.',
+                'It is our only obsession. A cellar that holds what you loved, that follows the peak of every bottle, that learns your palate with every tasting. Not an inventory that forgets, a memory that knows you. From that memory came Octave: the sommelier who turns everything your cellar knows into a single decision.',
               )}
             </p>
           </FadeInOnScroll>
@@ -98,8 +98,8 @@ export default function NotreMaisonContent() {
             </h2>
             <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-[22px] sm:text-[26px] leading-relaxed mt-8 max-w-2xl mx-auto">
               {t(
-                '« Je ne note pas les vins. Je connais les vôtres. Dites-moi le repas et le moment — je m’occupe de la bouteille. »',
-                '“I don’t score wines. I know yours. Tell me the meal and the moment — I’ll take care of the bottle.”',
+                '« Je ne note pas les vins. Je connais les vôtres. Dites-moi le repas et le moment, je m’occupe de la bouteille. »',
+                '“I don’t score wines. I know yours. Tell me the meal and the moment, I’ll take care of the bottle.”',
               )}
             </blockquote>
             <p className="font-[family-name:var(--font-display)] italic text-or text-xl sm:text-2xl mt-8">
@@ -137,12 +137,12 @@ export default function NotreMaisonContent() {
             <div className="text-center mb-10">
               <p className="iq-eyebrow mb-5">{t('Le mot du fondateur', 'A word from the founder')}</p>
             </div>
-            {/* Note fondateur — verbatim de conviction à confirmer par Éric ; une vraie photo du fondateur pourra être ajoutée ici quand dispo. */}
+            {/* Note fondateur, verbatim de conviction à confirmer par Éric ; une vraie photo du fondateur pourra être ajoutée ici quand dispo. */}
             <figure className="rounded-2xl border border-or/15 bg-or/[0.03] p-8 lg:p-12 text-center">
               <blockquote className="font-[family-name:var(--font-display)] italic text-foreground/90 text-[21px] sm:text-[24px] leading-relaxed max-w-2xl mx-auto">
                 {t(
-                  '« Je n’ai pas voulu construire une application de plus. Je voulais une cave qui se souvienne — et un sommelier qui en tire la bonne bouteille, au bon moment. C’est tout ce qu’on construit. »',
-                  '“I didn’t set out to build one more app. I wanted a cellar that remembers — and a sommelier who draws the right bottle from it, at the right moment. That is all we build.”',
+                  '« Je n’ai pas voulu construire une application de plus. Je voulais une cave qui se souvienne, et un sommelier qui en tire la bonne bouteille, au bon moment. C’est tout ce qu’on construit. »',
+                  '“I didn’t set out to build one more app. I wanted a cellar that remembers, and a sommelier who draws the right bottle from it, at the right moment. That is all we build.”',
                 )}
               </blockquote>
               <figcaption className="mt-8 font-body text-[11px] tracking-[0.14em] uppercase text-foreground-faint">

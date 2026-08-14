@@ -8,7 +8,7 @@ import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * CTA sticky — MOBILE uniquement (md:hidden). Apparaît après le hero,
+ * CTA sticky, MOBILE uniquement (md:hidden). Apparaît après le hero,
  * barre fine en bas, ne masque jamais le contenu.
  *
  * Non-jetable : pas de fermeture permanente. Le bouton ne fait que replier la
@@ -59,15 +59,18 @@ export default function StickyCTA() {
             </div>
           ) : (
             <div className="mx-3 mb-3 flex items-center gap-3 rounded-pill border border-or/30 bg-overlay/95 backdrop-blur-[14px] pl-4 pr-2 py-2 shadow-[var(--shadow-lg)]">
+              {/* Refonte v3 : le message suit la promesse (plus « quoi ouvrir
+                  ce soir », l'axe cave d'avant) et le CTA reste transactionnel
+                  court, la règle exacte de l'essai vit dans les sections. */}
               <span className="iq-small text-foreground-dim flex-1 truncate">
-                {t('Sachez quoi ouvrir ce soir.', 'Know what to open tonight.')}
+                {t('Votre sommelier vous attend.', 'Your sommelier is waiting.')}
               </span>
               <a
                 href={buildSignupUrl('sticky', { lang: locale })}
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'sticky' })}
                 className="rounded-pill bg-or text-background font-medium text-[14px] px-4 py-2 active:scale-[0.98] transition-transform"
               >
-                {t('Essai gratuit', 'Free trial')}
+                {t('Rencontrer Octave', 'Meet Octave')}
               </a>
               <button
                 type="button"

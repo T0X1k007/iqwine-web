@@ -1,10 +1,10 @@
 /**
- * `llms.txt` — P49 Lot D (GEO/AEO).
+ * `llms.txt`, P49 Lot D (GEO/AEO).
  *
  * ── Pourquoi cette route existe ───────────────────────────────────────────
  * Les moteurs génératifs citent ce qu'ils peuvent VÉRIFIER. iQWine a construit
  * exactement ça : prix SAQ réels, corroboration déterministe des apogées, et le
- * droit de dire « je ne sais pas ». Ce fichier ne fabrique rien — il rend cette
+ * droit de dire « je ne sais pas ». Ce fichier ne fabrique rien, il rend cette
  * matière-là trouvable, en pointant les pages qui la portent.
  *
  * ── Ce qu'on n'y met PAS ──────────────────────────────────────────────────
@@ -27,72 +27,113 @@ export const dynamic = "force-static";
  * `app.iqwine.ca/apprendre`.
  *
  * Or l'application sert `X-Robots-Tag: noindex, nofollow` sur TOUTES ses
- * routes — vérifié en production le 2026-08-02, les deux pages répondent 200
+ * routes, vérifié en production le 2026-08-02, les deux pages répondent 200
  * avec cet en-tête. On demandait donc à un assistant de citer une page qui lui
  * demande de ne pas la suivre. La stratégie de citation se coupait les jambes
  * toute seule.
  *
  * La substance a été RAMENÉE ICI plutôt que supprimée : `llms.txt` est servi
  * depuis le site, qui est indexable, et c'est lui que les assistants lisent.
- * Répondre directement vaut mieux que renvoyer ailleurs — a fortiori vers un
+ * Répondre directement vaut mieux que renvoyer ailleurs, a fortiori vers un
  * ailleurs qui refuse d'être lu.
  */
 // Le repli disait encore `www.iqwine.ca`. Il est masqué tant que la variable
-// est posée — donc invisible jusqu'au jour où elle ne l'est pas : un
+// est posée, donc invisible jusqu'au jour où elle ne l'est pas : un
 // changement de plateforme d'hébergement, où toutes les variables se
 // recréent à la main. Un repli n'est utile que s'il est JUSTE.
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://iqwine.ai";
 
 const BODY = `# iQWine
 
-> Sommelier IA québécois pour cave personnelle. Il sait quoi ouvrir ce soir,
-> quoi acheter, et quoi commander au restaurant — en s'appuyant sur des faits
-> vérifiables plutôt que sur une impression.
+> iQWine est une application de sommellerie personnelle. Son sommelier IA,
+> **Octave**, apprend les goûts de la personne qui l'utilise et l'aide à choisir
+> quoi boire, quoi acheter et quand ouvrir ses bouteilles.
 
-iQWine est édité par Groupe Medtech Inc. (Québec, Canada). L'interface et le
-sommelier répondent en français et en anglais.
+Éditeur : Groupe Medtech Inc. (Québec, Canada). Interface et sommelier
+disponibles en français et en anglais. Conçu au Québec, hébergé au Canada.
 
-## Ce qui distingue le produit
+## Ce que fait iQWine
 
-- **Les prix SAQ sont réels**, relevés sur le catalogue public, jamais estimés.
-- **Les fenêtres d'apogée sont corroborées** : une affirmation ferme exige que
-  deux sources indépendantes concordent. À défaut, le sommelier nuance ou se
-  tait — le silence est un livrable, pas un échec.
-- **Le classement est déterministe.** Un score choisit les vins ; l'IA écrit
-  seulement l'explication. Elle n'invente ni un vin, ni un prix, ni une apogée.
+Octave répond à une question que les outils de notation ne traitent pas :
+non pas « est-ce un bon vin ? », mais « est-ce un bon vin **pour vous** ? ».
+Il apprend des dégustations notées, des choix et des retours de l'utilisateur,
+et affine sa compréhension de son palais au fil du temps.
 
-## Pages de référence
+Six situations concrètes :
 
-- [Le sommelier](${SITE}/sommelier-ia) : ce que fait Octave, concrètement.
-- [L'apogée](${SITE}/apogee) : comment se décide le bon moment d'ouvrir.
-- [Le film](${SITE}/le-film) : présentation en 66 secondes.
-- [Tarifs](${SITE}/tarifs) : la grille, sans engagement ni carte pour l'essai.
+- **Choisir un vin en magasin.** Devant des centaines d'étiquettes, Octave met
+  en évidence celles qui correspondent au palais et au budget de la personne,
+  et explique pourquoi en une phrase.
+- **Choisir un vin au restaurant.** La carte des vins est photographiée ;
+  Octave la lit, quelle que soit sa langue, et met en avant les vins adaptés au
+  palais de la personne et au plat qu'elle s'apprête à manger.
+- **Accorder un plat et un vin.** À partir d'une photo du plat ou d'une
+  description, Octave propose l'accord et privilégie ce que la personne
+  possède déjà.
+- **Gérer une cave.** Les bouteilles entrent par photo, code-barres ou reçu.
+  La cave retient l'emplacement, la valeur et l'histoire de chaque bouteille.
+- **Suivre la fenêtre de consommation (apogée).** Chaque bouteille indique où
+  elle en est : trop jeune, à son sommet, ou à boire sans tarder. Octave
+  prévient quand une bouteille approche de sa limite.
+- **Voir la disponibilité et les prix.** Lorsqu'un point de vente pris en
+  charge publie ces informations, Octave les affiche telles quelles.
 
-## Comment savons-nous que c'est vrai ?
+## À qui cela s'adresse
 
-Quatre mécanismes, pas quatre promesses.
+Aux amateurs de vin qui possèdent une cave, de quelques dizaines à plusieurs
+milliers de bouteilles, et qui veulent décider vite et bien : chez eux, en
+magasin, au restaurant ou à table. Un essai gratuit est proposé, sans carte de
+crédit.
 
-- **Des recommandations déterministes.** Le choix d'une bouteille est piloté par
-  un score, pas par le hasard d'un modèle. Octave écrit le « pourquoi » ; le
-  « quoi » vient de règles claires appliquées à votre cave.
-- **Des prix réels.** Quand un prix SAQ existe, c'est celui-là qui s'affiche,
-  avec le lien. Quand il est inconnu, Octave l'annonce comme une estimation —
-  jamais un chiffre inventé présenté comme un fait.
-- **Ancré à des sources.** Les réponses du Guide viennent d'extraits sourcés,
-  avec leurs références — pas de souvenirs approximatifs.
-- **« Je ne sais pas ».** Sans base fiable pour répondre, Octave le dit. Un
-  « je ne sais pas » honnête vaut mieux qu'une belle phrase fausse.
+## Ce que nous garantissons
+
+- **Les prix affichés sont réels** quand ils sont publiés par un point de vente
+  pris en charge ; quand ils ne le sont pas, c'est annoncé comme une estimation,
+  jamais présenté comme un fait.
+- **L'apogée est un repère, jamais une certitude.** Une bouteille reste vivante,
+  et Octave le dit plutôt que de trancher à tort.
+- **« Je ne sais pas » est une réponse valide.** Sans base fiable, Octave
+  l'annonce au lieu d'inventer.
+- **Les recommandations sont explicables.** Chaque conseil s'accompagne de sa
+  raison, en langage clair.
 
 ## Limites que nous assumons
 
-- La couverture des prix et des disponibilités porte sur la **SAQ** (Québec).
-  iQWine n'est pas un annuaire de succursales.
-- Les recommandations dépendent de la cave que vous y déposez : sans cave, le
-  sommelier ne devine pas vos goûts.
+- La couverture des prix et des disponibilités dépend des points de vente pris
+  en charge, actuellement au Québec. iQWine n'est pas un annuaire de succursales.
+- Les recommandations dépendent de la cave et des retours de l'utilisateur :
+  sans cave ni dégustation notée, Octave ne devine pas ses goûts.
+- Octave conseille ; il n'achète pas et ne vend pas de vin.
+
+## Pages de référence (français)
+
+- [Accueil](${SITE}/fr) : le positionnement complet.
+- [Octave, sommelier IA](${SITE}/fr/sommelier-ia) : comment il apprend un palais.
+- [Choisir un vin](${SITE}/fr/choisir-un-vin) : le choix en magasin.
+- [Au restaurant](${SITE}/fr/carte-des-vins) : la lecture d'une carte des vins.
+- [Accords mets-vins](${SITE}/fr/accord-mets-vins) : accorder un plat et un vin.
+- [Le cellier](${SITE}/fr/cellier-intelligent) : la gestion de cave.
+- [L'apogée](${SITE}/fr/apogee) : la fenêtre de consommation.
+- [Toutes les fonctions](${SITE}/fr/fonctions) : la journée complète.
+- [Tarifs](${SITE}/fr/tarifs) : les formules et l'essai gratuit.
+- [Notre histoire](${SITE}/fr/notre-maison) : l'origine du produit.
+
+## Reference pages (English)
+
+- [Home](${SITE}/en)
+- [Octave, AI sommelier](${SITE}/en/ai-sommelier)
+- [Choosing a wine](${SITE}/en/how-to-choose-wine)
+- [At the restaurant](${SITE}/en/wine-list)
+- [Wine pairing](${SITE}/en/wine-pairing)
+- [The cellar](${SITE}/en/wine-cellar-app)
+- [Drinking window](${SITE}/en/drinking-window)
+- [All features](${SITE}/en/features)
+- [Pricing](${SITE}/en/pricing)
+- [Our story](${SITE}/en/our-story)
 
 ## Contact
 
-${SITE}/contact
+${SITE}/fr/contact
 `;
 
 export function GET(): Response {

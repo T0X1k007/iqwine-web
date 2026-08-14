@@ -3,10 +3,10 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * FilmPlayer — lecteur du film de marque iQWine (MP4 H.264 MUET, ~5 Mo / 65 s).
+ * FilmPlayer, lecteur du film de marque iQWine (MP4 H.264 MUET, ~5 Mo / 65 s).
  *
  * Robustesse (Experience 2.0) : la `<source>` est TOUJOURS présente dans le HTML
- * rendu côté serveur — le film existe donc pour les crawlers, le partage social,
+ * rendu côté serveur, le film existe donc pour les crawlers, le partage social,
  * les lecteurs d'écran et même sans JavaScript (le plein-écran a ses contrôles
  * natifs). On ne dépend plus du moteur React pour poser la source (ancien bug
  * « aucune <source> » vu par curl / les crawlers, car le src n'était ajouté

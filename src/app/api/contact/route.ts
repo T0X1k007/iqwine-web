@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 /**
- * POST /api/contact — formulaire « Contactez-nous / Démonstration / Partenariat »
+ * POST /api/contact, formulaire « Contactez-nous / Démonstration / Partenariat »
  * du site iqwine.ai. Forward best-effort vers l'app cellier-vin
  * (POST /api/contact) qui persiste la demande + notifie l'admin. Aucune adresse
  * courriel publique exposée.
@@ -14,7 +14,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const ALLOWED_CATEGORIES = new Set(['CONTACT', 'DEMO', 'PARTNERSHIP', 'BETA']);
 // Bascule du 2026-08-02. Un POST vers l'ancien hôte survivrait au 308 (qui
 // préserve la méthode et le corps), mais il traverserait une redirection à
-// chaque envoi de formulaire — et le jour où elle tombera, le formulaire de
+// chaque envoi de formulaire, et le jour où elle tombera, le formulaire de
 // contact cessera de fonctionner sans qu'aucun test ne l'annonce.
 const IQWINE_APP_URL = process.env.IQWINE_APP_URL || 'https://app.iqwine.ai';
 const FORWARD_TIMEOUT_MS = 4000;
@@ -23,7 +23,7 @@ const LIMITS = { name: 200, email: 254, message: 5000, maxBodyBytes: 16 * 1024 }
 // Rate-limit mémoire (par IP, 5 req / heure).
 //
 // ⚠️ LIMITE CONNUE ET ASSUMÉE (audit 2026-07-28) : sur Vercel, les instances
-// sont éphémères et réparties — cette `Map` se réinitialise, donc ce plafond est
+// sont éphémères et réparties, cette `Map` se réinitialise, donc ce plafond est
 // un ralentisseur, pas une barrière. Le VRAI plafond vit côté application
 // (`checkAndIncrementContactIp`, seau Redis dédié et fail-closed) : c'est lui
 // qui protège la réputation d'envoi. On garde celui-ci pour absorber les
@@ -54,14 +54,14 @@ function checkRate(ip: string): boolean {
 /**
  * IP du client, telle que Vercel la garantit.
  *
- * AUDIT 2026-07-28 — on lisait le PREMIER élément de `x-forwarded-for`, qui est
+ * AUDIT 2026-07-28, on lisait le PREMIER élément de `x-forwarded-for`, qui est
  * précisément la partie ÉCRITE PAR LE CLIENT. `curl -H 'X-Forwarded-For: 1.2.3.4'`
  * en incrémentant l'octet donnait donc une identité neuve à chaque requête, et
  * le plafond de 5/heure ne plafonnait rien. C'est l'erreur que l'application a
  * corrigée de son côté (P50) ; ce relais était resté en arrière.
  *
  * Sur Vercel, `x-vercel-forwarded-for` est posé par la plateforme et n'est pas
- * falsifiable ; le DERNIER élément de `x-forwarded-for` est le repli correct —
+ * falsifiable ; le DERNIER élément de `x-forwarded-for` est le repli correct ,
  * c'est celui qu'ajoute le proxy de confiance, pas celui qu'envoie le client.
  */
 function getClientIp(req: Request): string {
@@ -138,7 +138,7 @@ export async function POST(request: Request) {
          * un 502 ne laissait plus AUCUNE trace exploitable. On perdait le
          * diagnostic sans rien gagner de plus en confidentialité.
          *
-         * Ici, le détail va dans les journaux du serveur — là où il est utile
+         * Ici, le détail va dans les journaux du serveur, là où il est utile
          * et où l'appelant ne le voit pas.
          */
         const detail = await res.text().catch(() => '');

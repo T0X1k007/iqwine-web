@@ -1,13 +1,13 @@
 import { TRIAL_DAYS, TRIAL_RECOS, TRIAL_FULL } from '@/lib/trial';
 
 /**
- * LES QUESTIONS FRÉQUENTES — source unique, partagée avec le JSON-LD.
+ * LES QUESTIONS FRÉQUENTES, source unique, partagée avec le JSON-LD.
  *
  * ── Pourquoi elles ont quitté le composant ────────────────────────────────
  * MFP-09 lot C demande des données structurées de FAQ. Les écrire à côté du
  * composant aurait créé DEUX rédactions des mêmes questions : celle que
  * l'humain lit et celle que Google lit. Elles auraient divergé au premier
- * ajustement de formulation — et la divergence serait invisible, puisque
+ * ajustement de formulation, et la divergence serait invisible, puisque
  * personne ne relit un `<script type="application/ld+json">`.
  *
  * Google est d'ailleurs explicite : le balisage FAQ doit refléter un contenu
@@ -77,22 +77,22 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
       // barrière temporelle. Un utilisateur actif peut atteindre les douze
       // recommandations en trois jours : la réponse doit nommer les DEUX
       // bornes, et dire laquelle arrive en premier.
-      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} recommandations d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première — c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
-      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} of Octave’s recommendations. If you use it a lot, the second limit can arrive before the first — that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
+      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} recommandations d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première, c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
+      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} of Octave’s recommendations. If you use it a lot, the second limit can arrive before the first, that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
     },
   },
   {
     q: { fr: 'Octave peut-il se tromper ?', en: 'Can Octave be wrong?' },
     a: {
-      fr: 'Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts — pas sur un assistant générique. Et il vous dit quand il hésite plutôt que d’inventer.',
-      en: 'Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste — not a generic assistant. And it tells you when it’s unsure rather than making things up.',
+      fr: 'Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts, pas sur un assistant générique. Et il vous dit quand il hésite plutôt que d’inventer.',
+      en: 'Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste, not a generic assistant. And it tells you when it’s unsure rather than making things up.',
     },
   },
   {
     q: { fr: 'Pourquoi choisir l’annuel ?', en: 'Why choose annual?' },
     a: {
-      fr: 'Deux mois offerts, et un palais qu’Octave affine toute l’année. Vous vous installez pour de bon — c’est aussi le meilleur prix.',
-      en: 'Two months free, and a palate Octave sharpens all year long. You settle in for good — and it’s the best price.',
+      fr: 'Deux mois offerts, et un palais qu’Octave affine toute l’année. Vous vous installez pour de bon, c’est aussi le meilleur prix.',
+      en: 'Two months free, and a palate Octave sharpens all year long. You settle in for good, and it’s the best price.',
     },
   },
   {

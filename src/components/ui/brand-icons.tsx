@@ -1,5 +1,5 @@
 /**
- * Icônes de marque iQWine — marques maison réutilisées (cartouche de confiance
+ * Icônes de marque iQWine, marques maison réutilisées (cartouche de confiance
  * du hero + section Confiance). Extraites de HeroTrustBar pour éviter la
  * duplication (source unique).
  */

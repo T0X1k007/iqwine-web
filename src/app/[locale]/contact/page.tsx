@@ -4,12 +4,12 @@ import ContactContent from '@/components/sections/ContactContent';
 
 const TEXTES = {
   fr: {
-    title: 'Contact — iQWine',
+    title: 'Contact · iQWine',
     description:
       'Contactez l’équipe iQWine : information, démonstration ou partenariat.',
   },
   en: {
-    title: 'Contact — iQWine',
+    title: 'Contact · iQWine',
     description:
       'Get in touch with the iQWine team: questions, a demo, or a partnership.',
   },
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 }
 
 /**
- * /contact — page de contact iQWine. La coquille serveur porte la metadata SEO ;
+ * /contact, page de contact iQWine. La coquille serveur porte la metadata SEO ;
  * le corps bilingue (FR/EN) et le formulaire vivent dans ContactContent (client).
  * Le formulaire POST vers /api/contact (forward app cellier-vin).
  */

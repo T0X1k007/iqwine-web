@@ -8,10 +8,10 @@ import type { Locale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * ShareButton — geste de partage RÉEL, sans fausse promesse.
+ * ShareButton, geste de partage RÉEL, sans fausse promesse.
  *
  * On partage le SITE marketing (pas le signup) : une invitation à découvrir
- * Octave, « comme on tend un verre ». AUCUN crédit / parrainage annoncé —
+ * Octave, « comme on tend un verre ». AUCUN crédit / parrainage annoncé,
  * ça n'existe pas côté app. Web Share natif (mobile) sinon fallback copie.
  *
  * SSR-safe : tout accès à `navigator.*` se fait dans le handler onClick,
@@ -20,7 +20,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 // `iqwine.ai`, pas `www.iqwine.ca` : l'ancien domaine redirige (308), mais un
 // lien PARTAGÉ n'est pas un lien qu'on suit une fois. Il vit dans des messages,
-// des favoris, des aperçus de réseaux sociaux — chacun affichant le domaine
+// des favoris, des aperçus de réseaux sociaux, chacun affichant le domaine
 // qu'on lui a donné. Partager l'ancien, c'est continuer à le faire vivre.
 const SHARE_URL = 'https://iqwine.ai/?src=share';
 
@@ -55,8 +55,8 @@ export default function ShareButton({
 
   const shareText =
     locale === 'fr'
-      ? 'iQWine — la cave qui se souvient de ce que vous aimez.'
-      : 'iQWine — the cellar that remembers what you love.';
+      ? 'iQWine, la cave qui se souvient de ce que vous aimez.'
+      : 'iQWine, the cellar that remembers what you love.';
 
   const flagCopied = () => {
     setCopied(true);
@@ -90,7 +90,7 @@ export default function ShareButton({
         track(ANALYTICS_EVENTS.SHARE_CLICK, { method: 'copy', source });
       }
     } catch {
-      // Copie indisponible (permissions) — best-effort, on ne casse jamais l'UI.
+      // Copie indisponible (permissions), best-effort, on ne casse jamais l'UI.
     }
   };
 

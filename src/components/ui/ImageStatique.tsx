@@ -1,5 +1,5 @@
 /**
- * UNE IMAGE PRÉ-CONVERTIE — AVIF, repli WebP, repli PNG.
+ * UNE IMAGE PRÉ-CONVERTIE, AVIF, repli WebP, repli PNG.
  *
  * ── Pourquoi ce composant existe (2026-08-03) ─────────────────────────────
  * Le site passait par `next/image`, qui optimise à l'exécution. Sur Cloudflare
@@ -17,14 +17,14 @@
  *
  * ── `width` et `height` sont OBLIGATOIRES, et c'est le point ──────────────
  * Le navigateur réserve la place avant d'avoir reçu le premier octet. Sans
- * eux, le texte qui suit l'image saute au moment où elle arrive — c'est le
+ * eux, le texte qui suit l'image saute au moment où elle arrive, c'est le
  * déplacement de mise en page que mesure le CLS, et l'un des trois Core Web
  * Vitals. Un composant d'image qui les rend facultatifs est un composant qui
  * les fera oublier.
  *
  * ── L'ordre des `<source>` compte ────────────────────────────────────────
  * Le navigateur prend LE PREMIER format qu'il sait lire. AVIF d'abord (le plus
- * léger), WebP ensuite, et le `<img>` final sert de repli universel — c'est
+ * léger), WebP ensuite, et le `<img>` final sert de repli universel, c'est
  * lui qui porte `alt`, `width`, `height` et les styles.
  */
 
@@ -50,7 +50,7 @@ interface ImageStatiqueProps {
   /**
    * Repli applicatif quand l'image ne charge pas.
    *
-   * Ce n'est PAS le repli de format — celui-là est fait par les `<source>`.
+   * Ce n'est PAS le repli de format, celui-là est fait par les `<source>`.
    * C'est le cas où aucun fichier n'arrive : réseau coupé, actif manquant. Un
    * appelant peut alors afficher autre chose (`DemoPhone` montre une
    * silhouette de bouteille plutôt qu'un cadre vide).

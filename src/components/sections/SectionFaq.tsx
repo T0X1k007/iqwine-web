@@ -17,7 +17,7 @@ import { FAQ } from '@/lib/faq';
 const QA = FAQ;
 
 
-function FaqItem({ q, a }: { q: string; a: string }) {
+function FaqItem({ q, a, jour = false }: { q: string; a: string; jour?: boolean }) {
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
 
@@ -29,12 +29,12 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         aria-expanded={open}
         className="flex w-full items-center justify-between gap-4 cursor-pointer list-none py-5 select-none text-left"
       >
-        <span className="iq-h4 text-foreground">{q}</span>
+        <span className={`iq-h4 ${jour ? "text-encre" : "text-foreground"}`}>{q}</span>
         <span
           aria-hidden
-          className={`text-or text-2xl leading-none shrink-0 transition-transform duration-[240ms] ease-[cubic-bezier(.32,.72,0,1)] ${
-            open ? 'rotate-45' : ''
-          }`}
+          className={`shrink-0 text-2xl leading-none transition-transform duration-[240ms] ease-[cubic-bezier(.32,.72,0,1)] ${
+            jour ? 'text-or-jour' : 'text-or'
+          } ${open ? 'rotate-45' : ''}`}
         >
           +
         </span>
@@ -48,7 +48,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
             transition={{ duration: 0.34, ease: [0.32, 0.72, 0, 1] }}
             className="overflow-hidden"
           >
-            <p className="iq-body text-foreground-dim pb-5 -mt-1 max-w-xl">{a}</p>
+            <p className={`iq-body -mt-1 max-w-xl pb-5 ${jour ? "text-encre-2" : "text-foreground-dim"}`}>{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -56,23 +56,25 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-export default function SectionFaq() {
+export default function SectionFaq({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}) {
+  // La FAQ suit le mouvement de la page qui l'accueille (v3, 2026-08-14).
+  const jour = ton === 'jour';
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
   return (
-    <SectionWrapper id="faq" withDivider rhythm="standard" className="section-breathe">
+    <SectionWrapper id="faq" withDivider={!jour} rhythm="standard" className={`section-breathe ${jour ? "mouvement-jour" : ""}`}>
       <FadeInOnScroll>
         <div className="text-center mb-10 sm:mb-14">
-          <div className="iq-eyebrow mb-5">{t('Questions', 'Questions')}</div>
-          <h2 className="iq-h1 italic">{t('Avant de commencer.', 'Before you start.')}</h2>
+          <div className={`iq-eyebrow mb-5 ${jour ? "text-or-jour" : ""}`}>{t('Questions', 'Questions')}</div>
+          <h2 className={`iq-h1 italic ${jour ? "text-encre" : ""}`}>{t('Avant de commencer.', 'Before you start.')}</h2>
         </div>
       </FadeInOnScroll>
 
       <FadeInOnScroll delay={0.1}>
-        <div className="mx-auto max-w-2xl divide-y divide-border border-y border-border">
+        <div className={`mx-auto max-w-2xl divide-y border-y ${jour ? "divide-encre/10 border-encre/10" : "divide-border border-border"}`}>
           {QA.map((item) => (
-            <FaqItem key={item.q.en} q={item.q[locale]} a={item.a[locale]} />
+            <FaqItem key={item.q.en} q={item.q[locale]} a={item.a[locale]} jour={jour} />
           ))}
         </div>
       </FadeInOnScroll>

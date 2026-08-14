@@ -13,7 +13,7 @@ import {
 } from '@/lib/locale';
 
 /**
- * LE SÉLECTEUR DE LANGUE — de vrais liens, pas des boutons.
+ * LE SÉLECTEUR DE LANGUE, de vrais liens, pas des boutons.
  *
  * ── Pourquoi ce n'est pas un détail de balisage ───────────────────────────
  * C'étaient deux `<button onClick>`. Trois conséquences :
@@ -23,13 +23,13 @@ import {
  *   · **aucun robot ne pouvait découvrir l'autre version.** Un crawler suit des
  *     liens ; il ne clique pas. Les `hreflang` et le sitemap le disent aussi,
  *     mais un lien réel entre les deux versions reste le chemin de découverte
- *     le plus sûr — et c'était le seul qui manquait ;
+ *     le plus sûr, et c'était le seul qui manquait ;
  *   · un bouton qui navigue ment sur sa nature : pas d'ouverture dans un
  *     onglet, pas de copie de l'adresse, pas d'annonce « lien » au lecteur
  *     d'écran.
  *
  * Ce sont désormais des `<Link>` vers l'ÉQUIVALENT EXACT de la page courante.
- * Le `onClick` ne fait que mémoriser le choix — il n'empêche pas la navigation,
+ * Le `onClick` ne fait que mémoriser le choix, il n'empêche pas la navigation,
  * donc tout continue de fonctionner si le script ne s'exécute jamais.
  *
  * `hrefLang` sur chaque lien : l'attribut dit au moteur ce qu'il trouvera au
@@ -43,7 +43,7 @@ export default function LanguageToggle() {
   const pathname = usePathname() ?? '/';
 
   /**
-   * Mémorise le choix MANUEL — il prévaut ensuite sur `Accept-Language` lors
+   * Mémorise le choix MANUEL, il prévaut ensuite sur `Accept-Language` lors
    * de toute arrivée par la racine. Sans `preventDefault` : le lien navigue de
    * lui-même, le cookie n'est qu'un souvenir.
    */
@@ -71,7 +71,7 @@ export default function LanguageToggle() {
             className={`px-2.5 py-1.5 transition-colors duration-[140ms] ease-[cubic-bezier(.2,.8,.2,1)] ${
               actif
                 ? // Même défaut que les boutons dorés : l'ivoire sur l'or ne
-                  // donnait que 1,68 de contraste, pour 4,5 exigés — et ici sur
+                  // donnait que 1,68 de contraste, pour 4,5 exigés, et ici sur
                   // du 11 px, la taille la plus fragile de la page. `on-gold`
                   // porte le ratio à 9,8.
                   'bg-or text-on-gold'

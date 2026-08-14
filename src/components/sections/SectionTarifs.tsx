@@ -11,7 +11,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
  * Section tarifs de la home (ancre #tarifs ciblée par la nav). Vague 1 : un CTA
- * NEUTRE « Commencer l'essai » coiffe la grille — démarrer sans avoir à choisir
+ * NEUTRE « Commencer l'essai » coiffe la grille, démarrer sans avoir à choisir
  * un plan. La grille Pricing suit, puis le renvoi vers /tarifs.
  */
 export default function SectionTarifs() {
@@ -20,7 +20,7 @@ export default function SectionTarifs() {
 
   return (
     <section id="tarifs" className="scroll-mt-28">
-      {/* CTA neutre — commencer l'essai sans présélectionner de plan. */}
+      {/* CTA neutre, commencer l'essai sans présélectionner de plan. */}
       <div className="px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
         <FadeInOnScroll>
           <a

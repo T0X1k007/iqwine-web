@@ -13,7 +13,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * Hero V4, composition éditoriale 2 colonnes (lg+) / stack mobile.
  *
  * LEFT  : eyebrow + Cormorant H1 italic + sub + anchor + dual CTA + closer
- * RIGHT : iPhone éditorial — vraies captures de l'app en crossfade (HeroDemo)
+ * RIGHT : iPhone éditorial, vraies captures de l'app en crossfade (HeroDemo)
  *
  * Animations V4-bis :
  *   - Mount reveal staggered (CSS keyframes, zero JS observer)
@@ -41,7 +41,7 @@ export default function HeroV4() {
           subtile, au hero seul : un dégradé chaud diffus en haut (faible
           opacité) + une fine ligne or discrète. Jamais un halo de page. */}
       {/* Hero « La Matière » (VISUAL 2.0) : lumière de bougie champagne + arête de
-          laiton brossé + profondeur (vignette). Matière, lumière, profondeur —
+          laiton brossé + profondeur (vignette). Matière, lumière, profondeur,
           aucun bordeaux ambiant (le bordeaux reste rare). */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="absolute inset-x-0 top-0 h-[62%] bg-[radial-gradient(ellipse_64%_78%_at_50%_-6%,rgba(217,182,103,0.11),transparent_66%)]" />
@@ -97,11 +97,11 @@ export default function HeroV4() {
 
           </div>
 
-          {/* RIGHT : visuel produit — vraies captures app (HeroDemo), flottant sur une
+          {/* RIGHT : visuel produit, vraies captures app (HeroDemo), flottant sur une
               nappe champagne, avec la présence subtile de l'Anneau d'Octave (matière + profondeur). */}
           <div className="lg:col-span-6 flex flex-col items-center mt-12 lg:mt-0">
             <div className="relative w-full flex justify-center">
-              {/* Présence subtile de l'Anneau d'Octave — « Octave veille » */}
+              {/* Présence subtile de l'Anneau d'Octave, « Octave veille » */}
               <svg
                 viewBox="0 0 120 120"
                 aria-hidden
@@ -118,7 +118,7 @@ export default function HeroV4() {
                 <circle cx="60" cy="18" r="10" fill="url(#heroAnneauNode)" />
                 <circle cx="60" cy="18" r="1.8" fill="#fff7e6" />
               </svg>
-              {/* Nappe lumineuse champagne — le mockup flotte comme un objet lit */}
+              {/* Nappe lumineuse champagne, le mockup flotte comme un objet lit */}
               <div
                 aria-hidden
                 className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[440px] w-[420px] max-w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-80 blur-[100px]"
@@ -131,7 +131,7 @@ export default function HeroV4() {
           </div>
         </div>
 
-        {/* Cartouche de confiance, ancrée en bas du hero — referme la composition. */}
+        {/* Cartouche de confiance, ancrée en bas du hero, referme la composition. */}
         <FadeInOnScroll delay={0.7}>
           <div className="mt-10 lg:mt-12">
             <HeroTrustBar />

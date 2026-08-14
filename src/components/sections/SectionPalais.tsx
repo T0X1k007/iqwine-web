@@ -6,7 +6,7 @@ import ScreenshotFrame from '@/components/screenshot/ScreenshotFrame';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionPalais (#palais) — « Octave apprend votre palais ».
+ * SectionPalais (#palais), « Octave apprend votre palais ».
  *
  * Démonstration par le contraste : même question, deux réponses. L'IA
  * générique sert une moyenne ; Octave parle de VOTRE Barolo, de VOTRE apogée,
@@ -32,7 +32,7 @@ export default function SectionPalais() {
       </FadeInOnScroll>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto items-stretch">
-        {/* IA générique — terne, anonyme */}
+        {/* IA générique, terne, anonyme */}
         <FadeInOnScroll delay={0.1} className="h-full">
           <figure className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-7 sm:p-8">
             <figcaption className="iq-eyebrow-mute mb-5">
@@ -49,7 +49,7 @@ export default function SectionPalais() {
           </figure>
         </FadeInOnScroll>
 
-        {/* Octave — précis, personnel, cadre or */}
+        {/* Octave, précis, personnel, cadre or */}
         <FadeInOnScroll delay={0.18} className="h-full">
           <figure className="flex h-full flex-col rounded-2xl border border-or/30 bg-or/[0.06] p-7 sm:p-8">
             <figcaption className="iq-eyebrow mb-5">Octave</figcaption>
@@ -65,7 +65,7 @@ export default function SectionPalais() {
         </FadeInOnScroll>
       </div>
 
-      {/* Progression — le palais qui mûrit dans le temps (le moat) */}
+      {/* Progression, le palais qui mûrit dans le temps (le moat) */}
       <div className="mt-20 max-w-5xl mx-auto">
         <FadeInOnScroll delay={0.22}>
           <div className="text-center mb-10 sm:mb-12">
@@ -134,8 +134,8 @@ export default function SectionPalais() {
           <ScreenshotFrame
             src="/screenshots/04-carnet.png"
             alt={t(
-              'Votre carnet de dégustation — la mémoire de votre palais',
-              'Your tasting journal — your palate’s memory',
+              'Votre carnet de dégustation, la mémoire de votre palais',
+              'Your tasting journal, your palate’s memory',
             )}
             width={264}
             frame="iphone"

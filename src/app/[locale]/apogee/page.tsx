@@ -1,21 +1,31 @@
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
-import PillarPage from '@/components/pillars/PillarPage';
+import ApogeeContent from '@/components/fonctions/ApogeeContent';
 
+/**
+ * /apogee — dernier pilier hérité refondu (GO d'Eric, 2026-08-14). Les URLs
+ * et les slugs ne bougent PAS (/apogee ↔ /en/drinking-window) : seule la
+ * page change, donc aucune redirection, aucune autorité perdue et aucun
+ * contrôle de routage supplémentaire.
+ *
+ * Le title épouse la question telle qu'on la tape (« quand ouvrir une
+ * bouteille de vin ») ; la description donne les trois états en langage
+ * humain et la promesse de veille, sans empiler les requêtes.
+ */
 const TEXTES = {
   fr: {
-    title: 'Apogée — Chaque bouteille à son sommet | iQWine',
+    title: 'Quand ouvrir une bouteille de vin ? L’apogée avec Octave · iQWine',
     description:
-      'Octave suit l’apogée de chaque bouteille : vous l’ouvrez au bon moment, jamais trop tôt, jamais trop tard. Trois états, un verdict clair.',
-    ogTitle: 'Apogée — Chaque bouteille à son sommet',
-    ogDescription: 'Octave veille sur l’apogée de chaque bouteille.',
+      'Trop jeune, à son sommet, ou à boire sans tarder : Octave vous dit où en est chaque bouteille de votre cave, et vous prévient avant qu’il soit trop tard.',
+    ogTitle: 'L’apogée, suivie par Octave',
+    ogDescription: 'Vous l’avez gardée dix ans. Ne l’ouvrez pas un an trop tard.',
   },
   en: {
-    title: 'Drinking window — Every bottle at its best | iQWine',
+    title: 'When to open a bottle of wine? The drinking window · iQWine',
     description:
-      'Octave tracks each bottle’s drinking window: you open it at the right moment, never too early, never too late. Three states, one clear verdict.',
-    ogTitle: 'Drinking window — Every bottle at its best',
-    ogDescription: 'Octave watches over each bottle’s drinking window.',
+      'Too young, at its peak, or drink without delay: Octave tells you where each bottle in your cellar stands, and warns you before it’s too late.',
+    ogTitle: 'The drinking window, tracked by Octave',
+    ogDescription: 'You kept it ten years. Don’t open it a year too late.',
   },
 } as const;
 
@@ -24,6 +34,6 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
   return pageMetadata('/apogee', locale, TEXTES);
 }
 
-export default function Page() {
-  return <PillarPage slug="apogee" />;
+export default function ApogeePage() {
+  return <ApogeeContent />;
 }

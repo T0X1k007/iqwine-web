@@ -6,7 +6,7 @@ import { getHero } from '@/lib/constants';
 import { FleurDeLys } from '@/components/ui/brand-icons';
 
 /**
- * Cartouche de confiance hero — 4 piliers dans une boîte arrondie bordée
+ * Cartouche de confiance hero, 4 piliers dans une boîte arrondie bordée
  * alignée sur la largeur du contenu (flush CTA d’essai → bord droit
  * de la démo Sommelier iQWine ; demande Eric 2026-06-11) : icône or à
  * gauche + titre gras + deux sous-lignes muted, séparés par des filets
@@ -18,7 +18,7 @@ export default function HeroTrustBar() {
   const { locale } = useLocale();
   const hero = getHero(locale);
 
-  // Seul le pilier disponibilité (index 2) est un différenciateur — les 3 autres
+  // Seul le pilier disponibilité (index 2) est un différenciateur, les 3 autres
   // sont de l'hygiène. On le sort de la parité visuelle par un accent or léger.
   const items = [
     { ...hero.trust[0], icon: <FleurDeLys size={30} />, accent: false },

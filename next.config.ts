@@ -62,7 +62,14 @@ const nextConfig: NextConfig = {
       "form-action 'self'",
       "base-uri 'self'",
       "object-src 'none'",
-      'upgrade-insecure-requests',
+      // ── PAS d'upgrade-insecure-requests EN DEV (2026-08-12) ──────────────
+      // Le serveur de dev se consulte en HTTP pur via Tailscale
+      // (http://100.x.x.x:3020). Cette directive force alors CHAQUE asset vers
+      // https://100.x.x.x:3020 — qui n'écoute pas en TLS : la page arrive nue,
+      // sans CSS ni images. `localhost` y échappe (origine « de confiance »
+      // pour Chrome), c'est pourquoi le bug n'apparaît QUE depuis une autre
+      // machine. En production, derrière Cloudflare, la directive reste.
+      ...(isDev ? [] : ['upgrade-insecure-requests']),
     ].join('; ');
 
     return [
@@ -72,10 +79,17 @@ const nextConfig: NextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
-          },
+          // HSTS jamais en dev : si le site est un jour consulté via un NOM
+          // (MagicDNS Tailscale), un HSTS de deux ans épinglerait ce nom en
+          // HTTPS dans le navigateur — irrécupérable côté serveur.
+          ...(isDev
+            ? []
+            : [
+                {
+                  key: 'Strict-Transport-Security',
+                  value: 'max-age=63072000; includeSubDomains; preload',
+                },
+              ]),
           { key: 'Content-Security-Policy', value: csp },
           {
             key: 'Permissions-Policy',
@@ -224,6 +238,35 @@ const nextConfig: NextConfig = {
         destination: `${ORIGIN}/en/${en}`,
         permanent: true,
       })),
+
+      /**
+       * ── /recevoir ABSORBÉE par /accord-mets-vins (Eric, 2026-08-13) ────
+       * Son contenu (le menu accordé service par service) vit désormais dans
+       * la section « Recevoir » de la page Accords. Les trois anciennes
+       * adresses localisées reçoivent leur redirection permanente ; le chemin
+       * nu `/recevoir` passe par l'ALIAS du middleware (négociation de
+       * langue, un seul saut). Le dossier `app/[locale]/recevoir` demeure
+       * mais n'est plus joignable — il sera purgé en fin de phase 2.
+       */
+      { source: '/fr/recevoir', destination: `${ORIGIN}/fr/accord-mets-vins`, permanent: true },
+      { source: '/en/recevoir', destination: `${ORIGIN}/en/wine-pairing`, permanent: true },
+      { source: '/en/entertaining', destination: `${ORIGIN}/en/wine-pairing`, permanent: true },
+
+      /**
+       * ── /recherche ABSORBÉE par /choisir-un-vin (Eric, 2026-08-14) ─────
+       * L'ancien pilier (cave + proximité) vit désormais dans la section
+       * « près de vous » de la page Choisir un vin. Trois anciennes adresses
+       * localisées : le slug public anglais (/en/search), le nom de dossier
+       * (/en/recherche, qui aurait sinon enchaîné DEUX sauts via la règle
+       * dérivée de SEGMENTS, désormais disparue avec l'entrée), et le
+       * français. Le chemin nu /recherche passe par l'ALIAS du middleware
+       * (négociation de langue, un seul saut). Le dossier
+       * app/[locale]/recherche demeure mais n'est plus joignable — purge en
+       * fin de phase 2, avec /recevoir.
+       */
+      { source: '/fr/recherche', destination: `${ORIGIN}/fr/choisir-un-vin`, permanent: true },
+      { source: '/en/recherche', destination: `${ORIGIN}/en/how-to-choose-wine`, permanent: true },
+      { source: '/en/search', destination: `${ORIGIN}/en/how-to-choose-wine`, permanent: true },
     ];
   },
 };

@@ -8,7 +8,7 @@ import FilmPlayer from '@/components/film/FilmPlayer';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionFilm (#film) — Experience 2.0. Le film de marque devient la pièce
+ * SectionFilm (#film), Experience 2.0. Le film de marque devient la pièce
  * maîtresse : juste après le Hero (mvt #2), une bande cinémascope qui joue le
  * teaser (12 s, muet, boucle) et invite au film complet sur /le-film.
  */
@@ -16,18 +16,21 @@ export default function SectionFilm() {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
+  // Rythme `standard` depuis la micro-passe hub (Eric, 2026-08-13) : le film
+  // est une preuve, pas le climax de la page — sa respiration se resserre
+  // (~-12 % de hauteur, uniquement par les espacements).
   return (
-    <SectionWrapper id="film" rhythm="editorial" className="section-breathe">
+    <SectionWrapper id="film" rhythm="standard" className="section-breathe">
       <FadeInOnScroll>
-        <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
+        <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-10">
           <div className="iq-eyebrow mb-5">{t('Le film', 'The film')}</div>
           <h2 className="iq-h1 italic">
             {t('Une minute pour comprendre.', 'One minute to understand.')}
           </h2>
           <p className="iq-lead mx-auto mt-6 max-w-2xl">
             {t(
-              'Ce que change une cave qui se souvient — et un sommelier qui vous connaît, du premier verre au dernier.',
-              'What changes when your cellar remembers — and a sommelier who knows you, from the first glass to the last.',
+              'Ce que change une cave qui se souvient, et un sommelier qui vous connaît, du premier verre au dernier.',
+              'What changes when your cellar remembers, and a sommelier who knows you, from the first glass to the last.',
             )}
           </p>
         </div>
@@ -50,17 +53,17 @@ export default function SectionFilm() {
           <div className="aspect-[1280/588] w-full">
             <FilmPlayer variant="teaser" src="/video/film-teaser.mp4" poster="/video/film-iqwine-poster.jpg" />
           </div>
-          {/* scrim bas dédié — layout éditorial desktop */}
+          {/* scrim bas dédié, layout éditorial desktop */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-background via-background/45 to-transparent"
           />
-          {/* scrim uniforme léger — mobile, pour un bouton centré parfaitement lisible */}
+          {/* scrim uniforme léger, mobile, pour un bouton centré parfaitement lisible */}
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-background/35 sm:hidden" />
-          {/* affordances — bouton centré sur mobile, éditorial (label + bouton) en bas sur desktop */}
+          {/* affordances, bouton centré sur mobile, éditorial (label + bouton) en bas sur desktop */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-5 py-5 sm:items-end sm:justify-between sm:px-8 sm:py-7">
             <span className="hidden font-[family-name:var(--font-display)] text-lg italic text-foreground sm:inline-block sm:text-2xl">
-              iQWine — {t('le film', 'the film')}
+              iQWine, {t('le film', 'the film')}
             </span>
             <span className="inline-flex items-center gap-2 rounded-pill bg-or px-5 py-2.5 text-[13px] font-medium tracking-[0.02em] text-on-gold shadow-lg transition-transform duration-300 group-hover:scale-[1.04]">
               <Play size={13} strokeWidth={2} fill="currentColor" aria-hidden />

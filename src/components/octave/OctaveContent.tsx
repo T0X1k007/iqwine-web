@@ -223,7 +223,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* JE ME PRÉSENTE — Octave se présente lui-même, à la 1re personne */}
+      {/* JE ME PRÉSENTE, Octave se présente lui-même, à la 1re personne */}
       <section className="px-6 pb-16 lg:pb-20">
         <div className="mx-auto max-w-3xl">
           <FadeInOnScroll>
@@ -263,7 +263,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* VOIR OCTAVE EN ACTION — le produit montré, scènes variées */}
+      {/* VOIR OCTAVE EN ACTION, le produit montré, scènes variées */}
       <section className="section-light px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-6xl">
           <FadeInOnScroll>
@@ -296,7 +296,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* DIALOGUE — Question → Octave répond */}
+      {/* DIALOGUE, Question → Octave répond */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-3xl">
           <FadeInOnScroll>
@@ -367,7 +367,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* COMMENT OCTAVE VOUS CONNAÎT — 3 piliers visuels */}
+      {/* COMMENT OCTAVE VOUS CONNAÎT, 3 piliers visuels */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>
@@ -409,7 +409,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* POURQUOI OCTAVE EST DIFFÉRENT — côte à côte IA générique vs Octave */}
+      {/* POURQUOI OCTAVE EST DIFFÉRENT, côte à côte IA générique vs Octave */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>
@@ -490,7 +490,7 @@ export default function OctaveContent() {
         </div>
       </section>
 
-      {/* PREUVE — témoignages, rotation lente, plusieurs voix */}
+      {/* PREUVE, témoignages, rotation lente, plusieurs voix */}
       <section className="px-6 py-16 lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-5xl">
           <FadeInOnScroll>

@@ -1,6 +1,6 @@
 /**
- * Logo iQWine — image officielle (verre à vin doré, signature iQ).
- * Source : public/logo-iqwine.png — dimensions natives 228×256 (ratio 0.890625).
+ * Logo iQWine, image officielle (verre à vin doré, signature iQ).
+ * Source : public/logo-iqwine.png, dimensions natives 228×256 (ratio 0.890625).
  *
  * <img> natif pour bypasser le bug intermittent next/image + Turbopack en dev.
  * Dimensions explicites + aspect-ratio CSS pour zéro CLS au chargement.

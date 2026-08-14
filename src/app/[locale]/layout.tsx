@@ -16,16 +16,16 @@ import { pageMetadata } from '@/lib/page-metadata';
  * zero CLS sur fonts (size-adjust + fallback metric matching), zéro FOUT.
  * Élimine le @import url Google Fonts qui bloque le first paint.
  *
- * Direction éditoriale alignée cellier-vin (lib/fonts.ts) — iQWine VISUAL 2.0 :
+ * Direction éditoriale alignée cellier-vin (lib/fonts.ts), iQWine VISUAL 2.0 :
  *   - Display = Cormorant Garamond (serif magazine luxe, italic disponible)
  *     → titres, hero, citations, signatures, phrases sommelier
  *   - Body = Hanken Grotesk (sans humaniste chaud, remplace Inter)
  *     → labels, boutons, captions, prose, eyebrows
- *   - Mono = pile système (JetBrains Mono retiré — aligné app, perf)
+ *   - Mono = pile système (JetBrains Mono retiré, aligné app, perf)
  */
 const cormorant = Cormorant_Garamond({
   subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '600'], // 700 inutilisé — retiré (perf police mobile)
+  weight: ['400', '500', '600'], // 700 inutilisé, retiré (perf police mobile)
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-cormorant',
@@ -41,13 +41,13 @@ const hanken = Hanken_Grotesk({
 });
 
 /**
- * Données structurées site-wide (Organization + WebSite) — éligibilité rich
+ * Données structurées site-wide (Organization + WebSite), éligibilité rich
  * results + graphe de connaissances Google. Rendu SSR (JSON-LD) dans le <body>.
  */
 /**
- * P49 — sérialisation JSON-LD SÛRE. `JSON.stringify` seul laisse passer un
+ * P49, sérialisation JSON-LD SÛRE. `JSON.stringify` seul laisse passer un
  * `</script>` littéral : le navigateur fermerait la balise et exécuterait la
- * suite. Inoffensif tant que le graph est statique — mais c'est exactement le
+ * suite. Inoffensif tant que le graph est statique, mais c'est exactement le
  * motif qui devient une XSS le jour où l'on y injecte du contenu variable
  * (FAQ, avis, nom de page). On le durcit AVANT d'en avoir besoin, pas après.
  * Miroir de `lib/guide/jsonld.ts` côté app (source unique du raisonnement).
@@ -62,7 +62,7 @@ function serializeJsonLd(value: unknown): string {
  * Le socle de métadonnées, commun aux deux langues.
  *
  * PRIVÉ, et non exporté : Next refuse `metadata` et `generateMetadata` dans le
- * même fichier, et c'est une bonne règle — deux sources de métadonnées pour une
+ * même fichier, et c'est une bonne règle, deux sources de métadonnées pour une
  * page finiraient par se contredire. `generateMetadata` en dérive ci-dessous en
  * y ajoutant ce qui dépend de la langue.
  */
@@ -77,23 +77,27 @@ const BASE_METADATA: Metadata = {
 /**
  * Les textes de l'ACCUEIL, dans les deux langues.
  *
- * Ils vivaient en français, en dur, dans un `metadata` unique — donc la page
+ * Ils vivaient en français, en dur, dans un `metadata` unique, donc la page
  * anglaise portait un titre et une description français. Invisible à l'œil,
  * puisque le corps de la page, lui, était traduit ; mais c'est exactement ce
  * qu'un moteur lit et ce qu'un partage social affiche.
  */
+/* Refonte v3 (2026-08-13) : la métadonnée porte la PROMESSE, Octave, le
+ * sommelier IA qui apprend vos goûts, et plus une liste de fonctions. Les
+ * expressions de recherche (sommelier IA, choisir un vin, carte des vins,
+ * cave) restent présentes, naturellement. */
 const TEXTES_ACCUEIL = {
   fr: {
-    title: 'iQWine — Votre sommelier IA : cave, magasin, restaurant',
-    description: `Quoi ouvrir, quoi acheter, quoi commander — d'après vos goûts, votre cave et le stock local. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
-    ogTitle: 'iQWine — Votre sommelier IA : cave, disponibilité locale, restaurant',
-    ogDescription: `Recommande depuis votre cave, la disponibilité locale (magasin par magasin) ou les deux. Scan de carte et d'étiquette, profil de goût qui apprend. Essai gratuit : ${TRIAL_SHORT.fr}, sans carte.`,
+    title: 'iQWine · Octave, votre sommelier IA qui apprend vos goûts',
+    description: `Octave, votre sommelier IA, apprend votre palais et vous aide à choisir un vin, en magasin, au restaurant, devant votre cave. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    ogTitle: 'Octave. À l’unisson de vos goûts.',
+    ogDescription: `Votre sommelier IA personnel : il apprend vos goûts, lit une carte des vins, accorde vos plats et connaît votre cave, jusqu'à l'apogée de chaque bouteille. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
-    title: 'iQWine — Your AI sommelier for cellar and restaurant',
-    description: `Knows what to open, what to buy, what to order — from your taste, your cellar and local stock. Free trial: ${TRIAL_SHORT.en}, no card.`,
-    ogTitle: 'iQWine — Your AI sommelier: cellar, local availability, restaurant',
-    ogDescription: `Recommends from your cellar, from local availability (store by store), or both. Wine-list and label scanning, a taste profile that learns. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    title: 'iQWine · Octave, the AI sommelier that learns your taste',
+    description: `Octave, your personal AI sommelier, learns your palate and helps you choose wine, in the store, at the restaurant, in front of your cellar. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    ogTitle: 'Octave. In tune with your taste.',
+    ogDescription: `Your personal AI sommelier: he learns your taste, reads wine lists, pairs your meals and knows your cellar, down to each bottle's peak window. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 
@@ -118,11 +122,11 @@ export async function generateMetadata({
 }
 
 /**
- * LE LAYOUT RACINE — il porte désormais la LANGUE (GO d'Eric, MFP-09).
+ * LE LAYOUT RACINE, il porte désormais la LANGUE (GO d'Eric, MFP-09).
  *
  * ── Pourquoi il a déménagé sous `[locale]` ────────────────────────────────
  * `<html lang>` doit refléter la langue de la page. À la racine, il valait
- * « fr » en dur : l'anglais était servi sous un document déclaré français —
+ * « fr » en dur : l'anglais était servi sous un document déclaré français ,
  * faux pour un lecteur d'écran, faux pour un moteur, faux pour un traducteur
  * automatique. La documentation de Next 16 prévoit exactement ce déplacement :
  * « The root layout can also be nested in the new folder ».
@@ -152,19 +156,28 @@ export default async function RootLayout({
         {/*
           Le graphe est produit DANS la langue de la page. Servir un balisage
           français sous une URL anglaise ferait décrire la page par autre chose
-          que ce qu'elle est — or le balisage doit refléter le contenu visible,
+          que ce qu'elle est, or le balisage doit refléter le contenu visible,
           c'est la condition d'éligibilité aux résultats enrichis.
         */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteGraphLd(locale)) }}
         />
-        {/* Chrome GLOBAL — Navbar et Footer sur TOUTES les pages. Le
+        {/* Chrome GLOBAL, Navbar et Footer sur TOUTES les pages. Le
             fournisseur de langue REÇOIT désormais sa valeur de l'URL au lieu de
             la lire dans localStorage après le montage. */}
         <I18nProvider locale={locale}>
+          {/* Lien d'évitement clavier (QA refonte v3, 2026-08-13) : premier
+              élément focusable, invisible jusqu'au focus. La cible enveloppe
+              {children} pour exister sur TOUTES les pages. */}
+          <a
+            href="#contenu"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-md focus:bg-papier focus:px-4 focus:py-2 focus:text-encre focus:shadow-lg"
+          >
+            {locale === 'fr' ? 'Passer au contenu' : 'Skip to content'}
+          </a>
           <Navbar />
-          {children}
+          <div id="contenu">{children}</div>
           <Footer />
         </I18nProvider>
       </body>

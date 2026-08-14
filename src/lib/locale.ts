@@ -91,9 +91,20 @@ export const SEGMENTS: Record<string, Record<Locale, string>> = {
   // Le titre anglais de la page dit déjà « Drinking window » — le slug le suit,
   // parce qu'un slug qui contredit son titre est un slug qu'on retraduira.
   apogee: { fr: 'apogee', en: 'drinking-window' },
-  recherche: { fr: 'recherche', en: 'search' },
-  recevoir: { fr: 'recevoir', en: 'entertaining' },
+  // « recevoir » (2026-08-13) puis « recherche » (2026-08-14) ont été
+  // ABSORBÉES — par /accord-mets-vins et /choisir-un-vin respectivement :
+  // leurs entrées sont retirées, les alias ci-dessous et les redirections de
+  // next.config prennent le relais pour toutes leurs anciennes adresses.
   tarifs: { fr: 'tarifs', en: 'pricing' },
+  // ── Architecture Fonctions (validée par Eric le 2026-08-13) ─────────────
+  // Cette table ne déclare que ce qui EXISTE — le vérificateur de routage en
+  // dérive ses contrôles. Chaque future page Fonction ajoutera son entrée À SA
+  // NAISSANCE (ordre L). Tous les slugs EN réservés le 2026-08-13 sont nés.
+  fonctions: { fr: 'fonctions', en: 'features' },
+  'choisir-un-vin': { fr: 'choisir-un-vin', en: 'how-to-choose-wine' },
+  'cellier-intelligent': { fr: 'cellier-intelligent', en: 'wine-cellar-app' },
+  'accord-mets-vins': { fr: 'accord-mets-vins', en: 'wine-pairing' },
+  'carte-des-vins': { fr: 'carte-des-vins', en: 'wine-list' },
   'notre-maison': { fr: 'notre-maison', en: 'our-story' },
   // Identiques dans les deux langues : on les déclare quand même, pour que la
   // table soit la liste EXHAUSTIVE des pages et non un cas particulier.
@@ -138,6 +149,11 @@ export function segmentCanonique(slug: string, locale: Locale): string {
  */
 export const ALIAS: Record<string, string> = {
   octave: 'sommelier-ia',
+  // /recevoir absorbée par la page Accords (2026-08-13) : le chemin nu garde
+  // la négociation de langue et atterrit en UN saut sur la bonne version.
+  recevoir: 'accord-mets-vins',
+  // /recherche absorbée par /choisir-un-vin (2026-08-14) : même mécanique.
+  recherche: 'choisir-un-vin',
 };
 
 /** Résout un chemin nu vers son segment canonique. `/octave` → `/sommelier-ia`. */

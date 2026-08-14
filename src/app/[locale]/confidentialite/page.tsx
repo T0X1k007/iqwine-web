@@ -6,12 +6,12 @@ import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui'
 
 const TEXTES = {
   fr: {
-    title: 'Politique de confidentialité — iQWine',
+    title: 'Politique de confidentialité · iQWine',
     description:
       'Politique de confidentialité et protection des renseignements personnels (Loi 25).',
   },
   en: {
-    title: 'Privacy Policy — iQWine',
+    title: 'Privacy Policy · iQWine',
     description:
       'Privacy policy and protection of personal information (Quebec’s Law 25).',
   },
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 }
 
 /**
- * /confidentialite — Politique de confidentialité publique du site iQWine.
+ * /confidentialite, Politique de confidentialité publique du site iQWine.
  * Contenu aligné sur la page canonique de l'application (Loi 25, Québec).
  * À garder synchrone avec cellier-vin.
  */

@@ -12,10 +12,10 @@ import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * SectionSaq (#saq) — le moat disponibilité locale renforcé. Octave ne
+ * SectionSaq (#saq), le moat disponibilité locale renforcé. Octave ne
  * recommande pas dans le vide : si le vin n'est pas dans votre cave, il sait où
  * le trouver, en tablette, au point de vente le plus proche, ce soir.
- * Disponibilités locales vérifiées, magasin par magasin — le différenciateur
+ * Disponibilités locales vérifiées, magasin par magasin, le différenciateur
  * que personne d'autre ne réunit.
  */
 
@@ -36,8 +36,8 @@ export default function SectionSaq() {
           </h2>
           <p className="iq-lead mt-6">
             {t(
-              "Octave ne se contente pas de recommander un vin. S'il n'est pas dans votre cave, il sait où le trouver : la bonne bouteille, en tablette, au point de vente le plus proche — et si elle est disponible ce soir.",
-              'Octave doesn’t just recommend a wine. If it isn’t in your cellar, it knows where to find it: the right bottle, on the shelf, at the nearest store — and whether it’s available tonight.',
+              "Octave ne se contente pas de recommander un vin. S'il n'est pas dans votre cave, il sait où le trouver : la bonne bouteille, en tablette, au point de vente le plus proche, et si elle est disponible ce soir.",
+              'Octave doesn’t just recommend a wine. If it isn’t in your cellar, it knows where to find it: the right bottle, on the shelf, at the nearest store, and whether it’s available tonight.',
             )}
           </p>
         </FadeInOnScroll>
@@ -68,7 +68,7 @@ export default function SectionSaq() {
 
         <FadeInOnScroll delay={0.26}>
           <div className="relative mt-12 flex justify-center">
-            {/* Scène lumineuse champagne derrière le téléphone (skin B — VISUAL 2.0) */}
+            {/* Scène lumineuse champagne derrière le téléphone (skin B, VISUAL 2.0) */}
             <div
               aria-hidden
               className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[440px] w-[540px] max-w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-85 blur-[90px]"
@@ -88,7 +88,7 @@ export default function SectionSaq() {
           </div>
 
           {/* Artefact : point de vente réel + statut de disponibilité (sans
-              quantité exacte ni horodatage — la dispo est best-effort). Le
+              quantité exacte ni horodatage, la dispo est best-effort). Le
               point animé reste un décor visuel, pas une promesse temps réel. */}
           <div className="mt-7 flex justify-center">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-or/20 bg-or/[0.05] px-4 py-2 font-body text-[11px] tracking-[0.06em] text-foreground/80">
@@ -119,12 +119,12 @@ export default function SectionSaq() {
                 <>
                   « Près de vous, le Guigal Côtes-du-Rhône à{' '}
                   <span className="tabular-nums not-italic">24,50 $</span> est en
-                  tablette — charnu, épicé, parfait ce soir. »
+                  tablette, charnu, épicé, parfait ce soir. »
                 </>,
                 <>
                   “Near you, the Guigal Côtes-du-Rhône at{' '}
                   <span className="tabular-nums not-italic">$24.50</span> is on the
-                  shelf — fleshy, spiced, perfect tonight.”
+                  shelf, fleshy, spiced, perfect tonight.”
                 </>,
               )}
             </blockquote>

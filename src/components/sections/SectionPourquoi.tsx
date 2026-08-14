@@ -5,7 +5,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionPourquoi (#pourquoi) — « Pourquoi iQWine existe ». Mouvement de TENSION
+ * SectionPourquoi (#pourquoi), « Pourquoi iQWine existe ». Mouvement de TENSION
  * (VISUAL 2.0, 9 mouvements). On ne vend pas une feature : on nomme le problème,
  * viscéralement, avant de nommer la réponse. Éditorial, sobre, premium, zéro
  * jargon SaaS. La lumière (halo champagne) guide l'œil vers la résolution en or.
@@ -21,8 +21,8 @@ export default function SectionPourquoi() {
       en: 'The perfect vintage slips past its peak in the shadow of a cellar.',
     },
     {
-      fr: "Une grande bouteille s'ouvre un soir ordinaire — et se perd.",
-      en: 'A great bottle is opened on an ordinary night — and is lost.',
+      fr: "Une grande bouteille s'ouvre un soir ordinaire, et se perd.",
+      en: 'A great bottle is opened on an ordinary night, and is lost.',
     },
     {
       fr: 'Et la note « 92 / 100 » d’un critique ne connaît rien de votre palais.',
@@ -33,7 +33,7 @@ export default function SectionPourquoi() {
   return (
     <SectionWrapper id="pourquoi" withDivider rhythm="editorial">
       <div className="relative max-w-3xl mx-auto text-center">
-        {/* Respiration lumineuse — la lumière monte vers la résolution */}
+        {/* Respiration lumineuse, la lumière monte vers la résolution */}
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[420px] w-[760px] max-w-[96%] -translate-x-1/2 -translate-y-1/4 rounded-full opacity-70 blur-[110px]"
@@ -68,8 +68,8 @@ export default function SectionPourquoi() {
         <FadeInOnScroll delay={0.5}>
           <p className="mt-14 sm:mt-16 font-[family-name:var(--font-display)] italic text-2xl sm:text-3xl leading-relaxed text-or max-w-2xl mx-auto">
             {t(
-              'iQWine existe pour ça. Une cave qui se souvient — de chaque bouteille, et de vous.',
-              'That’s why iQWine exists. A cellar that remembers — every bottle, and you.',
+              'iQWine existe pour ça. Une cave qui se souvient, de chaque bouteille, et de vous.',
+              'That’s why iQWine exists. A cellar that remembers, every bottle, and you.',
             )}
           </p>
         </FadeInOnScroll>

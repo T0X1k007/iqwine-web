@@ -86,13 +86,13 @@ export default function ContactForm() {
   if (success) {
     return (
       <div className="flex flex-col items-center gap-4 text-center py-10">
-        <span className="inline-flex w-12 h-12 rounded-full bg-or/15 items-center justify-center">
-          <Check className="w-6 h-6 text-or" strokeWidth={1.75} />
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-or-jour/15">
+          <Check className="h-6 w-6 text-or-jour" strokeWidth={1.75} />
         </span>
-        <p className="font-[family-name:var(--font-display)] text-2xl text-foreground">
+        <p className="font-[family-name:var(--font-display)] text-2xl text-encre">
           {t('Merci, message reçu.', 'Thank you, message received.')}
         </p>
-        <p className="text-muted-foreground text-[15px] max-w-md">
+        <p className="max-w-md text-[15px] text-encre-2">
           {t(
             'Notre équipe vous répondra par courriel sous peu.',
             'Our team will reply by email shortly.',
@@ -107,7 +107,7 @@ export default function ContactForm() {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="contact-category"
-          className="font-body text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
+          className="font-body text-[11px] font-medium uppercase tracking-[0.22em] text-encre-3"
         >
           {t('Sujet', 'Subject')}
         </label>
@@ -115,7 +115,7 @@ export default function ContactForm() {
           id="contact-category"
           value={category}
           onChange={(e) => setCategory(e.target.value as Category)}
-          className="bg-sunk border border-border text-foreground rounded-md px-4 py-3 text-[15px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
+          className="rounded-md border border-encre/20 bg-[#fdfaf3] px-4 py-3 text-[15px] text-encre transition-colors focus:border-bordeaux-jour focus:outline-none focus:ring-1 focus:ring-bordeaux-jour/25"
         >
           {(Object.keys(CATEGORY_LABELS) as Category[]).map((c) => (
             <option key={c} value={c}>
@@ -126,6 +126,7 @@ export default function ContactForm() {
       </div>
 
       <Input
+        ton="jour"
         id="contact-name"
         label={t('Nom', 'Name')}
         value={name}
@@ -135,6 +136,7 @@ export default function ContactForm() {
         placeholder={t('Votre nom', 'Your name')}
       />
       <Input
+        ton="jour"
         id="contact-email"
         type="email"
         label={t('Courriel', 'Email')}
@@ -148,7 +150,7 @@ export default function ContactForm() {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="contact-message"
-          className="font-body text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground"
+          className="font-body text-[11px] font-medium uppercase tracking-[0.22em] text-encre-3"
         >
           Message
         </label>
@@ -160,7 +162,7 @@ export default function ContactForm() {
           rows={5}
           maxLength={5000}
           placeholder={t('Comment pouvons-nous aider ?', 'How can we help?')}
-          className="bg-sunk border border-border text-foreground rounded-md px-4 py-3 text-[15px] placeholder:text-foreground-faint focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors resize-y"
+          className="resize-y rounded-md border border-encre/20 bg-[#fdfaf3] px-4 py-3 text-[15px] text-encre transition-colors placeholder:text-encre-3 focus:border-bordeaux-jour focus:outline-none focus:ring-1 focus:ring-bordeaux-jour/25"
         />
       </div>
 

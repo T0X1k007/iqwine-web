@@ -149,8 +149,32 @@ export function siteGraphLd(locale: Locale) {
         inLanguage: BCP47[locale],
       },
       softwareApplicationLd(locale),
-      faqLd(locale),
     ],
+  };
+}
+
+/**
+ * ── POURQUOI `faqLd` A QUITTÉ CE GRAPHE (audit SEO, 2026-08-14) ──────────
+ *
+ * `siteGraphLd` est posé par le layout, donc sur les 28 URL. Il embarquait
+ * `faqLd`, si bien que 26 pages déclaraient un `FAQPage` alors qu'elles
+ * n'affichent AUCUNE question à l'écran : Conditions, Confidentialité,
+ * Contact, Le film et toutes les pages Fonction.
+ *
+ * Google demande que les données structurées correspondent au contenu VISIBLE.
+ * Le risque pratique était faible — les résultats enrichis FAQ sont restreints
+ * aux sites gouvernementaux et de santé depuis 2023, donc rien ne s'affichait
+ * de toute façon — mais le balisage était faux, et un balisage faux se corrige.
+ *
+ * La FAQ n'est rendue que par `SectionFaq`, importée par le seul
+ * `TarifsContent`. `faqLd` est donc désormais injecté par la page Tarifs
+ * elle-même, et par elle seule. Le jour où une autre page affichera vraiment
+ * ces questions, elle l'appellera à son tour — jamais l'inverse.
+ */
+export function faqPageLd(locale: Locale) {
+  return {
+    '@context': 'https://schema.org',
+    ...faqLd(locale),
   };
 }
 

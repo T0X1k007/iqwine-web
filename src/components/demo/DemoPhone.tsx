@@ -9,7 +9,7 @@ import type { Locale } from '@/lib/i18n';
 import { formatPriceCad } from '@/lib/plans';
 
 /**
- * DemoPhone — réplique « capture d'app » iQWine dans un cadre iPhone premium.
+ * DemoPhone, réplique « capture d'app » iQWine dans un cadre iPhone premium.
  * Écran CLAIR (crème/or, identité réelle de l'app), bouteille dominante, et de
  * vrais composants d'app : barre de navigation, encadré « Octave recommande »,
  * carte fenêtre de dégustation, barre d'onglets iOS. Photo réelle + repli silhouette.
@@ -71,11 +71,11 @@ export default function DemoPhone({
         {caption ?? (isCave ? t('Votre cave', 'Your cellar') : t('Près de vous', 'Near you'))}
       </p>
 
-      {/* Cadre iPhone (bezel sombre) — profondeur */}
+      {/* Cadre iPhone (bezel sombre), profondeur */}
       <div className="relative rounded-[3rem] border border-black/30 bg-sunk p-3 shadow-[0_50px_120px_-35px_rgba(40,28,16,0.55)] ring-1 ring-white/5">
         <div className="absolute left-1/2 top-4 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-black" aria-hidden />
 
-        {/* ÉCRAN CLAIR (crème/or — identité iQWine) */}
+        {/* ÉCRAN CLAIR (crème/or, identité iQWine) */}
         <div className="relative overflow-hidden rounded-[2.4rem] bg-elev">
           {/* Barre de navigation app */}
           <div className="flex items-center justify-between px-4 pt-9 pb-2.5 border-b border-[var(--color-foreground)]/8">
@@ -92,7 +92,7 @@ export default function DemoPhone({
             {photo && !imgError ? (
               <ImageStatique
                 src={photo}
-                alt={`${card.cuvee} — ${card.producer}`}
+                alt={`${card.cuvee}, ${card.producer}`}
                 width={160}
                 height={234}
                 onError={() => setImgError(true)}
@@ -133,7 +133,7 @@ export default function DemoPhone({
              * manqué.
              *
              * L'apparence ne bouge pas : la taille vient des classes, pas de la
-             * balise. C'est d'ailleurs pourquoi l'erreur avait pu passer —
+             * balise. C'est d'ailleurs pourquoi l'erreur avait pu passer,
              * rien ne se voyait. */}
             <h3 className="mt-2.5 font-[family-name:var(--font-display)] text-foreground text-xl leading-tight">
               {card.cuvee}

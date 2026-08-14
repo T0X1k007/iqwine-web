@@ -10,13 +10,13 @@ import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * SectionMomentsEnjeu (#moments-enjeu) — V2.6, les MOMENTS À ENJEU.
+ * SectionMomentsEnjeu (#moments-enjeu), V2.6, les MOMENTS À ENJEU.
  *
  * On nomme l'ICP : une cave qui compte, qui reçoit, qui ne veut pas gâcher une
- * grande bouteille. Quatre moments — chacun avec sa conséquence évitée et sa
+ * grande bouteille. Quatre moments, chacun avec sa conséquence évitée et sa
  * valeur. Chute : la tranquillité d'esprit + le palais qui apprend + l'apogée.
  *
- * Honnêteté produit : mécanismes RÉELS confirmés — « suit l'apogée »,
+ * Honnêteté produit : mécanismes RÉELS confirmés, « suit l'apogée »,
  * « apprend votre palais ». Pas de promesse d'alerte temps réel non vérifiée.
  */
 
@@ -25,7 +25,7 @@ type Moment = {
   body: Record<Locale, string>;
 };
 
-/** Frise apogée — 3 états, le langage EST l'argument (ni graphique, ni %). */
+/** Frise apogée, 3 états, le langage EST l'argument (ni graphique, ni %). */
 type ApogeeState = {
   label: Record<Locale, string>;
   body: Record<Locale, string>;
@@ -35,8 +35,8 @@ const APOGEE_STATES: ApogeeState[] = [
   {
     label: { fr: 'TROP JEUNE', en: 'TOO YOUNG' },
     body: {
-      fr: 'Encore austère, les tanins serrent. Laissez-lui du temps — ou carafez deux heures.',
-      en: 'Still austere, the tannins grip. Give it time — or decant two hours.',
+      fr: 'Encore austère, les tanins serrent. Laissez-lui du temps, ou carafez deux heures.',
+      en: 'Still austere, the tannins grip. Give it time, or decant two hours.',
     },
   },
   {
@@ -66,8 +66,8 @@ const MOMENTS: Moment[] = [
   {
     eyebrow: { fr: 'UN REPAS QUI COMPTE', en: 'A MEAL THAT MATTERS' },
     body: {
-      fr: 'Le bon vin sur le bon plat, dans le bon ordre — comme un sommelier le ferait.',
-      en: 'The right wine on the right dish, in the right order — the way a sommelier would.',
+      fr: 'Le bon vin sur le bon plat, dans le bon ordre, comme un sommelier le ferait.',
+      en: 'The right wine on the right dish, in the right order, the way a sommelier would.',
     },
   },
   {
@@ -133,7 +133,7 @@ export default function SectionMomentsEnjeu() {
         ))}
       </div>
 
-      {/* L'APOGÉE EN LANGAGE SIMPLE — frise 3 états, reliés par un fil (timeline) */}
+      {/* L'APOGÉE EN LANGAGE SIMPLE, frise 3 états, reliés par un fil (timeline) */}
       <div className="mt-20 max-w-5xl mx-auto">
         <FadeInOnScroll>
           <div className="text-center mb-12">
@@ -176,8 +176,8 @@ export default function SectionMomentsEnjeu() {
         <FadeInOnScroll delay={0.36}>
           <p className="mt-10 text-center iq-body text-foreground-dim max-w-2xl mx-auto leading-relaxed">
             {t(
-              'Et quand une grande bouteille approche de sa limite, Octave vous le dit — avant qu’il soit trop tard.',
-              'And when a great bottle nears its limit, Octave tells you — before it’s too late.',
+              'Et quand une grande bouteille approche de sa limite, Octave vous le dit, avant qu’il soit trop tard.',
+              'And when a great bottle nears its limit, Octave tells you, before it’s too late.',
             )}
           </p>
         </FadeInOnScroll>
@@ -186,8 +186,8 @@ export default function SectionMomentsEnjeu() {
       <FadeInOnScroll delay={0.3}>
         <p className="mt-14 text-center font-[family-name:var(--font-display)] italic text-2xl sm:text-3xl text-or max-w-3xl mx-auto leading-relaxed">
           {t(
-            'La tranquillité de toujours savoir. Octave apprend votre palais et veille sur l’apogée de chaque bouteille — pour que les grands soirs soient à la hauteur.',
-            'The peace of mind of always knowing. Octave learns your palate and watches over the drinking window of every bottle — so the great nights live up to them.',
+            'La tranquillité de toujours savoir. Octave apprend votre palais et veille sur l’apogée de chaque bouteille, pour que les grands soirs soient à la hauteur.',
+            'The peace of mind of always knowing. Octave learns your palate and watches over the drinking window of every bottle, so the great nights live up to them.',
           )}
         </p>
       </FadeInOnScroll>

@@ -17,20 +17,29 @@ export function LegalPage({
   meta: string;
   children: ReactNode;
 }) {
+  // Le titre passait SOUS la barre fixe (QA v3, 2026-08-14) : `py-24` valait
+  // 96 px alors que la navbar mesure 128 px en desktop, soit 32 px de
+  // recouvrement, et exactement 0 px d'écart en mobile. On part désormais de
+  // la hauteur RÉELLE de la barre, à toutes les largeurs.
   return (
-    <main className="mx-auto max-w-2xl px-6 py-24 text-muted-foreground">
-      <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl tracking-tight text-foreground mb-2 leading-tight">
+    <main
+      className="mouvement-jour min-h-screen text-encre-2"
+      style={{ paddingTop: 'calc(var(--nav-h) + 3rem)' }}
+    >
+      <div className="mx-auto max-w-2xl px-6 pb-24">
+      <h1 className="mb-2 font-[family-name:var(--font-display)] text-4xl leading-tight tracking-tight text-encre sm:text-5xl">
         {title}
       </h1>
-      <p className="font-body text-[11px] tracking-[0.18em] uppercase text-foreground-faint mb-12">
+      <p className="mb-12 font-body text-[11px] uppercase tracking-[0.18em] text-or-jour">
         {meta}
       </p>
       {children}
-      <p className="mt-16">
-        <LocaleLink href="/" className="text-or underline underline-offset-4 hover:text-foreground">
-          ← Retour à l’accueil
-        </LocaleLink>
-      </p>
+        <p className="mt-16">
+          <LocaleLink href="/" className="text-bordeaux-jour underline underline-offset-4 hover:text-or-jour">
+            ← Retour à l’accueil
+          </LocaleLink>
+        </p>
+      </div>
     </main>
   );
 }
@@ -38,7 +47,7 @@ export function LegalPage({
 export function LegalSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mb-10">
-      <h2 className="font-[family-name:var(--font-display)] text-2xl tracking-tight text-foreground mb-3">
+      <h2 className="mb-3 font-[family-name:var(--font-display)] text-2xl tracking-tight text-encre">
         {title}
       </h2>
       <div className="text-[15px] leading-relaxed space-y-3">{children}</div>

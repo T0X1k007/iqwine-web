@@ -5,7 +5,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionCommentCaMarche (#comment) — « En trois gestes ». Lève l'objection
+ * SectionCommentCaMarche (#comment), « En trois gestes ». Lève l'objection
  * d'effort : pas de cave complète à saisir, première reco en 30 secondes. Trois
  * étapes numérotées, ton plaisir, jamais corvée.
  */
@@ -16,16 +16,16 @@ export default function SectionCommentCaMarche() {
 
   const steps = [
     t(
-      'Ajoutez vos bouteilles — photo, scan ou import. (Ou commencez sans rien : Octave répond dès la première question.)',
-      'Add your bottles — photo, scan or import. (Or start with nothing: Octave answers from the very first question.)',
+      'Ajoutez vos bouteilles, photo, scan ou import. (Ou commencez sans rien : Octave répond dès la première question.)',
+      'Add your bottles, photo, scan or import. (Or start with nothing: Octave answers from the very first question.)',
     ),
     t(
-      'Dites à Octave le moment — un repas, un soir, un invité.',
-      'Tell Octave the moment — a meal, an evening, a guest.',
+      'Dites à Octave le moment, un repas, un soir, un invité.',
+      'Tell Octave the moment, a meal, an evening, a guest.',
     ),
     t(
-      'Ouvrez la bonne bouteille — de votre cave ou disponible près de vous.',
-      'Open the right bottle — from your cellar or available near you.',
+      'Ouvrez la bonne bouteille, de votre cave ou disponible près de vous.',
+      'Open the right bottle, from your cellar or available near you.',
     ),
   ];
 

@@ -8,7 +8,7 @@ import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
- * BetaForm — candidature bêta-testeur (page /beta). Formulaire de sélection
+ * BetaForm, candidature bêta-testeur (page /beta). Formulaire de sélection
  * court (bonnes pratiques Centercode/BetaTesting : ~8 questions, une ouverte à
  * la fin pour jauger la motivation et la qualité de communication).
  *
@@ -48,9 +48,9 @@ const TIME: Opt[] = [
 const labelFr = (opts: Opt[], value: string) => opts.find((o) => o.value === value)?.fr ?? value;
 
 const SELECT_CLASS =
-  'bg-sunk border border-border text-foreground rounded-md px-4 py-3 text-[15px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors';
+  'border border-encre/20 bg-[#fdfaf3] text-encre rounded-md px-4 py-3 text-[15px] focus:outline-none focus:border-bordeaux-jour focus:ring-1 focus:ring-bordeaux-jour/25 transition-colors';
 const LABEL_CLASS =
-  'font-body text-[11px] font-medium tracking-[0.22em] uppercase text-muted-foreground';
+  'font-body text-[11px] font-medium uppercase tracking-[0.22em] text-encre-3';
 
 export default function BetaForm() {
   const { locale } = useLocale();
@@ -95,7 +95,7 @@ export default function BetaForm() {
         `Cave : ${labelFr(CELLAR, cellar)}`,
         `Bouteilles : ${labelFr(BOTTLES, bottles)}`,
         `Gestion actuelle : ${labelFr(TOOL, tool)}${
-          tool === 'app' && toolOther.trim() ? ` — ${toolOther.trim()}` : ''
+          tool === 'app' && toolOther.trim() ? `, ${toolOther.trim()}` : ''
         }`,
         `Appareil : ${labelFr(DEVICE, device)}`,
         `Temps par semaine : ${labelFr(TIME, time)}`,
@@ -138,16 +138,16 @@ export default function BetaForm() {
   if (success) {
     return (
       <div className="flex flex-col items-center gap-4 text-center py-10">
-        <span className="inline-flex w-12 h-12 rounded-full bg-or/15 items-center justify-center">
-          <Check className="w-6 h-6 text-or" strokeWidth={1.75} />
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-or-jour/15">
+          <Check className="h-6 w-6 text-or-jour" strokeWidth={1.75} />
         </span>
-        <p className="font-[family-name:var(--font-display)] text-2xl text-foreground">
+        <p className="font-[family-name:var(--font-display)] text-2xl text-encre">
           {t('Merci, candidature reçue.', 'Thank you, application received.')}
         </p>
-        <p className="text-muted-foreground text-[15px] max-w-md">
+        <p className="max-w-md text-[15px] text-encre-2">
           {t(
-            'Les places sont limitées — nous revenons vers les profils retenus par courriel.',
-            'Spots are limited — we get back to selected applicants by email.',
+            'Les places sont limitées, nous revenons vers les profils retenus par courriel.',
+            'Spots are limited, we get back to selected applicants by email.',
           )}
         </p>
       </div>
@@ -187,6 +187,7 @@ export default function BetaForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <Input
+        ton="jour"
         id="beta-name"
         label={t('Nom', 'Name')}
         value={name}
@@ -196,6 +197,7 @@ export default function BetaForm() {
         placeholder={t('Votre nom', 'Your name')}
       />
       <Input
+        ton="jour"
         id="beta-email"
         type="email"
         label={t('Courriel', 'Email')}
@@ -229,6 +231,7 @@ export default function BetaForm() {
       )}
       {tool === 'app' && (
         <Input
+        ton="jour"
           id="beta-tool-other"
           label={t('Laquelle ?', 'Which one?')}
           value={toolOther}
@@ -267,7 +270,7 @@ export default function BetaForm() {
           rows={5}
           maxLength={2000}
           placeholder={t('Quelques phrases suffisent.', 'A few sentences are enough.')}
-          className="bg-sunk border border-border text-foreground rounded-md px-4 py-3 text-[15px] placeholder:text-foreground-faint focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors resize-y"
+          className="resize-y rounded-md border border-encre/20 bg-[#fdfaf3] px-4 py-3 text-[15px] text-encre transition-colors placeholder:text-encre-3 focus:border-bordeaux-jour focus:outline-none focus:ring-1 focus:ring-bordeaux-jour/25"
         />
       </div>
 

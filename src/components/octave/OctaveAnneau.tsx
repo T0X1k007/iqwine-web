@@ -1,5 +1,5 @@
 /**
- * OctaveAnneau — la MARQUE d'Octave, portée à l'IDENTIQUE depuis l'app
+ * OctaveAnneau, la MARQUE d'Octave, portée à l'IDENTIQUE depuis l'app
  * (cellier-vin/components/octave/OctaveAnneau.tsx) : un anneau champagne fin +
  * un nœud lumineux posé dessus. « Une seule peau » site ↔ app ↔ iOS.
  *
@@ -46,7 +46,7 @@ export default function OctaveAnneau({
           <stop offset="1" stopColor="#d9b667" stopOpacity="0" />
         </radialGradient>
       </defs>
-      {/* l'anneau — champagne via currentColor (token du parent) */}
+      {/* l'anneau, champagne via currentColor (token du parent) */}
       <circle
         cx="60"
         cy="60"
@@ -56,7 +56,7 @@ export default function OctaveAnneau({
         strokeWidth={stroke}
         opacity="0.9"
       />
-      {/* le nœud lumineux qui veille (et orbite si thinking — origine gérée
+      {/* le nœud lumineux qui veille (et orbite si thinking, origine gérée
           par .octave-anneau-orbit via transform-box: view-box) */}
       <g className={thinking ? 'octave-anneau-orbit' : undefined}>
         <circle cx="60" cy="18" r="14" fill="url(#octaveAnneauNode)" />

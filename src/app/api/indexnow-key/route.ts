@@ -1,16 +1,16 @@
 /**
- * IndexNow — le fichier de clé, servi seulement s'il y a une clé (MFP-09 lot C).
+ * IndexNow, le fichier de clé, servi seulement s'il y a une clé (MFP-09 lot C).
  *
  * ── Ce que fait IndexNow, et ce qu'il ne fait pas ─────────────────────────
  * Il PRÉVIENT Bing (et Yandex, Seznam) qu'une URL a changé, au lieu d'attendre
  * un passage de robot. Il n'améliore pas un classement : il raccourcit le délai
  * entre « publié » et « connu ». Pour un site qui change peu, le bénéfice est
- * modeste — c'est pour cela qu'il est ici et non au centre du dispositif.
+ * modeste, c'est pour cela qu'il est ici et non au centre du dispositif.
  *
  * ── Pourquoi la clé vient de l'environnement ──────────────────────────────
  * Elle est PUBLIQUE par conception : le protocole exige qu'elle soit servie en
  * clair, c'est ainsi qu'on prouve qu'on contrôle le domaine. Mais elle n'est
- * pas pour autant arbitraire — la générer ici, en douce, laisserait dans le
+ * pas pour autant arbitraire, la générer ici, en douce, laisserait dans le
  * dépôt un artefact que personne n'aurait décidé et dont personne ne saurait
  * s'il est encore le bon. Eric la pose, ou elle n'existe pas.
  *
@@ -29,7 +29,7 @@ export function GET(request: Request): Response {
   // ── LA CLÉ N'EST SERVIE QU'À SON PROPRE NOM DE FICHIER ──────────────────
   //
   // La réécriture (`next.config.ts`) mappe `/<quelquechose>.txt` ici. Sans ce
-  // contrôle, `/nimportequoi.txt` révélerait la clé — et le protocole repose
+  // contrôle, `/nimportequoi.txt` révélerait la clé, et le protocole repose
   // entièrement sur le fait que seul le propriétaire du domaine sait à QUELLE
   // adresse elle se trouve.
   //

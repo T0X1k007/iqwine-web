@@ -2,13 +2,13 @@ import { ImageResponse } from 'next/og';
 import { CORMORANT_500ITALIC, CORMORANT_600, HANKEN_500 } from '../_og-fonts/polices';
 
 /**
- * Image Open Graph de marque (1200×630) — partage social premium.
+ * Image Open Graph de marque (1200×630), partage social premium.
  *
  * Rendu sobre, dark-luxe : fond cave sombre (#150f0c), wordmark iQWine en
  * or champagne (#d9b667), tagline serif, signature « propulsé par Octave ».
  * Tout est dessiné via ImageResponse (next/og), zéro dépendance image externe.
  *
- * VISUAL 2.0 — TYPO DE MARQUE dans l'image : Satori ne lit pas next/font, on
+ * VISUAL 2.0, TYPO DE MARQUE dans l'image : Satori ne lit pas next/font, on
  * fournit donc les buffers WOFF (statiques, subset latin, @fontsource, OFL) :
  *   - Cormorant Garamond (600 + 500 italic) = display serif (wordmark, taglines)
  *   - Hanken Grotesk (500)                  = sans (eyebrow, signature)
@@ -18,28 +18,28 @@ import { CORMORANT_500ITALIC, CORMORANT_600, HANKEN_500 } from '../_og-fonts/pol
  * Ils étaient lus du disque par `readFileSync`. Robuste sous Node, impossible
  * sous Cloudflare Workers : il n'y a pas de système de fichiers. Et l'appel
  * étant au niveau MODULE, le fichier n'aurait même pas pu être IMPORTÉ dans ce
- * runtime — que la route s'exécute ou non.
+ * runtime, que la route s'exécute ou non.
  *
  * L'autre solution habituelle, `fetch(new URL(…, import.meta.url))`, casse en
  * développement : `import.meta.url` désigne alors un chemin `file://`, que le
- * `fetch` de Node ne sait pas ouvrir. L'en-tête d'origine le disait déjà —
+ * `fetch` de Node ne sait pas ouvrir. L'en-tête d'origine le disait déjà ,
  * « pas de fetch(URL) qui casse en dev ». Leçon déjà payée, non repayée.
  *
  * Restent les octets embarqués en base64 : ni disque, ni réseau, identiques
- * dans les deux runtimes. 80 Ko de WOFF, chargés uniquement par cette route —
+ * dans les deux runtimes. 80 Ko de WOFF, chargés uniquement par cette route ,
  * qui est PRÉRENDUE. Aucun visiteur ne les télécharge.
  *
  * Cf. src/app/_og-fonts/ (LICENSE.txt) et scripts/generer-polices-og.mjs.
  *
  * `twitter-image.tsx` réexporte ce module (même typo/visuel summary_large_image).
  */
-export const alt = 'iQWine — Votre sommelier personnel, propulsé par Octave';
+export const alt = 'iQWine, Votre sommelier personnel, propulsé par Octave';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 const OR = '#d9b667'; // or champagne (VISUAL 2.0)
 const OR_SOFT = '#ebd7a6';
-const CAVE = '#150f0c'; // espresso canvas (aligné app — jamais noir pur)
+const CAVE = '#150f0c'; // espresso canvas (aligné app, jamais noir pur)
 const DISPLAY = 'Cormorant Garamond';
 const SANS = 'Hanken Grotesk';
 
@@ -61,14 +61,14 @@ export default function OpenGraphImage() {
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: CAVE,
-          // Vignette chaude discrète vers le centre — profondeur de cave.
+          // Vignette chaude discrète vers le centre, profondeur de cave.
           backgroundImage:
             'radial-gradient(circle at 50% 38%, rgba(217,182,103,0.14), rgba(21,15,12,0) 60%)',
           position: 'relative',
           fontFamily: DISPLAY,
         }}
       >
-        {/* Filet or supérieur — cadrage éditorial sobre. */}
+        {/* Filet or supérieur, cadrage éditorial sobre. */}
         <div
           style={{
             position: 'absolute',
@@ -80,7 +80,7 @@ export default function OpenGraphImage() {
           }}
         />
 
-        {/* Eyebrow — Hanken (sans, tracké) */}
+        {/* Eyebrow, Hanken (sans, tracké) */}
         <div
           style={{
             fontFamily: SANS,
@@ -95,7 +95,7 @@ export default function OpenGraphImage() {
           Sommelier IA
         </div>
 
-        {/* Wordmark — Cormorant 600 */}
+        {/* Wordmark, Cormorant 600 */}
         <div
           style={{
             display: 'flex',
@@ -109,7 +109,7 @@ export default function OpenGraphImage() {
           iQWine
         </div>
 
-        {/* Tagline — Cormorant italic */}
+        {/* Tagline, Cormorant italic */}
         <div
           style={{
             fontStyle: 'italic',
@@ -122,7 +122,7 @@ export default function OpenGraphImage() {
           Votre sommelier personnel.
         </div>
 
-        {/* Signature Octave — Hanken (sans) */}
+        {/* Signature Octave, Hanken (sans) */}
         <div
           style={{
             display: 'flex',
@@ -138,7 +138,7 @@ export default function OpenGraphImage() {
           <div style={{ width: 36, height: 1, backgroundColor: 'rgba(217,182,103,0.5)' }} />
         </div>
 
-        {/* Signature de marque — Cormorant italic, en pied */}
+        {/* Signature de marque, Cormorant italic, en pied */}
         <div
           style={{
             position: 'absolute',

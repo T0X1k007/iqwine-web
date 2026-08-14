@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 interface FadeInOnScrollProps {
@@ -33,7 +33,20 @@ export default function FadeInOnScroll({
 }: FadeInOnScrollProps) {
   const reduced = useReducedMotion();
 
-  if (reduced) {
+  // FAIL-VISIBLE (refonte v3, 2026-08-12). Avant : le SSR rendait le contenu
+  // avec `opacity: 0` inline, et seule l'hydratation le révélait. Si le morceau
+  // JS d'une section dynamique ne charge pas (chunk périmé après un
+  // redémarrage du serveur de dev, réseau, extension), la section restait
+  // INVISIBLE pour toujours, vécu par Eric via Tailscale : page « vide » dont
+  // on ne voyait que les filets. Désormais le serveur rend le contenu VISIBLE,
+  // et l'animation ne s'active qu'une fois le composant réellement monté côté
+  // client. Un contenu qui était déjà à l'écran au montage s'anime aussitôt
+  // (whileInView le voit) ; un JS absent ne cache plus jamais rien. Bonus SEO :
+  // le HTML rendu n'a plus d'état caché.
+  const [monte, setMonte] = useState(false);
+  useEffect(() => setMonte(true), []);
+
+  if (reduced || !monte) {
     return <div className={className}>{children}</div>;
   }
 

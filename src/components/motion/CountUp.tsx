@@ -7,7 +7,7 @@ import usePrefersReducedMotion from '@/lib/usePrefersReducedMotion';
 interface CountUpProps {
   /** Valeur cible (entier) */
   to: number;
-  /** Durée en ms (défaut 2400 — luxe lent) */
+  /** Durée en ms (défaut 2400, luxe lent) */
   duration?: number;
   /** className appliquée à l'élément */
   className?: string;
@@ -16,7 +16,7 @@ interface CountUpProps {
 }
 
 /**
- * CountUp — animation atmosphérique discrète.
+ * CountUp, animation atmosphérique discrète.
  * Une seule occurrence par page (DNA §6 : « count-up extremely limited »).
  * Tween easeOutQuart, lent, déclenché à 30 % visible.
  * Respect prefers-reduced-motion : affiche directement la valeur finale.
@@ -41,7 +41,7 @@ export default function CountUp({
     let raf: number;
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
-      // easeOutQuart — décélération luxe, pas de bounce
+      // easeOutQuart, décélération luxe, pas de bounce
       const eased = 1 - Math.pow(1 - progress, 4);
       setValue(Math.round(to * eased));
       if (progress < 1) raf = requestAnimationFrame(tick);

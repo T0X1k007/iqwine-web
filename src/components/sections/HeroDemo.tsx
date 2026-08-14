@@ -7,7 +7,7 @@ import { FrameChrome } from '@/components/screenshot/ScreenshotFrame';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * HeroDemo — visuel produit du hero. VRAIES captures de l'app iQWine présentées
+ * HeroDemo, visuel produit du hero. VRAIES captures de l'app iQWine présentées
  * dans le cadre iPhone éditorial premium (FrameChrome), en crossfade automatique
  * sur trois écrans qui montrent la valeur : recommandation depuis la cave →
  * disponibilité locale en direct → apogée & palais. reduced-motion : fige sur le
@@ -22,8 +22,8 @@ const SCENES = [
   },
   {
     src: '/screenshots/06-recherche-hors-cave.png',
-    fr: 'En tablette, près de vous — en direct',
-    en: 'On the shelf, near you — live',
+    fr: 'En tablette, près de vous, en direct',
+    en: 'On the shelf, near you, live',
   },
   {
     src: '/screenshots/01-fiche-vin.png',

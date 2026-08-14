@@ -7,12 +7,12 @@ import { TRIAL_DAYS, TRIAL_RECOS } from '@/lib/trial';
 
 const TEXTES = {
   fr: {
-    title: 'Conditions d’utilisation — iQWine',
+    title: 'Conditions d’utilisation · iQWine',
     description:
       'Conditions d’utilisation du service iQWine.',
   },
   en: {
-    title: 'Terms of Use — iQWine',
+    title: 'Terms of Use · iQWine',
     description:
       'Terms of use for the iQWine service.',
   },
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 }
 
 /**
- * /conditions — Conditions d’utilisation publiques du site iQWine. Contenu
+ * /conditions, Conditions d’utilisation publiques du site iQWine. Contenu
  * aligné sur la page canonique de l’application. À garder synchrone avec
  * cellier-vin (lib/legal/legal-meta.ts).
  */

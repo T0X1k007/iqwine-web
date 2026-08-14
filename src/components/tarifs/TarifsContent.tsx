@@ -1,7 +1,7 @@
 'use client';
 
 import LocaleLink from '@/components/ui/LocaleLink';
-import { ArrowRight, Wine, MessageCircle, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle } from 'lucide-react';
+import { ArrowRight, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle, Smartphone } from 'lucide-react';
 import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
@@ -21,48 +21,12 @@ import { TRIAL_CTA, TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
 
 type T = (fr: string, en: string) => string;
 
-const POSITIONS: { fr: [string, string]; en: [string, string]; highlight?: boolean }[] = [
-  {
-    fr: ['Standard', 'L’amateur de vin avec une cave personnelle.'],
-    en: ['Standard', 'The wine lover with a personal cellar.'],
-  },
-  {
-    fr: ['Pro', 'L’habitué qui consulte Octave souvent et possède une plus grande cave.'],
-    en: ['Pro', 'The regular who asks Octave often and keeps a larger cellar.'],
-    highlight: true,
-  },
-  {
-    fr: [planLabel('famille', 'fr'), 'Plusieurs utilisateurs, plusieurs palais, une cave partagée.'],
-    en: [planLabel('famille', 'en'), 'Several users, several palates, one shared cellar.'],
-  },
-];
+// POSITIONS retire (v3, 2026-08-14) : la section « Lequel est pour vous »
+// doublonnait la tagline portee par chaque carte de forfait.
 
-const STEPS: { icon: typeof Wine; fr: [string, string]; en: [string, string] }[] = [
-  {
-    icon: Wine,
-    fr: ['Importez ou créez votre cave', 'Scannez vos étiquettes ou ajoutez vos bouteilles. Octave apprend ce que vous avez.'],
-    en: ['Import or create your cellar', 'Scan your labels or add your bottles. Octave learns what you have.'],
-  },
-  {
-    icon: MessageCircle,
-    fr: ['Demandez conseil à Octave', 'Le repas, le moment, l’envie, dites-lui, comme à un sommelier.'],
-    en: ['Ask Octave', 'The meal, the moment, the mood, just tell him, like a sommelier.'],
-  },
-  {
-    icon: Wine,
-    fr: ['Ouvrez la bonne bouteille', 'La bonne, au bon moment. Et vous savez pourquoi.'],
-    en: ['Open the right bottle', 'The right one, at the right time. And you know why.'],
-  },
-];
-
-const BENEFITS: { fr: string; en: string }[] = [
-  { fr: 'Savoir quelle bouteille ouvrir ce soir.', en: 'Know which bottle to open tonight.' },
-  { fr: 'Servir plusieurs vins dans le bon ordre.', en: 'Serve several wines in the right order.' },
-  { fr: 'Recevoir des invités sans une hésitation.', en: 'Host guests without a second of doubt.' },
-  { fr: 'Bâtir un accord à partir d’une carte au restaurant.', en: 'Build a pairing from a restaurant wine list.' },
-  { fr: 'Trouver le meilleur rapport qualité-prix près de vous.', en: 'Find the best value near you.' },
-  { fr: 'Vérifier qu’une bouteille correspond à votre palais.', en: 'Check that a bottle matches your palate.' },
-];
+// STEPS et BENEFITS retires (v3, 2026-08-14) : leurs sections ont fusionne en
+// une phrase + un lien vers /fonctions, ou ce contenu vit en entier. Les
+// donnees ne servaient plus qu'a des sections supprimees.
 
 const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string, string] }[] = [
   {
@@ -85,10 +49,17 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
     fr: ['Conçu au Québec', 'Pensé pour le marché local.'],
     en: ['Built in Québec', 'Made for the local market.'],
   },
+  // « Plateformes » avait sa propre section pour UNE ligne (v3, 2026-08-14) :
+  // elle rejoint les preuves, là où elle lève vraiment un doute.
+  {
+    icon: Smartphone,
+    fr: ['iPhone et web', 'Votre cave vous suit, partout.'],
+    en: ['iPhone and web', 'Your cellar follows you, everywhere.'],
+  },
 ];
 
 // Comparatif : il doit VENDRE LA MONTÉE EN GAMME, pas niveler les plans. Chaque
-// cellule est soit un booléen (✓ / —), soit une « intensité » progressive
+// cellule est soit un booléen (✓ /,), soit une « intensité » progressive
 // (1→3 pastilles) qui montre qu’un même bénéfice s’enrichit avec le plan, soit
 // un court texte qualitatif. Le palais qui apprend est VISIBLE dès Standard.
 // Prix, recommandations et utilisateurs restent calculés depuis PLANS plus bas.
@@ -107,11 +78,11 @@ const COMPARE_FEATURES: {
     // universelle (la démo du moat), jamais un différenciateur.
     values: [true, true, true, true],
   },
-  // RETIRÉ (P22/R3, 2026-07-16) — « Profil de goût qui s'affine » affichait trois
+  // RETIRÉ (P22/R3, 2026-07-16), « Profil de goût qui s'affine » affichait trois
   // niveaux croissants (1→2→3) : un différenciateur INVENTÉ. Le palais est
   // universel et identique sur tous les plans ; la ligne précédente le dit déjà.
   // L'app a retiré la même promesse (« Profil de goût avancé » / « Apprentissage
-  // du palais ») en P21A Lot D — sa garde CI `pricing↔gates` les interdit désormais.
+  // du palais ») en P21A Lot D, sa garde CI `pricing↔gates` les interdit désormais.
   {
     label: { fr: 'Mode restaurant', en: 'Restaurant mode' },
     hint: { fr: 'Un accord à partir de la carte', en: 'A pairing from the wine list' },
@@ -130,11 +101,11 @@ const COMPARE_FEATURES: {
     label: { fr: 'Cave partagée', en: 'Shared cellar' },
     // Enfin VRAIE (P26, 2026-07-16) : inviter un compte existant, basculer de cave,
     // rôle lecture seule hermétique, journal familial. Elle était affichée ici
-    // AVANT d'exister — le produit l'a rattrapée.
+    // AVANT d'exister, le produit l'a rattrapée.
     hint: { fr: 'Jusqu’à 4 personnes, une cave', en: 'Up to 4 people, one cellar' },
     values: [false, false, false, true],
   },
-  // RETIRÉ (P22/R3, 2026-07-16) — « Priorité à Octave / Vos demandes passent devant »
+  // RETIRÉ (P22/R3, 2026-07-16), « Priorité à Octave / Vos demandes passent devant »
   // n'a JAMAIS existé : aucune file prioritaire n'est câblée. L'app l'a retirée en
   // P21A Lot D et sa garde CI l'interdit (`/priorité ia/i` dans BANNED). Le site
   // était le dernier endroit où cette promesse survivait.
@@ -144,7 +115,7 @@ const COMPARE_FEATURES: {
  * Les noms de forfaits, LOCALISÉS.
  *
  * C'était une table figée en français. Depuis la décision d'Eric, `famille`
- * s'affiche « Passionné » ou « Enthusiast » selon la langue — un LIBELLÉ, pas
+ * s'affiche « Passionné » ou « Enthusiast » selon la langue, un LIBELLÉ, pas
  * un second produit : l'identifiant, le priceId et l'accès sont identiques.
  */
 const planNames = (locale: 'fr' | 'en'): Record<string, string> => ({
@@ -159,7 +130,7 @@ const COMPARE_COLUMNS: MarketingPlan[] = [FREE_PLAN, ...PLANS];
 
 // Rendu d’une cellule du comparatif. Le niveau d’intensité (1→3) se lit comme
 // trois pastilles : plus elles sont dorées, plus le bénéfice s’enrichit avec le
-// plan — il reste présent (et doré) dès le niveau 1, jamais barré.
+// plan, il reste présent (et doré) dès le niveau 1, jamais barré.
 function renderCompareCell(cell: CompareCell, t: T) {
   if (typeof cell === 'boolean') {
     return cell ? (
@@ -213,11 +184,11 @@ export default function TarifsContent() {
     },
     {
       /**
-       * MFP-09 — le plafond de bouteilles, enfin visible.
+       * MFP-09, le plafond de bouteilles, enfin visible.
        *
        * Il est appliqué par l'application depuis toujours et n'apparaissait
        * NULLE PART sur le site : un collectionneur de 400 bouteilles pouvait
-       * souscrire Standard et heurter un mur à 200 — après avoir importé sa
+       * souscrire Standard et heurter un mur à 200, après avoir importé sa
        * cave. C'est aussi le seul argument Standard → Pro qui existait déjà et
        * que personne n'utilisait.
        */
@@ -233,29 +204,33 @@ export default function TarifsContent() {
   return (
     <main className="overflow-hidden">
       {/* HERO */}
-      <section className="relative px-6 pt-32 pb-16 lg:pt-40 lg:pb-20 text-center">
+      {/* ══ S1 · L'OUVERTURE — courte, le prix arrive juste apres ══════
+          Mesure avant refonte : le premier prix apparaissait a 2 253 px, soit
+          deux ecrans et demi. Le hero perd ~40 % de sa hauteur et la section
+          « Lequel est pour vous » disparait (elle doublonnait les taglines des
+          cartes). Le prix doit etre la premiere chose qu'on comprend. */}
+      <section className="relative px-6 pb-8 pt-[calc(var(--nav-h)+1.5rem)] text-center sm:pt-[calc(var(--nav-h)+2.5rem)] lg:pb-12">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[55%] bg-[radial-gradient(ellipse_60%_80%_at_50%_0%,rgba(142,42,42,0.10),transparent_70%)]" aria-hidden />
         <div className="relative mx-auto max-w-3xl">
-          <p className="iq-eyebrow mb-6">{t('Tarifs', 'Pricing')}</p>
-          {/* Moment d'identité — le mot-symbole ◯ctave dans le grand titre Cormorant
+          <p className="iq-eyebrow mb-4 sm:mb-6">{t('Tarifs', 'Pricing')}</p>
+          {/* Moment d'identité, le mot-symbole ◯ctave dans le grand titre Cormorant
               italique (anneau incliné pour lire comme un O italique). */}
-          <h1 className="iq-display italic">
+          {/* Echelle v3 (58 px maxi) : `iq-display` montait a 96 px, hors
+              systeme et lent a lire sur une page de decision. */}
+          <h1
+            className="font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
+            style={{ fontSize: 'clamp(34px, 5vw, 58px)' }}
+          >
             {t('Trouvez votre ', 'Find your ')}
             <OctaveWordmark italic />.
           </h1>
-          <p className="iq-lead mt-7 max-w-2xl mx-auto">
+          <p className="mx-auto mt-4 max-w-[56ch] text-[16.5px] leading-relaxed text-muted-foreground sm:mt-5 md:text-[17.5px]">
             {t(
-              `Chaque formule commence par un essai gratuit — ${TRIAL_FULL.fr} —, sans carte. Vous découvrez Octave, puis vous choisissez, ou pas.`,
-              `Every plan starts with a free trial — ${TRIAL_FULL.en} —, no card. You discover Octave, then you choose, or not.`,
+              `Essayez gratuitement, ${TRIAL_FULL.fr}, sans carte. Vous choisissez après.`,
+              `Try it free, ${TRIAL_FULL.en}, no card. You choose afterwards.`,
             )}
           </p>
-          <p className="mt-5 font-[family-name:var(--font-display)] italic text-or/90 text-base sm:text-lg">
-            {t(
-              'Une application créée par des passionnés, pour des passionnés de vin.',
-              'An app built by enthusiasts, for wine enthusiasts.',
-            )}
-          </p>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-6 flex justify-center sm:mt-7">
             <a
               href={buildSignupUrl('tarifs-hero', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-hero' })}
@@ -266,64 +241,38 @@ export default function TarifsContent() {
               </Button>
             </a>
           </div>
+          <p className="mt-4 font-[family-name:var(--font-display)] text-[14.5px] italic text-or/85 sm:mt-5">
+            {t(
+              'Une application créée par des passionnés, pour des passionnés de vin.',
+              'An app built by enthusiasts, for wine enthusiasts.',
+            )}
+          </p>
         </div>
       </section>
 
-      {/* LEQUEL EST POUR VOUS, positionnement par profil */}
-      <section className="px-6 py-16 lg:py-20 border-t border-white/5">
-        <div className="mx-auto max-w-5xl">
-          <FadeInOnScroll>
-            <div className="text-center mb-12">
-              <p className="iq-eyebrow mb-5">{t('Lequel est pour vous ?', 'Which one is for you?')}</p>
-              <h2 className="iq-h1 italic">{t('Chaque formule a son profil.', 'Each plan has a profile.')}</h2>
-            </div>
-          </FadeInOnScroll>
-          <div className="grid gap-5 sm:grid-cols-3 max-w-4xl mx-auto">
-            {POSITIONS.map((p, i) => {
-              const [title, body] = locale === 'fr' ? p.fr : p.en;
-              return (
-                <FadeInOnScroll key={i} delay={Math.min(i * 0.06, 0.24)}>
-                  <div
-                    className={`h-full rounded-xl border p-6 ${
-                      p.highlight ? 'border-or/30 bg-or/[0.04]' : 'border-white/5 bg-white/[0.015]'
-                    }`}
-                  >
-                    <h3 className="font-[family-name:var(--font-display)] italic text-xl text-or">
-                      {title}
-                    </h3>
-                    <p className="text-muted-foreground text-[15px] leading-relaxed mt-2">{body}</p>
-                  </div>
-                </FadeInOnScroll>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* « Lequel est pour vous » RETIREE (v3, 2026-08-14) : ses trois
+          profils redisaient, en moins bien, la tagline deja portee par chaque
+          carte de forfait, et repoussaient le prix d'un ecran entier.
+          L'information utile vit desormais dans les cartes elles-memes. */}
 
       {/* LES PRIX (réutilise la section Pricing : plans + toggle annuel) */}
-      <Pricing />
-
-      {/* RÉASSURANCE — près des prix */}
-      <section className="px-6 pt-4 pb-12 lg:pb-16">
-        <div className="mx-auto max-w-5xl grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {REASSURANCE.map((r, i) => {
-            const [title, body] = locale === 'fr' ? r.fr : r.en;
-            const Icon = r.icon;
-            return (
-              <FadeInOnScroll key={i} delay={Math.min(i * 0.06, 0.24)}>
-                <div className="h-full rounded-xl border border-white/5 bg-white/[0.015] p-5">
-                  <Icon size={20} strokeWidth={1.6} className="text-or mb-3" aria-hidden />
-                  <h3 className="font-[family-name:var(--font-display)] italic text-[17px] text-foreground">{title}</h3>
-                  <p className="text-muted-foreground text-[13px] leading-relaxed mt-1">{body}</p>
-                </div>
-              </FadeInOnScroll>
-            );
-          })}
-        </div>
-      </section>
+      {/* La descente de la nuit du hero vers l'ivoire des prix : c'est la
+          respiration qui manquait, et le moment ou la page redevient iQWine. */}
+      <div
+        aria-hidden
+        className="h-24 w-full"
+        style={{ background: 'linear-gradient(180deg, var(--color-background) 0%, #2a1d13 26%, var(--color-papier-2) 72%, var(--color-papier) 100%)' }}
+      />
+      <Pricing ton="jour" />
 
       {/* COMPARATIF DES PLANS */}
-      <section className="px-6 py-16 lg:py-24 border-t border-white/5">
+      {/* Retour a la NUIT pour le detail : on entre dans la comparaison. */}
+      <div
+        aria-hidden
+        className="h-24 w-full"
+        style={{ background: 'linear-gradient(180deg, var(--color-papier) 0%, var(--color-papier-2) 24%, #2a1d13 74%, var(--color-background) 100%)' }}
+      />
+      <section className="px-6 pb-16 lg:pb-24">
         <div className="mx-auto max-w-4xl">
           <FadeInOnScroll>
             <div className="text-center mb-12">
@@ -336,6 +285,13 @@ export default function TarifsContent() {
               </h2>
             </div>
           </FadeInOnScroll>
+          {/* Le tableau garde son defilement horizontal sur mobile : le
+              convertir en cartes empilees detruirait la lecture COMPARATIVE,
+              qui est tout l'objet de la section. On ajoute seulement
+              l'affordance qui manquait, invisible des que tout tient. */}
+          <p className="mb-3 text-center text-[12px] tracking-wide text-foreground-faint sm:hidden">
+            {t('Faites glisser le tableau pour comparer', 'Swipe the table to compare')}
+          </p>
           <FadeInOnScroll delay={0.1}>
             <div className="overflow-x-auto rounded-2xl border border-white/10">
               <table className="w-full min-w-[480px] text-left border-collapse">
@@ -366,7 +322,7 @@ export default function TarifsContent() {
                       {row.cells.map((c, j) => (
                         <td
                           key={j}
-                          className={`p-4 text-center text-[15px] tabular-nums ${PLANS[j]?.highlight ? 'text-or bg-or/[0.04]' : 'text-foreground'}`}
+                          className={`p-4 text-center text-[15px] tabular-nums ${COMPARE_COLUMNS[j]?.highlight ? 'text-or bg-or/[0.04]' : 'text-foreground'}`}
                         >
                           {c}
                         </td>
@@ -386,7 +342,7 @@ export default function TarifsContent() {
                         )}
                       </td>
                       {row.values.map((v, j) => (
-                        <td key={j} className={`p-4 text-center ${PLANS[j]?.highlight ? 'bg-or/[0.04]' : ''}`}>
+                        <td key={j} className={`p-4 text-center ${COMPARE_COLUMNS[j]?.highlight ? 'bg-or/[0.04]' : ''}`}>
                           {renderCompareCell(v, t)}
                         </td>
                       ))}
@@ -396,18 +352,63 @@ export default function TarifsContent() {
               </table>
             </div>
           </FadeInOnScroll>
+
+          {/* ── AGIR SANS REMONTER (v3, 2026-08-14) ────────────────────────
+              Le manque le plus couteux de l'ancienne page : on comparait, puis
+              il fallait remonter deux ecrans pour acheter. */}
+          <FadeInOnScroll delay={0.16}>
+            <div className="mt-10 text-center">
+              <a
+                href={buildSignupUrl('tarifs-comparatif', { lang: locale })}
+                onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-comparatif' })}
+              >
+                <Button variant="cta" size="lg">
+                  {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                  <ArrowRight size={16} strokeWidth={1.75} />
+                </Button>
+              </a>
+              <p className="mt-4 text-[13px] tracking-wide text-foreground-faint">
+                {t(`Essai gratuit, ${TRIAL_SHORT.fr} · Sans carte`, `Free trial, ${TRIAL_SHORT.en} · No card required`)}
+              </p>
+            </div>
+          </FadeInOnScroll>
         </div>
       </section>
 
-      {/* LIEN VERS /octave — comprendre la puissance d'Octave au moment du choix */}
-      <section className="px-6 pb-8">
+      {/* ── S4 · LA REASSURANCE, remontee vers le jour ────────────────────
+          Elle quitte la nuit : c'est le moment ou l'on rassure, donc celui ou
+          la page doit s'eclaircir. Les quatre preuves et « iPhone et web »
+          sont inchangees. */}
+      <section
+        className="mouvement-jour relative px-6 pb-14 pt-16 lg:pb-16"
+        style={{ background: 'linear-gradient(180deg, var(--color-background) 0%, #2a1d13 8%, var(--color-papier-2) 36%, var(--color-papier) 100%)' }}
+      >
+        <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          {REASSURANCE.map((r, i) => {
+            const [title, body] = locale === 'fr' ? r.fr : r.en;
+            const Icon = r.icon;
+            return (
+              <FadeInOnScroll key={i} delay={Math.min(i * 0.06, 0.24)}>
+                <div className="h-full rounded-xl border border-encre/10 bg-[#fdfaf3]/70 p-5">
+                  <Icon size={20} strokeWidth={1.6} className="mb-3 text-or-jour" aria-hidden />
+                  <h3 className="font-[family-name:var(--font-display)] text-[17px] italic text-encre">{title}</h3>
+                  <p className="text-muted-foreground text-[13px] leading-relaxed mt-1">{body}</p>
+                </div>
+              </FadeInOnScroll>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* LIEN VERS /octave, comprendre la puissance d'Octave au moment du choix */}
+      <section className="mouvement-jour relative px-6 pb-8">
         <FadeInOnScroll>
-          <div className="mx-auto max-w-4xl rounded-2xl border border-or/15 bg-or/[0.03] p-7 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+          <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-5 rounded-2xl border border-or-jour/25 bg-[#fdfaf3]/70 p-7 text-center sm:flex-row sm:p-8 sm:text-left">
             <div>
-              <h3 className="font-[family-name:var(--font-display)] italic text-xl text-foreground">
+              <h3 className="font-[family-name:var(--font-display)] text-xl italic text-encre">
                 {t('Pas encore convaincu ?', 'Not convinced yet?')}
               </h3>
-              <p className="text-muted-foreground text-[15px] mt-1">
+              <p className="mt-1 text-[15px] text-encre-2">
                 {t(
                   'Voyez Octave à l’œuvre, et pourquoi ce n’est pas un assistant générique.',
                   'See Octave at work, and why it isn’t a generic assistant.',
@@ -415,7 +416,7 @@ export default function TarifsContent() {
               </p>
             </div>
             <LocaleLink href="/sommelier-ia" className="shrink-0">
-              <Button variant="secondary" size="lg">
+              <Button variant="secondary" size="lg" className="!border-encre/25 !bg-transparent !text-encre hover:!bg-encre/5 hover:!border-encre/35">
                 {t('Voir ce qu’Octave peut faire', 'See what Octave can do')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
@@ -424,96 +425,73 @@ export default function TarifsContent() {
         </FadeInOnScroll>
       </section>
 
-      {/* COMMENT ÇA FONCTIONNE */}
-      <section className="px-6 py-16 lg:py-24 border-t border-white/5">
-        <div className="mx-auto max-w-5xl">
-          <FadeInOnScroll>
-            <div className="text-center mb-14">
-              <p className="iq-eyebrow mb-5">{t('Comment ça fonctionne ?', 'How it works')}</p>
-              <h2 className="iq-h1 italic">{t('En trois gestes.', 'In three moves.')}</h2>
-            </div>
-          </FadeInOnScroll>
-          <div className="grid gap-8 sm:grid-cols-3">
-            {STEPS.map((s, i) => {
-              const [title, body] = locale === 'fr' ? s.fr : s.en;
-              const Icon = s.icon;
-              return (
-                <FadeInOnScroll key={i} delay={Math.min(i * 0.08, 0.24)}>
-                  <div className="text-center sm:text-left">
-                    <div className="inline-flex items-center gap-3 mb-4">
-                      <span className="font-[family-name:var(--font-display)] italic text-or text-2xl tabular-nums">
-                        {i + 1}
-                      </span>
-                      <Icon size={20} strokeWidth={1.5} className="text-or/70" aria-hidden />
-                    </div>
-                    <h3 className="font-[family-name:var(--font-display)] italic text-xl text-foreground leading-snug">
-                      {title}
-                    </h3>
-                    <p className="text-muted-foreground text-[15px] leading-relaxed mt-2">{body}</p>
-                  </div>
-                </FadeInOnScroll>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* POURQUOI LES AMATEURS CHOISISSENT iQWINE, bénéfices */}
-      <section className="px-6 py-16 lg:py-24 border-t border-white/5">
-        <div className="mx-auto max-w-3xl">
-          <FadeInOnScroll>
-            <div className="text-center mb-12">
-              <p className="iq-eyebrow mb-5">{t('Pourquoi iQWine', 'Why iQWine')}</p>
-              <h2 className="iq-h1 italic">
-                {t('Pourquoi les amateurs choisissent iQWine', 'Why wine lovers choose iQWine')}
-              </h2>
-            </div>
-          </FadeInOnScroll>
-          <ul className="space-y-px rounded-2xl overflow-hidden border border-white/5">
-            {BENEFITS.map((b, i) => (
-              <FadeInOnScroll key={i} delay={Math.min(i * 0.05, 0.25)}>
-                <li className="flex items-center gap-4 bg-white/[0.015] px-6 py-5">
-                  {/* Bénéfices = raisons de choisir → Check (sémantique honnête, pas déco). */}
-                  <Check size={18} strokeWidth={1.75} className="text-or shrink-0" aria-hidden />
-                  <span className="font-[family-name:var(--font-display)] italic text-lg text-foreground">
-                    {locale === 'fr' ? b.fr : b.en}
-                  </span>
-                </li>
-              </FadeInOnScroll>
-            ))}
-          </ul>
-        </div>
+      {/* ── S4 · « Comment ca fonctionne » et « Pourquoi les amateurs
+          choisissent » RETIREES comme sections autonomes (v3, 2026-08-14).
+          Elles racontaient, en 400 px chacune, ce que /fonctions raconte mieux
+          et en entier ; sur une page de decision elles ralentissaient la
+          conversion. Leur information utile tient desormais en une phrase et
+          un lien. La section « Plateformes » (une seule ligne) rejoint la
+          reassurance plus haut. */}
+      <section className="mouvement-jour relative px-6 pb-14 lg:pb-16">
+        <FadeInOnScroll>
+          <p className="mx-auto max-w-[56ch] text-center text-[15.5px] leading-relaxed text-encre-2 md:text-[16.5px]">
+            {t(
+              'Octave vous accompagne au magasin, au restaurant, devant votre repas et dans votre cave. ',
+              'Octave is with you in the store, at the restaurant, in front of your meal and in your cellar. ',
+            )}
+            <LocaleLink href="/fonctions" className="text-bordeaux-jour underline underline-offset-4 hover:text-or-jour">
+              {t('Voir tout ce qu\u2019il fait', 'See everything he does')}
+            </LocaleLink>
+          </p>
+        </FadeInOnScroll>
       </section>
 
       {/* FAQ (réutilise la section existante) */}
-      <SectionFaq />
+      <SectionFaq ton="jour" />
 
-      {/* PLATEFORMES */}
-      <section className="px-6 py-14 border-t border-white/5 text-center">
-        <p className="font-body text-[11px] tracking-[0.22em] uppercase text-muted-foreground">
-          {t('Disponible sur iPhone et sur le web', 'Available on iPhone and on the web')}
-        </p>
-      </section>
-
-      {/* CTA FINAL */}
-      <section className="px-6 py-24 lg:py-32 border-t border-white/5 text-center">
+      {/* ══ S6 · LA CLOTURE — RETOUR AU JOUR ═══════════════════════════
+          Le mouvement signature v3, comme /apogee : la nuit porte la
+          comparaison et le choix, l'ivoire porte la resolution. */}
+      <section
+        className="mouvement-jour relative px-6 py-16 text-center lg:py-20"
+        style={{ background: 'linear-gradient(180deg, #150f0c 0%, #2a1d13 7%, var(--color-papier-2) 30%, var(--color-papier) 100%)' }}
+      >
         <FadeInOnScroll>
-          <h2 className="iq-display italic max-w-3xl mx-auto">
-            {t('Commencez ce soir.', 'Start tonight.')}
+          <h2
+            className="mx-auto max-w-[22ch] text-balance font-[family-name:var(--font-display)] font-medium italic leading-[1.16] tracking-[-0.02em] text-encre"
+            style={{ fontSize: 'clamp(28px, 4vw, 46px)' }}
+          >
+            {t('Votre sommelier vous attend.', 'Your sommelier is waiting.')}
           </h2>
-          <p className="iq-lead mt-6 max-w-xl mx-auto">
+          <p className="mx-auto mt-5 max-w-[46ch] text-[16px] leading-relaxed text-encre-2 md:text-[17px]">
             {t(`${TRIAL_SHORT.fr} pour rencontrer Octave. Aucune carte requise.`, `${TRIAL_SHORT.en} to meet Octave. No card required.`)}
           </p>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-8 flex justify-center">
             <a
               href={buildSignupUrl('tarifs-final', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-final' })}
             >
-              <Button variant="cta" size="lg">
+              {/* `primary` (bordeaux) et non `cta` (or) : sur l'ivoire, l'or
+                  manque de contraste. Destination et libelle inchanges. */}
+              <Button variant="primary" size="lg">
                 {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
+          </div>
+          <div className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-[14px]">
+            <LocaleLink href="/fonctions" className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour">
+              {t('Tout ce que fait Octave', 'Everything Octave does')}
+              <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+            </LocaleLink>
+            <LocaleLink href="/sommelier-ia" className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour">
+              {t('Comment il vous connait', 'How he knows you')}
+              <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+            </LocaleLink>
+            <LocaleLink href="/notre-maison" className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour">
+              {t('Notre histoire', 'Our story')}
+              <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+            </LocaleLink>
           </div>
         </FadeInOnScroll>
       </section>

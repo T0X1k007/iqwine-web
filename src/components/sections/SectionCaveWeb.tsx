@@ -6,7 +6,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 
 /**
- * SectionCaveWeb, « Une cave qui se souvient » — pilier émotionnel central
+ * SectionCaveWeb, « Une cave qui se souvient », pilier émotionnel central
  * (Vague 1). Le fichier et l'export `SectionCaveWeb` sont conservés pour ne
  * pas casser l'import ; seul le contenu change. La cave n'est plus un
  * inventaire qui oublie : c'est une mémoire qui apprend votre palais.
@@ -46,8 +46,8 @@ export default function SectionCaveWeb() {
             </h2>
             <p className="iq-lead mb-8">
               {t(
-                "Elle se souvient de ce que vous avez aimé. Elle connaît l'apogée de chaque bouteille, votre historique, vos préférences — et elle apprend à chaque dégustation. Vous ne gérez plus un inventaire qui oublie. Vous vivez avec une cave qui vous connaît.",
-                'It remembers what you loved. It knows the drinking window of every bottle, your history, your preferences — and it learns with every tasting. You no longer manage an inventory that forgets. You live with a cellar that knows you.',
+                "Elle se souvient de ce que vous avez aimé. Elle connaît l'apogée de chaque bouteille, votre historique, vos préférences, et elle apprend à chaque dégustation. Vous ne gérez plus un inventaire qui oublie. Vous vivez avec une cave qui vous connaît.",
+                'It remembers what you loved. It knows the drinking window of every bottle, your history, your preferences, and it learns with every tasting. You no longer manage an inventory that forgets. You live with a cellar that knows you.',
               )}
             </p>
             <ul className="space-y-3 max-w-md">
@@ -65,7 +65,7 @@ export default function SectionCaveWeb() {
         <div className="lg:col-span-7">
           <FadeInOnScroll delay={0.2} direction="left">
             <div className="relative">
-              {/* Scène lumineuse champagne derrière la capture (skin B — VISUAL 2.0) :
+              {/* Scène lumineuse champagne derrière la capture (skin B, VISUAL 2.0) :
                  la lumière fait flotter le cockpit et guide l'œil vers lui. */}
               <div
                 aria-hidden

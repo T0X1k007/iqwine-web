@@ -46,8 +46,8 @@ export default function SectionConfiance() {
           </h2>
           <p className="iq-lead mt-6 max-w-2xl mx-auto">
             {t(
-              'Conçu au Québec, iQWine vérifie la disponibilité magasin par magasin, en direct — comme aucune app étrangère ne le pourra.',
-              'Built in Québec, iQWine verifies availability store by store, live — like no foreign app ever could.',
+              'Conçu au Québec, iQWine vérifie la disponibilité magasin par magasin, en direct, comme aucune app étrangère ne le pourra.',
+              'Built in Québec, iQWine verifies availability store by store, live, like no foreign app ever could.',
             )}
           </p>
         </div>

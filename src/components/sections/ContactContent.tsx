@@ -6,7 +6,7 @@ import { useLocale } from '@/lib/i18n';
 import ContactForm from '@/components/sections/ContactForm';
 
 /**
- * ContactContent — corps client de la page /contact (la coquille serveur garde
+ * ContactContent, corps client de la page /contact (la coquille serveur garde
  * la metadata SEO). Bilingue FR/EN via le pattern useLocale + t(fr, en), comme
  * la barre de navigation et le pied de page. Français canadien standard.
  *
@@ -29,7 +29,7 @@ export default function ContactContent() {
   const cards: OptionCard[] = [
     {
       icon: BookOpen,
-      href: '/#faq',
+      href: '/tarifs#faq',
       title: t("Lire les articles d'aide", 'Read help articles'),
       body: t(
         'Réponses aux questions fréquentes sur la cave et Octave, votre sommelier.',
@@ -56,20 +56,27 @@ export default function ContactContent() {
     },
   ];
 
+  // Le titre passait SOUS la barre fixe (fermeture v3, 2026-08-14) : `py-24`
+  // valait 96 px alors que la navbar en mesure 128 en desktop, soit 32 px de
+  // recouvrement, et 0 px d'écart à 768 et 393. Même correctif que les pages
+  // légales : on part de la hauteur RÉELLE de la barre.
   return (
-    <main className="min-h-screen px-6 py-24">
+    <main
+      className="mouvement-jour min-h-screen px-6 pb-24"
+      style={{ paddingTop: 'calc(var(--nav-h) + 3rem)' }}
+    >
       <div className="w-full max-w-xl mx-auto">
         <header className="mb-10 text-center">
-          <p className="font-body text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
+          <p className="font-body text-[11px] uppercase tracking-[0.28em] text-or-jour">
             {t('Nous écrire', 'Get in touch')}
           </p>
-          <h1 className="iq-display italic text-foreground mt-3">
+          <h1 className="iq-display mt-3 italic text-encre">
             {t('Parlons-en.', "Let's talk.")}
           </h1>
-          <p className="text-muted-foreground text-[15px] mt-4 max-w-md mx-auto">
+          <p className="mx-auto mt-4 max-w-md text-[15px] text-encre-2">
             {t(
-              'Une question, une démonstration ou un partenariat ? Écrivez-nous — nous répondons par courriel.',
-              'A question, a demo or a partnership? Write to us — we reply by email.',
+              'Une question, une démonstration ou un partenariat ? Écrivez-nous, nous répondons par courriel.',
+              'A question, a demo or a partnership? Write to us, we reply by email.',
             )}
           </p>
         </header>
@@ -79,20 +86,20 @@ export default function ContactContent() {
             <Link
               key={title}
               href={href}
-              className="group flex flex-col gap-2.5 rounded-xl border border-border bg-sunk p-4 text-left hover:border-or/50 transition-colors duration-[140ms]"
+              className="group flex flex-col gap-2.5 rounded-xl border border-encre/12 bg-[#fdfaf3]/70 p-4 text-left transition-colors duration-[140ms] hover:border-or-jour/50"
             >
-              <span className="inline-flex w-9 h-9 rounded-lg bg-or/15 items-center justify-center">
-                <Icon className="w-[18px] h-[18px] text-or" strokeWidth={1.75} />
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-or-jour/15">
+                <Icon className="h-[18px] w-[18px] text-or-jour" strokeWidth={1.75} />
               </span>
-              <span className="flex items-center gap-1 text-[14px] font-medium text-foreground">
+              <span className="flex items-center gap-1 text-[14px] font-medium text-encre">
                 {title}
                 <ArrowUpRight
-                  className="w-3.5 h-3.5 text-muted-foreground group-hover:text-or transition-colors"
+                  className="h-3.5 w-3.5 text-encre-3 transition-colors group-hover:text-or-jour"
                   strokeWidth={2}
                   aria-hidden
                 />
               </span>
-              <span className="text-[12px] leading-snug text-muted-foreground">
+              <span className="text-[12px] leading-snug text-encre-2">
                 {body}
               </span>
             </Link>

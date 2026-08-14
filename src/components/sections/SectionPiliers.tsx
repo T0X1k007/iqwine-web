@@ -6,10 +6,10 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale, type Locale } from '@/lib/i18n';
 
 /**
- * SectionPiliers (#piliers) — « Les grands piliers » (VISUAL 2.0, 9 mouvements).
+ * SectionPiliers (#piliers), « Les grands piliers » (VISUAL 2.0, 9 mouvements).
  * Octave · Apogée · Recherche · Recevoir. Chaque pilier est un CHAPITRE, pas une
  * carte : grand numéral, nom Cormorant, émotion, lumière champagne alternée
- * (rythme), et un lien « Découvrir » — l'entrée naturelle vers les futures
+ * (rythme), et un lien « Découvrir », l'entrée naturelle vers les futures
  * landing pages (/octave, /apogee, /recherche, /recevoir).
  *
  * hrefs = ancres Home pour l'instant (contenu déjà présent, zéro lien mort) ;
@@ -29,7 +29,8 @@ type Pilier = {
 const PILIERS: Pilier[] = [
   {
     num: 'I',
-    href: '/octave',
+    // Route réelle, `/octave` n'a jamais existé (lien cassé repéré pendant la refonte v3).
+    href: '/sommelier-ia',
     emotion: { fr: 'Confiance', en: 'Trust' },
     name: { fr: 'Octave', en: 'Octave' },
     tagline: { fr: 'Le sommelier qui vous connaît.', en: 'The sommelier who knows you.' },
@@ -45,8 +46,8 @@ const PILIERS: Pilier[] = [
     name: { fr: 'Apogée', en: 'Peak' },
     tagline: { fr: 'Chaque bouteille à son sommet.', en: 'Every bottle at its peak.' },
     line: {
-      fr: 'Octave veille — vous ne manquez plus le moment.',
-      en: 'Octave watches over it — you never miss the moment.',
+      fr: 'Octave veille, vous ne manquez plus le moment.',
+      en: 'Octave watches over it, you never miss the moment.',
     },
   },
   {
@@ -95,7 +96,7 @@ export default function SectionPiliers() {
         {PILIERS.map((p, i) => (
           <FadeInOnScroll key={p.num} delay={0.06 * i}>
             <a href={p.href} className="group relative block">
-              {/* Lumière du chapitre — halo champagne centré, s'intensifie au survol */}
+              {/* Lumière du chapitre, halo champagne centré, s'intensifie au survol */}
               <div
                 aria-hidden
                 className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[300px] w-[600px] max-w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[100px] transition-opacity duration-500 group-hover:opacity-90"
@@ -105,7 +106,7 @@ export default function SectionPiliers() {
                 }}
               />
 
-              {/* Nom + texte CÔTE À CÔTE (alternés), mais GROUPÉS AU CENTRE —
+              {/* Nom + texte CÔTE À CÔTE (alternés), mais GROUPÉS AU CENTRE,
                   plus de w-5/12 + w-7/12 qui écartaient tout aux bords. */}
               <div
                 className={`flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12 ${

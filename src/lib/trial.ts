@@ -1,5 +1,5 @@
 /**
- * LA RÈGLE D'ESSAI — source unique de la copie du site.
+ * LA RÈGLE D'ESSAI, source unique de la copie du site.
  *
  * ── L'écart que ce fichier ferme (décision D5, Eric 2026-08-02) ───────────
  * Le produit applique un essai à **double barrière** : 14 jours **ou** 12
@@ -12,7 +12,7 @@
  * produit livré.
  *
  * Décision d'Eric : **garder la règle, corriger la copie.** La double barrière
- * protège une économie unitaire réelle — la retirer exposerait le budget IA.
+ * protège une économie unitaire réelle, la retirer exposerait le budget IA.
  * L'écrire, en revanche, est obligatoire.
  *
  * ── Pourquoi une source unique, et pas trente-cinq corrections ────────────
@@ -25,7 +25,7 @@
  * `TRIAL_DAYS` et `TRIAL_RECOS` doublent `lib/billing/plan-catalog.ts` du dépôt
  * applicatif (`TRIAL_DAYS = 14`, `TRIAL_AI_RECOMMENDATIONS = 12`). Deux dépôts,
  * deux déploiements : la duplication est inévitable, l'oubli ne doit pas
- * l'être. **Changer l'un OBLIGE à changer l'autre** — c'est exactement la
+ * l'être. **Changer l'un OBLIGE à changer l'autre**, c'est exactement la
  * classe d'écart que ce fichier existe pour empêcher.
  */
 
@@ -41,29 +41,32 @@ export const TRIAL_RECOS = 12;
 export type SiteLocale = 'fr' | 'en';
 
 /**
- * La phrase COMPLÈTE — celle qui dit la vérité entière.
+ * La phrase COMPLÈTE, celle qui dit la vérité entière.
  *
  * À utiliser partout où l'essai est DÉCRIT : réassurance, FAQ, tarifs,
  * conditions. Un texte qui présente l'essai sans elle est un texte faux.
  */
 export const TRIAL_FULL: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions avec Octave — au premier des deux`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions with Octave — whichever comes first`,
+  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions avec Octave, au premier des deux`,
+  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions with Octave, whichever comes first`,
 };
 
 /**
  * La forme COURTE, pour un libellé de bouton.
  *
- * Elle ne dit pas tout, et c'est assumé : un bouton n'est pas un contrat. Mais
- * elle ne doit JAMAIS paraître seule — la ligne de réassurance adjacente, ou la
- * section qui l'entoure, porte `TRIAL_FULL`. C'est la règle que le site violait.
+ * Refonte v3 (Eric, 2026-08-12) : le bouton ne cite PLUS la durée du tout.
+ * « Essai gratuit 14 jours » seul contredisait la double barrière, la navbar
+ * le portait sans réassurance adjacente. Règle désormais : un bouton dit
+ * « Essai gratuit », et CHAQUE endroit où l'essai est décrit porte la
+ * formulation exacte `TRIAL_SHORT`/`TRIAL_FULL`. Aucune variante entre navbar,
+ * pricing, FAQ ou CTA.
  */
 export const TRIAL_CTA: Record<SiteLocale, string> = {
-  fr: `Essai gratuit ${TRIAL_DAYS} jours`,
-  en: `Free ${TRIAL_DAYS}-day trial`,
+  fr: 'Essai gratuit',
+  en: 'Free trial',
 };
 
-/** Forme brève mais HONNÊTE — tient sur une ligne de réassurance. */
+/** Forme brève mais HONNÊTE, tient sur une ligne de réassurance. */
 export const TRIAL_SHORT: Record<SiteLocale, string> = {
   fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions`,
   en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions`,

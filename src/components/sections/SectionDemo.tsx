@@ -14,10 +14,10 @@ import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
 import { TRIAL_SHORT } from '@/lib/trial';
 
 /**
- * SectionDemo — la vitrine d'Octave (Concept A premium). Panneau de contrôle en
+ * SectionDemo, la vitrine d'Octave (Concept A premium). Panneau de contrôle en
  * haut, puis DEUX téléphones : votre cave (gauche) vs près de vous (droite). Changer le
  * plat ou la source métamorphose les écrans. Le visuel domine, le texte supporte.
- * AUCUN appel API — données factices. GPU only, reduced-motion respecté.
+ * AUCUN appel API, données factices. GPU only, reduced-motion respecté.
  */
 
 export default function SectionDemo() {
@@ -63,9 +63,9 @@ export default function SectionDemo() {
           />
         </FadeInOnScroll>
 
-        {/* Téléphones — cave (gauche) / près de vous (droite). Morph à chaque changement. */}
+        {/* Téléphones, cave (gauche) / près de vous (droite). Morph à chaque changement. */}
         <div className="relative mt-12 min-h-[600px]">
-          {/* Scène lumineuse champagne derrière les téléphones (skin B — VISUAL 2.0) :
+          {/* Scène lumineuse champagne derrière les téléphones (skin B, VISUAL 2.0) :
              une nappe de lumière chaude fait « poper » les mockups sombres et guide l'œil. */}
           <div
             className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[480px] w-[760px] max-w-[96%] -translate-x-1/2 -translate-y-1/4 rounded-full opacity-95 blur-[100px]"
@@ -98,7 +98,7 @@ export default function SectionDemo() {
           </div>
         </div>
 
-        {/* CTA de capture — « Et avec VOTRE cave ? » */}
+        {/* CTA de capture, « Et avec VOTRE cave ? » */}
         <FadeInOnScroll delay={0.1}>
           <div className="mt-14 flex flex-col items-center gap-3 text-center">
             <a
@@ -107,8 +107,8 @@ export default function SectionDemo() {
             >
               <Button variant="cta" size="lg">
                 {t(
-                  'Et avec VOTRE cave ? — Essai gratuit',
-                  'And with YOUR cellar? — Free trial',
+                  'Et avec VOTRE cave ?, Essai gratuit',
+                  'And with YOUR cellar?, Free trial',
                 )}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>

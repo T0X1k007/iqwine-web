@@ -77,6 +77,19 @@
      surface globale, uniquement pour vitrines de bouteilles / objets. */
   --color-showcase-ivoire: #e8ded0;
 
+  /* ── PALETTE JOUR (refonte v3 « À l'unisson », GO d'Eric 2026-08-12) ─────
+     Le clair redevient RÉEL : les mouvements de jour de la home vivent sur
+     ivoire, la nuit (espresso ci-dessus) est réservée aux mouvements
+     restaurant / cellier / apogée. Ces tokens n'altèrent AUCUNE section
+     existante : ils ne s'appliquent qu'aux composants qui les demandent. */
+  --color-papier: #f7f1e6;          /* fond des mouvements clairs */
+  --color-papier-2: #efe4d1;        /* surfaces / cartes claires */
+  --color-encre: #241b14;           /* texte principal sur clair */
+  --color-encre-2: #6f6052;         /* texte secondaire sur clair */
+  --color-encre-3: #9a8b7c;         /* texte discret sur clair */
+  --color-bordeaux-jour: #7d2529;   /* CTA et accents sur clair */
+  --color-or-jour: #a9812f;         /* l'or, assombri pour rester lisible sur ivoire */
+
   /* ── Borders quasi-invisibles, ivoire alpha ──────── */
   --color-border: rgba(243, 236, 231, 0.06);
   --color-border-strong: rgba(243, 236, 231, 0.10);
@@ -282,6 +295,36 @@
      sans en faire une scene. Aucune section ne doit paraitre plus vieille. */
   .section-breathe {
     background: radial-gradient(110% 58% at 50% -2%, rgba(217, 182, 103, 0.05), transparent 55%);
+  }
+
+  /* ── MOUVEMENT JOUR (refonte v3 « À l'unisson ») ─────────────────────────
+     Le clair RÉEL des nouveaux mouvements. Contrairement à `.section-light`
+     (un halo champagne sur espresso, conservé pour les sections héritées),
+     cette classe pose un vrai fond ivoire et l'encre qui va avec. La sélection
+     reste l'or vif — lisible sur les deux mondes. */
+  .mouvement-jour {
+    background: var(--color-papier);
+    color: var(--color-encre);
+  }
+  .mouvement-jour ::selection {
+    background: rgba(169, 129, 47, 0.28);
+    color: var(--color-encre);
+  }
+
+  /* ── LA MISE AU POINT (hero « Le Rayon ») — pur CSS, zéro JS ─────────────
+     La bouteille focale arrive floue et devient nette. En CSS parce que le
+     hero doit être COMPLET même si aucun script ne s'exécute (leçon du
+     2026-08-12 : via Tailscale, le JS peut manquer — le texte du hero était
+     invisible). `both` = floue pendant le délai, nette pour toujours après. */
+  @keyframes mise-au-point {
+    from { filter: blur(9px); opacity: 0.85; }
+    to { filter: blur(0); opacity: 1; }
+  }
+  .mise-au-point {
+    animation: mise-au-point 0.9s cubic-bezier(0.32, 0.72, 0.16, 1) 0.45s both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mise-au-point { animation: none; }
   }
 }
 

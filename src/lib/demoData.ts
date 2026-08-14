@@ -105,7 +105,11 @@ const DATA: Record<DemoMeal, MealData> = {
         personality: { fr: 'Souple, juteux, généreux.', en: 'Supple, juicy, generous.' },
         why: {
           fr: 'Pour votre lasagne, et votre goût pour les rouges souples : plus rond et fruité que le Chianti, il épouse la sauce sans jamais la dominer. Le choix chaleureux, prêt ce soir, pour moins de 20 $.',
-          en: 'For your lasagna, and your taste for supple reds: rounder and fruitier than the Chianti, it hugs the sauce without ever overpowering it. The warming pick — ready tonight, under $20.',
+          // Dernier tiret cadratin RENDU du site (QA v3, 2026-08-14) : le
+          // français avait été corrigé à la passe du 2026-08-13, l'anglais
+          // avait survécu, invisible parce que ce texte ne s'affiche qu'en
+          // desktop dans la démo d'accords.
+          en: 'For your lasagna, and your taste for supple reds: rounder and fruitier than the Chianti, it hugs the sauce without ever overpowering it. The warming pick, ready tonight, under $20.',
         },
         tasting: {
           fr: 'Prune, mûre, réglisse douce. Tanins fondus, bouche gourmande et accessible.',

@@ -54,14 +54,21 @@ async function html(chemin) {
   return { status: r.status, corps: await r.text() };
 }
 
-/** Les onze pages indexables, en chemins NUS. */
+/** Les pages indexables, en chemins NUS. `/recevoir` (2026-08-13) puis
+ * `/recherche` (2026-08-14) ont quitté cette liste : absorbées par
+ * `/accord-mets-vins` et `/choisir-un-vin`, elles sont devenues des ALIAS
+ * (vérifiés plus bas, avec `/octave`). Les pages Fonction nées depuis vivent
+ * ici comme les autres. */
 const PAGES = [
   '/',
+  '/fonctions',
+  '/choisir-un-vin',
+  '/cellier-intelligent',
+  '/accord-mets-vins',
+  '/carte-des-vins',
   '/sommelier-ia',
   '/le-film',
   '/apogee',
-  '/recherche',
-  '/recevoir',
   '/tarifs',
   '/notre-maison',
   '/contact',
@@ -126,6 +133,40 @@ for (const p of PAGES.filter((p) => p !== '/')) {
     r.status === 307 && r.location.endsWith('/fr/sommelier-ia'),
     `${r.status} ${r.location}`,
   );
+}
+{
+  // `/recevoir` : absorbée par la page Accords (2026-08-13). Même mécanique
+  // d'alias que `/octave` : négociation, un seul saut.
+  const r = await sansSuivre('/recevoir');
+  verifier(
+    '/recevoir → /fr/accord-mets-vins en UN saut',
+    r.status === 307 && r.location.endsWith('/fr/accord-mets-vins'),
+    `${r.status} ${r.location}`,
+  );
+}
+{
+  // `/recherche` : absorbée par /choisir-un-vin (2026-08-14). Le chemin nu
+  // négocie (alias) ; les trois adresses localisées de l'ancien pilier
+  // reçoivent leur redirection PERMANENTE, en un saut chacune — dont
+  // `/en/recherche`, qui aurait sinon enchaîné deux sauts via `/en/search`.
+  const nu = await sansSuivre('/recherche');
+  verifier(
+    '/recherche → /fr/choisir-un-vin en UN saut',
+    nu.status === 307 && nu.location.endsWith('/fr/choisir-un-vin'),
+    `${nu.status} ${nu.location}`,
+  );
+  for (const [depuis, vers] of [
+    ['/fr/recherche', '/fr/choisir-un-vin'],
+    ['/en/search', '/en/how-to-choose-wine'],
+    ['/en/recherche', '/en/how-to-choose-wine'],
+  ]) {
+    const r = await sansSuivre(depuis);
+    verifier(
+      `${depuis} → permanent → ${vers}`,
+      (r.status === 301 || r.status === 308) && r.location.endsWith(vers),
+      `${r.status} ${r.location || '(rien)'}`,
+    );
+  }
 }
 
 console.log('\n3. Chaque page existe dans les DEUX langues, sans JavaScript');
@@ -200,8 +241,11 @@ console.log('\n7. Sitemap bilingue, découvrable');
 {
   const { corps } = await html('/sitemap.xml');
   const urls = (corps.match(/<loc>/g) || []).length;
-  verifier('22 URL (11 pages × 2 langues)', urls === 22, `${urls} trouvées`);
-  verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 22);
+  // 12 pages depuis l'ajout du hub /fonctions (architecture 2026-08-13) —
+  // ce compte est le CONTRAT : toute nouvelle page Fonction doit l'incrémenter
+  // ici en même temps qu'elle entre dans PAGES du sitemap.
+  verifier('28 URL (14 pages × 2 langues)', urls === 28, `${urls} trouvées`);
+  verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 28);
   // Aucun `x-default` ne doit désigner une URL de langue dans le sitemap non plus.
   const xdefaults = [...corps.matchAll(/hreflang="x-default" href="([^"]+)"/g)].map((m) => m[1]);
   verifier(

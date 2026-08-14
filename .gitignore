@@ -43,3 +43,12 @@ src_backup_*/
 # Sortie de l'adaptateur Cloudflare — régénérée à chaque construction.
 .open-next/
 .wrangler/
+
+# ── SOURCES DE TRAVAIL, hors dépôt (fermeture v3, 2026-08-14) ────────────
+# Les originaux pleine résolution des photos (48 Mo) et des vidéos (8,7 Mo)
+# servent à REGÉNÉRER les dérivés servis, jamais à être servis eux-mêmes.
+# Les committer alourdirait l'historique de 57 Mo de façon irréversible, pour
+# des fichiers que seul le poste de travail utilise. Ils vivent sur la VM de
+# développement ; les dérivés, eux, sont versionnés dans public/.
+/sources-photos/
+/sources-videos/

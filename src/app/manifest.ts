@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 /**
- * Web App Manifest — installable PWA + bookmark icon source.
+ * Web App Manifest, installable PWA + bookmark icon source.
  *
  * Quand l'utilisateur :
  *  - épingle l'onglet → utilise `icons` (Chrome, Edge, Brave)
@@ -14,7 +14,7 @@ import type { MetadataRoute } from 'next';
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'iQWine — L\'intelligence privée de votre cave',
+    name: 'iQWine, L\'intelligence privée de votre cave',
     short_name: 'iQWine',
     description:
       'Le sommelier privé des collectionneurs modernes. Cellier vivant, mémoire de dégustation, mode Tonight.',

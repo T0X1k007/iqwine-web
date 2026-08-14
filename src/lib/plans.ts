@@ -1,16 +1,16 @@
 /**
- * SOURCE DE VÉRITÉ UNIQUE — forfaits commerciaux iQWine (site marketing).
+ * SOURCE DE VÉRITÉ UNIQUE, forfaits commerciaux iQWine (site marketing).
  * Aucune duplication de valeurs ailleurs dans le repo marketing : la grille,
  * les CTA et les comparatifs lisent ce module.
  *
  * ⚠️ Jamais afficher tokens / crédits / appels API. Toujours : « recommandations
  * IA » + « utilisateurs inclus ».
  *
- * Côté APPLICATION (cellier-vin), la SOT est la table Plan (DB seed) — ces
+ * Côté APPLICATION (cellier-vin), la SOT est la table Plan (DB seed), ces
  * valeurs DOIVENT y être répliquées (cf. runbook). Ce fichier-ci couvre le site.
  */
 export type PlanId =
-  /** La porte d'entrée — PAS un produit vendable (aucun prix, aucun paiement). */
+  /** La porte d'entrée, PAS un produit vendable (aucun prix, aucun paiement). */
   | "gratuit"
   | "standard"
   | "pro"
@@ -34,7 +34,7 @@ export interface MarketingPlan {
    * Ces plafonds sont appliqués par l'application et étaient ABSENTS du site,
    * dont le comparatif ne comportait que trois lignes chiffrées. Un
    * collectionneur de 400 bouteilles pouvait souscrire Standard et heurter un
-   * mur à 200 — après avoir importé sa cave.
+   * mur à 200, après avoir importé sa cave.
    *
    * Les afficher est doublement gagnant : c'est honnête, et c'est le seul
    * argument Standard → Pro qui existe déjà et que personne n'utilisait.
@@ -45,20 +45,20 @@ export interface MarketingPlan {
 }
 
 /**
- * P22 « Gratuit repositionné » — la PORTE D'ENTRÉE, pas un produit vendable.
+ * P22 « Gratuit repositionné », la PORTE D'ENTRÉE, pas un produit vendable.
  *
  * Délibérément SÉPARÉE de `PLANS` : ce tableau pilote les cartes de prix et le
  * parcours d'achat ; le Gratuit n'a ni prix, ni paiement, ni price ID Stripe.
- * Même séparation que dans l'app (`FREE_DISPLAY` hors de `PLAN_CATALOG`) — les
+ * Même séparation que dans l'app (`FREE_DISPLAY` hors de `PLAN_CATALOG`), les
  * deux repos racontent la même architecture.
  *
- * ⚠️ SOT DOUBLE — LIRE AVANT DE TOUCHER À UN CHIFFRE.
+ * ⚠️ SOT DOUBLE, LIRE AVANT DE TOUCHER À UN CHIFFRE.
  * Ces valeurs DOIVENT refléter la grille FREE réellement posée en base par la
  * migration `20260716_0121_free_reposition` (repo cellier-vin), dont le miroir TS
  * est `FREE_LIMITS` dans `lib/billing/plan-catalog.ts`.
  *
  * AUCUNE garde automatique ne peut vérifier cela : les deux repos ont des CI
- * séparés — une garde intra-repo ne détecte pas une divergence inter-repos. C'est
+ * séparés, une garde intra-repo ne détecte pas une divergence inter-repos. C'est
  * exactement pourquoi l'AUDIT modélise cette sync comme la décision humaine
  * récurrente **D6**, à rejouer à CHAQUE changement de grille.
  *
@@ -82,7 +82,7 @@ export const FREE_PLAN = {
  * Il vit désormais AUSSI dans `FREE_PLAN.maxBottles` : depuis que les paliers
  * payants affichent le leur (MFP-09), le plafond est devenu une colonne du
  * modèle de vente, et non plus une spécificité de la porte d'entrée. Cette
- * constante reste pour les appelants existants — les deux valeurs sont
+ * constante reste pour les appelants existants, les deux valeurs sont
  * dérivées l'une de l'autre pour qu'elles ne puissent pas diverger.
  */
 export const FREE_MAX_BOTTLES = FREE_PLAN.maxBottles;
@@ -118,7 +118,7 @@ export const PLANS: MarketingPlan[] = [
 /**
  * Le plafond de bouteilles, en toutes lettres. `-1` → « illimitées ».
  *
- * Rendre la sentinelle telle quelle afficherait « -1 bouteilles » — c'est
+ * Rendre la sentinelle telle quelle afficherait « -1 bouteilles », c'est
  * exactement le genre de fuite d'une convention interne vers la page de vente
  * qu'un chiffre non traduit produit.
  */
@@ -145,14 +145,14 @@ export function annualSavingsCents(plan: MarketingPlan): number {
 
 /**
  * Équivalent mensuel de l'abonnement annuel, en cents (arrondi au cent).
- * C'est le GRAND nombre affiché en mode annuel — pas la facture annuelle.
+ * C'est le GRAND nombre affiché en mode annuel, pas la facture annuelle.
  */
 export function monthlyEquivalentCents(plan: MarketingPlan): number {
   return Math.round(plan.priceYearlyCents / 12);
 }
 
 /**
- * LE LIBELLÉ D'UN FORFAIT — localisé, pour UNE seule identité (Eric 2026-08-02).
+ * LE LIBELLÉ D'UN FORFAIT, localisé, pour UNE seule identité (Eric 2026-08-02).
  *
  * `famille` s'affiche « Passionné » en français et « Enthusiast » en anglais.
  * C'est un LIBELLÉ, rien d'autre : l'identifiant reste `famille`, le `priceId`
@@ -161,12 +161,12 @@ export function monthlyEquivalentCents(plan: MarketingPlan): number {
  * ── La limite Stripe, vérifiée dans le SDK et non supposée ────────────────
  * `Product.name` est un `string` unique : aucun champ de variante linguistique.
  * Le paramètre `locale` d'une session Checkout ou du portail client localise
- * l'interface DE STRIPE — « the locale the Customer Portal is displayed IN » —
+ * l'interface DE STRIPE, « the locale the Customer Portal is displayed IN » ,
  * pas le contenu fourni par le marchand.
  *
  * Les surfaces Stripe afficheront donc UN seul nom. Dupliquer le produit pour
  * contourner cela coûterait deux historiques d'abonnement, deux rapports de
- * revenus et deux jeux de price IDs — pour un mot. Voir
+ * revenus et deux jeux de price IDs, pour un mot. Voir
  * `docs/libelle-forfait-localise.md`.
  */
 const PLAN_LABELS: Record<PlanId, Record<'fr' | 'en', string>> = {

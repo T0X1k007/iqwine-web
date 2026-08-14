@@ -18,17 +18,17 @@ const variantClasses: Record<ButtonVariant, string> = {
   secondary:
     'border border-border-strong text-foreground hover:bg-elev hover:border-or/50 active:bg-elev active:scale-[0.98]',
   ghost: 'text-muted-foreground hover:text-foreground active:text-foreground',
-  // ── TEXTE SOMBRE SUR L'OR — corrigé le 2026-08-02 ────────────────────────
+  // ── TEXTE SOMBRE SUR L'OR, corrigé le 2026-08-02 ────────────────────────
   //
   // Ces deux variantes posaient l'ivoire `#f6eedf` sur l'or `#d9b667` :
   // **1,68 de contraste**, mesuré par Lighthouse sur la production. Le seuil
-  // WCAG AA est 4,5. Ce n'était pas une nuance discutable — c'était illisible,
+  // WCAG AA est 4,5. Ce n'était pas une nuance discutable, c'était illisible,
   // et sur les boutons qui comptent le plus : « Essai gratuit » de la barre de
   // navigation, l'envoi du formulaire de contact, l'inscription bêta.
   //
   // Le jeton correct existait déjà et servait ailleurs (`text-on-gold`, dans la
   // bascule mensuel/annuel des tarifs). Le composant Bouton ne l'utilisait
-  // simplement pas — l'écart vivait entre deux fichiers que personne ne lit
+  // simplement pas, l'écart vivait entre deux fichiers que personne ne lit
   // ensemble.
   //
   // Contrastes obtenus, sur les TROIS états et pas seulement au repos :
@@ -37,7 +37,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   //   importe : un bouton lisible au repos peut devenir illisible sous le
   //   doigt, et c'est précisément l'instant où l'utilisateur le regarde.
   or: 'bg-or text-on-gold hover:bg-or-soft active:bg-or-deep active:scale-[0.98]',
-  // Le commentaire d'origine annonçait un CTA « adaptatif — or sur sombre,
+  // Le commentaire d'origine annonçait un CTA « adaptatif, or sur sombre,
   // bordeaux sur clair, via le token --color-cta re-mappé dans
   // .section-light ». Vérifié : **cette redéfinition n'existe pas**.
   // `--color-cta` n'est déclaré qu'une fois, et vaut toujours l'or. La

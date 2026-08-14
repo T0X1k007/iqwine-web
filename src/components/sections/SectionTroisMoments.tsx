@@ -8,7 +8,7 @@ import { useLocale } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
 
 /**
- * SectionTroisMoments — section unique « Partout où vous buvez ».
+ * SectionTroisMoments, section unique « Partout où vous buvez ».
  *
  * Vague 1 : fusion. Cette section absorbe les anciennes sections Proof (vraies
  * captures du produit) et AI (démo vidéo Octave via OctaveDemoVideo), toutes
@@ -129,7 +129,7 @@ export default function SectionTroisMoments() {
         ))}
       </div>
 
-      {/* KILL-SHOT RESTO — le moat fort : le scan resto en situation. */}
+      {/* KILL-SHOT RESTO, le moat fort : le scan resto en situation. */}
       <FadeInOnScroll delay={0.35}>
         <div className="mt-16 sm:mt-20 text-center max-w-3xl mx-auto">
           <div className="iq-eyebrow mb-5">
@@ -137,8 +137,8 @@ export default function SectionTroisMoments() {
           </div>
           <p className="font-[family-name:var(--font-display)] text-foreground/90 text-xl sm:text-2xl leading-relaxed">
             {locale === 'fr'
-              ? 'Vivino note une bouteille. ChatGPT ne voit pas la carte. Octave lit CETTE carte, pour CE plat, dans CE budget — à CETTE table.'
-              : 'Vivino rates a bottle. ChatGPT can’t see the list. Octave reads THIS list, for THIS dish, in THIS budget — at THIS table.'}
+              ? 'Vivino note une bouteille. ChatGPT ne voit pas la carte. Octave lit CETTE carte, pour CE plat, dans CE budget, à CETTE table.'
+              : 'Vivino rates a bottle. ChatGPT can’t see the list. Octave reads THIS list, for THIS dish, in THIS budget, at THIS table.'}
           </p>
           <span className="mx-auto mt-7 mb-6 block h-px w-12 bg-or/40" aria-hidden />
           <p className="font-[family-name:var(--font-display)] italic text-or text-lg sm:text-xl leading-relaxed">
@@ -149,7 +149,7 @@ export default function SectionTroisMoments() {
         </div>
       </FadeInOnScroll>
 
-      {/* Démo vidéo Octave — absorbée depuis SectionAI (OctaveDemoVideo). */}
+      {/* Démo vidéo Octave, absorbée depuis SectionAI (OctaveDemoVideo). */}
       <FadeInOnScroll delay={0.45}>
         <div className="mt-20 sm:mt-24">
           <OctaveDemoVideo locale={locale} />

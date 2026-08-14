@@ -1,5 +1,5 @@
 /**
- * OctaveWordmark — le MOT-SYMBOLE d'Octave, porté à l'IDENTIQUE depuis l'app
+ * OctaveWordmark, le MOT-SYMBOLE d'Octave, porté à l'IDENTIQUE depuis l'app
  * (cellier-vin/components/octave/OctaveWordmark.tsx). Le premier « O » de
  * « Octave » EST l'Anneau. ◯ctave. « Une seule peau » site ↔ app ↔ iOS.
  *
@@ -26,7 +26,7 @@ export default function OctaveWordmark({
 }: {
   className?: string;
   /** Titre en Cormorant ITALIC : incline l'anneau (~10°) pour qu'il lise comme
-   *  un O italique — un O italique EST une ellipse penchée. Sans ça, un cercle
+   *  un O italique, un O italique EST une ellipse penchée. Sans ça, un cercle
    *  droit trahit « icône posée » au milieu de lettres penchées. */
   italic?: boolean;
   ariaLabel?: string;
@@ -47,7 +47,7 @@ export default function OctaveWordmark({
         }}
       >
         <defs>
-          {/* lumière d'Octave intégrée à l'anneau — plus claire à 12 h */}
+          {/* lumière d'Octave intégrée à l'anneau, plus claire à 12 h */}
           <linearGradient id="octaveRingLight" x1="0.5" y1="0" x2="0.5" y2="1">
             <stop offset="0" stopColor="#fbf1d8" />
             <stop offset="0.5" stopColor="currentColor" />
