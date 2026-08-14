@@ -1,18 +1,16 @@
-/**
- * Métadonnées légales du site marketing — MIROIR de cellier-vin
- * (lib/legal/legal-meta.ts). Garder synchrone avec l'application : la marque
- * est « iQWine », la raison sociale « Groupe Medtech Inc. » n'apparaît que là
- * où la loi exige d'identifier la partie contractante / le responsable des
- * renseignements (Conditions, Politique de confidentialité).
- *
- * NOTE : si les politiques canoniques de l'app changent (LEGAL_VERSION),
- * répercuter ici. Source unique côté app ; ce fichier reste un miroir.
- */
-export const LEGAL_EFFECTIVE_DATE = '9 juin 2026';
+import legal from './legal-terms.generated.json';
 
-export const LEGAL_ENTITY = {
-  brand: 'iQWine',
-  legalName: 'Groupe Medtech Inc.',
-  jurisdiction: 'Québec, Canada',
-  city: 'Blainville (Québec), Canada',
-} as const;
+/**
+ * Métadonnées légales du site — DÉRIVÉES de cellier-vin, plus jamais copiées.
+ *
+ * Ce fichier était un « miroir » recopié à la main, et il avait dérivé :
+ * date d'effet « 9 juin 2026 » ici contre « 8 août 2026 » dans l'application,
+ * et une deuxième copie manuscrite du nom légal (audit du 2026-08-14). Tout
+ * vient désormais de `legal-terms.generated.json`, produit par
+ * `npm run legal:synchroniser` depuis le dépôt canonique ; la dérive est
+ * détectée par `npm run legal:verifier` (chaîne qualité d'avant-déploiement).
+ */
+export const LEGAL_VERSION = legal.legalVersion;
+export const LEGAL_EFFECTIVE_DATE = legal.effectiveDate;
+
+export const LEGAL_ENTITY = legal.entity;

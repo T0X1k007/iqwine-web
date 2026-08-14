@@ -13,6 +13,8 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "verifier:routage": "node scripts/verifier-routage.mjs",
+    "legal:synchroniser": "node scripts/synchroniser-legal.mjs",
+    "legal:verifier": "node scripts/synchroniser-legal.mjs --verifier",
     "images:generer": "node scripts/generer-images.mjs",
     "images:verifier": "node scripts/generer-images.mjs --verifier",
     "polices:generer": "node scripts/generer-polices-og.mjs"
