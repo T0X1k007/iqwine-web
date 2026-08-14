@@ -1,5 +1,46 @@
 # Refonte v3 « À l'unisson » — ÉTAT FINAL
 
+> ## ⚠ LIRE AVANT TOUT `git push` — la v3 n'est PAS en production
+>
+> **Au 2026-08-14, le site public sert l'ANCIENNE version, volontairement.**
+>
+> La refonte est terminée, validée et **poussée sur `main`** (commit
+> `dd0a4d2`). Elle a été mise en ligne une dizaine de minutes, puis retirée par
+> un **Instant Rollback Vercel** vers `83ab2cc`, à la demande d'Eric, qui veut
+> choisir son moment pour passer au public.
+>
+> **Le piège :** le projet Vercel `iqwine-web` déploie automatiquement `main` en
+> production. Comme `main` porte déjà la v3, **n'importe quel push sur `main`
+> la remettra en ligne**, même un push qui ne concerne qu'un détail.
+>
+> **Avant de pousser, demander à Eric s'il est prêt à passer public.** S'il ne
+> l'est pas : travailler sur une branche dédiée, ou différer le push. Le
+> travail local peut se commiter sans risque ; c'est le `push` qui déploie.
+>
+> **Pour remettre la v3 en ligne le moment venu :** Vercel → projet
+> `iqwine-web` → *Deployments* → ligne `dd0a4d2` → menu `⋯` → **Promote**.
+> Instantané, aucune reconstruction, le déploiement existe toujours.
+>
+> ### Où travailler
+>
+> | | |
+> |---|---|
+> | Dépôt du site | `/home/ebigras/Projects/iQWine_Web` |
+> | Dépôt de l'application | `/home/ebigras/Projects/cellier-vin` (lecture seule pour vérifier les promesses produit) |
+> | Serveur de dev | `pnpm dev --port 3020 --hostname 0.0.0.0` |
+> | Revue par Eric | `http://100.77.174.52:3020` (Tailscale) |
+> | Branche | `main`, alignée sur `origin/main` |
+>
+> ### Le réflexe avant chaque livraison
+>
+> ```bash
+> pnpm typecheck && pnpm lint          # à chaque changement
+> pnpm build                           # avant toute mise en ligne
+> pnpm start --port 3100 &             # puis le contrat de routage :
+> node scripts/verifier-routage.mjs    # doit afficher 170/170
+> ```
+
+
 **Dernière mise à jour : 2026-08-14, après la PASSE CLAIRE et la fermeture v3.**
 
 Ce document est le **point d'entrée unique** pour comprendre l'état du site sans
