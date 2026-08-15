@@ -109,7 +109,7 @@ export default function Footer() {
               déclaré au REQ. ™ tant que la marque n'est pas ENREGISTRÉE à
               l'OPIC (demande 2494635) — jamais ®, jamais « marque déposée ». */}
           <p className="text-[11px] text-foreground-faint">
-            iQWine™ — sommelier virtuel — est une marque de commerce de {LEGAL_ENTITY.legalName}
+            iQWine™, sommelier virtuel, est une marque de commerce de {LEGAL_ENTITY.legalName}
           </p>
           <p className="text-[11px] text-foreground-faint">
             {t(
