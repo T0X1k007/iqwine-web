@@ -2,35 +2,53 @@
 
 > ## ✅ LA V3 EST EN PRODUCTION depuis le 2026-08-18
 >
-> **`https://iqwine.ai` sert la v3.** Mise en ligne par promotion du commit
-> `4b88e91` (décision d'Eric, 2026-08-18), après la chaîne qualité complète et
-> un vérificateur de routage à 170/170 exécuté **contre la production elle-même**.
+> **`https://iqwine.ai` sert la v3**, au commit `f669623`, après chaîne qualité
+> complète et vérificateur de routage à 170/170 exécuté **contre la production
+> elle-même**.
 >
-> Ce bloc disait l'inverse jusqu'à cette date, et disait aussi que tout push sur
-> `main` déployait. **Les deux affirmations sont périmées**, voici l'état réel.
+> ## LA RÈGLE DES DEUX BRANCHES (décision d'Eric, 2026-08-18)
 >
-> ### Ce qui déploie, et ce qui ne déploie pas
+> | Branche | Ce qu'elle signifie | Ce qu'elle déclenche |
+> |---|---|---|
+> | **`main`** | Code **intégré et validé**. Défaut du dépôt. | Un push crée une **Preview**. Jamais de mise en ligne. |
+> | **`production`** | État **explicitement promu** en production. | Un push crée un **déploiement de production** et réattribue `iqwine.ai`. |
 >
-> La **branche de production Vercel n'est plus `main`, c'est `production`.**
-> Conséquence, à ne pas réapprendre à ses dépens :
+> Le réglage qui rend cela vrai : Vercel → *Settings* → *Environments* →
+> *Production* → **Branch Tracking = `production`**, avec *Auto-assign Custom
+> Production Domains* activé. **Ne pas repointer sur `main`** : le contrôle
+> explicite par promotion est voulu, pas un accident.
 >
-> - un push sur `main` crée une **Preview**, jamais un déploiement public ;
-> - la production ne change que par une **promotion manuelle** dans Vercel.
+> ### La procédure de mise en ligne
 >
-> **Pour mettre en ligne un commit de `main` :** Vercel → projet `iqwine-web` →
-> *Deployments* → filtrer sur `main` → la ligne du commit → menu `⋯` →
-> **Promote to Production**. Le dialogue reconstruit avec les variables de
-> Production et réattribue `iqwine.ai`. Réversible par *Instant Rollback*.
+> 1. Travailler et pousser sur `main`. Vercel construit une Preview.
+> 2. Chaîne qualité **en local** (voir plus bas), obligatoire avant toute mise
+>    en ligne, y compris `node scripts/verifier-routage.mjs` à 170/170.
+> 3. Vercel → *Deployments* → filtrer `main` → la ligne du commit → `⋯` →
+>    **Promote to Production**. Le dialogue reconstruit avec les variables de
+>    Production. Réversible par *Instant Rollback*.
+> 4. **Réaligner `production` sur le commit promu**, pour que la branche ne mente
+>    jamais sur l'état servi :
+>    ```bash
+>    git push --force-with-lease=production:<sha-attendu> \
+>             origin <sha-promu>:refs/heads/production
+>    ```
+>    `--force-with-lease` avec la valeur attendue explicite, **jamais** un
+>    `--force` aveugle. Ce push déclenche un déploiement de production au
+>    contenu identique : c'est normal, et c'est ce qui referme la boucle.
+> 5. Resynchroniser le worktree `iQWine_Web-v2`, qui suit `production`.
 >
-> ### ⚠ Dette ouverte : `production` et `main` ont divergé
+> ### L'ambiguïté de 2026-08-18, et sa fermeture
 >
-> La branche `production` est restée à `1b83be8` (la lignée v2) alors que la
-> production **sert `main`**. Les deux branches portent le même travail légal et
-> sécurité, fait deux fois (backports d'un côté, natif de l'autre), depuis leur
-> base commune `83ab2cc`. Tant que ce n'est pas tranché, **`production` ne décrit
-> plus ce qui est en ligne** : ne pas s'y fier pour lire l'état public. À
-> trancher : soit repointer la branche de production Vercel sur `main`, soit
-> réaligner `production` sur `main`.
+> `production` était restée à `1b83be8` (lignée v2) alors que la production
+> servait un déploiement promu depuis `main` : **deux mécanismes prétendaient
+> définir la production.** Vérifié avant de trancher : aucun workflow GitHub (le
+> répertoire n'existe pas), aucun ruleset, aucune protection de branche, aucun
+> webhook, aucun script, et les seuls fichiers que `production` avait en propre
+> étaient les quatre supprimés volontairement en v3 (voir §7). Le contenu légal
+> et les overrides Dependabot y étaient **byte-identiques** à `main`.
+>
+> La branche a donc été réalignée sur `f669623`. La lignée v2 reste récupérable
+> par le tag **`archive/site-v2`** (`1b83be8`), poussé avant l'opération.
 >
 > ### Où travailler
 >
