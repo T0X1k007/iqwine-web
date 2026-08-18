@@ -93,17 +93,33 @@ const COMPARE_FEATURES: {
     values: [true, true, true, true],
   },
   {
-    label: { fr: 'Carnet de dégustation', en: 'Tasting journal' },
-    // La cave-mémoire est la promesse du Gratuit : le carnet en fait partie.
-    values: [true, true, true, true],
+    label: { fr: 'Carnet de dégustation partagé', en: 'Shared tasting journal' },
+    // Gaté par le NOMBRE DE MEMBRES, jamais par le nom du forfait. Le modèle
+    // `Tasting` de l'app porte une note PAR USER (« toutes les notes sont
+    // visibles, mais le palais de chacun n'est nourri que par SES propres
+    // notes ») et `resolveCellarAttribution` se tait sous deux membres. Le
+    // partage naît donc de `includedUsers > 1` : Pro (2) et Passionné (4).
+    // Gratuit et Standard sont à un seul utilisateur, il n'y a personne avec
+    // qui partager.
+    values: [false, false, true, true],
   },
   {
     label: { fr: 'Cave partagée', en: 'Shared cellar' },
     // Enfin VRAIE (P26, 2026-07-16) : inviter un compte existant, basculer de cave,
     // rôle lecture seule hermétique, journal familial. Elle était affichée ici
     // AVANT d'exister, le produit l'a rattrapée.
-    hint: { fr: 'Jusqu’à 4 personnes, une cave', en: 'Up to 4 people, one cellar' },
-    values: [false, false, false, true],
+    // Pro était SOUS-VENDU : `plan-catalog.ts` donne `includedUsers` 1 / 2 / 4
+    // (Standard / Pro / Passionné) et le verrou d'invitation de l'app est
+    // purement numérique (`maxMembers <= 1` refuse), son message disant déjà
+    // « Passez à Pro ou Passionné pour inviter des membres ». Le site était le
+    // dernier endroit à prétendre le contraire. L'infobulle porte les DEUX
+    // chiffres : un crochet nu sous « jusqu'à 4 personnes » promettrait quatre
+    // places sur un forfait qui en a deux.
+    hint: {
+      fr: 'Une cave à plusieurs : 2 personnes sur Pro, 4 sur Passionné',
+      en: 'One cellar, together: 2 people on Pro, 4 on Enthusiast',
+    },
+    values: [false, false, true, true],
   },
   // RETIRÉ (P22/R3, 2026-07-16), « Priorité à Octave / Vos demandes passent devant »
   // n'a JAMAIS existé : aucune file prioritaire n'est câblée. L'app l'a retirée en
