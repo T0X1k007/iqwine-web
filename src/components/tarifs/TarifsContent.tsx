@@ -93,14 +93,34 @@ const COMPARE_FEATURES: {
     values: [true, true, true, true],
   },
   {
-    label: { fr: 'Carnet de dégustation partagé', en: 'Shared tasting journal' },
-    // Gaté par le NOMBRE DE MEMBRES, jamais par le nom du forfait. Le modèle
-    // `Tasting` de l'app porte une note PAR USER (« toutes les notes sont
-    // visibles, mais le palais de chacun n'est nourri que par SES propres
-    // notes ») et `resolveCellarAttribution` se tait sous deux membres. Le
-    // partage naît donc de `includedUsers > 1` : Pro (2) et Passionné (4).
-    // Gratuit et Standard sont à un seul utilisateur, il n'y a personne avec
-    // qui partager.
+    label: { fr: 'Carnet de dégustation', en: 'Tasting journal' },
+    // La cave-mémoire est la promesse du Gratuit : le carnet en fait partie.
+    // Cette ligne existe pour que le partage (ligne suivante) se lise comme un
+    // SUPPLÉMENT et non comme la seule façon d'avoir un carnet.
+    values: [true, true, true, true],
+  },
+  {
+    label: { fr: 'Carnet partagé', en: 'Shared journal' },
+    // Ce qui se partage, ce sont LES NOTES, jamais le goût. Le modèle `Tasting`
+    // porte une note PAR USER : « toutes les notes sont visibles, mais le palais
+    // de chacun n'est nourri que par SES propres notes ». Le palais est
+    // strictement personnel côté app (`palateProfile` par `userId`,
+    // `@@unique([userId, dimension, value])`) — la séparation est même un
+    // CORRECTIF : en multi-utilisateur, le membre B écrasait la note de A et
+    // héritait de son `userId`, corrompant le palais de A.
+    //
+    // D'où le libellé : « carnet partagé », jamais « mémoire de goût partagée »,
+    // qui promettrait la mise en commun d'un palais que le produit sépare
+    // exprès, et qui frôle les formulations bannies par `pricing-gates-guard`
+    // (`/profil de goût avancé/i`, `/apprentissage du palais/i`).
+    //
+    // Gaté par le NOMBRE DE MEMBRES : `resolveCellarAttribution` se tait sous
+    // deux membres, donc actif dès `includedUsers > 1`, soit Pro (2) et
+    // Passionné (4).
+    hint: {
+      fr: 'Les notes de chacun, visibles de tous. Votre palais reste le vôtre.',
+      en: 'Everyone’s notes, visible to all. Your palate stays yours.',
+    },
     values: [false, false, true, true],
   },
   {
