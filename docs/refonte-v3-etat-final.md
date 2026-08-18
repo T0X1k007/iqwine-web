@@ -1,25 +1,36 @@
 # Refonte v3 « À l'unisson » — ÉTAT FINAL
 
-> ## ⚠ LIRE AVANT TOUT `git push` — la v3 n'est PAS en production
+> ## ✅ LA V3 EST EN PRODUCTION depuis le 2026-08-18
 >
-> **Au 2026-08-14, le site public sert l'ANCIENNE version, volontairement.**
+> **`https://iqwine.ai` sert la v3.** Mise en ligne par promotion du commit
+> `4b88e91` (décision d'Eric, 2026-08-18), après la chaîne qualité complète et
+> un vérificateur de routage à 170/170 exécuté **contre la production elle-même**.
 >
-> La refonte est terminée, validée et **poussée sur `main`** (commit
-> `dd0a4d2`). Elle a été mise en ligne une dizaine de minutes, puis retirée par
-> un **Instant Rollback Vercel** vers `83ab2cc`, à la demande d'Eric, qui veut
-> choisir son moment pour passer au public.
+> Ce bloc disait l'inverse jusqu'à cette date, et disait aussi que tout push sur
+> `main` déployait. **Les deux affirmations sont périmées**, voici l'état réel.
 >
-> **Le piège :** le projet Vercel `iqwine-web` déploie automatiquement `main` en
-> production. Comme `main` porte déjà la v3, **n'importe quel push sur `main`
-> la remettra en ligne**, même un push qui ne concerne qu'un détail.
+> ### Ce qui déploie, et ce qui ne déploie pas
 >
-> **Avant de pousser, demander à Eric s'il est prêt à passer public.** S'il ne
-> l'est pas : travailler sur une branche dédiée, ou différer le push. Le
-> travail local peut se commiter sans risque ; c'est le `push` qui déploie.
+> La **branche de production Vercel n'est plus `main`, c'est `production`.**
+> Conséquence, à ne pas réapprendre à ses dépens :
 >
-> **Pour remettre la v3 en ligne le moment venu :** Vercel → projet
-> `iqwine-web` → *Deployments* → ligne `dd0a4d2` → menu `⋯` → **Promote**.
-> Instantané, aucune reconstruction, le déploiement existe toujours.
+> - un push sur `main` crée une **Preview**, jamais un déploiement public ;
+> - la production ne change que par une **promotion manuelle** dans Vercel.
+>
+> **Pour mettre en ligne un commit de `main` :** Vercel → projet `iqwine-web` →
+> *Deployments* → filtrer sur `main` → la ligne du commit → menu `⋯` →
+> **Promote to Production**. Le dialogue reconstruit avec les variables de
+> Production et réattribue `iqwine.ai`. Réversible par *Instant Rollback*.
+>
+> ### ⚠ Dette ouverte : `production` et `main` ont divergé
+>
+> La branche `production` est restée à `1b83be8` (la lignée v2) alors que la
+> production **sert `main`**. Les deux branches portent le même travail légal et
+> sécurité, fait deux fois (backports d'un côté, natif de l'autre), depuis leur
+> base commune `83ab2cc`. Tant que ce n'est pas tranché, **`production` ne décrit
+> plus ce qui est en ligne** : ne pas s'y fier pour lire l'état public. À
+> trancher : soit repointer la branche de production Vercel sur `main`, soit
+> réaligner `production` sur `main`.
 >
 > ### Où travailler
 >
