@@ -9,7 +9,14 @@ import Pricing from '@/components/sections/Pricing';
 import SectionFaq from '@/components/sections/SectionFaq';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
-import { PLANS, FREE_PLAN, formatPriceCad, planLabel, type MarketingPlan } from '@/lib/plans';
+import {
+  PLANS,
+  FREE_PLAN,
+  formatPriceCad,
+  planLabel,
+  INTERACTION_NOTE,
+  type MarketingPlan,
+} from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { TRIAL_CTA, TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
 
@@ -387,6 +394,22 @@ export default function TarifsContent() {
                 </tbody>
               </table>
             </div>
+
+            {/* CE QU'EST UNE INTERACTION. La ligne « Interactions avec Octave /
+                mois » donne un nombre et rien d'autre ; le lecteur qui hésite
+                se demande si remplir sa cave l'entame. La réponse est non, et
+                elle vaut mieux que le nombre lui-même.
+
+                NOTE DE BAS DE TABLEAU : hors de la grille, en petit, estompée.
+                La mettre dans une cellule en ferait une caractéristique de plus
+                à comparer, alors qu'elle vaut pour les quatre colonnes.
+
+                Texte lu depuis `INTERACTION_NOTE` (`lib/plans.ts`), le même que
+                sous chaque carte de prix : une seule promesse, une seule
+                rédaction. */}
+            <p className="mt-4 text-[12.5px] leading-snug text-foreground-faint">
+              {t(INTERACTION_NOTE.fr, INTERACTION_NOTE.en)}
+            </p>
           </FadeInOnScroll>
 
           {/* ── AGIR SANS REMONTER (v3, 2026-08-14) ────────────────────────

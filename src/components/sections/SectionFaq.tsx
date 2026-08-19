@@ -48,7 +48,12 @@ function FaqItem({ q, a, jour = false }: { q: string; a: string; jour?: boolean 
             transition={{ duration: 0.34, ease: [0.32, 0.72, 0, 1] }}
             className="overflow-hidden"
           >
-            <p className={`iq-body -mt-1 max-w-xl pb-5 ${jour ? "text-encre-2" : "text-foreground-dim"}`}>{a}</p>
+            {/* `whitespace-pre-line` : les réponses courtes tiennent en une
+                phrase, mais celle sur les interactions d'Octave est écrite en
+                paragraphes, et un `<p>` replie les sauts de ligne en espaces.
+                Sans ça, elle se rendait en un seul pavé. Les autres réponses
+                n'en contiennent aucun, elles ne bougent pas. */}
+            <p className={`iq-body -mt-1 max-w-xl whitespace-pre-line pb-5 ${jour ? "text-encre-2" : "text-foreground-dim"}`}>{a}</p>
           </motion.div>
         )}
       </AnimatePresence>

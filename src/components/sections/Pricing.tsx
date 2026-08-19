@@ -17,6 +17,7 @@ import {
   annualSavingsCents,
   monthlyEquivalentCents,
   maxBottlesLabel,
+  INTERACTION_NOTE,
   type PlanId,
 } from "@/lib/plans";
 
@@ -105,12 +106,27 @@ const COPY: Record<PlanId, PlanCopy> = {
       // Une puce dit ce que le VOLUME rend possible. Jamais ce qu'il
       // « débloque ».
       //
-      // Le fait technique qui l'impose : le quota est UN SEUL budget mensuel,
-      // que tous les gestes d'Octave consomment, l'accord du soir, le plat
-      // photographié, la carte des vins d'un restaurant, l'étiquette scannée
-      // en boutique, la soirée accordée plat par plat. Aucune de ces
-      // fonctions n'est réservée à un forfait : elles existent TOUTES dès le
-      // Standard. Seule la fréquence à laquelle on peut s'en servir change.
+      // Le fait technique qui l'impose, RÉÉCRIT le 2026-08-19 après la refonte
+      // du compteur côté application : le quota n'est plus un budget, c'est un
+      // COMPTEUR D'INTERACTIONS, et une demande de conseil en vaut exactement
+      // une, quel que soit le travail qu'Octave fournit derrière. L'accord du
+      // soir, le plat photographié, la carte des vins d'un restaurant, la
+      // bouteille photographiée en succursale pour savoir si elle vous
+      // plairait, la soirée accordée plat par plat : une demande, une
+      // interaction.
+      //
+      // Ce que le commentaire précédent disait de faux, et qu'il ne faut pas
+      // réintroduire : « budget », et « l'étiquette scannée en boutique »
+      // rangée parmi ce qui consomme. Les gestes de GESTION DE CAVE ne
+      // comptent pas. Scanner une étiquette pour entrer une bouteille,
+      // photographier une étagère, importer un fichier, compléter une fiche,
+      // laisser Octave apprendre un goût : rien de tout cela n'entame le
+      // compteur. C'est la meilleure nouvelle de la grille, et c'est pour ça
+      // qu'elle est écrite sous les chiffres (`INTERACTION_NOTE`).
+      //
+      // Aucune de ces fonctions n'est réservée à un forfait : elles existent
+      // TOUTES dès le Standard. Seule la fréquence à laquelle on peut s'en
+      // servir change.
       //
       // Écrire « le Pro permet de photographier la carte des vins » serait
       // donc faux, et exactement le faux différenciateur que D6 avait purgé.
@@ -505,6 +521,26 @@ function PlanCard({
             : t("utilisateur", "user")}
         </p>
       </div>
+
+      {/* CE QU'EST UNE INTERACTION, sous les chiffres et pas ailleurs.
+       *
+       * Le nombre seul ne répond pas à la question qui bloque l'achat : est-ce
+       * que remplir ma cave l'entame ? La réponse est non, et c'est le meilleur
+       * argument que ce forfait possède. Elle se dit donc ici, à l'endroit
+       * exact du doute.
+       *
+       * NOTE DE BAS DE BLOC, jamais un encadré ni une pastille : elle explique
+       * les chiffres, elle ne leur dispute pas le regard. D'où le corps réduit,
+       * la teinte estompée et l'absence de fond. La rendre visible reviendrait
+       * à annoncer une limite là où on décrit une liberté.
+       *
+       * Le texte vient de `INTERACTION_NOTE` (`lib/plans.ts`) : il paraît aussi
+       * sous le comparatif, et deux rédactions de la même promesse divergent. */}
+      <p
+        className={`-mt-4 mb-7 text-[12.5px] leading-snug ${jour ? "text-encre-3" : "text-foreground-faint"}`}
+      >
+        {t(INTERACTION_NOTE.fr, INTERACTION_NOTE.en)}
+      </p>
 
       <ul className="flex flex-col gap-3.5 mb-9 flex-1">
         {copy.features.map((feature) => (

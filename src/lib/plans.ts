@@ -87,6 +87,43 @@ export const FREE_PLAN = {
  */
 export const FREE_MAX_BOTTLES = FREE_PLAN.maxBottles;
 
+/**
+ * CE QU'EST UNE INTERACTION, en une phrase, sous les chiffres.
+ *
+ * ── Pourquoi cette note existe ────────────────────────────────────────────
+ * Depuis la refonte du compteur côté application (2026-08-19), « 50 / 110 /
+ * 200 » est LITTÉRAL : une demande de conseil vaut une interaction, quel que
+ * soit le travail qu'Octave fournit derrière. Avant, le nombre traduisait un
+ * budget interne et ne décrivait rien que le client pouvait vérifier.
+ *
+ * Les chiffres n'ont pas bougé, mais ils ne se suffisent pas : « 50 » ne dit
+ * pas si remplir sa cave les entame. C'est pourtant LA question qui bloque un
+ * achat, et la réponse est le meilleur argument de vente que ce forfait
+ * possède. Elle se dit donc sous les chiffres, partout où ils paraissent.
+ *
+ * ── Pourquoi ici, et pas recopiée dans les deux composants ────────────────
+ * Elle paraît sur les cartes de prix ET sous le comparatif. Deux rédactions de
+ * la même promesse divergent au premier ajustement, et la divergence est
+ * invisible tant que personne ne compare les deux écrans. C'est exactement la
+ * faute que `trial.ts` et `faq.ts` existent pour empêcher dans ce dépôt.
+ *
+ * ── La règle d'écriture ───────────────────────────────────────────────────
+ * Jamais « requêtes », « crédits », « jetons », « appels IA », ni un montant.
+ * Jamais « jusqu'à » ni « environ » : 50 veut dire 50. Le client achète des
+ * conseils, pas de la mécanique.
+ *
+ * LE TERME EST CANONIQUE, dans les deux langues : « interaction » en français,
+ * « interaction » en anglais. Pas « conversation ». La première rédaction
+ * anglaise disait « conversation », et le lecteur voyait « 50 interactions with
+ * Octave / month » surmontant une phrase qui nommait la chose autrement : deux
+ * mots pour un seul compteur, donc un doute sur le nombre de compteurs. Les
+ * cartes et le comparatif fixent le mot, cette note s'y range.
+ */
+export const INTERACTION_NOTE = {
+  fr: "Une question posée, une réponse reçue : une interaction. Ajouter vos bouteilles n’en consomme aucune.",
+  en: "One question asked, one answer received: that’s one interaction. Adding your bottles never uses any.",
+} as const;
+
 export const PLANS: MarketingPlan[] = [
   {
     id: "standard",
