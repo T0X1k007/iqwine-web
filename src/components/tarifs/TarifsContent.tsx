@@ -60,8 +60,8 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
   // elle rejoint les preuves, là où elle lève vraiment un doute.
   {
     icon: Smartphone,
-    fr: ['iPhone et web', 'Votre cave vous suit, partout.'],
-    en: ['iPhone and web', 'Your cellar follows you, everywhere.'],
+    fr: ['iPhone, Android et web', 'Votre cave vous suit, partout.'],
+    en: ['iPhone, Android and web', 'Your cellar follows you, everywhere.'],
   },
 ];
 
@@ -436,8 +436,8 @@ export default function TarifsContent() {
 
       {/* ── S4 · LA REASSURANCE, remontee vers le jour ────────────────────
           Elle quitte la nuit : c'est le moment ou l'on rassure, donc celui ou
-          la page doit s'eclaircir. Les quatre preuves et « iPhone et web »
-          sont inchangees. */}
+          la page doit s'eclaircir. Les quatre preuves et « iPhone, Android
+          et web » sont inchangees. */}
       <section
         className="mouvement-jour relative px-6 pb-14 pt-16 lg:pb-16"
         style={{ background: 'linear-gradient(180deg, var(--color-background) 0%, #2a1d13 8%, var(--color-papier-2) 36%, var(--color-papier) 100%)' }}

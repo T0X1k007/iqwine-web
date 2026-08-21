@@ -105,8 +105,8 @@ And if a technical failure keeps Octave from answering, the interaction is given
   {
     q: { fr: 'Sur quels appareils ?', en: 'On which devices?' },
     a: {
-      fr: 'Sur le web et sur mobile (iOS), installable en un geste.',
-      en: 'On the web and on mobile (iOS), installable in one tap.',
+      fr: 'Sur le web et sur mobile (iOS et Android), installable en un geste.',
+      en: 'On the web and on mobile (iOS and Android), installable in one tap.',
     },
   },
   {

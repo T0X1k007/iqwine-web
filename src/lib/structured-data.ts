@@ -98,7 +98,7 @@ export function softwareApplicationLd(locale: Locale) {
     '@id': `${SITE}/#application`,
     name: 'iQWine',
     applicationCategory: 'LifestyleApplication',
-    operatingSystem: 'Web, iOS',
+    operatingSystem: 'Web, iOS, Android',
     publisher: { '@id': `${SITE}/#organization` },
     inLanguage: BCP47[locale],
     offers: offres,
