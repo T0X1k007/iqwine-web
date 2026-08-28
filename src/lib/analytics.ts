@@ -10,6 +10,7 @@
 
 export const ANALYTICS_EVENTS = {
   SIGNUP_CLICK: 'signup_click', // tout CTA menant à app/signup (prop: source)
+  APP_STORE_CLICK: 'app_store_click', // badge App Store cliqué (prop: source)
   DEMO_MEAL_SELECT: 'demo_meal_select', // prop: meal
   DEMO_SOURCE_TOGGLE: 'demo_source_toggle', // prop: source
   SCROLL_DEPTH: 'scroll_depth', // prop: percent (25/50/75/100)

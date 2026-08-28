@@ -3,9 +3,10 @@
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import LocaleLink from '@/components/ui/LocaleLink';
 import Button from '@/components/ui/Button';
+import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
 import { ArrowRight } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
-import { buildSignupUrl, APP_STORE_URL } from '@/lib/constants';
+import { buildSignupUrl, APP_STORE_URL, CTA_VERS_STORE } from '@/lib/constants';
 import { TRIAL_SHORT } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -25,7 +26,9 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * Vérité produit : fenêtre de dégustation par millésime ET par format ;
  * l'apogée est un repère, jamais une certitude (le produit le dit lui-même) ;
  * notifications calmes ≤ 2/semaine ; emplacements suivis case par case.
- * CTA à bascule : « Rencontrer Octave » → « Télécharger iQWine » le jour J.
+ * CTA : il mène à l'essai, et il y reste — iOS est publiée depuis le
+ * 2026-08-28 sans que le libellé bascule (cf. `CTA_VERS_STORE`, constants.ts).
+ * La disponibilité mobile se dit dessous, par les badges App Store / Android.
  * L'ancienne FinalCta est remplacée par cette résolution (fichier conservé).
  */
 
@@ -33,11 +36,12 @@ export default function SectionResolution() {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
-  const publie = APP_STORE_URL !== null;
-  const ctaLabel = publie
+  const ctaLabel = CTA_VERS_STORE
     ? t('Télécharger iQWine', 'Download iQWine')
     : t('Rencontrer Octave', 'Meet Octave');
-  const ctaHref = publie ? (APP_STORE_URL as string) : buildSignupUrl('resolution', { lang: locale });
+  const ctaHref = CTA_VERS_STORE
+    ? APP_STORE_URL
+    : buildSignupUrl('resolution', { lang: locale });
 
   return (
     <section
@@ -183,6 +187,9 @@ export default function SectionResolution() {
                   `Free trial, ${TRIAL_SHORT.en} · No card required`,
                 )}
               </p>
+
+              {/* La section est centrée : la paire doit l'être aussi. */}
+              <BadgesPlateformes ton="nuit" source="resolution" className="mt-6 justify-center" />
             </div>
           </FadeInOnScroll>
         </div>

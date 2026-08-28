@@ -1,6 +1,7 @@
 import { PLANS, formatPriceCad, maxBottlesLabel, planLabel } from '@/lib/plans';
 import { FAQ } from '@/lib/faq';
 import { TRIAL_DAYS, TRIAL_FULL } from '@/lib/trial';
+import { APP_STORE_URL } from '@/lib/constants';
 import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
 
 /**
@@ -99,6 +100,16 @@ export function softwareApplicationLd(locale: Locale) {
     name: 'iQWine',
     applicationCategory: 'LifestyleApplication',
     operatingSystem: 'Web, iOS, Android',
+    /**
+     * L'adresse d'installation, depuis la publication iOS (2026-08-28). Elle
+     * est DÉRIVÉE de `APP_STORE_URL`, comme tout le reste de ce fichier : le
+     * badge de la page d'accueil et le balisage ne peuvent pas diverger.
+     *
+     * Android reste déclarée en `operatingSystem` — l'app web y fonctionne —
+     * mais SANS adresse, parce qu'il n'y en a pas encore. Annoncer à Google un
+     * téléchargement qui n'existe pas coûterait plus que le silence.
+     */
+    downloadUrl: APP_STORE_URL,
     publisher: { '@id': `${SITE}/#organization` },
     inLanguage: BCP47[locale],
     offers: offres,

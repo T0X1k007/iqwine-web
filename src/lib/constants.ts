@@ -19,15 +19,43 @@ export const APP_LOGIN_URL =
   process.env.NEXT_PUBLIC_APP_LOGIN_URL || 'https://app.iqwine.ai/login';
 
 /**
- * LA BASCULE DE PUBLICATION (refonte v3, décision d'Eric 2026-08-12).
+ * iOS 1.0 EST PUBLIÉE (2026-08-28). URL App Store canonique, boutique CA.
  *
- * `null` tant qu'iOS 1.0 n'est pas PUBLIÉE sur l'App Store (au 2026-08-12 :
- * soumise, en attente de vérification, donc null). Le jour de la publication,
- * poser ici l'URL App Store bascule le CTA principal du hero de
- * « Rencontrer Octave » vers « Télécharger iQWine » sans toucher au layout.
- * Aucune mention de téléchargement ne doit exister tant que c'est null.
+ * Elle sert au badge App Store (`BadgesPlateformes`) et, si un jour on active
+ * `CTA_VERS_STORE` ci-dessous, aux CTA de la page d'accueil.
  */
-export const APP_STORE_URL: string | null = null;
+export const APP_STORE_URL =
+  'https://apps.apple.com/ca/app/iqwine-sommelier-ia-vins/id6798458954';
+
+/**
+ * Android n'est PAS publiée (au 2026-08-28). Tant que c'est `null`, la plaque
+ * Android s'affiche « Bientôt disponible », désactivée, non cliquable. Le jour
+ * de la publication, poser l'URL Play Store ici SUFFIT : la plaque devient un
+ * lien, sans toucher au composant.
+ */
+export const PLAY_STORE_URL: string | null = null;
+
+/**
+ * LA BASCULE DES CTA (décision d'Eric, 2026-08-28).
+ *
+ * La conception du 2026-08-12 liait le libellé du CTA principal à la
+ * publication : `APP_STORE_URL !== null` faisait passer le hero et la
+ * résolution de « Rencontrer Octave » à « Télécharger iQWine ». iOS est
+ * publiée depuis, et cette bascule n'a délibérément PAS été activée :
+ *
+ *   - le gros du trafic d'une page d'accueil est sur ordinateur, où un lien
+ *     App Store est un cul-de-sac ;
+ *   - Android n'est pas publiée : un visiteur Android à qui l'on dit
+ *     « Télécharger » ne trouve rien ;
+ *   - la ligne « Essai gratuit · Sans carte » qui accompagne les deux CTA
+ *     deviendrait un contresens, l'App Store ne connaît pas notre essai.
+ *
+ * La disponibilité mobile se dit désormais par les badges, et le CTA continue
+ * de faire entrer TOUT LE MONDE dans l'essai. Passer ce booléen à `true`
+ * rebascule les deux CTA sans autre changement — mais il faudra alors revoir
+ * la ligne d'essai qui les suit, elle ne vaudra plus.
+ */
+export const CTA_VERS_STORE = false;
 
 /**
  * Construit l'URL d'essai en propageant l'attribution vers l'app (cross-domain) :

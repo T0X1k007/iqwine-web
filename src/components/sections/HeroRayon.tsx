@@ -2,8 +2,9 @@
 
 import Button from '@/components/ui/Button';
 import LigneAccord from '@/components/ui/LigneAccord';
+import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
 import { useLocale } from '@/lib/i18n';
-import { buildSignupUrl, APP_STORE_URL } from '@/lib/constants';
+import { buildSignupUrl, APP_STORE_URL, CTA_VERS_STORE } from '@/lib/constants';
 import { TRIAL_SHORT } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -30,9 +31,12 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * huit bouteilles détourées du dépôt, la photo remplacera la scène sans
  * toucher au layout (même conteneur, même overlay).
  *
- * ── CTA à bascule ─────────────────────────────────────────────────────────
- * Tant qu'iOS 1.0 n'est pas publiée : « Rencontrer Octave » → essai.
- * Le jour J : poser APP_STORE_URL dans constants.ts suffit.
+ * ── CTA à bascule, et pourquoi elle reste au repos ────────────────────────
+ * iOS 1.0 est publiée depuis le 2026-08-28, mais le CTA ne bascule PAS vers
+ * « Télécharger iQWine » : le trafic est majoritairement sur ordinateur, où
+ * l'App Store est un cul-de-sac, et Android n'est pas sortie. La bascule vit
+ * dans `CTA_VERS_STORE` (constants.ts), documentée, prête à être activée d'un
+ * booléen. La disponibilité mobile, elle, se dit sous le CTA : les badges.
  */
 
 /** Rangées du rayon provisoire, ordres figés (stabilité SSR, zéro Math.random). */
@@ -153,11 +157,10 @@ export default function HeroRayon() {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
-  const publie = APP_STORE_URL !== null;
-  const ctaLabel = publie
+  const ctaLabel = CTA_VERS_STORE
     ? t('Télécharger iQWine', 'Download iQWine')
     : t('Rencontrer Octave', 'Meet Octave');
-  const ctaHref = publie ? (APP_STORE_URL as string) : buildSignupUrl('hero', { lang: locale });
+  const ctaHref = CTA_VERS_STORE ? APP_STORE_URL : buildSignupUrl('hero', { lang: locale });
 
   return (
     <section
@@ -218,6 +221,10 @@ export default function HeroRayon() {
               `Free trial, ${TRIAL_SHORT.en} · No card required`,
             )}
           </p>
+
+          {/* La preuve mobile, après la promesse d'essai : on entre par le
+              web, on repart avec l'app. */}
+          <BadgesPlateformes ton="jour" source="hero" className="mt-6" />
         </div>
 
         {/* La signature, troisième niveau, en pied de hero, avec le premier
