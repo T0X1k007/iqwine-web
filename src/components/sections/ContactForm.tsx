@@ -29,8 +29,6 @@ import TurnstileField, { type TurnstileFieldHandle } from '@/components/ui/Turns
  * relais traduit en 502. Offrir ici un sujet que l'app ne connaît pas ne
  * produit donc pas une dégradation discrète : il produit un formulaire qui
  * affiche « Envoi impossible » APRÈS que la personne a écrit son message.
- * C'est pourquoi `SUPPORT` existe ci-dessous sans être proposé — voir
- * `CATEGORIES_OFFERTES`.
  */
 type Category = 'CONTACT' | 'INFO' | 'BILLING' | 'SUPPORT' | 'DEMO' | 'PARTNERSHIP';
 
@@ -46,17 +44,31 @@ const CATEGORY_LABELS: Record<Category, Record<'fr' | 'en', string>> = {
 /**
  * L'ORDRE du menu, et la seule liste réellement proposée.
  *
- * Il va du plus courant au plus rare : on écrit d'abord pour une question, on
- * demande une démonstration ou un partenariat beaucoup plus rarement.
+ * Il va du plus courant au plus rare : on écrit d'abord pour une question ou
+ * un pépin, on demande une démonstration ou un partenariat beaucoup plus
+ * rarement.
  *
- * `SUPPORT` n'y est PAS, et son absence est temporaire : l'application ne
- * l'accepte aujourd'hui que depuis la source APP (une demande faite depuis un
- * compte), pas depuis le site. Le jour où `CATEGORIES_BY_SOURCE.SITE` de
- * `cellier-vin` porte « SUPPORT » et que cette version est en production, il
- * suffit de l'ajouter ici — le libellé et le routage vers `support@` existent
- * déjà des deux côtés. L'ajouter AVANT casserait l'option pour de vrai.
+ * ── « Support » est ouvert le 2026-09-02, sciemment en avance ─────────────
+ * L'application ne l'acceptait que depuis la source APP — une demande faite
+ * depuis un compte. Le correctif est fusionné sur `main` de `cellier-vin`
+ * (commit `c5cee701`), validé sur staging, et attend sa promotion en
+ * production. Eric a demandé de l'ouvrir ici SANS attendre cette promotion,
+ * annoncée à moins d'une heure.
+ *
+ * Ce que cela coûte tant qu'elle n'a pas eu lieu : quelqu'un qui choisit
+ * « Support » voit « Envoi impossible » APRÈS avoir écrit son message, parce
+ * que l'application refuse encore la catégorie. Décision assumée, fenêtre
+ * courte. Si elle devait durer, retirer `SUPPORT` de cette liste referme le
+ * trou — une ligne, sans rien casser d'autre.
  */
-const CATEGORIES_OFFERTES: Category[] = ['CONTACT', 'INFO', 'BILLING', 'DEMO', 'PARTNERSHIP'];
+const CATEGORIES_OFFERTES: Category[] = [
+  'CONTACT',
+  'INFO',
+  'SUPPORT',
+  'BILLING',
+  'DEMO',
+  'PARTNERSHIP',
+];
 
 interface ContactFormProps {
   /** Clé publique Turnstile, lue au runtime par la coquille serveur. `''` = anti-bot inactif. */

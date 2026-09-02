@@ -18,13 +18,22 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
  *
  * En accepter une de plus ici ne l'autorise pas : cela déplace simplement le
  * refus d'un pas plus loin, où il devient un 502 opaque au lieu d'un 400 franc.
- * `SUPPORT` en est l'exemple vivant — l'application ne l'accepte aujourd'hui
- * que depuis la source APP, il n'a donc rien à faire ici tant que ce n'est pas
- * le cas.
+ * `SUPPORT` y figure depuis le 2026-09-02, en AVANCE sur la promotion de
+ * `cellier-vin` qui l'accepte (commit `c5cee701`, validé sur staging) — choix
+ * d'Eric, fenêtre annoncée sous l'heure. Voir le commentaire de
+ * `CATEGORIES_OFFERTES` dans `ContactForm.tsx`.
  *
  * `DELETION` est volontairement absente : elle a sa propre page publique.
  */
-const ALLOWED_CATEGORIES = new Set(['CONTACT', 'INFO', 'BILLING', 'DEMO', 'PARTNERSHIP', 'BETA']);
+const ALLOWED_CATEGORIES = new Set([
+  'CONTACT',
+  'INFO',
+  'SUPPORT',
+  'BILLING',
+  'DEMO',
+  'PARTNERSHIP',
+  'BETA',
+]);
 // Bascule du 2026-08-02. Un POST vers l'ancien hôte survivrait au 308 (qui
 // préserve la méthode et le corps), mais il traverserait une redirection à
 // chaque envoi de formulaire, et le jour où elle tombera, le formulaire de
