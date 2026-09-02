@@ -61,9 +61,9 @@ const COPY: Record<PlanId, PlanCopy> = {
       en: "Your cellar, forever.",
     },
     features: [
-      { fr: "Jusqu’à 75 bouteilles, à vie", en: "Up to 75 bottles, for life" },
+      { fr: "Jusqu’à 50 bouteilles, à vie", en: "Up to 50 bottles, for life" },
       { fr: "Votre cave et vos souvenirs, sans date de fin", en: "Your cellar and memories, with no end date" },
-      { fr: "Un avant-goût d’Octave chaque mois", en: "A taste of Octave every month" },
+      { fr: "Un avant-goût d’Octave", en: "A taste of Octave" },
       { fr: "Sans carte de crédit", en: "No credit card" },
     ],
   },

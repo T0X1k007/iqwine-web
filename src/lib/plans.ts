@@ -73,7 +73,7 @@ export const FREE_PLAN = {
   priceYearlyCents: 0,
   includedUsers: 1,
   monthlyRecommendations: 2,
-  maxBottles: 75,
+  maxBottles: 50,
 } as const satisfies MarketingPlan;
 
 /**
