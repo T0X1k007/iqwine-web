@@ -10,7 +10,12 @@ import BetaForm from '@/components/beta/BetaForm';
  * dès la lecture), puis le formulaire de candidature (BetaForm). Bilingue FR/EN.
  */
 
-export default function BetaContent() {
+interface BetaContentProps {
+  /** Clé publique Turnstile, lue par la coquille serveur (corps client ici). */
+  turnstileSiteKey?: string;
+}
+
+export default function BetaContent({ turnstileSiteKey = '' }: BetaContentProps) {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
@@ -106,7 +111,7 @@ export default function BetaContent() {
         </section>
 
         <div id="beta-form" className="scroll-mt-28">
-          <BetaForm />
+          <BetaForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       </div>
     </main>

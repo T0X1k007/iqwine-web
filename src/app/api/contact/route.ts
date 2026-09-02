@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { verifierTurnstile } from '@/lib/turnstile';
 
 /**
  * POST /api/contact, formulaire « Contactez-nous / Démonstration / Partenariat »
@@ -10,8 +11,20 @@ import { NextResponse } from 'next/server';
  */
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-// Catégories SITE acceptées (alignées sur l'app cellier-vin).
-const ALLOWED_CATEGORIES = new Set(['CONTACT', 'DEMO', 'PARTNERSHIP', 'BETA']);
+/**
+ * Catégories SITE acceptées. Ce n'est PAS une liste d'opinion : elle doit
+ * rester le miroir exact de `CATEGORIES_BY_SOURCE.SITE` dans
+ * `lib/contact/contact.ts` de `cellier-vin`, qui est le validateur final.
+ *
+ * En accepter une de plus ici ne l'autorise pas : cela déplace simplement le
+ * refus d'un pas plus loin, où il devient un 502 opaque au lieu d'un 400 franc.
+ * `SUPPORT` en est l'exemple vivant — l'application ne l'accepte aujourd'hui
+ * que depuis la source APP, il n'a donc rien à faire ici tant que ce n'est pas
+ * le cas.
+ *
+ * `DELETION` est volontairement absente : elle a sa propre page publique.
+ */
+const ALLOWED_CATEGORIES = new Set(['CONTACT', 'INFO', 'BILLING', 'DEMO', 'PARTNERSHIP', 'BETA']);
 // Bascule du 2026-08-02. Un POST vers l'ancien hôte survivrait au 308 (qui
 // préserve la méthode et le corps), mais il traverserait une redirection à
 // chaque envoi de formulaire, et le jour où elle tombera, le formulaire de
@@ -114,6 +127,26 @@ export async function POST(request: Request) {
     }
     if (message.length < 5 || message.length > LIMITS.message) {
       return NextResponse.json({ error: 'Message requis (5–5000 caractères).' }, { status: 400 });
+    }
+
+    /**
+     * LA PREUVE D'HUMANITÉ, après les validations bon marché et avant le relais.
+     *
+     * Cet ordre compte : une requête malformée est rejetée sans coûter d'appel
+     * réseau à Cloudflare, et aucune requête non prouvée ne consomme le seau
+     * Redis de l'application en aval.
+     *
+     * Tant que `TURNSTILE_SECRET_KEY` est absente, `verifierTurnstile` répond
+     * `true` et rien ne change — c'est ce qui permet de déployer cette garde
+     * sur un formulaire déjà en ligne sans le casser. Voir `lib/turnstile.ts`.
+     */
+    const turnstileToken =
+      typeof body.turnstileToken === 'string' ? body.turnstileToken : null;
+    if (!(await verifierTurnstile(turnstileToken, ip))) {
+      return NextResponse.json(
+        { error: 'Vérification anti-robot échouée. Réessayez.' },
+        { status: 403 },
+      );
     }
 
     // Forward vers l'app cellier-vin (persiste + notifie l'admin).

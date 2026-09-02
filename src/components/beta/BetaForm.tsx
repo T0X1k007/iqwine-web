@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useState, type FormEvent } from 'react';
+import { useCallback, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import TurnstileField, { type TurnstileFieldHandle } from '@/components/ui/TurnstileField';
 
 /**
  * BetaForm, candidature bêta-testeur (page /beta). Formulaire de sélection
@@ -14,6 +15,14 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  *
  * POST vers /api/contact avec category='BETA' ; les réponses sont assemblées en
  * un message structuré (FR, pour l'admin). Même flux/honeypot que ContactForm.
+ *
+ * ── Pourquoi Turnstile est ICI aussi, et pas seulement sur /contact ───────
+ * Les deux formulaires partagent la MÊME route `/api/contact`. La garde
+ * anti-robot y est posée une fois, pour tout le monde : le jour où le secret
+ * est configuré, un envoi sans jeton est refusé — d'où qu'il vienne. Protéger
+ * `/contact` seul aurait donc fait deux dégâts d'un coup : laisser cette page
+ * ouverte au spam, ET la casser silencieusement à la seconde où la protection
+ * de l'autre s'arme.
  */
 
 type Opt = { value: string; fr: string; en: string };
@@ -52,7 +61,12 @@ const SELECT_CLASS =
 const LABEL_CLASS =
   'font-body text-[11px] font-medium uppercase tracking-[0.22em] text-encre-3';
 
-export default function BetaForm() {
+interface BetaFormProps {
+  /** Clé publique Turnstile, lue au runtime par la coquille serveur. `''` = inactif. */
+  turnstileSiteKey?: string;
+}
+
+export default function BetaForm({ turnstileSiteKey = '' }: BetaFormProps) {
   const { locale } = useLocale();
   const t = useCallback((fr: string, en: string) => (locale === 'fr' ? fr : en), [locale]);
 
@@ -66,6 +80,8 @@ export default function BetaForm() {
   const [time, setTime] = useState('');
   const [motivation, setMotivation] = useState('');
   const [website, setWebsite] = useState(''); // honeypot, doit rester vide
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<TurnstileFieldHandle | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -104,6 +120,16 @@ export default function BetaForm() {
         motivation.trim(),
       ].join('\n');
 
+      if (turnstileSiteKey && !turnstileToken) {
+        setError(
+          t(
+            'Veuillez confirmer que vous n’êtes pas un robot.',
+            'Please confirm you are not a robot.',
+          ),
+        );
+        return;
+      }
+
       setSubmitting(true);
       try {
         const res = await fetch('/api/contact', {
@@ -115,6 +141,7 @@ export default function BetaForm() {
             email: email.trim(),
             message,
             website,
+            turnstileToken,
           }),
         });
         if (!res.ok) {
@@ -128,11 +155,15 @@ export default function BetaForm() {
         setSuccess(true);
       } catch (err) {
         setError(err instanceof Error ? err.message : t('Erreur inconnue.', 'Unknown error.'));
+        // Le jeton ne vaut qu'un envoi : sans ce rejeu, la deuxième tentative
+        // échouerait toujours.
+        turnstileRef.current?.reset();
       } finally {
         setSubmitting(false);
       }
     },
-    [name, email, cellar, bottles, tool, toolOther, device, time, motivation, website, t],
+    [name, email, cellar, bottles, tool, toolOther, device, time, motivation, website,
+     turnstileToken, turnstileSiteKey, t],
   );
 
   if (success) {
@@ -283,6 +314,12 @@ export default function BetaForm() {
         value={website}
         onChange={(e) => setWebsite(e.target.value)}
         className="absolute -left-[9999px] w-px h-px opacity-0"
+      />
+
+      <TurnstileField
+        ref={turnstileRef}
+        siteKey={turnstileSiteKey}
+        onToken={setTurnstileToken}
       />
 
       {error && <p className="font-body text-[12px] text-danger">{error}</p>}

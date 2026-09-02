@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import BetaContent from '@/components/beta/BetaContent';
+import { turnstileSiteKey } from '@/lib/turnstile';
 
 const TEXTES = {
   fr: {
@@ -40,5 +41,5 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
  * formulaire POST vers /api/contact (category BETA → forward app cellier-vin).
  */
 export default function BetaPage() {
-  return <BetaContent />;
+  return <BetaContent turnstileSiteKey={turnstileSiteKey()} />;
 }

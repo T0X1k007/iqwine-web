@@ -22,7 +22,15 @@ type OptionCard = {
   href: string;
 };
 
-export default function ContactContent() {
+interface ContactContentProps {
+  /**
+   * Clé publique Turnstile, résolue par la coquille serveur et descendue en
+   * prop. `''` = anti-bot inactif, le formulaire est celui d'avant.
+   */
+  turnstileSiteKey?: string;
+}
+
+export default function ContactContent({ turnstileSiteKey = '' }: ContactContentProps) {
   const { locale } = useLocale();
   const t = (fr: string, en: string) => (locale === 'fr' ? fr : en);
 
@@ -107,7 +115,7 @@ export default function ContactContent() {
         </div>
 
         <div id="contact-form" className="scroll-mt-28">
-          <ContactForm />
+          <ContactForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       </div>
     </main>

@@ -1,28 +1,69 @@
 'use client';
 
-import { useCallback, useState, type FormEvent } from 'react';
+import { useCallback, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
+import TurnstileField, { type TurnstileFieldHandle } from '@/components/ui/TurnstileField';
 
 /**
- * ContactForm, formulaire « Contactez-nous / Démonstration / Partenariat ».
+ * ContactForm, le formulaire public de /contact.
  *
  * POST vers /api/contact (route locale) qui forward vers l'app cellier-vin.
- * Aucune adresse courriel exposée. Honeypot anti-bot, validation client +
- * serveur, états succès/erreur. Mirroir du pattern VagueFondateurs.
+ * Aucune adresse courriel exposée. Validation client + serveur, états
+ * succès/erreur. Mirroir du pattern VagueFondateurs.
+ *
+ * ── Le sujet choisi ici DÉCIDE où le courriel atterrit ────────────────────
+ * Ce n'est pas un simple libellé. L'application range la demande sous cette
+ * catégorie et sa table de routage (`lib/mail/routage-demandes.ts`) en déduit
+ * l'alias destinataire : `support@` pour les questions générales et
+ * techniques, `billing@` pour l'argent, `bonjour@` pour l'institutionnel. Un
+ * sujet absent d'ici est un courriel qui arrive au mauvais endroit, ou une
+ * personne qui n'a pas le mot pour dire ce qu'elle veut.
+ *
+ * ── La liste doit être un SOUS-ENSEMBLE de ce que l'app accepte ───────────
+ * Le serveur de l'application valide la catégorie contre
+ * `CATEGORIES_BY_SOURCE.SITE` et refuse tout le reste par un 400, que notre
+ * relais traduit en 502. Offrir ici un sujet que l'app ne connaît pas ne
+ * produit donc pas une dégradation discrète : il produit un formulaire qui
+ * affiche « Envoi impossible » APRÈS que la personne a écrit son message.
+ * C'est pourquoi `SUPPORT` existe ci-dessous sans être proposé — voir
+ * `CATEGORIES_OFFERTES`.
  */
-type Category = 'CONTACT' | 'DEMO' | 'PARTNERSHIP';
+type Category = 'CONTACT' | 'INFO' | 'BILLING' | 'SUPPORT' | 'DEMO' | 'PARTNERSHIP';
 
 const CATEGORY_LABELS: Record<Category, Record<'fr' | 'en', string>> = {
   CONTACT: { fr: 'Contactez-nous', en: 'Contact us' },
+  INFO: { fr: 'Demande d’information', en: 'Information request' },
+  BILLING: { fr: 'Facturation', en: 'Billing' },
+  SUPPORT: { fr: 'Support', en: 'Support' },
   DEMO: { fr: 'Démonstration', en: 'Demo request' },
   PARTNERSHIP: { fr: 'Partenariat', en: 'Partnership' },
 };
 
-export default function ContactForm() {
+/**
+ * L'ORDRE du menu, et la seule liste réellement proposée.
+ *
+ * Il va du plus courant au plus rare : on écrit d'abord pour une question, on
+ * demande une démonstration ou un partenariat beaucoup plus rarement.
+ *
+ * `SUPPORT` n'y est PAS, et son absence est temporaire : l'application ne
+ * l'accepte aujourd'hui que depuis la source APP (une demande faite depuis un
+ * compte), pas depuis le site. Le jour où `CATEGORIES_BY_SOURCE.SITE` de
+ * `cellier-vin` porte « SUPPORT » et que cette version est en production, il
+ * suffit de l'ajouter ici — le libellé et le routage vers `support@` existent
+ * déjà des deux côtés. L'ajouter AVANT casserait l'option pour de vrai.
+ */
+const CATEGORIES_OFFERTES: Category[] = ['CONTACT', 'INFO', 'BILLING', 'DEMO', 'PARTNERSHIP'];
+
+interface ContactFormProps {
+  /** Clé publique Turnstile, lue au runtime par la coquille serveur. `''` = anti-bot inactif. */
+  turnstileSiteKey?: string;
+}
+
+export default function ContactForm({ turnstileSiteKey = '' }: ContactFormProps) {
   const { locale } = useLocale();
   const t = useCallback(
     (fr: string, en: string) => (locale === 'fr' ? fr : en),
@@ -34,6 +75,8 @@ export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [website, setWebsite] = useState(''); // honeypot, doit rester vide
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<TurnstileFieldHandle | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,10 +89,31 @@ export default function ContactForm() {
         setError(t('Courriel invalide.', 'Invalid email.'));
         return;
       }
-      // Message requis seulement pour le contact général ; pour les leads
-      // démo/partenariat, on réduit la friction (message optionnel).
-      if (category === 'CONTACT' && message.trim().length < 5) {
+      /**
+       * Le message est requis pour TOUS les sujets, et il l'était déjà.
+       *
+       * Ce contrôle ne portait que sur `CONTACT`, au nom de la friction des
+       * pistes démo/partenariat. Mais le relais `/api/contact` refuse depuis
+       * toujours un message de moins de 5 caractères, quelle que soit la
+       * catégorie : choisir « Démonstration » et n'écrire rien ne réduisait
+       * donc aucune friction — cela produisait « Message requis (5–5000
+       * caractères) » APRÈS l'envoi, une erreur serveur là où le formulaire
+       * aurait dû le dire tout de suite. On aligne le client sur la règle
+       * réellement appliquée plutôt que d'inventer une seconde règle.
+       */
+      if (message.trim().length < 5) {
         setError(t('Votre message est requis.', 'Your message is required.'));
+        return;
+      }
+      // Anti-bot : quand le widget est actif (clé de site posée), on n'envoie
+      // pas sans jeton — le serveur refuserait, autant l'annoncer ici.
+      if (turnstileSiteKey && !turnstileToken) {
+        setError(
+          t(
+            'Veuillez confirmer que vous n’êtes pas un robot.',
+            'Please confirm you are not a robot.',
+          ),
+        );
         return;
       }
       setSubmitting(true);
@@ -63,6 +127,7 @@ export default function ContactForm() {
             email: email.trim(),
             message: message.trim(),
             website,
+            turnstileToken,
           }),
         });
         if (!res.ok) {
@@ -76,11 +141,15 @@ export default function ContactForm() {
         setSuccess(true);
       } catch (err) {
         setError(err instanceof Error ? err.message : t('Erreur inconnue.', 'Unknown error.'));
+        // Un jeton Turnstile ne vaut qu'un envoi : Cloudflare refuse un rejeu.
+        // Sans ce reset, la deuxième tentative échouerait toujours, et la
+        // personne conclurait que le formulaire est cassé.
+        turnstileRef.current?.reset();
       } finally {
         setSubmitting(false);
       }
     },
-    [category, name, email, message, website, t],
+    [category, name, email, message, website, turnstileToken, turnstileSiteKey, t],
   );
 
   if (success) {
@@ -117,7 +186,7 @@ export default function ContactForm() {
           onChange={(e) => setCategory(e.target.value as Category)}
           className="rounded-md border border-encre/20 bg-[#fdfaf3] px-4 py-3 text-[15px] text-encre transition-colors focus:border-bordeaux-jour focus:outline-none focus:ring-1 focus:ring-bordeaux-jour/25"
         >
-          {(Object.keys(CATEGORY_LABELS) as Category[]).map((c) => (
+          {CATEGORIES_OFFERTES.map((c) => (
             <option key={c} value={c}>
               {CATEGORY_LABELS[c][locale === 'fr' ? 'fr' : 'en']}
             </option>
@@ -158,7 +227,7 @@ export default function ContactForm() {
           id="contact-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          required={category === 'CONTACT'}
+          required
           rows={5}
           maxLength={5000}
           placeholder={t('Comment pouvons-nous aider ?', 'How can we help?')}
@@ -175,6 +244,22 @@ export default function ContactForm() {
         value={website}
         onChange={(e) => setWebsite(e.target.value)}
         className="absolute -left-[9999px] w-px h-px opacity-0"
+      />
+
+      {/*
+        * LA PREUVE D'HUMANITÉ, juste avant le bouton.
+        *
+        * Placée là et non en tête : elle se résout pendant que la personne
+        * écrit son message, donc elle est déjà verte quand elle arrive au
+        * bouton. En haut du formulaire, le défi aurait eu le temps d'expirer.
+        *
+        * Sans clé de site, ce composant ne rend rien et ne charge aucun
+        * script : le formulaire est alors exactement celui d'avant.
+        */}
+      <TurnstileField
+        ref={turnstileRef}
+        siteKey={turnstileSiteKey}
+        onToken={setTurnstileToken}
       />
 
       {error && <p className="font-body text-[12px] text-danger">{error}</p>}
