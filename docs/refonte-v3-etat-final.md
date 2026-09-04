@@ -35,7 +35,11 @@
 >    `--force-with-lease` avec la valeur attendue explicite, **jamais** un
 >    `--force` aveugle. Ce push déclenche un déploiement de production au
 >    contenu identique : c'est normal, et c'est ce qui referme la boucle.
-> 5. Resynchroniser le worktree `iQWine_Web-v2`, qui suit `production`.
+> 5. Rien de plus : il n'y a plus de second arbre de travail. Le worktree
+>    `iQWine_Web-v2`, qui suivait `production`, a été retiré le 2026-09-03.
+>    Il ne contenait aucun commit que `main` n'avait déjà, et un deuxième
+>    dossier du même dépôt ne faisait qu'entretenir l'idée d'un « site v2 »
+>    séparé. La branche `production`, elle, reste : c'est elle que Vercel suit.
 >
 > ### L'ambiguïté de 2026-08-18, et sa fermeture
 >
