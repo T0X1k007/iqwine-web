@@ -13,11 +13,11 @@ import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
 const TEXTES = {
   fr: {
     title: 'Tarifs iQWine : votre sommelier IA, essai gratuit sans carte · iQWine',
-    description: `Trois formules selon votre cave, un meme sommelier dans toutes. Essai gratuit, ${TRIAL_SHORT.fr}, sans carte et sans engagement.`,
+    description: `Gratuit, Standard ou Premium : le meme sommelier dans les trois, aucune fonction reservee. Essai gratuit, ${TRIAL_SHORT.fr}, sans carte et sans engagement.`,
   },
   en: {
     title: 'iQWine pricing: your AI sommelier, free trial, no card · iQWine',
-    description: `Three plans for your cellar, the same sommelier in every one. Free trial, ${TRIAL_SHORT.en}, no card, no commitment.`,
+    description: `Free, Standard or Premium: the same sommelier in all three, no feature held back. Free trial, ${TRIAL_SHORT.en}, no card, no commitment.`,
   },
 } as const;
 
@@ -29,9 +29,14 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 /**
  * /tarifs, page de DÉCISION, refondue v3 (Eric, 2026-08-14) en 6 sections :
  * ouverture courte → forfaits (le prix arrive vite) → comparatif + CTA →
- * réassurance → FAQ → clôture ivoire. L'offre elle-même n'a pas bougé d'un
- * mot : prix, quotas, forfaits, essai, conditions et destinations de CTA sont
- * identiques. Seules la hiérarchie et la présentation changent.
+ * réassurance → FAQ → clôture ivoire.
+ *
+ * L'OFFRE, ELLE, A CHANGÉ le 2026-09-13 : quatre paliers sont devenus trois
+ * (Gratuit · Standard · Premium), le Gratuit est entré dans la grille et monte
+ * à 100 bouteilles, l'annuel du Standard passe à 129 $ sous l'étiquette « prix
+ * fondateur », et le comparatif ne montre plus que les quatre lignes qui
+ * diffèrent réellement. La description ci-dessus nomme donc les trois forfaits
+ * et dit ce qui, justement, ne les sépare pas.
  */
 /**
  * Le `FAQPage` est émis ICI, et nulle part ailleurs : c'est la seule page qui

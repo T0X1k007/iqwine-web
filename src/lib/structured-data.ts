@@ -1,4 +1,4 @@
-import { PLANS, formatPriceCad, maxBottlesLabel, planLabel } from '@/lib/plans';
+import { GRILLE, formatPriceCad, maxBottlesLabel, planLabel } from '@/lib/plans';
 import { FAQ } from '@/lib/faq';
 import { TRIAL_DAYS, TRIAL_FULL } from '@/lib/trial';
 import { APP_STORE_URL } from '@/lib/constants';
@@ -8,7 +8,7 @@ import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
  * DONNÉES STRUCTURÉES — dérivées des sources typées, jamais écrites à la main.
  *
  * ── Le principe qui gouverne ce fichier ───────────────────────────────────
- * Rien ici n'est saisi en dur : les prix viennent de `PLANS`, les questions de
+ * Rien ici n'est saisi en dur : les prix viennent de `GRILLE`, les questions de
  * `FAQ`, la règle d'essai de `TRIAL_*`. Écrire une seconde fois ce que la page
  * affiche déjà produirait deux vérités — celle que l'humain lit et celle que
  * Google lit — et elles divergeraient au premier ajustement.
@@ -71,7 +71,13 @@ export function organizationLd(locale: Locale) {
  * plateforme). L'essai est déclaré par sa VRAIE règle — les deux bornes.
  */
 export function softwareApplicationLd(locale: Locale) {
-  const offres = PLANS.map((p) => ({
+  /**
+   * `GRILLE` et non `PLANS` : le Gratuit est une offre à 0 $, et la déclarer
+   * est exact. L'omettre laissait un assistant répondre que l'entrée de gamme
+   * d'iQWine coûte 14,95 $, ce qui est faux depuis que le Gratuit est une
+   * colonne de la grille et non une note sous les cartes.
+   */
+  const offres = GRILLE.map((p) => ({
     '@type': 'Offer',
     // Le libellé LOCALISÉ — le balisage doit refléter ce que la page affiche.
     name: planLabel(p.id, locale),
@@ -87,7 +93,10 @@ export function softwareApplicationLd(locale: Locale) {
       unitCode: 'MON',
       billingIncrement: 1,
     },
-    // Le plafond de bouteilles, qui distingue réellement les paliers.
+    // Les trois nombres qui distinguent réellement les paliers. Le reste des
+    // fonctionnalités est commun aux trois forfaits : rien à déclarer par
+    // offre, sans quoi le balisage inventerait des différences que la page
+    // n'affiche pas.
     description:
       locale === 'en'
         ? `${maxBottlesLabel(p, 'en')} · ${p.monthlyRecommendations} interactions with Octave per month · ${p.includedUsers} user(s)`

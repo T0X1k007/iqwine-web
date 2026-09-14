@@ -1,4 +1,32 @@
 import { TRIAL_DAYS, TRIAL_RECOS, TRIAL_FULL } from '@/lib/trial';
+import {
+  STANDARD_PLAN,
+  PREMIUM_PLAN,
+  annualSavingsCents,
+  monthlyEquivalentCents,
+  formatPriceCad,
+  planLabel,
+} from '@/lib/plans';
+
+/**
+ * Les chiffres de la réponse « Pourquoi choisir l'annuel ? » sont DÉRIVÉS.
+ *
+ * Ils étaient une phrase — « Deux mois offerts » — devenue fausse le jour où
+ * l'annuel a cessé de valoir 10× le mensuel, et personne ne l'a vu parce
+ * qu'aucune valeur ne la reliait à la grille. Une réponse qui cite un prix doit
+ * le lire dans `plans.ts`, sans quoi elle survit au prix qu'elle décrit.
+ */
+function annuel(locale: 'fr' | 'en'): string {
+  const eqS = formatPriceCad(monthlyEquivalentCents(STANDARD_PLAN), locale);
+  const eqP = formatPriceCad(monthlyEquivalentCents(PREMIUM_PLAN), locale);
+  const ecoS = formatPriceCad(annualSavingsCents(STANDARD_PLAN), locale);
+  const ecoP = formatPriceCad(annualSavingsCents(PREMIUM_PLAN), locale);
+  const nS = planLabel(STANDARD_PLAN.id, locale);
+  const nP = planLabel(PREMIUM_PLAN.id, locale);
+  return locale === 'fr'
+    ? `Le prix fondateur, et un palais qu’Octave affine toute l’année. À l’année, le ${nS} revient à ${eqS} $ par mois et le ${nP} à ${eqP} $, soit ${ecoS} $ et ${ecoP} $ de moins que douze mois au tarif mensuel. C’est un prix de lancement, offert aux premiers abonnés.`
+    : `The founder price, and a palate Octave sharpens all year long. Yearly, ${nS} works out to $${eqS} a month and ${nP} to $${eqP}, which is $${ecoS} and $${ecoP} less than twelve months at the monthly rate. It is a launch price, offered to our first subscribers.`;
+}
 
 /**
  * LES QUESTIONS FRÉQUENTES, source unique, partagée avec le JSON-LD.
@@ -47,7 +75,7 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
     /**
      * LA QUESTION QUI DÉBLOQUE L'ACHAT (2026-08-19).
      *
-     * Depuis la refonte du compteur côté application, « 50 / 110 / 200 » est
+     * Depuis la refonte du compteur côté application, « 2 / 50 / 200 » est
      * LITTÉRAL : une demande de conseil vaut une interaction, quel que soit le
      * travail fourni derrière. Les chiffres du site n'ont pas bougé, mais ils
      * ne disaient pas ce qu'ils comptaient, et celui qui hésite se demande
@@ -131,10 +159,46 @@ And if a technical failure keeps Octave from answering, the interaction is given
     },
   },
   {
+    /**
+     * « Deux mois offerts » A ÉTÉ RETIRÉ D'ICI (2026-09-13), il était devenu
+     * faux : 50,40 $ d'économie sur un Standard à 14,95 $, c'est 3,37 mois, et
+     * 60,40 $ sur un Premium à 29,95 $, c'est 2,02 mois. Aucun « n mois
+     * offerts » ne peut donc décrire les deux forfaits à la fois.
+     *
+     * La réponse énonce désormais ce que le lecteur peut vérifier lui-même avec
+     * les chiffres de la page : l'équivalent mensuel et l'écart en dollars.
+     */
     q: { fr: 'Pourquoi choisir l’annuel ?', en: 'Why choose annual?' },
+    a: { fr: annuel('fr'), en: annuel('en') },
+  },
+  {
+    /**
+     * ⚠️ CETTE RÉPONSE NE PROMET RIEN AU-DELÀ DU LANCEMENT, et c'est
+     * délibéré (Eric, 2026-09-13). Le prix fondateur est un prix de lancement,
+     * pas une garantie à vie : n'y écrivez jamais « votre prix ne changera
+     * jamais », « garanti à vie », « prix bloqué » ni « tarif permanent ». Une
+     * FAQ est lue comme un engagement, et celle-ci est reprise telle quelle
+     * dans le JSON-LD, donc citable hors du site.
+     */
+    q: { fr: 'Qu’est-ce que le prix fondateur ?', en: 'What is the founder price?' },
     a: {
-      fr: 'Deux mois offerts, et un palais qu’Octave affine toute l’année. Vous vous installez pour de bon, c’est aussi le meilleur prix.',
-      en: 'Two months free, and a palate Octave sharpens all year long. You settle in for good, and it’s the best price.',
+      fr: 'C’est le prix de lancement de l’abonnement annuel, offert aux premiers abonnés. Il ne s’applique qu’à l’annuel, jamais au mensuel, et il pourra évoluer par la suite.',
+      en: 'It is the launch price of the annual subscription, offered to our first subscribers. It applies to the annual plan only, never to monthly, and it may change later on.',
+    },
+  },
+  {
+    /**
+     * LA QUESTION QUE LA GRILLE POSE, ET QUE PERSONNE N'OSE POSER : « qu'est-ce
+     * qu'on me retire si je ne paie pas le plus cher ? » Rien. C'est établi par
+     * audit du code applicatif, et c'est le meilleur argument de la page.
+     */
+    q: {
+      fr: 'Quelle est la différence entre les forfaits ?',
+      en: 'What is the difference between the plans?',
+    },
+    a: {
+      fr: 'Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre d’interactions avec Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.',
+      en: 'No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how many interactions you have with Octave each month, the size of your cellar and how many users — and each user keeps their own palate.',
     },
   },
   {
