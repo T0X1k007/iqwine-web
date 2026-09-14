@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
  *
  * L'OFFRE, ELLE, A CHANGÉ le 2026-09-13 : quatre paliers sont devenus trois
  * (Gratuit · Standard · Premium), le Gratuit est entré dans la grille et monte
- * à 100 bouteilles, l'annuel du Standard passe à 129 $ sous l'étiquette « prix
- * fondateur », et le comparatif ne montre plus que les quatre lignes qui
+ * à 100 bouteilles, l'annuel du Standard passe à 149 $ sous l'étiquette « prix
+ * de lancement », et le comparatif ne montre plus que les quatre lignes qui
  * diffèrent réellement. La description ci-dessus nomme donc les trois forfaits
  * et dit ce qui, justement, ne les sépare pas.
  */

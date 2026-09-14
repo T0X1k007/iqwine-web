@@ -20,8 +20,8 @@ import {
   maxBottlesLabel,
   CONSEILS_NOTE,
   COMMON_BASE_NOTE,
-  FOUNDER_PRICE,
-  FOUNDER_PRICE_NOTE,
+  LAUNCH_PRICE,
+  LAUNCH_PRICE_NOTE,
   type MarketingPlan,
   type PlanId,
 } from "@/lib/plans";
@@ -168,10 +168,11 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
       </FadeInOnScroll>
 
       {/* Bascule mensuel / annuel. Annuel par défaut, aucune fausse urgence.
-          « Deux mois offerts » a été RETIRÉ d'ici (2026-09-13) : il était vrai
-          quand l'annuel valait 10× le mensuel, il ne l'est plus (50,40 $
-          d'économie = 3,37 mois de Standard). Le prix fondateur le remplace, et
-          il ne paraît QUE sous l'annuel — il n'existe pas sur le mensuel. */}
+          « Deux mois offerts » a été RETIRÉ d'ici (2026-09-13) : la formule
+          dérivait à chaque mouvement de prix sans rien signaler — 3,37 mois de
+          Standard sous la grille à 129 $, 2,03 sous celle à 149 $. Le prix de
+          lancement la remplace, et il ne paraît QUE sous l'annuel — il n'existe
+          pas sur le mensuel. */}
       <FadeInOnScroll delay={0.08}>
         <div className="flex flex-col items-center gap-3 mb-12 sm:mb-14">
           <div
@@ -230,12 +231,12 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
           <div className="flex min-h-[3.25rem] flex-col items-center gap-1.5">
             {billingPeriod === "yearly" && (
               <span className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide ${jour ? "bg-or-jour/12 text-or-jour" : "bg-or/12 text-or"}`}>
-                {t(FOUNDER_PRICE.fr, FOUNDER_PRICE.en)}
+                {t(LAUNCH_PRICE.fr, LAUNCH_PRICE.en)}
               </span>
             )}
             <span className={`text-[13px] ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}>
               {billingPeriod === "yearly"
-                ? t(FOUNDER_PRICE_NOTE.fr, FOUNDER_PRICE_NOTE.en)
+                ? t(LAUNCH_PRICE_NOTE.fr, LAUNCH_PRICE_NOTE.en)
                 : t("Sans engagement, résiliable en tout temps.", "No commitment, cancel anytime.")}
             </span>
           </div>
@@ -415,10 +416,11 @@ function PlanCard({
        * affiche déjà : la facture annuelle, et douze fois le tarif mensuel.
        * Le prix barré qui subsiste À CÔTÉ DU GRAND NOMBRE est d'une autre
        * nature, et il est vrai : il compare l'équivalent mensuel de l'annuel
-       * (10,75) au tarif mensuel réellement pratiqué (14,95).
+       * (12,42) au tarif mensuel réellement pratiqué (14,95). Eric l'a
+       * explicitement validé le 2026-09-14, après le passage à 149 $.
        *
-       * ⚠️ « Prix fondateur » ne paraît QUE dans cette branche annuelle, et il
-       * ne promet RIEN au-delà du lancement — relire `FOUNDER_PRICE`. */}
+       * ⚠️ « Prix de lancement » ne paraît QUE dans cette branche annuelle, et
+       * il ne promet RIEN au-delà du lancement — relire `LAUNCH_PRICE`. */}
       <p className="mb-5 text-[13.5px] leading-snug">
         {gratuit ? (
           <span className={jour ? "text-encre-2" : "text-foreground-dim"}>
@@ -434,7 +436,7 @@ function PlanCard({
                 )}
               </span>
               <span className={`rounded-full px-2 py-0.5 font-body text-[10px] font-medium uppercase tracking-[0.14em] ${jour ? "bg-or-jour/12 text-or-jour" : "bg-or/12 text-or"}`}>
-                {t(FOUNDER_PRICE.fr, FOUNDER_PRICE.en)}
+                {t(LAUNCH_PRICE.fr, LAUNCH_PRICE.en)}
               </span>
             </span>
             <span className={`font-medium tabular-nums ${jour ? "text-or-jour" : "text-or"}`}>

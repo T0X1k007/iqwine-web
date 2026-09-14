@@ -24,8 +24,8 @@ function annuel(locale: 'fr' | 'en'): string {
   const nS = planLabel(STANDARD_PLAN.id, locale);
   const nP = planLabel(PREMIUM_PLAN.id, locale);
   return locale === 'fr'
-    ? `Le prix fondateur, et un palais qu’Octave affine toute l’année. À l’année, le ${nS} revient à ${eqS} $ par mois et le ${nP} à ${eqP} $, soit ${ecoS} $ et ${ecoP} $ de moins que douze mois au tarif mensuel. C’est un prix de lancement, offert aux premiers abonnés.`
-    : `The founder price, and a palate Octave sharpens all year long. Yearly, ${nS} works out to $${eqS} a month and ${nP} to $${eqP}, which is $${ecoS} and $${ecoP} less than twelve months at the monthly rate. It is a launch price, offered to our first subscribers.`;
+    ? `Le prix de lancement, et un palais qu’Octave affine toute l’année. À l’année, le ${nS} revient à ${eqS} $ par mois et le ${nP} à ${eqP} $, soit ${ecoS} $ et ${ecoP} $ de moins que douze mois au tarif mensuel. Il est offert aux premiers abonnés et pourra évoluer par la suite.`
+    : `The launch price, and a palate Octave sharpens all year long. Yearly, ${nS} works out to $${eqS} a month and ${nP} to $${eqP}, which is $${ecoS} and $${ecoP} less than twelve months at the monthly rate. It is offered to our first subscribers and may change later on.`;
 }
 
 /**
@@ -172,9 +172,11 @@ And if a technical failure keeps Octave from answering, the advice is given back
   {
     /**
      * « Deux mois offerts » A ÉTÉ RETIRÉ D'ICI (2026-09-13), il était devenu
-     * faux : 50,40 $ d'économie sur un Standard à 14,95 $, c'est 3,37 mois, et
-     * 60,40 $ sur un Premium à 29,95 $, c'est 2,02 mois. Aucun « n mois
-     * offerts » ne peut donc décrire les deux forfaits à la fois.
+     * faux : l'économie ne vaut pas le même nombre de mois d'un forfait à
+     * l'autre, et le compte change à chaque mouvement de prix — 3,37 mois de
+     * Standard sous la grille à 129 $, 2,03 sous celle à 149 $. Aucun « n mois
+     * offerts » ne peut décrire les deux forfaits à la fois, ni survivre au
+     * prochain ajustement.
      *
      * La réponse énonce désormais ce que le lecteur peut vérifier lui-même avec
      * les chiffres de la page : l'équivalent mensuel et l'écart en dollars.
@@ -185,13 +187,17 @@ And if a technical failure keeps Octave from answering, the advice is given back
   {
     /**
      * ⚠️ CETTE RÉPONSE NE PROMET RIEN AU-DELÀ DU LANCEMENT, et c'est
-     * délibéré (Eric, 2026-09-13). Le prix fondateur est un prix de lancement,
-     * pas une garantie à vie : n'y écrivez jamais « votre prix ne changera
-     * jamais », « garanti à vie », « prix bloqué » ni « tarif permanent ». Une
-     * FAQ est lue comme un engagement, et celle-ci est reprise telle quelle
-     * dans le JSON-LD, donc citable hors du site.
+     * délibéré (Eric, 2026-09-13). Le prix de lancement n'est pas une garantie
+     * à vie : n'y écrivez jamais « votre prix ne changera jamais », « garanti à
+     * vie », « prix bloqué » ni « tarif permanent ». Une FAQ est lue comme un
+     * engagement, et celle-ci est reprise telle quelle dans le JSON-LD, donc
+     * citable hors du site.
+     *
+     * Le libellé disait « prix fondateur » jusqu'au 2026-09-14 : « fondateur »
+     * s'entend comme un statut acquis, donc comme un tarif gardé à vie — la
+     * chose même que cette réponse refuse de promettre.
      */
-    q: { fr: 'Qu’est-ce que le prix fondateur ?', en: 'What is the founder price?' },
+    q: { fr: 'Qu’est-ce que le prix de lancement ?', en: 'What is the launch price?' },
     a: {
       fr: 'C’est le prix de lancement de l’abonnement annuel, offert aux premiers abonnés. Il ne s’applique qu’à l’annuel, jamais au mensuel, et il pourra évoluer par la suite.',
       en: 'It is the launch price of the annual subscription, offered to our first subscribers. It applies to the annual plan only, never to monthly, and it may change later on.',

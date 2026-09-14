@@ -45,12 +45,15 @@ export interface MarketingPlan {
   /**
    * Prix ANNUEL en cents CAD.
    *
-   * ⚠️ CE N'EST PLUS 10× LE MENSUEL, et « deux mois offerts » est devenu FAUX
-   * (Eric, 2026-09-13). Le Standard annuel économise 50,40 $, soit 3,37 mois de
-   * tarif mensuel ; le Premium en économise 60,40, soit 2,02 mois. Aucun texte
-   * du site ne doit donc plus compter en « mois offerts » : la seule comparaison
-   * honnête est l'économie EN DOLLARS face à douze mois au tarif mensuel, et
-   * elle se dérive (`annualSavingsCents`), jamais elle ne s'écrit.
+   * ⚠️ IL N'EST PLUS ADOSSÉ AU MENSUEL, et « deux mois offerts » a été retiré
+   * du site (Eric, 2026-09-13). Ces prix se posent à la main : 149 $ quand 10×
+   * le mensuel ferait 149,50 $, 299 $ quand il ferait 299,50 $.
+   *
+   * Toute formule en « n mois offerts » est donc une approximation qui DÉRIVE à
+   * chaque mouvement de prix, sans que rien ne la signale — c'est exactement ce
+   * qui s'est produit : la phrase a survécu à deux grilles successives en
+   * décrivant la première. L'économie en DOLLARS, elle, ne dérive pas : elle se
+   * dérive (`annualSavingsCents`) et ne s'écrit jamais à la main.
    */
   priceYearlyCents: number;
   includedUsers: number;
@@ -198,8 +201,10 @@ export const CONSEILS_NOTE = {
 const STANDARD_PLAN: MarketingPlan = {
   id: "standard",
   priceMonthlyCents: 1495,
-  // 129,00 $ et non 149,00 : le nouveau prix fondateur (Eric, 2026-09-13).
-  priceYearlyCents: 12900,
+  // 149,00 $ — le prix de lancement arrêté par Eric le 2026-09-14. Il est
+  // passé par 129,00 dans la première version de cette grille : si vous lisez
+  // « 129 » quelque part, c'est une trace à corriger, pas une variante.
+  priceYearlyCents: 14900,
   includedUsers: 1,
   monthlyRecommendations: 50,
   maxBottles: 200,
@@ -267,13 +272,13 @@ export function formatPriceCad(cents: number, locale: "fr" | "en"): string {
 }
 
 /**
- * Le même montant, SANS les centimes quand ils sont nuls : « 129 », pas
- * « 129,00 ».
+ * Le même montant, SANS les centimes quand ils sont nuls : « 149 », pas
+ * « 149,00 ».
  *
- * Les deux prix annuels sont ronds, et Eric les énonce ronds : « 129 $ / an »,
+ * Les deux prix annuels sont ronds, et Eric les énonce ronds : « 149 $ / an »,
  * « 299 $ / an ». Deux décimales à zéro sur une facture annuelle ne disent rien
  * de plus et font lire un prix à quatre chiffres là où il y en a trois. Les
- * montants qui ont de vrais centimes (14,95 · 50,40 · 10,75) repassent par
+ * montants qui ont de vrais centimes (14,95 · 30,40 · 12,42) repassent par
  * `formatPriceCad` et les gardent tous.
  */
 export function formatPriceCadShort(cents: number, locale: "fr" | "en"): string {
@@ -285,10 +290,12 @@ export function formatPriceCadShort(cents: number, locale: "fr" | "en"): string 
  * Économie annuelle en cents = 12× mensuel − annuel. JAMAIS hardcodée : elle
  * dérive toujours des prix SOT ci-dessus.
  *
- * ⚠️ NE PAS LA RETRADUIRE EN MOIS. Elle valait exactement deux mois tant que
- * l'annuel valait 10× le mensuel ; ce n'est plus le cas, et « deux mois
- * offerts » est devenu une phrase fausse qu'il a fallu retirer de six endroits.
- * On affiche des dollars, comparés à douze mois au tarif mensuel, point.
+ * ⚠️ NE PAS LA RETRADUIRE EN MOIS, même quand le calcul tombe juste. Elle a
+ * valu 3,37 mois de Standard sous la grille à 129 $, elle en vaut 2,03 sous
+ * celle à 149 $ : le même texte a donc décrit deux réalités différentes sans
+ * qu'aucune alerte ne se déclenche. C'est pour ça que « deux mois offerts » a
+ * dû être retiré de six endroits. On affiche des dollars, comparés à douze mois
+ * au tarif mensuel, point.
  */
 export function annualSavingsCents(plan: MarketingPlan): number {
   return plan.priceMonthlyCents * 12 - plan.priceYearlyCents;
@@ -303,8 +310,15 @@ export function monthlyEquivalentCents(plan: MarketingPlan): number {
 }
 
 /**
- * LE PRIX FONDATEUR — ce que ces deux mots ont le droit de promettre, et ce
- * qu'ils n'ont PAS le droit de promettre (Eric, 2026-09-13).
+ * LE PRIX DE LANCEMENT — ce que ces trois mots ont le droit de promettre, et ce
+ * qu'ils n'ont PAS le droit de promettre (Eric, 2026-09-13, libellé arrêté le
+ * 2026-09-14).
+ *
+ * Il s'est d'abord appelé « prix fondateur ». Le mot a été écarté : « fondateur »
+ * s'entend comme un statut acquis, donc comme un tarif qu'on garde à vie, ce qui
+ * est précisément ce que ce prix ne promet pas. « Lancement » situe l'offre dans
+ * le temps sans rien conférer à personne. Le mot « fondateur » reste réservé, sur
+ * ce site, à Éric Bigras.
  *
  * C'est un PRIX DE LANCEMENT, destiné aux premiers abonnés, sur l'ANNUEL
  * uniquement. Il ne paraît jamais sur le mensuel.
@@ -319,14 +333,14 @@ export function monthlyEquivalentCents(plan: MarketingPlan): number {
  * La note dit l'offre sans la verrouiller : « offert aux premiers abonnés »
  * situe le prix dans le temps, sans jamais dire jusqu'à quand.
  */
-export const FOUNDER_PRICE = {
-  fr: 'Prix fondateur',
-  en: 'Founder price',
+export const LAUNCH_PRICE = {
+  fr: 'Prix de lancement',
+  en: 'Launch price',
 } as const;
 
-export const FOUNDER_PRICE_NOTE = {
-  fr: 'Prix de lancement, offert aux premiers abonnés.',
-  en: 'A launch price, offered to our first subscribers.',
+export const LAUNCH_PRICE_NOTE = {
+  fr: 'Offert aux premiers abonnés, sur l’abonnement annuel.',
+  en: 'Offered to our first subscribers, on the annual plan.',
 } as const;
 
 /**
@@ -357,11 +371,13 @@ export const COMMON_BASE_NOTE = {
  * L'ÉCONOMIE ANNUELLE, ÉNONCÉE HONNÊTEMENT, en une seule rédaction.
  *
  * ── Ce qu'elle remplace, et pourquoi ──────────────────────────────────────
- * 1. « Deux mois offerts » : faux depuis que l'annuel n'est plus 10× le
- *    mensuel (50,40 $ = 3,37 mois de Standard).
+ * 1. « Deux mois offerts » : une approximation qui dérivait à chaque mouvement
+ *    de prix sans rien signaler (3,37 mois de Standard à 129 $, 2,03 à 149 $).
  * 2. Un « prix régulier annuel » barré à 179,40 $ / 359,40 $ : ces montants
  *    n'ont JAMAIS été des prix annuels commercialisés. Barrer un prix qui n'a
- *    pas existé est une fausse réduction, et Eric l'a retiré.
+ *    pas existé est une fausse réduction, et Eric l'a retiré. 179,40 reparaît
+ *    ici, mais pour ce qu'il est — douze mois au tarif mensuel — et jamais
+ *    barré comme s'il avait été un tarif affiché.
  *
  * Ce qui reste est vérifiable par le lecteur avec les deux chiffres que la page
  * affiche déjà : douze fois le tarif mensuel, moins la facture annuelle.
