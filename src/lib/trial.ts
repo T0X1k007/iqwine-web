@@ -64,8 +64,17 @@ export const TRIAL_RECOS = 12;
 export const TRIAL_BOTTLE_TIERS = [10, 25, 50, 100] as const;
 /** Jours ajoutés à chaque palier franchi. */
 export const TRIAL_TIER_BONUS_DAYS = 2;
-/** Plafond de la prolongation, en jours. */
-export const TRIAL_MAX_BONUS_DAYS = TRIAL_BOTTLE_TIERS.length * TRIAL_TIER_BONUS_DAYS;
+/**
+ * Plafond de la prolongation, en jours. ÉCRIT, et non dérivé du nombre de
+ * paliers — bien que les deux valent 8 aujourd'hui (4 paliers × 2 jours).
+ *
+ * L'application l'applique comme une borne PROPRE. Le dériver ferait qu'un
+ * cinquième palier ajouté côté produit relèverait tout seul la promesse du
+ * site à 24 jours, sans que personne n'ait écrit ce nombre ni décidé de
+ * l'annoncer. Une valeur dérivée n'est sûre que si la dérivation est la règle
+ * réelle ; ici elle n'est qu'une coïncidence arithmétique.
+ */
+export const TRIAL_MAX_BONUS_DAYS = 8;
 /** Durée maximale ATTEIGNABLE, prolongation comprise. */
 export const TRIAL_DAYS_MAX = TRIAL_DAYS + TRIAL_MAX_BONUS_DAYS;
 
