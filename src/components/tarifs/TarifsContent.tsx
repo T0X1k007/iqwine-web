@@ -9,7 +9,6 @@ import {
   XCircle,
   Smartphone,
 } from 'lucide-react';
-import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import Pricing from '@/components/sections/Pricing';
@@ -25,12 +24,11 @@ import {
 } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import {
-  TRIAL_PLAN_ID,
-  TRIAL_STEP_2,
-  TRIAL_HEADLINE,
-  TRIAL_DAYS_ADJ,
-  TRIAL_DAYS_LABEL,
-  FREE_NO_END,
+  SIGNUP_HEADLINE,
+  SIGNUP_SUB,
+  SIGNUP_CTA,
+  TRIAL_ON_SIGNUP_FULL,
+  FREE_ALWAYS,
 } from '@/lib/trial';
 
 /**
@@ -73,12 +71,12 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
   {
     icon: InfinityIcon,
     fr: [
-      'Le forfait Gratuit ne se termine pas',
-      `0 $, sans carte, sans date de fin. L’essai ${TRIAL_DAYS_ADJ.fr}, lui, ne concerne que le Standard.`,
+      TRIAL_ON_SIGNUP_FULL.fr,
+      'Offert à l’inscription, sans carte. Ensuite, vous restez sur le forfait Gratuit à 0 $, sans date de fin.',
     ],
     en: [
-      'The Free plan does not end',
-      `$0, no card, no end date. The ${TRIAL_DAYS_ADJ.en} trial is for Standard only.`,
+      TRIAL_ON_SIGNUP_FULL.en,
+      'Included when you sign up, no card. Afterwards you stay on the Free plan at $0, with no end date.',
     ],
   },
   {
@@ -222,48 +220,54 @@ export default function TarifsContent() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[55%] bg-[radial-gradient(ellipse_60%_80%_at_50%_0%,rgba(142,42,42,0.10),transparent_70%)]" aria-hidden />
         <div className="relative mx-auto max-w-3xl">
           <p className="iq-eyebrow mb-4 sm:mb-6">{t('Tarifs', 'Pricing')}</p>
-          {/* Moment d'identité, le mot-symbole ◯ctave dans le grand titre Cormorant
-              italique (anneau incliné pour lire comme un O italique). */}
-          {/* Echelle v3 (58 px maxi) : `iq-display` montait a 96 px, hors
-              systeme et lent a lire sur une page de decision. */}
+          {/* ── LE HERO DIT LE MODÈLE, PAS UNE OFFRE (Eric, 2026-09-14) ─────
+              Titre et sous-titre sont d'Eric, mot pour mot.
+
+              ⚠️ Le mot-symbole ◯ctave a quitté ce H1, et c'est un ARBITRAGE
+              assumé : « Trouvez votre ◯ctave. » était un moment d'identité,
+              mais sur une page de DÉCISION il ne disait ni ce qu'on obtient ni
+              ce qu'on risque. Le titre dit maintenant les deux en six mots.
+              L'identité reste portée par le nom de marque, en display italique
+              comme le mot-symbole l'était. Le ◯ctave demeure ailleurs sur le
+              site, là où la page raconte plutôt qu'elle ne fait choisir.
+
+              Le chapeau, lui, plantait la confusion en PREMIÈRE phrase :
+              « Essayez gratuitement, 14 jours ou 12 conseils…, sans carte. »
+              Aucun forfait n'y était nommé, le lecteur en retirait
+              « gratuit = 14 jours », et il gardait cette équation en
+              descendant vers une carte intitulée « Gratuit ». */}
           <h1
-            className="font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
+            className="mx-auto max-w-[18ch] text-balance font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
             style={{ fontSize: 'clamp(34px, 5vw, 58px)' }}
           >
-            {t('Trouvez votre ', 'Find your ')}
-            <OctaveWordmark italic />.
+            {t(SIGNUP_HEADLINE.fr, SIGNUP_HEADLINE.en)}
           </h1>
-          {/* ── LE CHAPEAU PLANTAIT LA CONFUSION, EN PREMIÈRE PHRASE ────────
-              Il disait « Essayez gratuitement, 14 jours ou 12 conseils…, sans
-              carte. Vous choisissez après. » Aucun forfait n'y était nommé :
-              le lecteur en retirait « gratuit = 14 jours », et il gardait
-              cette équation en descendant vers une carte intitulée
-              « Gratuit ». La carte devait alors défaire, en 13 px, ce que le
-              hero avait posé en 17 px — un combat perdu d'avance.
-
-              Il porte maintenant la séquence, qui nomme les deux objets et
-              l'ordre dans lequel on les rencontre. La mécanique (les seuils,
-              la prolongation) est descendue dans la FAQ : au premier niveau,
-              elle ne fait qu'ajouter des conditions à une promesse qui doit
-              se lire d'un trait. */}
           <p className="mx-auto mt-4 max-w-[56ch] text-[16.5px] leading-relaxed text-muted-foreground sm:mt-5 md:text-[17.5px]">
-            {t(TRIAL_HEADLINE.fr, TRIAL_HEADLINE.en)}
+            {t(SIGNUP_SUB.fr, SIGNUP_SUB.en)}
           </p>
           <div className="mt-6 flex justify-center sm:mt-7">
             <a
-              // `plan` porté jusqu'à l'inscription : le bouton nomme le
-              // Standard, l'inscription doit donc y mener. Un CTA qui promet un
-              // forfait et en ouvre un autre rouvrirait la confusion à
-              // l'endroit le plus coûteux du parcours.
-              href={buildSignupUrl('tarifs-hero', { plan: TRIAL_PLAN_ID, lang: locale })}
+              /**
+               * ⚠️ AUCUN `plan` SUR LA PORTE D'ENTRÉE. Le voir réapparaître
+               * ici serait un bogue de VÉRITÉ : l'application ne concède les
+               * 14 jours de Standard que par le parcours par défaut. Un
+               * `?plan=` explicite pose `trialDays: 0`, et le titre au-dessus
+               * deviendrait faux au clic. Voir `Pricing.tsx`, même garde.
+               */
+              href={buildSignupUrl('tarifs-hero', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-hero' })}
             >
               <Button variant="cta" size="lg">
-                {t('Essayer Standard gratuitement', 'Try Standard free')}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
           </div>
+          {/* La seule objection qui reste après le sous-titre. Elle tient en
+              trois mots et ne mérite pas davantage de place. */}
+          <p className="mt-3 text-[13.5px] text-foreground-faint">
+            {t('Sans carte de crédit.', 'No credit card.')}
+          </p>
           <p className="mt-4 font-[family-name:var(--font-display)] text-[14.5px] italic text-or/85 sm:mt-5">
             {t(
               'Une application créée par des passionnés, pour des passionnés de vin.',
@@ -350,7 +354,7 @@ export default function TarifsContent() {
                         )}
                         {p.id === 'gratuit' && (
                           <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-foreground-faint">
-                            {t(FREE_NO_END.fr, FREE_NO_END.en)}
+                            {t(FREE_ALWAYS.fr, FREE_ALWAYS.en)}
                           </span>
                         )}
                       </th>
@@ -405,11 +409,12 @@ export default function TarifsContent() {
           <FadeInOnScroll delay={0.16}>
             <div className="mt-10 text-center">
               <a
-                href={buildSignupUrl('tarifs-comparatif', { plan: TRIAL_PLAN_ID, lang: locale })}
+                // Porte par défaut, sans `plan` : voir la garde du hero.
+                href={buildSignupUrl('tarifs-comparatif', { lang: locale })}
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-comparatif' })}
               >
                 <Button variant="cta" size="lg">
-                  {t('Essayer Standard gratuitement', 'Try Standard free')}
+                  {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                   <ArrowRight size={16} strokeWidth={1.75} />
                 </Button>
               </a>
@@ -421,8 +426,8 @@ export default function TarifsContent() {
                   savoir ce qu'on risque. */}
               <p className="mt-4 text-[13px] leading-relaxed tracking-wide text-foreground-faint">
                 {t(
-                  `${TRIAL_DAYS_LABEL.fr} gratuits, sans carte. ${TRIAL_STEP_2.fr}`,
-                  `${TRIAL_DAYS_LABEL.en} free, no card. ${TRIAL_STEP_2.en}`,
+                  `${TRIAL_ON_SIGNUP_FULL.fr}, sans carte. Ensuite, vous choisissez.`,
+                  `${TRIAL_ON_SIGNUP_FULL.en}, no card. Then you choose.`,
                 )}
               </p>
             </div>
@@ -524,17 +529,18 @@ export default function TarifsContent() {
               Octave », ce qui laissait le visiteur sur un compte à rebours
               comme dernière impression. */}
           <p className="mx-auto mt-5 max-w-[52ch] text-[16px] leading-relaxed text-encre-2 md:text-[17px]">
-            {t(TRIAL_HEADLINE.fr, TRIAL_HEADLINE.en)}
+            {t(SIGNUP_SUB.fr, SIGNUP_SUB.en)}
           </p>
           <div className="mt-8 flex justify-center">
             <a
-              href={buildSignupUrl('tarifs-final', { plan: TRIAL_PLAN_ID, lang: locale })}
+              // Porte par défaut, sans `plan` : voir la garde du hero.
+              href={buildSignupUrl('tarifs-final', { lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-final' })}
             >
               {/* `primary` (bordeaux) et non `cta` (or) : sur l'ivoire, l'or
                   manque de contraste. */}
               <Button variant="primary" size="lg">
-                {t('Essayer Standard gratuitement', 'Try Standard free')}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>

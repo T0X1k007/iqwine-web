@@ -11,12 +11,10 @@ import type { Locale } from "@/lib/i18n";
 import { buildSignupUrl } from "@/lib/constants";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import {
-  TRIAL_PLAN_ID,
-  TRIAL_STEP_1,
-  TRIAL_STEP_2,
-  TRIAL_DAYS_LABEL,
+  TRIAL_ON_SIGNUP,
   TRIAL_ENDS_FREE,
-  FREE_NO_END,
+  FREE_ALWAYS,
+  SIGNUP_CTA,
 } from '@/lib/trial';
 import {
   GRILLE,
@@ -285,61 +283,57 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
         ))}
       </div>
 
-      {/* ══ LA SÉQUENCE, SOUS LA GRILLE ET NULLE PART AILLEURS ══════════════
+      {/* ══ LE MODÈLE, SOUS LA GRILLE ET NULLE PART AILLEURS ═══════════════
           (Eric, 2026-09-14)
 
-          C'est la seule ligne de la page qui nomme les deux objets ENSEMBLE,
-          et c'est précisément pour cela qu'elle existe : tant qu'« essai
-          gratuit » et « forfait Gratuit » ne se rencontraient jamais dans une
-          même phrase, rien n'obligeait le lecteur à les distinguer.
+          Une seule ligne, en texte courant, qui dit le parcours entier : on
+          entre gratuitement, on reçoit le Standard 14 jours, puis on choisit.
 
-          ── Pourquoi ICI, et pas ailleurs ────────────────────────────────────
+          ── Pourquoi ICI ────────────────────────────────────────────────────
           • Pas au-dessus de la grille : le lecteur n'a pas encore de forfaits
-            en tête, la phrase n'aurait aucun objet auquel s'accrocher — c'est
-            l'échec exact du chapeau de hero qu'elle remplace.
+            en tête, la phrase n'aurait aucun objet auquel s'accrocher.
           • Pas sous la bascule mensuel/annuel : cette zone porte déjà deux
-            lignes de petit texte (« Prix de lancement » et sa note) ; une
-            troisième ne se lirait pas.
-          • Pas dans un encadré : la consigne de forme est absolue, l'essai ne
-            doit JAMAIS prendre l'apparence d'une quatrième carte. C'est du
-            texte courant, centré, sans fond ni filet.
+            lignes de petit texte (« Prix de lancement » et sa note).
+          • Pas dans un encadré, JAMAIS. La consigne de forme est absolue :
+            aucun quatrième objet sélectionnable. Du texte courant, centré,
+            sans fond ni filet, ne peut pas se prendre pour une carte.
 
           ── Pourquoi une flèche, et pourquoi EN FLUX ─────────────────────────
           La phrase décrit un PARCOURS dans le temps. D'un seul tenant, elle se
           lit comme une liste de conditions ; scandée par une flèche, elle se
-          lit comme un chemin — et un chemin a forcément une suite, donc le
-          premier temps cesse de ressembler à une fin. Le second porte le poids
-          typographique : c'est la moitié que personne ne connaissait.
+          lit comme un chemin. Le second temps porte le poids typographique :
+          c'est celui qui lève la peur.
 
           ⚠️ EN FLUX DE TEXTE, PAS EN FLEX (corrigé après relecture en rendu
           réel). Les deux temps ont vécu dans deux `<p>` d'une rangée flex : à
           1440 px, le premier repliait « 14 jours. » seul sur une deuxième
           ligne et la flèche se retrouvait centrée entre deux blocs de largeurs
           inégales — la ligne la plus importante de la page était la plus mal
-          composée. En flux, la coupure tombe où la mesure l'impose, à
-          n'importe quelle largeur, et la flèche reste collée à son texte. */}
+          composée. En flux, la coupure tombe où la mesure l'impose. */}
       <FadeInOnScroll delay={0.44}>
-        <p className={`mx-auto mt-10 max-w-[62ch] text-balance text-center text-[15.5px] leading-relaxed md:text-[17px] ${jour ? "text-encre-2" : "text-foreground-dim"}`}>
-          {/* Le premier temps et la flèche restent SOLIDAIRES au-dessus de
-              640 px : sans ça, `text-balance` équilibrait les deux lignes en
-              rejetant « Ensuite, » à la fin de la première, ce qui cassait
-              exactement le rythme à deux temps que la flèche installe. En
-              dessous, on laisse le texte se replier librement — figer une
-              ligne de 47 caractères sur un téléphone la ferait déborder. */}
+        <p className={`mx-auto mt-10 max-w-[64ch] text-balance text-center text-[15.5px] leading-relaxed md:text-[17px] ${jour ? "text-encre-2" : "text-foreground-dim"}`}>
+          {/* Premier temps et flèche SOLIDAIRES au-dessus de 640 px : sans ça,
+              `text-balance` rejetait le début du second temps à la fin de la
+              première ligne et cassait le rythme. En dessous, le texte se
+              replie librement — figer une ligne longue sur un téléphone la
+              ferait déborder. */}
           <span className="sm:whitespace-nowrap">
-            {t(TRIAL_STEP_1.fr, TRIAL_STEP_1.en)}{' '}
+            {t(
+              `Inscription gratuite, ${TRIAL_ON_SIGNUP.fr}.`,
+              `Free sign-up, ${TRIAL_ON_SIGNUP.en}.`,
+            )}{' '}
             <span aria-hidden className={`px-0.5 font-body ${jour ? "text-or-jour" : "text-or"}`}>
               →
             </span>
           </span>{' '}
           {/* `sm:block` : le second temps prend sa propre ligne dès qu'il y a
-              la place. `text-balance` seul ne suffisait pas — il rééquilibrait
-              les deux lignes en remontant « Ensuite, » à la fin de la
-              première, et le lecteur retrouvait une phrase continue au lieu de
-              deux temps. Sur téléphone il reste en flux, la mesure y impose
-              déjà la coupure. */}
+              la place, pour que les deux battements restent lisibles comme
+              deux étapes et non comme une phrase continue. */}
           <strong className={`font-medium sm:block ${jour ? "text-encre" : "text-foreground"}`}>
-            {t(TRIAL_STEP_2.fr, TRIAL_STEP_2.en)}
+            {t(
+              'Ensuite : Gratuit, Standard ou Premium, à vous de voir.',
+              'Then: Free, Standard or Premium — up to you.',
+            )}
           </strong>
         </p>
       </FadeInOnScroll>
@@ -437,18 +431,19 @@ function PlanCard({
   const annuel = isYearly && !gratuit;
 
   /**
-   * L'essai a UN SEUL objet : le Standard (`TRIAL_PLAN_ID`).
+   * ⚠️ IL N'Y A PLUS DE DRAPEAU « ESSAI » SUR UNE CARTE (Eric, 2026-09-14).
    *
-   * Le site l'annonçait au niveau de la PAGE, donc au-dessus de trois cartes à
-   * la fois. Un essai qui flotte au-dessus de la grille appartient à tout le
-   * monde, y compris au forfait qui n'en a pas besoin — et le visiteur range
-   * alors le Gratuit parmi les choses qui s'essaient, donc qui s'arrêtent.
+   * Une première version en posait un sur la carte Standard : ligne dorée
+   * « 14 jours gratuits », bouton « Essayer Standard gratuitement ». C'était
+   * déjà mieux qu'un essai flottant au-dessus des trois colonnes, mais cela
+   * laissait DEUX objets à comparer — un forfait et une modalité — donc encore
+   * une question à trancher avant de choisir.
    *
-   * Le rattacher ici le rend vérifiable d'un coup d'œil : une seule carte
-   * porte « gratuits, sans carte », et c'est celle dont le grand nombre n'est
-   * pas zéro.
+   * Les 14 jours sont désormais un BÉNÉFICE DE L'INSCRIPTION, reçu par toute
+   * nouvelle entrée, y compris par la carte Gratuit. Ils s'annoncent donc là
+   * où l'on entre — sur le Gratuit — et jamais comme une option à cocher.
+   * Le Standard redevient un forfait qu'on choisit, tout simplement.
    */
-  const essai = plan.id === TRIAL_PLAN_ID;
 
   // Le grand nombre en annuel = l'équivalent MENSUEL (pas la facture annuelle).
   const bigCents = annuel ? monthlyEquivalentCents(plan) : plan.priceMonthlyCents;
@@ -485,8 +480,8 @@ function PlanCard({
         </div>
       ) : gratuit ? (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-1 font-body text-[10px] font-medium uppercase tracking-[0.22em] ${jour ? "border-encre/20 bg-papier text-encre-2" : "border-border-strong bg-card text-foreground-dim"}`}>
-            {t(FREE_NO_END.fr, FREE_NO_END.en)}
+          <span className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-1 font-body text-[10px] font-medium uppercase tracking-[0.22em] ${jour ? "border-or-jour/45 bg-papier text-or-jour" : "border-or/45 bg-card text-or"}`}>
+            {t(TRIAL_ON_SIGNUP.fr, TRIAL_ON_SIGNUP.en)}
           </span>
         </div>
       ) : null}
@@ -537,7 +532,7 @@ function PlanCard({
       <p className="mb-5 text-[13.5px] leading-snug">
         {gratuit ? (
           <span className={jour ? "text-encre-2" : "text-foreground-dim"}>
-            {t("Gratuit à vie.", "Free for life.")}
+            {t(`${FREE_ALWAYS.fr}.`, `${FREE_ALWAYS.en}.`)}
           </span>
         ) : annuel ? (
           <span className="flex flex-col gap-1">
@@ -661,15 +656,27 @@ function PlanCard({
             degrés décroissants : la durée (en or, elle porte le regard), le
             bouton, puis la sortie. Aucun encadré, aucun bandeau : un essai qui
             prendrait la forme d'une carte redeviendrait un quatrième forfait. */}
-        {essai && (
-          <p className={`mb-2 text-center font-body text-[12px] font-medium uppercase tracking-[0.16em] ${jour ? "text-or-jour" : "text-or"}`}>
-            {t(`${TRIAL_DAYS_LABEL.fr} gratuits, sans carte`, `${TRIAL_DAYS_LABEL.en} free, no card`)}
-          </p>
-        )}
         <a
-          // Le Gratuit ne transporte PAS de période : il n'en a pas.
+          /**
+           * ⚠️ LE GRATUIT NE TRANSPORTE PLUS `plan` (Eric, 2026-09-14). C'EST
+           * UN CORRECTIF DE VÉRITÉ, PAS UNE SIMPLIFICATION — NE PAS LE DÉFAIRE.
+           *
+           * Cette carte envoyait `?plan=gratuit`, que l'application lit comme
+           * un choix EXPLICITE de forfait Gratuit : elle pose alors
+           * `trialDays: 0` et n'accorde AUCUN jour de Standard. La page aurait
+           * donc promis « Standard offert les 14 premiers jours » sur la seule
+           * carte dont le bouton demandait, en silence, de ne rien offrir.
+           *
+           * Sans `plan`, l'inscription passe par la porte par défaut, celle
+           * qui accorde les 14 jours. C'est la porte UNIQUE du nouveau modèle.
+           *
+           * Les cartes payantes, elles, gardent leur `plan` : elles expriment
+           * un choix d'abonnement réel, pas une entrée dans le produit.
+           * `period` n'accompagne que celles-là — un forfait sans prix n'a pas
+           * de période de facturation.
+           */
           href={buildSignupUrl("pricing_card", {
-            plan: plan.id,
+            plan: gratuit ? undefined : plan.id,
             period: gratuit ? undefined : billingPeriod,
             lang: locale,
           })}
@@ -687,10 +694,8 @@ function PlanCard({
             className={`w-full ${jour && !highlight ? "!border-encre/25 !bg-transparent !text-encre hover:!bg-encre/5 hover:!border-encre/35" : ""}`}
           >
             {gratuit
-              ? t("Commencer gratuitement", "Start for free")
-              : essai
-                ? t(`Essayer ${copy.name.fr} gratuitement`, `Try ${copy.name.en} free`)
-                : t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
+              ? t(SIGNUP_CTA.fr, SIGNUP_CTA.en)
+              : t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
             <ArrowRight size={16} strokeWidth={1.75} />
           </Button>
         </a>
@@ -708,15 +713,11 @@ function PlanCard({
             défaut de payer il ne restait rien. */}
         <p className={`mt-3 text-center text-[13px] leading-snug ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}>
           {gratuit
-            ? t(
-                // Ne répète aucune des trois puces ci-dessus (carte, cave,
-                // conseils) : elle ajoute la conséquence qu'aucune ne tire —
-                // un forfait qui ne finit pas n'a rien à résilier.
-                "Aucune carte de crédit, à aucun moment. Le forfait Gratuit ne se termine jamais : il n’y a rien à résilier.",
-                "No credit card, ever. The Free plan never ends: there is nothing to cancel.",
-              )
-            : essai
-            ? t(TRIAL_ENDS_FREE.fr, TRIAL_ENDS_FREE.en)
+            ? // La carte d'entrée porte la SUITE du bénéfice annoncé par son
+              // bandeau : ce qu'on reçoit, puis où l'on atterrit. Sans cette
+              // seconde moitié, « Standard offert 14 jours » se lirait comme
+              // une échéance posée sur le forfait permanent.
+              t(TRIAL_ENDS_FREE.fr, TRIAL_ENDS_FREE.en)
             : t(
                 "Sans engagement. Résiliable en un geste. Vous ne payez que si vous décidez de rester.",
                 "No commitment. Cancel in one tap. You only pay if you choose to stay.",

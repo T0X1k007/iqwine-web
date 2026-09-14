@@ -9,6 +9,7 @@ import { useLocale } from '@/lib/i18n';
 import { splitLocalePath } from '@/lib/locale';
 import { getNavLinks, getFonctionsLinks, getHero, buildSignupUrl, APP_LOGIN_URL } from '@/lib/constants';
 import Button from '@/components/ui/Button';
+import { SIGNUP_CTA, SIGNUP_CTA_TINY } from '@/lib/trial';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -258,7 +259,12 @@ export default function Navbar() {
             href={buildSignupUrl('nav', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav' })}
           >
-            <Button variant={jour ? 'primary' : 'or'} size="sm">{hero.ctaPrimary}</Button>
+            {/* Nomme son acte. Il disait « Essai gratuit », sans objet : sur
+                la page tarifs c'était le seul des quatre boutons à ne pas dire
+                ce qu'il fait, et le seul présent sur toutes les pages. Il ne
+                nomme délibérément AUCUN forfait — l'inscription est une porte
+                unique, et nommer un palier en ferait un choix de plus. */}
+            <Button variant={jour ? 'primary' : 'or'} size="sm">{t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}</Button>
           </a>
         </div>
 
@@ -269,7 +275,14 @@ export default function Navbar() {
             href={buildSignupUrl('nav_mobile_bar', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav_mobile_bar' })}
           >
-            <Button variant={jour ? 'primary' : 'or'} size="sm">{t('Essai', 'Free trial')}</Button>
+            {/* Libellé plein dès qu'il y a la place, repli en dessous : le
+                bloc droit de la barre est incompressible et un libellé long
+                pousse le hamburger hors de l'écran à 320 et 360 px. Mesuré au
+                navigateur, pas supposé — voir `SIGNUP_CTA_TINY`. */}
+            <Button variant={jour ? 'primary' : 'or'} size="sm">
+              <span className="hidden min-[375px]:inline">{t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}</span>
+              <span className="min-[375px]:hidden">{t(SIGNUP_CTA_TINY.fr, SIGNUP_CTA_TINY.en)}</span>
+            </Button>
           </a>
           <button
             className={`p-2 ${jour ? 'text-encre' : 'text-foreground'}`}
@@ -333,7 +346,7 @@ export default function Navbar() {
               className="mt-3"
             >
               <Button variant={jour ? 'primary' : 'or'} size="md" className="w-full">
-                {hero.ctaPrimary}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
               </Button>
             </a>
             <a

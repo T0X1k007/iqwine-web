@@ -301,26 +301,3 @@ Ils peuvent aussi durer plus longtemps : chaque palier de cave franchi — ${TRI
 
 They can also last longer: every cellar milestone you pass — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(', ')} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles — adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
 };
-
-/* ─────────────────────────────────────────────────────────────────────────
-   TRANSITOIRE — les chaînes de la PREMIÈRE direction (essai rattaché à la
-   carte Standard). Elles ne décrivent plus le produit : le modèle en vigueur
-   est celui de `SIGNUP_HEADLINE` / `TRIAL_ON_SIGNUP`.
-   Elles survivent le temps que leurs consommateurs migrent, et DOIVENT être
-   supprimées dans la foulée. Ne pas en écrire de nouvel usage.
-   ───────────────────────────────────────────────────────────────────────── */
-
-export const TRIAL_STEP_1: Record<SiteLocale, string> = {
-  fr: `Essayez Standard gratuitement pendant ${TRIAL_DAYS} jours.`,
-  en: `Try Standard free for ${TRIAL_DAYS} days.`,
-};
-
-export const TRIAL_STEP_2: Record<SiteLocale, string> = {
-  fr: 'Ensuite, abonnez-vous ou continuez gratuitement avec iQWine Gratuit.',
-  en: 'Then subscribe, or keep going for free with iQWine Free.',
-};
-
-export const TRIAL_HEADLINE: Record<SiteLocale, string> = {
-  fr: `${TRIAL_STEP_1.fr} ${TRIAL_STEP_2.fr}`,
-  en: `${TRIAL_STEP_1.en} ${TRIAL_STEP_2.en}`,
-};

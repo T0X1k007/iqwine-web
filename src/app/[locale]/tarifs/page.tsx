@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import TarifsContent from '@/components/tarifs/TarifsContent';
-import { TRIAL_STEP_1, TRIAL_STEP_2 } from '@/lib/trial';
+import { SIGNUP_HEADLINE, SIGNUP_SUB } from '@/lib/trial';
 import { faqPageLd } from '@/lib/structured-data';
 import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
 
@@ -17,11 +17,11 @@ const TEXTES = {
     // l'essai que ses deux bornes. Dans un resultat de recherche, ce sont les
     // premiers mots qui sont lus : elle mene donc par la SEQUENCE, qui est ce
     // que le visiteur vient verifier avant de cliquer.
-    description: `${TRIAL_STEP_1.fr} Sans carte. ${TRIAL_STEP_2.fr} Le meme sommelier dans les trois forfaits.`,
+    description: `${SIGNUP_HEADLINE.fr} ${SIGNUP_SUB.fr} Sans carte.`,
   },
   en: {
     title: 'iQWine pricing: your AI sommelier, free trial, no card · iQWine',
-    description: `${TRIAL_STEP_1.en} No card. ${TRIAL_STEP_2.en} The same sommelier in all three plans.`,
+    description: `${SIGNUP_HEADLINE.en} ${SIGNUP_SUB.en} No card.`,
   },
 } as const;
 
