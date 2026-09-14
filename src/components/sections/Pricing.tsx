@@ -404,18 +404,20 @@ export default function Pricing({
           NE PAS LA RÉTABLIR : deux présentations du même forfait sur un même
           écran, c'est deux copies à tenir, et l'une des deux finit par mentir. */}
 
-      {/* L'objection « pourquoi pas un achat unique » se pose APRES avoir vu
-          les prix, jamais avant (v3, 2026-08-14) : elle a donc quitte le haut
-          de section, ou elle retardait le premier chiffre. */}
-      <FadeInOnScroll delay={0.46}>
-        <p
-          className={`mx-auto mt-10 max-w-2xl text-center text-[14px] leading-relaxed ${jour ? "text-encre-2" : "text-foreground-dim"}`}
-        >
-          {locale === "fr"
-            ? "Pourquoi un abonnement ? Parce qu’une cave vit, évolue et se boit. Octave la suit, soir après soir, pas une fois, toujours."
-            : "Why a subscription? Because a cellar lives, evolves and gets poured. Octave follows it, night after night, not once, always."}
-        </p>
-      </FadeInOnScroll>
+      {/* « POURQUOI UN ABONNEMENT ? » A ÉTÉ RETIRÉ (Eric, 2026-09-14), vu sur
+          la page en production. La v3 l'avait déplacé du haut vers le bas de
+          section, pour que l'objection « pourquoi pas un achat unique » se pose
+          APRÈS les prix et non avant. Ce placement était juste ; c'est la
+          réponse elle-même qui n'a plus lieu d'être ici.
+
+          La page ne défend plus le principe de l'abonnement : elle ouvre sur un
+          forfait Gratuit permanent et sur quatorze jours de Standard offerts.
+          Justifier l'abonnement sous une grille qui commence à 0 $ répond à une
+          objection que la page vient de désamorcer — et la rappeler la réveille.
+
+          NE PAS LA RÉTABLIR sans que la grille ait cessé d'offrir une porte
+          gratuite : c'est cette porte, et non un argument, qui traite
+          l'objection aujourd'hui. */}
 
       {/* Au-delà de quatre membres : pas de cinquième palier public, on compose
           sur mesure. Ton éditorial, invitation. */}
