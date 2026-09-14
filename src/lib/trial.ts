@@ -167,43 +167,51 @@ export const TRIAL_SHORT: Record<SiteLocale, string> = {
    ══════════════════════════════════════════════════════════════════════════ */
 
 /**
- * Le titre, en DEUX temps — l'acte, puis ce qu'on obtient.
+ * ⚠️ IL N'Y A PLUS DE TITRE ICI, ET C'EST UNE DÉCISION D'ERIC (2026-09-14).
  *
- * Les deux moitiés sont exposées séparément parce que le rendu les met sur
- * deux lignes distinctes : laissé à `text-balance`, le titre coupait au milieu
- * de la première phrase (« Commencez / gratuitement. / Découvrez tout
- * iQWine. »), soit trois lignes dont une orpheline, là où le sens en appelle
- * deux. Un titre de six mots n'a pas le droit d'être mal composé.
+ * Ce module a porté un `SIGNUP_HEADLINE` — « Commencez gratuitement. Découvrez
+ * tout iQWine. » — qui a servi de H1 à /tarifs pendant une itération. Eric l'a
+ * retiré, en connaissance de l'argument qui l'avait mis là :
  *
- * `SIGNUP_HEADLINE` reste la forme d'un seul tenant, pour les métadonnées —
- * un `<title>` ou une description n'ont pas de lignes.
+ *   « Pris seul, ce titre n'explique pas le fonctionnement des forfaits. Mais
+ *     c'est volontairement un moment de marque important pour iQWine. Je ne
+ *     veux pas remplacer un élément distinctif de notre identité par un H1
+ *     SaaS générique. »
+ *
+ * Le H1 de /tarifs est donc « Trouvez votre ◯ctave », et le principe qui en
+ * découle gouverne toute la page :
+ *
+ *   LA MARQUE DANS LE H1 · LA CLARTÉ DANS LE SOUS-TITRE · LA CONVERSION DANS
+ *   LES CARTES.
+ *
+ * Conséquence directe pour `SIGNUP_SUB` ci-dessous : il ne complète plus un
+ * titre explicatif, il EST le seul texte explicatif au-dessus de la ligne de
+ * flottaison. Il doit donc tenir seul le test des cinq secondes — inscription
+ * gratuite, Standard les 14 premiers jours, puis le choix. N'y retirez rien
+ * sans le remettre ailleurs au-dessus de la grille.
  */
-export const SIGNUP_HEADLINE_1: Record<SiteLocale, string> = {
-  fr: 'Commencez gratuitement.',
-  en: 'Start for free.',
-};
-
-export const SIGNUP_HEADLINE_2: Record<SiteLocale, string> = {
-  fr: 'Découvrez tout iQWine.',
-  en: 'Discover all of iQWine.',
-};
-
-export const SIGNUP_HEADLINE: Record<SiteLocale, string> = {
-  fr: `${SIGNUP_HEADLINE_1.fr} ${SIGNUP_HEADLINE_2.fr}`,
-  en: `${SIGNUP_HEADLINE_1.en} ${SIGNUP_HEADLINE_2.en}`,
-};
 
 /**
- * Le sous-titre : les 14 jours, puis les trois sorties.
+ * LE SOUS-TITRE, et le seul explicatif au-dessus de la ligne de flottaison.
  *
- * Les trois forfaits sont NOMMÉS, et dans l'ordre de la grille. Une phrase qui
- * dirait « ensuite, choisissez votre forfait » laisserait le lecteur supposer
- * qu'il doit payer ; nommer « Gratuit » en tête de liste dit le contraire sans
- * avoir à le plaider.
+ * Il dit le parcours en trois temps, dans l'ordre vécu : on s'inscrit
+ * gratuitement, on reçoit le Standard, puis on choisit. Aucun des trois ne peut
+ * sauter — c'est cette phrase, seule, qui passe le test des cinq secondes,
+ * puisque le H1 au-dessus est un moment de marque et n'explique rien (voir la
+ * note sur la décision d'Eric, plus haut dans ce fichier).
+ *
+ * ── Deux choix de rédaction, délibérés ───────────────────────────────────
+ * 1. « à moins de choisir » plutôt que « ou choisissez ». La tournure dit que
+ *    le forfait Gratuit est le comportement PAR DÉFAUT et que payer est
+ *    l'exception qu'on décide — ce qui est exactement la mécanique. Elle évite
+ *    en prime le « ou … ou … » que la formulation directe imposait.
+ * 2. Les trois forfaits sont NOMMÉS, et « Gratuit » vient en tête. « Ensuite,
+ *    choisissez votre forfait » laisserait supposer qu'il faut payer ; nommer
+ *    le Gratuit d'abord dit le contraire sans avoir à le plaider.
  */
 export const SIGNUP_SUB: Record<SiteLocale, string> = {
-  fr: `Profitez de Standard pendant vos ${TRIAL_DAYS} premiers jours. Ensuite, choisissez Gratuit, Standard ou Premium selon vos besoins.`,
-  en: `Enjoy Standard for your first ${TRIAL_DAYS} days. Then choose Free, Standard or Premium, as you need.`,
+  fr: `Commencez gratuitement et profitez de Standard pendant vos ${TRIAL_DAYS} premiers jours. Ensuite, vous restez sur le forfait Gratuit, à moins de choisir Standard ou Premium.`,
+  en: `Start for free and enjoy Standard for your first ${TRIAL_DAYS} days. Afterwards you stay on the Free plan, unless you choose Standard or Premium.`,
 };
 
 /**

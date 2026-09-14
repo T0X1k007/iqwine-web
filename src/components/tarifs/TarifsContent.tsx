@@ -1,6 +1,7 @@
 'use client';
 
 import LocaleLink from '@/components/ui/LocaleLink';
+import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import {
   ArrowRight,
   ShieldCheck,
@@ -24,8 +25,6 @@ import {
 } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import {
-  SIGNUP_HEADLINE_1,
-  SIGNUP_HEADLINE_2,
   SIGNUP_SUB,
   SIGNUP_CTA,
   TRIAL_ON_SIGNUP_FULL,
@@ -221,33 +220,37 @@ export default function TarifsContent() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[55%] bg-[radial-gradient(ellipse_60%_80%_at_50%_0%,rgba(142,42,42,0.10),transparent_70%)]" aria-hidden />
         <div className="relative mx-auto max-w-3xl">
           <p className="iq-eyebrow mb-4 sm:mb-6">{t('Tarifs', 'Pricing')}</p>
-          {/* ── LE HERO DIT LE MODÈLE, PAS UNE OFFRE (Eric, 2026-09-14) ─────
-              Titre et sous-titre sont d'Eric, mot pour mot.
+          {/* ── LA MARQUE DANS LE H1, LA CLARTÉ DANS LE SOUS-TITRE ──────────
+              (Eric, 2026-09-14 — arbitrage explicite)
 
-              ⚠️ Le mot-symbole ◯ctave a quitté ce H1, et c'est un ARBITRAGE
-              assumé : « Trouvez votre ◯ctave. » était un moment d'identité,
-              mais sur une page de DÉCISION il ne disait ni ce qu'on obtient ni
-              ce qu'on risque. Le titre dit maintenant les deux en six mots.
-              L'identité reste portée par le nom de marque, en display italique
-              comme le mot-symbole l'était. Le ◯ctave demeure ailleurs sur le
-              site, là où la page raconte plutôt qu'elle ne fait choisir.
+              Ce H1 a été remplacé une itération durant par « Commencez
+              gratuitement. Découvrez tout iQWine. » L'argument était qu'une
+              page de DÉCISION doit dire ce qu'on obtient plutôt que jouer une
+              signature. Eric a tranché contre, en connaissance de cet
+              argument : « Trouvez votre ◯ctave » est un moment de marque
+              distinctif, et il ne sera pas troqué contre un titre SaaS
+              générique.
 
-              Le chapeau, lui, plantait la confusion en PREMIÈRE phrase :
-              « Essayez gratuitement, 14 jours ou 12 conseils…, sans carte. »
-              Aucun forfait n'y était nommé, le lecteur en retirait
-              « gratuit = 14 jours », et il gardait cette équation en
-              descendant vers une carte intitulée « Gratuit ». */}
+              ⚠️ CE QUE CETTE DÉCISION IMPOSE À LA SUITE : le H1 n'explique
+              rien, donc TOUTE la charge d'explication tombe sur le paragraphe
+              qui suit. Il est le seul texte au-dessus de la ligne de flottaison
+              à dire comment le produit fonctionne. Ne l'abrégez pas, ne le
+              coupez pas en deux, ne lui retirez aucun de ses trois temps
+              (inscription gratuite → Standard 14 jours → puis le choix) sans
+              les replacer ailleurs au-dessus de la grille. */}
           <h1
-            className="mx-auto max-w-[24ch] font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
+            className="font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
             style={{ fontSize: 'clamp(34px, 5vw, 58px)' }}
           >
-            {/* Une ligne par phrase : l'acte, puis la promesse. Laissé au
-                `text-balance`, le titre coupait au milieu de la première et
-                rendait trois lignes dont une orpheline. */}
-            <span className="block text-balance">{t(SIGNUP_HEADLINE_1.fr, SIGNUP_HEADLINE_1.en)}</span>
-            <span className="block text-balance">{t(SIGNUP_HEADLINE_2.fr, SIGNUP_HEADLINE_2.en)}</span>
+            {t('Trouvez votre ', 'Find your ')}
+            <OctaveWordmark italic />.
           </h1>
-          <p className="mx-auto mt-4 max-w-[56ch] text-[16.5px] leading-relaxed text-muted-foreground sm:mt-5 md:text-[17.5px]">
+          {/* Corps RELEVÉ (17,5 → 19 px) et mesure élargie : ce paragraphe a
+              changé de fonction le jour où le H1 est redevenu une signature.
+              Il n'accompagne plus un titre explicatif, il porte seul
+              l'explication — au corps d'un texte d'accompagnement, sous un H1
+              de 58 px, il se lisait comme une note de bas de hero. */}
+          <p className="mx-auto mt-4 max-w-[58ch] text-balance text-[17.5px] leading-relaxed text-foreground/85 sm:mt-5 md:text-[19px]">
             {t(SIGNUP_SUB.fr, SIGNUP_SUB.en)}
           </p>
           <div className="mt-6 flex justify-center sm:mt-7">
