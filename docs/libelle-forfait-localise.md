@@ -1,3 +1,19 @@
+> ## ⚠️ HISTORIQUE — le forfait décrit ici n'existe plus (2026-09-13)
+>
+> La refonte des forfaits a ramené la grille à trois paliers — **Gratuit ·
+> Standard · Premium** — et le palier `famille` / « Passionné » en est sorti :
+> sa capacité (cave sans plafond, 200 interactions, 4 utilisateurs) a été
+> reprise par **Premium**, au prix de l'ancien Pro. Plus aucun libellé du site
+> ne diffère d'une langue à l'autre.
+>
+> **Ce document reste vrai sur le fond, et c'est pour cela qu'il est conservé :**
+> il établit la règle qu'un **libellé affiché** et un **identifiant de
+> facturation** sont deux choses distinctes, et que le second ne bouge pas quand
+> le premier change. C'est exactement en s'appuyant sur elle que l'identifiant
+> `pro` a été conservé sous le nom « Premium » (voir `PlanId` dans
+> `src/lib/plans.ts`). La mécanique bilingue de `planLabel` demeure en place,
+> prête pour le prochain libellé qui devra différer selon la langue.
+
 # « Passionné » / « Enthusiast » — un libellé, un seul forfait
 
 Décision d'Eric, 2026-08-02. Le forfait `FAMILLE` s'affiche **Passionné** en
