@@ -78,7 +78,7 @@ export const TRIAL_MAX_BONUS_DAYS = 8;
 /** Durée maximale ATTEIGNABLE, prolongation comprise. */
 export const TRIAL_DAYS_MAX = TRIAL_DAYS + TRIAL_MAX_BONUS_DAYS;
 
-export type SiteLocale = 'fr' | 'en';
+export type SiteLocale = "fr" | "en";
 
 /**
  * L'ESSAI EST CELUI DU STANDARD, et d'aucun autre forfait.
@@ -95,7 +95,7 @@ export type SiteLocale = 'fr' | 'en';
  * l'essai reflète — le fait reste vrai côté application
  * (`TRIAL_REFLECTS_TIER = "STANDARD"`), et la copie s'appuie dessus.
  */
-export const TRIAL_PLAN_ID = 'standard';
+export const TRIAL_PLAN_ID = "standard";
 
 /**
  * La phrase qui dit les deux bornes, celles qui peuvent RACCOURCIR l'essai.
@@ -137,8 +137,8 @@ export const TRIAL_FULL: Record<SiteLocale, string> = {
  * bouton sans rouvrir la question du quatrième objet.
  */
 export const TRIAL_CTA: Record<SiteLocale, string> = {
-  fr: 'Essai gratuit',
-  en: 'Free trial',
+  fr: "Essai gratuit",
+  en: "Free trial",
 };
 
 /** Forme brève mais HONNÊTE, tient sur une ligne de réassurance. */
@@ -222,8 +222,8 @@ export const TRIAL_SHORT: Record<SiteLocale, string> = {
  *    le Gratuit d'abord dit le contraire sans avoir à le plaider.
  */
 export const SIGNUP_SUB: Record<SiteLocale, string> = {
-  fr: `Commencez gratuitement et profitez de Standard pendant vos ${TRIAL_DAYS} premiers jours. Ensuite, vous restez sur le forfait Gratuit, à moins de choisir Standard ou Premium.`,
-  en: `Start for free and enjoy Standard for your first ${TRIAL_DAYS} days. Afterwards you stay on the Free plan, unless you choose Standard or Premium.`,
+  fr: `Découvrez le forfait Standard gratuitement pendant ${TRIAL_DAYS} jours. Ensuite, à vous de choisir : continuer gratuitement ou profiter pleinement d’Octave avec Standard ou Premium.`,
+  en: `Discover the Standard plan free for ${TRIAL_DAYS} days. Then it’s your choice: keep going for free, or get the most out of Octave with Standard or Premium.`,
 };
 
 /**
@@ -234,8 +234,8 @@ export const SIGNUP_SUB: Record<SiteLocale, string> = {
  * du bénéfice une offre, donc un choix, donc le quatrième objet interdit.
  */
 export const SIGNUP_CTA: Record<SiteLocale, string> = {
-  fr: 'Commencer gratuitement',
-  en: 'Start for free',
+  fr: "Commencer gratuitement",
+  en: "Start for free",
 };
 
 /**
@@ -249,8 +249,8 @@ export const SIGNUP_CTA: Record<SiteLocale, string> = {
  * place, et se replie en dessous.
  */
 export const SIGNUP_CTA_TINY: Record<SiteLocale, string> = {
-  fr: 'Commencer',
-  en: 'Start free',
+  fr: "Commencer",
+  en: "Start free",
 };
 
 /**
@@ -320,14 +320,14 @@ export const SIGNUP_REASSURANCE: Record<SiteLocale, string> = {
 
 /** La permanence du Gratuit, forme courte : bandeau, en-tête de comparatif. */
 export const FREE_ALWAYS: Record<SiteLocale, string> = {
-  fr: 'Toujours gratuit',
-  en: 'Always free',
+  fr: "Toujours gratuit",
+  en: "Always free",
 };
 
 /** La même, tournée vers l'échéance qu'il n'a pas. */
 export const FREE_NO_END: Record<SiteLocale, string> = {
-  fr: 'Sans date de fin',
-  en: 'No end date',
+  fr: "Sans date de fin",
+  en: "No end date",
 };
 
 /**
@@ -372,8 +372,8 @@ export const TRIAL_DAYS_ADJ: Record<SiteLocale, string> = {
 export const TRIAL_MECHANICS: Record<SiteLocale, string> = {
   fr: `Les fonctionnalités du Standard s’arrêtent au premier des deux seuils atteints : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} conseils personnalisés d’Octave. Si vous en profitez beaucoup, le second peut arriver avant le premier, et vous le voyez venir dans l’application.
 
-Ils peuvent aussi durer plus longtemps : chaque palier de cave franchi — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(', ')} puis ${TRIAL_BOTTLE_TIERS.at(-1)} bouteilles — ajoute ${TRIAL_TIER_BONUS_DAYS} jours, jusqu’à ${TRIAL_MAX_BONUS_DAYS} jours de plus, soit ${TRIAL_DAYS_MAX} jours au total.`,
+Ils peuvent aussi durer plus longtemps : chaque palier de cave franchi — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} puis ${TRIAL_BOTTLE_TIERS.at(-1)} bouteilles — ajoute ${TRIAL_TIER_BONUS_DAYS} jours, jusqu’à ${TRIAL_MAX_BONUS_DAYS} jours de plus, soit ${TRIAL_DAYS_MAX} jours au total.`,
   en: `The Standard features stop at whichever limit you reach first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} pieces of personalized advice from Octave. If you make the most of them, the second can come before the first, and you see it coming inside the app.
 
-They can also last longer: every cellar milestone you pass — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(', ')} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles — adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
+They can also last longer: every cellar milestone you pass — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles — adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
 };
