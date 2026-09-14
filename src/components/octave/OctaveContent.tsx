@@ -11,7 +11,7 @@ import { useLocale } from '@/lib/i18n';
 import { TESTIMONIALS } from '@/lib/testimonials';
 import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_CTA, SIGNUP_REASSURANCE } from '@/lib/trial';
 
 /**
  * /octave, page dédiée au sommelier personnel. Angle : Octave n'est pas une
@@ -215,7 +215,7 @@ export default function OctaveContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'octave-hero' })}
             >
               <Button variant="cta" size="lg">
-                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
@@ -522,12 +522,12 @@ export default function OctaveContent() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'octave-final' })}
             >
               <Button variant="cta" size="lg">
-                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
             <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
-              {t(`${TRIAL_SHORT.fr} · Aucune carte requise`, `${TRIAL_SHORT.en} · No card required`)}
+              {t(SIGNUP_REASSURANCE.fr, SIGNUP_REASSURANCE.en)}
             </p>
           </div>
           <p className="mt-14 font-[family-name:var(--font-display)] italic text-or/90 text-lg sm:text-xl">

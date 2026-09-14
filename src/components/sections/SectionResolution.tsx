@@ -7,7 +7,7 @@ import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
 import { ArrowRight } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl, APP_STORE_URL, CTA_VERS_STORE } from '@/lib/constants';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -182,10 +182,7 @@ export default function SectionResolution() {
                 <Button variant="or" size="lg">{ctaLabel}</Button>
               </a>
               <p className="mt-4 text-[13px] tracking-wide text-foreground-faint">
-                {t(
-                  `Essai gratuit, ${TRIAL_SHORT.fr} · Sans carte`,
-                  `Free trial, ${TRIAL_SHORT.en} · No card required`,
-                )}
+                {t(SIGNUP_REASSURANCE.fr, SIGNUP_REASSURANCE.en)}
               </p>
 
               {/* La section est centrée : la paire doit l'être aussi. */}

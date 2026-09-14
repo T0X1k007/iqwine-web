@@ -6,7 +6,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_CTA, SIGNUP_REASSURANCE } from '@/lib/trial';
 
 /**
  * FinalCta, clôture plein écran, dernier point de conversion. Un seul bouton,
@@ -37,14 +37,17 @@ export default function FinalCta() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'final' })}
             >
               <Button variant="cta" size="lg">
-                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
             <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t(
-                `${TRIAL_SHORT.fr} · Sans carte · Résiliable en un geste`,
-                `${TRIAL_SHORT.en} · No card · Cancel anytime`,
+                // « Résiliable » garde tout son sens ici : c'est le dernier
+                // CTA de la page d'accueil, celui qu'on lit en pesant
+                // l'engagement. La base dit qu'il n'y en a pas encore.
+                `${SIGNUP_REASSURANCE.fr} · Résiliable en un geste`,
+                `${SIGNUP_REASSURANCE.en} · Cancel anytime`,
               )}
             </p>
           </div>

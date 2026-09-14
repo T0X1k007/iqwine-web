@@ -1,5 +1,5 @@
 import type { Locale } from './i18n';
-import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_CTA, SIGNUP_REASSURANCE, TRIAL_ON_SIGNUP } from '@/lib/trial';
 
 /**
  * URL d'essai self-serve (app produit). Le CTA primaire mène à un essai
@@ -147,7 +147,7 @@ const HERO_MAP = {
       { title: 'Made in Québec', lines: ['Hosted in Canada', 'Private data'] },
       { title: 'Encrypted & private', lines: ['Private by design', 'Never sold'] },
       { title: 'Local availability', lines: ['Verified store by store, near you'] },
-      { title: 'No card required', lines: [TRIAL_SHORT.en, 'Cancel anytime'] },
+      { title: 'No card required', lines: [TRIAL_ON_SIGNUP.en, 'Cancel anytime'] },
     ],
     variantA: {
       eyebrow: 'YOUR PERSONAL SOMMELIER',
@@ -156,11 +156,11 @@ const HERO_MAP = {
       subheadline:
         "Octave knows your cellar, your taste, every bottle's peak and where to find it near you, and turns it all into one decision: the right bottle, at the right moment.",
       categoryLine: 'Others organize your cellar. Octave tells you what to do with it.',
-      reassurance: `${TRIAL_SHORT.en} · No card · No cellar to enter`,
+      reassurance: `${SIGNUP_REASSURANCE.en} · No cellar to enter`,
       ctaHeroPrimary: 'Find what to drink tonight',
       ctaHeroSecondary: 'See Octave in action',
     },
-    ctaPrimary: TRIAL_CTA.en,
+    ctaPrimary: SIGNUP_CTA.en,
   },
   fr: {
     tagline: 'Votre sommelier personnel.',
@@ -168,7 +168,7 @@ const HERO_MAP = {
       { title: 'Conçu au Québec', lines: ['Hébergé au Canada', 'Données privées'] },
       { title: 'Chiffré & privé', lines: ['Privé dès la conception', 'Jamais revendu'] },
       { title: 'Disponibilité locale', lines: ['Vérifiée magasin par magasin, près de vous'] },
-      { title: 'Aucune carte requise', lines: [TRIAL_SHORT.fr, 'Annulable en tout temps'] },
+      { title: 'Aucune carte requise', lines: [TRIAL_ON_SIGNUP.fr, 'Annulable en tout temps'] },
     ],
     variantA: {
       eyebrow: 'VOTRE SOMMELIER PERSONNEL',
@@ -177,11 +177,11 @@ const HERO_MAP = {
       subheadline:
         "Octave connaît votre cave, votre palais, l'apogée de chaque bouteille et où la trouver près de vous, et transforme tout ça en une décision : la bonne bouteille, au bon moment.",
       categoryLine: 'Les autres rangent votre cave. Octave vous dit quoi en faire.',
-      reassurance: `${TRIAL_SHORT.fr} · Sans carte · Aucune cave à saisir`,
+      reassurance: `${SIGNUP_REASSURANCE.fr} · Aucune cave à saisir`,
       ctaHeroPrimary: 'Trouver quoi boire ce soir',
       ctaHeroSecondary: 'Voir Octave en action',
     },
-    ctaPrimary: TRIAL_CTA.fr,
+    ctaPrimary: SIGNUP_CTA.fr,
   },
 };
 

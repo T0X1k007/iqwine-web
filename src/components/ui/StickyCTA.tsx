@@ -49,11 +49,13 @@ export default function StickyCTA() {
               <button
                 type="button"
                 onClick={() => setCollapsed(false)}
-                aria-label={t('Afficher l’essai gratuit', 'Show free trial')}
+                aria-label={t('Afficher l’inscription gratuite', 'Show free sign-up')}
                 aria-expanded={false}
                 className="flex items-center gap-1.5 rounded-pill border border-or/30 bg-overlay/95 backdrop-blur-[14px] pl-3 pr-2.5 py-2 shadow-[var(--shadow-lg)] active:scale-[0.98] transition-transform"
               >
-                <span className="iq-small text-or font-medium">{t('Essai', 'Trial')}</span>
+                {/* Pastille repliée, très étroite : un seul mot tient. « Essai »
+                    nommait l'objet supprimé ; « Commencer » nomme l'acte. */}
+                <span className="iq-small text-or font-medium">{t('Commencer', 'Start')}</span>
                 <ChevronUp size={16} strokeWidth={2} className="text-or" />
               </button>
             </div>

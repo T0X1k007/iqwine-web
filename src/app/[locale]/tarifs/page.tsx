@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import TarifsContent from '@/components/tarifs/TarifsContent';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_SUB } from '@/lib/trial';
 import { faqPageLd } from '@/lib/structured-data';
 import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
 
@@ -13,11 +13,15 @@ import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
 const TEXTES = {
   fr: {
     title: 'Tarifs iQWine : votre sommelier IA, essai gratuit sans carte · iQWine',
-    description: `Trois formules selon votre cave, un meme sommelier dans toutes. Essai gratuit, ${TRIAL_SHORT.fr}, sans carte et sans engagement.`,
+    // La description menait par les trois noms de forfaits et ne disait de
+    // l'essai que ses deux bornes. Dans un resultat de recherche, ce sont les
+    // premiers mots qui sont lus : elle mene donc par la SEQUENCE, qui est ce
+    // que le visiteur vient verifier avant de cliquer.
+    description: `${SIGNUP_SUB.fr} Sans carte, sans engagement.`,
   },
   en: {
     title: 'iQWine pricing: your AI sommelier, free trial, no card · iQWine',
-    description: `Three plans for your cellar, the same sommelier in every one. Free trial, ${TRIAL_SHORT.en}, no card, no commitment.`,
+    description: `${SIGNUP_SUB.en} No card, no commitment.`,
   },
 } as const;
 
@@ -29,9 +33,14 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 /**
  * /tarifs, page de DÉCISION, refondue v3 (Eric, 2026-08-14) en 6 sections :
  * ouverture courte → forfaits (le prix arrive vite) → comparatif + CTA →
- * réassurance → FAQ → clôture ivoire. L'offre elle-même n'a pas bougé d'un
- * mot : prix, quotas, forfaits, essai, conditions et destinations de CTA sont
- * identiques. Seules la hiérarchie et la présentation changent.
+ * réassurance → FAQ → clôture ivoire.
+ *
+ * L'OFFRE, ELLE, A CHANGÉ le 2026-09-13 : quatre paliers sont devenus trois
+ * (Gratuit · Standard · Premium), le Gratuit est entré dans la grille et monte
+ * à 100 bouteilles, l'annuel du Standard passe à 149 $ sous l'étiquette « prix
+ * de lancement », et le comparatif ne montre plus que les quatre lignes qui
+ * diffèrent réellement. La description ci-dessus nomme donc les trois forfaits
+ * et dit ce qui, justement, ne les sépare pas.
  */
 /**
  * Le `FAQPage` est émis ICI, et nulle part ailleurs : c'est la seule page qui

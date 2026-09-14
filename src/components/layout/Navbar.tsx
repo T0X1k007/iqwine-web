@@ -9,6 +9,7 @@ import { useLocale } from '@/lib/i18n';
 import { splitLocalePath } from '@/lib/locale';
 import { getNavLinks, getFonctionsLinks, getHero, buildSignupUrl, APP_LOGIN_URL } from '@/lib/constants';
 import Button from '@/components/ui/Button';
+import { SIGNUP_CTA, SIGNUP_CTA_TINY } from '@/lib/trial';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -258,18 +259,40 @@ export default function Navbar() {
             href={buildSignupUrl('nav', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav' })}
           >
-            <Button variant={jour ? 'primary' : 'or'} size="sm">{hero.ctaPrimary}</Button>
+            {/* Nomme son acte. Il disait « Essai gratuit », sans objet : sur
+                la page tarifs c'était le seul des quatre boutons à ne pas dire
+                ce qu'il fait, et le seul présent sur toutes les pages. Il ne
+                nomme délibérément AUCUN forfait — l'inscription est une porte
+                unique, et nommer un palier en ferait un choix de plus. */}
+            <Button variant={jour ? 'primary' : 'or'} size="sm">{t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}</Button>
           </a>
         </div>
 
         {/* Mobile hamburger + CTA « Essai » compact toujours visible (hors menu) */}
         <div className="lg:hidden flex items-center gap-2">
           <LanguageToggle />
+          {/* ── SOUS 360 px, CE BOUTON S'EFFACE ────────────────────────────
+              Même la forme brève y déborde de 31 px, et ce qui sort de l'écran
+              est le hamburger : le visiteur perdrait la navigation entière
+              pour gagner un CTA.
+
+              C'est LUI qu'on retire, et pas le sélecteur de langue voisin, qui
+              serait le choix arithmétique équivalent : ce CTA est dupliqué à
+              l'identique dans le menu, le sélecteur de langue ne l'est PAS.
+              Le masquer rendrait le site unilingue sur un petit téléphone. */}
           <a
+            className="hidden min-[360px]:block"
             href={buildSignupUrl('nav_mobile_bar', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav_mobile_bar' })}
           >
-            <Button variant={jour ? 'primary' : 'or'} size="sm">{t('Essai', 'Free trial')}</Button>
+            {/* Forme brève : « Commencer gratuitement » ne tient pas ici. Le
+                bloc droit de la barre est incompressible (bouton
+                `whitespace-nowrap`), et le libellé plein pousse le hamburger
+                hors de l'écran jusqu'à 414 px en français. Mesuré au
+                navigateur à huit largeurs, pas supposé. */}
+            <Button variant={jour ? 'primary' : 'or'} size="sm">
+              {t(SIGNUP_CTA_TINY.fr, SIGNUP_CTA_TINY.en)}
+            </Button>
           </a>
           <button
             className={`p-2 ${jour ? 'text-encre' : 'text-foreground'}`}
@@ -333,7 +356,7 @@ export default function Navbar() {
               className="mt-3"
             >
               <Button variant={jour ? 'primary' : 'or'} size="md" className="w-full">
-                {hero.ctaPrimary}
+                {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
               </Button>
             </a>
             <a

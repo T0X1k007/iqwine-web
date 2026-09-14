@@ -1,4 +1,33 @@
-import { TRIAL_DAYS, TRIAL_RECOS, TRIAL_FULL } from '@/lib/trial';
+import { TRIAL_DAYS, TRIAL_DAYS_LABEL, TRIAL_MECHANICS, TRIAL_ON_SIGNUP_FULL } from '@/lib/trial';
+import {
+  FREE_PLAN,
+  STANDARD_PLAN,
+  PREMIUM_PLAN,
+  annualSavingsCents,
+  monthlyEquivalentCents,
+  formatPriceCad,
+  planLabel,
+} from '@/lib/plans';
+
+/**
+ * Les chiffres de la réponse « Pourquoi choisir l'annuel ? » sont DÉRIVÉS.
+ *
+ * Ils étaient une phrase — « Deux mois offerts » — devenue fausse le jour où
+ * l'annuel a cessé de valoir 10× le mensuel, et personne ne l'a vu parce
+ * qu'aucune valeur ne la reliait à la grille. Une réponse qui cite un prix doit
+ * le lire dans `plans.ts`, sans quoi elle survit au prix qu'elle décrit.
+ */
+function annuel(locale: 'fr' | 'en'): string {
+  const eqS = formatPriceCad(monthlyEquivalentCents(STANDARD_PLAN), locale);
+  const eqP = formatPriceCad(monthlyEquivalentCents(PREMIUM_PLAN), locale);
+  const ecoS = formatPriceCad(annualSavingsCents(STANDARD_PLAN), locale);
+  const ecoP = formatPriceCad(annualSavingsCents(PREMIUM_PLAN), locale);
+  const nS = planLabel(STANDARD_PLAN.id, locale);
+  const nP = planLabel(PREMIUM_PLAN.id, locale);
+  return locale === 'fr'
+    ? `Le prix de lancement, et un palais qu’Octave affine toute l’année. À l’année, le ${nS} revient à ${eqS} $ par mois et le ${nP} à ${eqP} $, soit ${ecoS} $ et ${ecoP} $ de moins que douze mois au tarif mensuel. Il est offert aux premiers abonnés et pourra évoluer par la suite.`
+    : `The launch price, and a palate Octave sharpens all year long. Yearly, ${nS} works out to $${eqS} a month and ${nP} to $${eqP}, which is $${ecoS} and $${ecoP} less than twelve months at the monthly rate. It is offered to our first subscribers and may change later on.`;
+}
 
 /**
  * LES QUESTIONS FRÉQUENTES, source unique, partagée avec le JSON-LD.
@@ -16,10 +45,55 @@ import { TRIAL_DAYS, TRIAL_RECOS, TRIAL_FULL } from '@/lib/trial';
  */
 export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] = [
   {
+    /**
+     * La réponse énonçait la double barrière — une information de DURÉE sous
+     * une question de PAIEMENT. Elle répond maintenant à ce qu'on lui demande,
+     * et pour les deux forfaits sans carte, pas seulement pour l'essai : c'est
+     * l'endroit où un lecteur inquiet vérifie que la gratuité ne cache rien.
+     * La mécanique de l'essai a sa propre entrée, deux questions plus bas.
+     */
     q: { fr: 'Dois-je donner ma carte de crédit ?', en: 'Do I need a credit card?' },
     a: {
-      fr: `Non. L’essai dure ${TRIAL_FULL.fr}, sans carte. Vous décidez ensuite.`,
-      en: `No. The trial runs for ${TRIAL_FULL.en}, no card. You decide afterwards.`,
+      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de Standard non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez Standard ou Premium.`,
+      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of Standard, and the Free plan never does. You only give a card the day you choose Standard or Premium.`,
+    },
+  },
+  {
+    /**
+     * ⚠️ LA QUESTION QUI PORTE TOUT LE DOSSIER DU 2026-09-14. Ne pas la
+     * retirer, ne pas l'adoucir, ne pas la déplacer plus bas dans la liste.
+     *
+     * La page affiche deux choses gratuites de nature différente — un FORFAIT
+     * permanent et l'ESSAI d'un autre forfait — et le visiteur les fondait en
+     * une seule : « le gratuit dure 14 jours ». Toute la refonte de la grille
+     * travaille à empêcher cette déduction ; cette réponse-ci est le filet,
+     * pour celui qui l'a quand même faite et vient vérifier.
+     *
+     * Elle est posée AVANT « Quand mon essai se termine-t-il », délibérément :
+     * la peur (« est-ce que je perds tout ? ») précède toujours la curiosité
+     * mécanique (« comment ça compte ? »). Répondre dans l'autre ordre, c'est
+     * expliquer un décompte à quelqu'un qui croit être sur le point d'être
+     * coupé.
+     *
+     * Elle est reprise telle quelle dans le JSON-LD `FAQPage` : c'est aussi la
+     * réponse qu'un assistant citera si on lui demande si iQWine est vraiment
+     * gratuit.
+     */
+    q: {
+      fr: `Le forfait Gratuit expire-t-il après les ${TRIAL_DAYS} premiers jours ?`,
+      en: `Does the Free plan expire after the first ${TRIAL_DAYS} days?`,
+    },
+    a: {
+      fr: `Non, jamais. Il n’y a pas d’essai d’un côté et un forfait de l’autre : il y a un forfait Gratuit, à 0 $, sans date de fin — et un cadeau de bienvenue posé dessus.
+
+${TRIAL_ON_SIGNUP_FULL.fr} : toute nouvelle inscription reçoit les fonctionnalités du Standard, sans carte et sans rien demander. Ensuite, ce cadeau s’arrête, mais le forfait, lui, continue : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, un utilisateur, aussi longtemps que vous voudrez.
+
+Votre cave, vos notes, vos souvenirs et le palais qu’Octave a appris restent en place. Rien ne se bloque, rien ne passe en lecture seule, rien ne vous est prélevé. Vous choisissez Standard ou Premium le jour où vous en avez envie, ou jamais.`,
+      en: `No, never. There isn’t a trial on one side and a plan on the other: there is a Free plan, at $0, with no end date — and a welcome gift laid on top of it.
+
+${TRIAL_ON_SIGNUP_FULL.en}: every new sign-up receives the Standard features, no card, nothing to ask for. Afterwards the gift stops, but the plan carries on: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one user, for as long as you like.
+
+Your cellar, your notes, your memories and the palate Octave has learned all stay put. Nothing locks, nothing goes read-only, nothing is charged to you. You choose Standard or Premium the day you feel like it, or never.`,
     },
   },
   {
@@ -47,8 +121,8 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
     /**
      * LA QUESTION QUI DÉBLOQUE L'ACHAT (2026-08-19).
      *
-     * Depuis la refonte du compteur côté application, « 50 / 110 / 200 » est
-     * LITTÉRAL : une demande de conseil vaut une interaction, quel que soit le
+     * Depuis la refonte du compteur côté application, « 2 / 50 / 200 » est
+     * LITTÉRAL : une demande vaut un conseil, quel que soit le
      * travail fourni derrière. Les chiffres du site n'ont pas bougé, mais ils
      * ne disaient pas ce qu'ils comptaient, et celui qui hésite se demande
      * toujours la même chose : est-ce que remplir ma cave va les manger ?
@@ -56,33 +130,39 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
      * La réponse est non, et c'est le meilleur argument de la grille. Elle est
      * placée juste avant « Dois-je saisir toute ma cave ? », qui la prolonge.
      *
-     * Règle d'écriture, la même qu'à `INTERACTION_NOTE` : jamais « requêtes »,
+     * Règle d'écriture, la même qu'à `CONSEILS_NOTE` : jamais « requêtes »,
      * « crédits », « jetons » ni « appels IA », jamais un montant, jamais
      * « jusqu'à » ni « environ ». On décrit des conseils, pas de la mécanique.
+     *
+     * ⚠️ LE TERME PUBLIC EST « CONSEIL PERSONNALISÉ D'OCTAVE » depuis le
+     * 2026-09-13 (Eric). « Interaction » a disparu de cette réponse comme du
+     * reste du site. La phrase d'Eric — « Ajouter ou gérer vos bouteilles dans
+     * la cave n'utilise aucun conseil » — est vérifiée vraie dans le code et
+     * s'écrit sans réserve : c'est la question qui bloque l'achat.
      */
     q: {
-      fr: 'Qu’est-ce qu’une interaction avec Octave ?',
-      en: 'What counts as an interaction with Octave?',
+      fr: 'Qu’est-ce qu’un conseil personnalisé d’Octave ?',
+      en: 'What counts as a piece of personalized advice from Octave?',
     },
     a: {
-      fr: `Une interaction, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en succursale pour savoir si elle vous plairait.
+      fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en succursale pour savoir si elle vous plairait.
 
-Une demande, une interaction, peu importe le travail que ça lui demande derrière.
+Une demande, un conseil, peu importe le travail que ça lui demande derrière.
 
-Remplir et tenir votre cave ne consomme rien. Scanner une étiquette pour entrer une bouteille, photographier une étagère, importer un ticket de caisse ou un fichier, compléter la fiche d’un vin, laisser Octave apprendre votre goût : tout cela fait partie de votre cave, pas de vos conseils. Vous pouvez entrer mille bouteilles sans toucher à vos interactions.
+Ajouter ou gérer vos bouteilles dans la cave n’utilise aucun conseil. Scanner une étiquette pour entrer une bouteille, photographier une étagère, importer un ticket de caisse ou un fichier, compléter la fiche d’un vin, laisser Octave apprendre votre goût : tout cela fait partie de votre cave, pas de vos conseils. Vous pouvez entrer mille bouteilles sans en toucher un seul.
 
-Vos interactions reviennent chaque mois, le jour de votre facturation. Si vous payez à l’année, elles reviennent quand même tous les mois.
+Vos conseils reviennent chaque mois, le jour de votre facturation. Si vous payez à l’année, ils reviennent quand même tous les mois.
 
-Et si une panne technique empêche Octave de répondre, l’interaction vous est rendue.`,
-      en: `An interaction is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A dish you show it so it finds the pairing. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
+Et si une panne technique empêche Octave de répondre, le conseil vous est rendu.`,
+      en: `A piece of personalized advice is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A dish you show it so it finds the pairing. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
 
-One request, one interaction, however much work it takes behind the scenes.
+One request, one piece of advice, however much work it takes behind the scenes.
 
-Filling and keeping your cellar costs nothing. Scanning a label to add a bottle, photographing a shelf, importing a receipt or a file, completing a wine’s details, letting Octave learn your taste: all of it belongs to your cellar, not to your advice. You can enter a thousand bottles without touching your interactions.
+Adding or managing bottles in your cellar never uses any advice. Scanning a label to add a bottle, photographing a shelf, importing a receipt or a file, completing a wine’s details, letting Octave learn your taste: all of it belongs to your cellar, not to your advice. You can enter a thousand bottles without using a single piece of it.
 
-Your interactions come back every month, on your billing day. If you pay yearly, they still come back every month.
+Your advice comes back every month, on your billing day. If you pay yearly, it still comes back every month.
 
-And if a technical failure keeps Octave from answering, the interaction is given back to you.`,
+And if a technical failure keeps Octave from answering, the advice is given back to you.`,
     },
   },
   {
@@ -111,16 +191,31 @@ And if a technical failure keeps Octave from answering, the interaction is given
   },
   {
     q: {
-      fr: 'Quand mon essai se termine-t-il, exactement ?',
-      en: 'When exactly does my trial end?',
+      fr: `Quand mes ${TRIAL_DAYS} premiers jours se terminent-ils, exactement ?`,
+      en: `When exactly do my first ${TRIAL_DAYS} days end?`,
     },
     a: {
-      // La question portait « à la fin des 14 jours » et ne décrivait que la
-      // barrière temporelle. Un utilisateur actif peut atteindre les douze
-      // recommandations en trois jours : la réponse doit nommer les DEUX
-      // bornes, et dire laquelle arrive en premier.
-      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} recommandations d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première, c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
-      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} of Octave’s recommendations. If you use it a lot, the second limit can arrive before the first, that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
+      // ── LE SECOND NIVEAU, ET LE SEUL ENDROIT OÙ IL VIT (2026-09-14) ─────
+      //
+      // Arbitrage d'Eric : « 14 jours » est le message de premier niveau, net,
+      // sans astérisque sur place ; les mécaniques additionnelles — la laisse
+      // de douze conseils, la prolongation par remplissage de cave — ne
+      // doivent pas le brouiller, mais peuvent s'expliquer secondairement.
+      // C'est ici, sous une question qui les appelle explicitement, derrière
+      // un accordéon replié : personne ne les rencontre par accident, tout le
+      // monde les trouve en les cherchant.
+      //
+      // La prolongation ENTRE dans la copie à cette occasion. Elle joue à
+      // l'inverse de la double barrière et le site l'ignorait : on décrivait
+      // un essai qui ne pouvait que raccourcir, alors qu'il peut aussi
+      // s'allonger jusqu'à `TRIAL_DAYS_MAX` jours. Texte lu depuis
+      // `TRIAL_MECHANICS`, tous nombres dérivés.
+      fr: `${TRIAL_MECHANICS.fr}
+
+Rien d’automatique à l’arrivée : comme aucune carte n’a été donnée, vous n’êtes jamais débité par surprise. Vous basculez simplement sur le forfait Gratuit, à 0 $, et vous y restez aussi longtemps que vous voulez.`,
+      en: `${TRIAL_MECHANICS.en}
+
+Nothing is automatic at the end: since no card was ever given, you are never charged by surprise. You simply move on to the Free plan, at $0, and stay there as long as you like.`,
     },
   },
   {
@@ -131,10 +226,52 @@ And if a technical failure keeps Octave from answering, the interaction is given
     },
   },
   {
+    /**
+     * « Deux mois offerts » A ÉTÉ RETIRÉ D'ICI (2026-09-13), il était devenu
+     * faux : l'économie ne vaut pas le même nombre de mois d'un forfait à
+     * l'autre, et le compte change à chaque mouvement de prix — 3,37 mois de
+     * Standard sous la grille à 129 $, 2,03 sous celle à 149 $. Aucun « n mois
+     * offerts » ne peut décrire les deux forfaits à la fois, ni survivre au
+     * prochain ajustement.
+     *
+     * La réponse énonce désormais ce que le lecteur peut vérifier lui-même avec
+     * les chiffres de la page : l'équivalent mensuel et l'écart en dollars.
+     */
     q: { fr: 'Pourquoi choisir l’annuel ?', en: 'Why choose annual?' },
+    a: { fr: annuel('fr'), en: annuel('en') },
+  },
+  {
+    /**
+     * ⚠️ CETTE RÉPONSE NE PROMET RIEN AU-DELÀ DU LANCEMENT, et c'est
+     * délibéré (Eric, 2026-09-13). Le prix de lancement n'est pas une garantie
+     * à vie : n'y écrivez jamais « votre prix ne changera jamais », « garanti à
+     * vie », « prix bloqué » ni « tarif permanent ». Une FAQ est lue comme un
+     * engagement, et celle-ci est reprise telle quelle dans le JSON-LD, donc
+     * citable hors du site.
+     *
+     * Le libellé disait « prix fondateur » jusqu'au 2026-09-14 : « fondateur »
+     * s'entend comme un statut acquis, donc comme un tarif gardé à vie — la
+     * chose même que cette réponse refuse de promettre.
+     */
+    q: { fr: 'Qu’est-ce que le prix de lancement ?', en: 'What is the launch price?' },
     a: {
-      fr: 'Deux mois offerts, et un palais qu’Octave affine toute l’année. Vous vous installez pour de bon, c’est aussi le meilleur prix.',
-      en: 'Two months free, and a palate Octave sharpens all year long. You settle in for good, and it’s the best price.',
+      fr: 'C’est le prix de lancement de l’abonnement annuel, offert aux premiers abonnés. Il ne s’applique qu’à l’annuel, jamais au mensuel, et il pourra évoluer par la suite.',
+      en: 'It is the launch price of the annual subscription, offered to our first subscribers. It applies to the annual plan only, never to monthly, and it may change later on.',
+    },
+  },
+  {
+    /**
+     * LA QUESTION QUE LA GRILLE POSE, ET QUE PERSONNE N'OSE POSER : « qu'est-ce
+     * qu'on me retire si je ne paie pas le plus cher ? » Rien. C'est établi par
+     * audit du code applicatif, et c'est le meilleur argument de la page.
+     */
+    q: {
+      fr: 'Quelle est la différence entre les forfaits ?',
+      en: 'What is the difference between the plans?',
+    },
+    a: {
+      fr: 'Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.',
+      en: 'No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users — and each user keeps their own palate.',
     },
   },
   {
