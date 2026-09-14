@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import TarifsContent from '@/components/tarifs/TarifsContent';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { TRIAL_STEP_1, TRIAL_STEP_2 } from '@/lib/trial';
 import { faqPageLd } from '@/lib/structured-data';
 import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
 
@@ -13,11 +13,15 @@ import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
 const TEXTES = {
   fr: {
     title: 'Tarifs iQWine : votre sommelier IA, essai gratuit sans carte · iQWine',
-    description: `Gratuit, Standard ou Premium : le meme sommelier dans les trois, aucune fonction reservee. Essai gratuit, ${TRIAL_SHORT.fr}, sans carte et sans engagement.`,
+    // La description menait par les trois noms de forfaits et ne disait de
+    // l'essai que ses deux bornes. Dans un resultat de recherche, ce sont les
+    // premiers mots qui sont lus : elle mene donc par la SEQUENCE, qui est ce
+    // que le visiteur vient verifier avant de cliquer.
+    description: `${TRIAL_STEP_1.fr} Sans carte. ${TRIAL_STEP_2.fr} Le meme sommelier dans les trois forfaits.`,
   },
   en: {
     title: 'iQWine pricing: your AI sommelier, free trial, no card · iQWine',
-    description: `Free, Standard or Premium: the same sommelier in all three, no feature held back. Free trial, ${TRIAL_SHORT.en}, no card, no commitment.`,
+    description: `${TRIAL_STEP_1.en} No card. ${TRIAL_STEP_2.en} The same sommelier in all three plans.`,
   },
 } as const;
 

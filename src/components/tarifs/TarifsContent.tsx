@@ -1,7 +1,14 @@
 'use client';
 
 import LocaleLink from '@/components/ui/LocaleLink';
-import { ArrowRight, ShieldCheck, CalendarClock, Lock, XCircle, Smartphone } from 'lucide-react';
+import {
+  ArrowRight,
+  ShieldCheck,
+  Infinity as InfinityIcon,
+  Lock,
+  XCircle,
+  Smartphone,
+} from 'lucide-react';
 import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
@@ -17,7 +24,14 @@ import {
   COMMON_BASE_NOTE,
 } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { TRIAL_CTA, TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
+import {
+  TRIAL_PLAN_ID,
+  TRIAL_STEP_2,
+  TRIAL_HEADLINE,
+  TRIAL_DAYS_ADJ,
+  TRIAL_DAYS_LABEL,
+  FREE_NO_END,
+} from '@/lib/trial';
 
 /**
  * /tarifs, page de DÉCISION. Aide le visiteur à choisir (positionnement par
@@ -35,10 +49,37 @@ type T = (fr: string, en: string) => string;
 // donnees ne servaient plus qu'a des sections supprimees.
 
 const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string, string] }[] = [
+  /**
+   * ── LA PREUVE QUI MANQUAIT : LA PERMANENCE DU GRATUIT (2026-09-14) ──────
+   *
+   * Cette tuile s'intitulait « Essai gratuit », sans objet nommé, et énonçait
+   * la double barrière. Trois défauts :
+   *
+   * 1. Un essai sans objet se rapporte à « iQWine » en général, donc aussi au
+   *    forfait Gratuit vu deux écrans plus haut — elle ENTRETENAIT la
+   *    confusion qu'elle semblait lever.
+   * 2. C'était la seule tuile de la rangée à porter une durée, dans le même
+   *    cadre et à la même taille que les quatre autres preuves : l'essai y
+   *    avait exactement le rang d'une offre.
+   * 3. Elle suit immédiatement le CTA du comparatif, qui dit désormais la
+   *    séquence en entier. Répéter la même phrase à 200 px d'intervalle ne
+   *    convainc pas davantage, ça se lit comme un remplissage.
+   *
+   * Elle porte donc l'AUTRE moitié, celle qu'aucune preuve de cette rangée ne
+   * portait : le forfait Gratuit ne se termine pas. C'est la seule affirmation
+   * de la page qui ait besoin d'être répétée hors de la grille, parce que
+   * c'est celle que le visiteur arrive en croyant fausse.
+   */
   {
-    icon: CalendarClock,
-    fr: [TRIAL_CTA.fr, `${TRIAL_FULL.fr}. Découvrez Octave avant tout choix.`],
-    en: [TRIAL_CTA.en, `${TRIAL_FULL.en}. Discover Octave before you choose.`],
+    icon: InfinityIcon,
+    fr: [
+      'Le forfait Gratuit ne se termine pas',
+      `0 $, sans carte, sans date de fin. L’essai ${TRIAL_DAYS_ADJ.fr}, lui, ne concerne que le Standard.`,
+    ],
+    en: [
+      'The Free plan does not end',
+      `$0, no card, no end date. The ${TRIAL_DAYS_ADJ.en} trial is for Standard only.`,
+    ],
   },
   {
     icon: XCircle,
@@ -192,19 +233,33 @@ export default function TarifsContent() {
             {t('Trouvez votre ', 'Find your ')}
             <OctaveWordmark italic />.
           </h1>
+          {/* ── LE CHAPEAU PLANTAIT LA CONFUSION, EN PREMIÈRE PHRASE ────────
+              Il disait « Essayez gratuitement, 14 jours ou 12 conseils…, sans
+              carte. Vous choisissez après. » Aucun forfait n'y était nommé :
+              le lecteur en retirait « gratuit = 14 jours », et il gardait
+              cette équation en descendant vers une carte intitulée
+              « Gratuit ». La carte devait alors défaire, en 13 px, ce que le
+              hero avait posé en 17 px — un combat perdu d'avance.
+
+              Il porte maintenant la séquence, qui nomme les deux objets et
+              l'ordre dans lequel on les rencontre. La mécanique (les seuils,
+              la prolongation) est descendue dans la FAQ : au premier niveau,
+              elle ne fait qu'ajouter des conditions à une promesse qui doit
+              se lire d'un trait. */}
           <p className="mx-auto mt-4 max-w-[56ch] text-[16.5px] leading-relaxed text-muted-foreground sm:mt-5 md:text-[17.5px]">
-            {t(
-              `Essayez gratuitement, ${TRIAL_FULL.fr}, sans carte. Vous choisissez après.`,
-              `Try it free, ${TRIAL_FULL.en}, no card. You choose afterwards.`,
-            )}
+            {t(TRIAL_HEADLINE.fr, TRIAL_HEADLINE.en)}
           </p>
           <div className="mt-6 flex justify-center sm:mt-7">
             <a
-              href={buildSignupUrl('tarifs-hero', { lang: locale })}
+              // `plan` porté jusqu'à l'inscription : le bouton nomme le
+              // Standard, l'inscription doit donc y mener. Un CTA qui promet un
+              // forfait et en ouvre un autre rouvrirait la confusion à
+              // l'endroit le plus coûteux du parcours.
+              href={buildSignupUrl('tarifs-hero', { plan: TRIAL_PLAN_ID, lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-hero' })}
             >
               <Button variant="cta" size="lg">
-                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                {t('Essayer Standard gratuitement', 'Try Standard free')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
@@ -282,9 +337,20 @@ export default function TarifsContent() {
                         className={`p-4 text-center font-[family-name:var(--font-display)] italic text-lg ${p.highlight ? 'text-or' : 'text-foreground'}`}
                       >
                         {planLabel(p.id, locale)}
+                        {/* Deux micro-étiquettes symétriques, sous deux
+                            en-têtes voisins, qui disent deux choses opposées :
+                            l'une recommande, l'autre garantit la durée. Le
+                            tableau comparait quatre lignes de nombres et pas
+                            une ligne de TEMPS — c'est pourtant la seule
+                            dimension sur laquelle le visiteur se trompait. */}
                         {p.highlight && (
                           <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
                             {t('Populaire', 'Popular')}
+                          </span>
+                        )}
+                        {p.id === 'gratuit' && (
+                          <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-foreground-faint">
+                            {t(FREE_NO_END.fr, FREE_NO_END.en)}
                           </span>
                         )}
                       </th>
@@ -339,16 +405,25 @@ export default function TarifsContent() {
           <FadeInOnScroll delay={0.16}>
             <div className="mt-10 text-center">
               <a
-                href={buildSignupUrl('tarifs-comparatif', { lang: locale })}
+                href={buildSignupUrl('tarifs-comparatif', { plan: TRIAL_PLAN_ID, lang: locale })}
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-comparatif' })}
               >
                 <Button variant="cta" size="lg">
-                  {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                  {t('Essayer Standard gratuitement', 'Try Standard free')}
                   <ArrowRight size={16} strokeWidth={1.75} />
                 </Button>
               </a>
-              <p className="mt-4 text-[13px] tracking-wide text-foreground-faint">
-                {t(`Essai gratuit, ${TRIAL_SHORT.fr} · Sans carte`, `Free trial, ${TRIAL_SHORT.en} · No card required`)}
+              {/* Ce CTA suit un tableau dont la PREMIÈRE colonne s'intitule
+                  « Gratuit » : sa ligne de réassurance disait « Essai gratuit,
+                  14 jours ou 12 conseils · Sans carte », juste sous elle. Elle
+                  dit désormais la sortie, qui est la seule information dont on
+                  ait besoin à cet endroit — on vient de comparer, il reste à
+                  savoir ce qu'on risque. */}
+              <p className="mt-4 text-[13px] leading-relaxed tracking-wide text-foreground-faint">
+                {t(
+                  `${TRIAL_DAYS_LABEL.fr} gratuits, sans carte. ${TRIAL_STEP_2.fr}`,
+                  `${TRIAL_DAYS_LABEL.en} free, no card. ${TRIAL_STEP_2.en}`,
+                )}
               </p>
             </div>
           </FadeInOnScroll>
@@ -443,18 +518,23 @@ export default function TarifsContent() {
           >
             {t('Votre sommelier vous attend.', 'Your sommelier is waiting.')}
           </h2>
-          <p className="mx-auto mt-5 max-w-[46ch] text-[16px] leading-relaxed text-encre-2 md:text-[17px]">
-            {t(`${TRIAL_SHORT.fr} pour rencontrer Octave. Aucune carte requise.`, `${TRIAL_SHORT.en} to meet Octave. No card required.`)}
+          {/* La clôture répète la séquence ENTIÈRE, et pas seulement l'essai :
+              c'est le dernier écran, celui qu'on lit en ayant oublié le haut
+              de page. Elle disait « 14 jours ou 12 conseils pour rencontrer
+              Octave », ce qui laissait le visiteur sur un compte à rebours
+              comme dernière impression. */}
+          <p className="mx-auto mt-5 max-w-[52ch] text-[16px] leading-relaxed text-encre-2 md:text-[17px]">
+            {t(TRIAL_HEADLINE.fr, TRIAL_HEADLINE.en)}
           </p>
           <div className="mt-8 flex justify-center">
             <a
-              href={buildSignupUrl('tarifs-final', { lang: locale })}
+              href={buildSignupUrl('tarifs-final', { plan: TRIAL_PLAN_ID, lang: locale })}
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-final' })}
             >
               {/* `primary` (bordeaux) et non `cta` (or) : sur l'ivoire, l'or
-                  manque de contraste. Destination et libelle inchanges. */}
+                  manque de contraste. */}
               <Button variant="primary" size="lg">
-                {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                {t('Essayer Standard gratuitement', 'Try Standard free')}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>

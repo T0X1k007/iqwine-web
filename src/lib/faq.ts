@@ -1,5 +1,6 @@
-import { TRIAL_DAYS, TRIAL_RECOS, TRIAL_FULL } from '@/lib/trial';
+import { TRIAL_DAYS_ADJ, TRIAL_DAYS_LABEL, TRIAL_MECHANICS, TRIAL_STEP_2 } from '@/lib/trial';
 import {
+  FREE_PLAN,
   STANDARD_PLAN,
   PREMIUM_PLAN,
   annualSavingsCents,
@@ -44,10 +45,55 @@ function annuel(locale: 'fr' | 'en'): string {
  */
 export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] = [
   {
+    /**
+     * La réponse énonçait la double barrière — une information de DURÉE sous
+     * une question de PAIEMENT. Elle répond maintenant à ce qu'on lui demande,
+     * et pour les deux forfaits sans carte, pas seulement pour l'essai : c'est
+     * l'endroit où un lecteur inquiet vérifie que la gratuité ne cache rien.
+     * La mécanique de l'essai a sa propre entrée, deux questions plus bas.
+     */
     q: { fr: 'Dois-je donner ma carte de crédit ?', en: 'Do I need a credit card?' },
     a: {
-      fr: `Non. L’essai dure ${TRIAL_FULL.fr}, sans carte. Vous décidez ensuite.`,
-      en: `No. The trial runs for ${TRIAL_FULL.en}, no card. You decide afterwards.`,
+      fr: `Non, à aucun moment. L’essai ${TRIAL_DAYS_ADJ.fr} n’en demande pas, et le forfait Gratuit non plus. Vous ne donnez une carte que le jour où vous choisissez de vous abonner.`,
+      en: `No, never. The ${TRIAL_DAYS_ADJ.en} trial doesn’t ask for one, and neither does the Free plan. You only give a card the day you choose to subscribe.`,
+    },
+  },
+  {
+    /**
+     * ⚠️ LA QUESTION QUI PORTE TOUT LE DOSSIER DU 2026-09-14. Ne pas la
+     * retirer, ne pas l'adoucir, ne pas la déplacer plus bas dans la liste.
+     *
+     * La page affiche deux choses gratuites de nature différente — un FORFAIT
+     * permanent et l'ESSAI d'un autre forfait — et le visiteur les fondait en
+     * une seule : « le gratuit dure 14 jours ». Toute la refonte de la grille
+     * travaille à empêcher cette déduction ; cette réponse-ci est le filet,
+     * pour celui qui l'a quand même faite et vient vérifier.
+     *
+     * Elle est posée AVANT « Quand mon essai se termine-t-il », délibérément :
+     * la peur (« est-ce que je perds tout ? ») précède toujours la curiosité
+     * mécanique (« comment ça compte ? »). Répondre dans l'autre ordre, c'est
+     * expliquer un décompte à quelqu'un qui croit être sur le point d'être
+     * coupé.
+     *
+     * Elle est reprise telle quelle dans le JSON-LD `FAQPage` : c'est aussi la
+     * réponse qu'un assistant citera si on lui demande si iQWine est vraiment
+     * gratuit.
+     */
+    q: {
+      fr: 'Le forfait Gratuit expire-t-il après l’essai ?',
+      en: 'Does the Free plan expire after the trial?',
+    },
+    a: {
+      fr: `Non. Ce sont deux choses différentes, et c’est la confusion la plus fréquente.
+
+L’essai, c’est ${TRIAL_DAYS_LABEL.fr} pour utiliser le forfait Standard sans payer. Le forfait Gratuit, lui, est un forfait à part entière, à 0 $, sans date de fin : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, un utilisateur, aucune carte de crédit à aucun moment.
+
+À la fin de l’essai, vous vous abonnez si vous le souhaitez — sinon vous continuez sur le forfait Gratuit, avec un compte actif. Votre cave, vos notes, vos souvenirs et le palais qu’Octave a appris restent en place. Rien ne se bloque, rien ne passe en lecture seule, rien ne vous est prélevé.`,
+      en: `No. They are two different things, and this is the most common mix-up.
+
+The trial is ${TRIAL_DAYS_LABEL.en} of using the Standard plan without paying. The Free plan is a plan in its own right, at $0, with no end date: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one user, no credit card at any point.
+
+When the trial ends you subscribe if you want to — otherwise you carry on with the Free plan, on an active account. Your cellar, your notes, your memories and the palate Octave has learned all stay put. Nothing locks, nothing goes read-only, nothing is charged to you.`,
     },
   },
   {
@@ -149,17 +195,27 @@ And if a technical failure keeps Octave from answering, the advice is given back
       en: 'When exactly does my trial end?',
     },
     a: {
-      // La question portait « à la fin des 14 jours » et ne décrivait que la
-      // barrière temporelle. Un utilisateur actif peut atteindre les douze
-      // conseils en trois jours : la réponse doit nommer les DEUX bornes, et
-      // dire laquelle arrive en premier.
+      // ── LE SECOND NIVEAU, ET LE SEUL ENDROIT OÙ IL VIT (2026-09-14) ─────
       //
-      // « recommandations d'Octave » disait ici ce que `TRIAL_FULL` appelait
-      // « interactions » : deux mots pour un seul compteur, sur la même page.
-      // Les deux disent « conseils personnalisés d'Octave » depuis le
-      // 2026-09-13.
-      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} conseils personnalisés d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première, c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
-      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} pieces of Octave’s personalized advice. If you use it a lot, the second limit can arrive before the first, that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
+      // Arbitrage d'Eric : « 14 jours » est le message de premier niveau, net,
+      // sans astérisque sur place ; les mécaniques additionnelles — la laisse
+      // de douze conseils, la prolongation par remplissage de cave — ne
+      // doivent pas le brouiller, mais peuvent s'expliquer secondairement.
+      // C'est ici, sous une question qui les appelle explicitement, derrière
+      // un accordéon replié : personne ne les rencontre par accident, tout le
+      // monde les trouve en les cherchant.
+      //
+      // La prolongation ENTRE dans la copie à cette occasion. Elle joue à
+      // l'inverse de la double barrière et le site l'ignorait : on décrivait
+      // un essai qui ne pouvait que raccourcir, alors qu'il peut aussi
+      // s'allonger jusqu'à `TRIAL_DAYS_MAX` jours. Texte lu depuis
+      // `TRIAL_MECHANICS`, tous nombres dérivés.
+      fr: `${TRIAL_MECHANICS.fr}
+
+Rien d’automatique à l’arrivée : comme l’essai est sans carte, vous n’êtes jamais débité par surprise. ${TRIAL_STEP_2.fr} Votre cave et votre palais, eux, restent dans les deux cas.`,
+      en: `${TRIAL_MECHANICS.en}
+
+Nothing is automatic at the end: since the trial needs no card, you are never charged by surprise. ${TRIAL_STEP_2.en} Either way, your cellar and your palate stay with you.`,
     },
   },
   {
