@@ -279,8 +279,8 @@ export const TRIAL_ON_SIGNUP_FULL: Record<SiteLocale, string> = {
  * doit pouvoir se déduire de la copie du site.
  */
 export const TRIAL_ENDS_FREE: Record<SiteLocale, string> = {
-  fr: `Après vos ${TRIAL_DAYS} premiers jours, vous restez sur le forfait Gratuit à 0 $ — sauf si vous choisissez Standard ou Premium. Aucun prélèvement, aucune carte demandée.`,
-  en: `After your first ${TRIAL_DAYS} days you stay on the Free plan at $0 — unless you choose Standard or Premium. No charge, no card asked for.`,
+  fr: `Après ${TRIAL_DAYS} jours, continuez gratuitement à 0 $, ou choisissez Standard ou Premium. Aucune carte requise.`,
+  en: `After ${TRIAL_DAYS} days, keep going for free at $0, or choose Standard or Premium. No card required.`,
 };
 
 /**

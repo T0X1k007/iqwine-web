@@ -834,8 +834,15 @@ function PlanCard({
             La note du Standard ne parlait que d'abonnement (« Vous ne payez
             que si vous décidez de rester »), ce qui laissait supposer qu'à
             défaut de payer il ne restait rien. */}
+        {/* HAUTEUR RÉSERVÉE IDENTIQUE aux trois notes (Eric, 2026-09-14).
+            Le bloc du bouton est ancré en bas (`mt-auto`) : une note plus
+            haute REMONTE donc son bouton. Celle du Gratuit faisait quatre
+            lignes contre deux aux payantes, et les trois boutons ne
+            s'alignaient pas. Raccourcir le texte ne suffit pas — la prochaine
+            réécriture le rallongerait. On réserve la place, et l'alignement
+            survit à la copie. */}
         <p
-          className={`mt-3 text-center text-[13px] leading-snug ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}
+          className={`mt-3 min-h-[3.5rem] text-center text-[13px] leading-snug ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}
         >
           {gratuit
             ? // La carte d'entrée porte la SUITE du bénéfice annoncé par son
