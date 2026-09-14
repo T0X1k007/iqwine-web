@@ -7,7 +7,7 @@ import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { TRIAL_CTA, TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_CTA, SIGNUP_REASSURANCE } from '@/lib/trial';
 
 /**
  * /notre-maison, page de marque (Vague 4). La maison où vit Octave, votre
@@ -169,12 +169,12 @@ export default function NotreMaisonContent() {
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'notre-maison' })}
               >
                 <Button variant="cta" size="lg">
-                  {t(TRIAL_CTA.fr, TRIAL_CTA.en)}
+                  {t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}
                   <ArrowRight size={16} strokeWidth={1.75} />
                 </Button>
               </a>
               <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
-                {t(`${TRIAL_SHORT.fr} · Aucune carte requise`, `${TRIAL_SHORT.en} · No card required`)}
+                {t(SIGNUP_REASSURANCE.fr, SIGNUP_REASSURANCE.en)}
               </p>
             </div>
           </FadeInOnScroll>

@@ -10,7 +10,7 @@ import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import Button from '@/components/ui/Button';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_CTA, SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { ArrowRight, MapPin } from 'lucide-react';
 
@@ -369,10 +369,14 @@ export default function CellierContent() {
                 href={buildSignupUrl('cellier', { lang: locale })}
                 onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'cellier' })}
               >
-                <Button variant="primary" size="lg">{t('Essai gratuit', 'Free trial')}</Button>
+                <Button variant="primary" size="lg">{t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}</Button>
               </a>
               <p className="mt-4 text-[13px] tracking-wide text-encre-3">
-                {t(`${TRIAL_SHORT.fr} · Sans carte · Aucune cave à saisir à la main`, `${TRIAL_SHORT.en} · No card · No cellar to type in by hand`)}
+                {t(
+                  // Objection propre à la page cellier, gardée en fin de ligne.
+                  `${SIGNUP_REASSURANCE.fr} · Aucune cave à saisir à la main`,
+                  `${SIGNUP_REASSURANCE.en} · No cellar to type in by hand`,
+                )}
               </p>
             </div>
           </FadeInOnScroll>

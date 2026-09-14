@@ -10,7 +10,7 @@ import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import Button from '@/components/ui/Button';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
@@ -478,7 +478,7 @@ export default function SommelierContent() {
                 <Button variant="primary" size="lg">{t('Rencontrer Octave', 'Meet Octave')}</Button>
               </a>
               <p className="mt-4 text-[13px] tracking-wide text-encre-3">
-                {t(`Essai gratuit, ${TRIAL_SHORT.fr} · Sans carte`, `Free trial, ${TRIAL_SHORT.en} · No card required`)}
+                {t(SIGNUP_REASSURANCE.fr, SIGNUP_REASSURANCE.en)}
               </p>
             </div>
             <div className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-[14px]">

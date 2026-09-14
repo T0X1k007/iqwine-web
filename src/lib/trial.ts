@@ -124,6 +124,18 @@ export const TRIAL_FULL: Record<SiteLocale, string> = {
  * formulation exacte `TRIAL_SHORT`/`TRIAL_FULL`. Aucune variante entre navbar,
  * pricing, FAQ ou CTA.
  */
+/**
+ * ⚠️ PLUS AUCUN CONSOMMATEUR DEPUIS LE 2026-09-14, ET C'EST VOULU.
+ *
+ * « Essai gratuit » a cessé d'être un libellé de bouton sur tout le site : il
+ * nommait un objet — un essai qu'on choisit — que le modèle en vigueur ne
+ * contient plus. Les CTA d'acquisition disent `SIGNUP_CTA`.
+ *
+ * La constante survit parce que le message de la règle ESLint la cite comme
+ * porte de sortie légitime, et parce qu'elle reste la traduction juste du
+ * concept là où il faudrait encore le nommer. NE PAS la remettre sur un
+ * bouton sans rouvrir la question du quatrième objet.
+ */
 export const TRIAL_CTA: Record<SiteLocale, string> = {
   fr: 'Essai gratuit',
   en: 'Free trial',
@@ -269,6 +281,41 @@ export const TRIAL_ON_SIGNUP_FULL: Record<SiteLocale, string> = {
 export const TRIAL_ENDS_FREE: Record<SiteLocale, string> = {
   fr: `Après vos ${TRIAL_DAYS} premiers jours, vous restez sur le forfait Gratuit à 0 $ — sauf si vous choisissez Standard ou Premium. Aucun prélèvement, aucune carte demandée.`,
   en: `After your first ${TRIAL_DAYS} days you stay on the Free plan at $0 — unless you choose Standard or Premium. No charge, no card asked for.`,
+};
+
+/**
+ * LA LIGNE DE RÉASSURANCE SOUS UN CTA, pour tout le site hors /tarifs.
+ *
+ * ── Ce qu'elle remplace, et pourquoi ce n'était plus tenable ─────────────
+ * Une vingtaine d'endroits écrivaient « Essai gratuit, 14 jours ou 12
+ * conseils · Sans carte ». Deux défauts, le second créé par la refonte du
+ * 2026-09-14 :
+ *
+ * 1. L'astérisque au premier niveau : « ou 12 conseils » relativise sur place
+ *    une durée qu'Eric a justement décidé d'énoncer nette.
+ * 2. Le mot « Essai gratuit » réinstalle le QUATRIÈME OBJET que la page
+ *    tarifs vient de supprimer. C'était le plus grave : une page disait « il
+ *    n'y a que trois forfaits », vingt autres continuaient d'offrir un essai
+ *    comme s'il s'agissait d'une quatrième chose à choisir.
+ *
+ * La ligne dit désormais le parcours, dans l'ordre vécu, et sans nommer
+ * d'objet qui n'existe pas : on s'inscrit, on reçoit, il n'y a pas de carte.
+ *
+ * ⚠️ `TRIAL_SHORT` n'est PAS supprimée et reste la bonne chaîne là où elle
+ * vit encore : les méta-descriptions. En pré-clic, « essai gratuit » garde sa
+ * valeur d'acquisition et ne peut pas créer de confusion d'interface, puisque
+ * aucune grille n'est visible dans un résultat de recherche (décision d'Eric,
+ * 2026-09-14). Ne pas « finir le travail » en les migrant aussi.
+ */
+export const SIGNUP_REASSURANCE_BASE: Record<SiteLocale, string> = {
+  fr: `Inscription gratuite · ${TRIAL_ON_SIGNUP.fr}`,
+  en: `Free sign-up · ${TRIAL_ON_SIGNUP.en}`,
+};
+
+/** La forme complète, celle qui convient partout où rien de plus n'est utile. */
+export const SIGNUP_REASSURANCE: Record<SiteLocale, string> = {
+  fr: `${SIGNUP_REASSURANCE_BASE.fr} · Sans carte`,
+  en: `${SIGNUP_REASSURANCE_BASE.en} · No card`,
 };
 
 /** La permanence du Gratuit, forme courte : bandeau, en-tête de comparatif. */

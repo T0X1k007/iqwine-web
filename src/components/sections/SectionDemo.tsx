@@ -11,7 +11,7 @@ import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { buildSignupUrl } from '@/lib/constants';
 import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_REASSURANCE } from '@/lib/trial';
 
 /**
  * SectionDemo, la vitrine d'Octave (Concept A premium). Panneau de contrôle en
@@ -106,17 +106,22 @@ export default function SectionDemo() {
               onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'demo' })}
             >
               <Button variant="cta" size="lg">
+                {/* La question reste — c'est elle qui convertit après une
+                    démo — mais elle ne débouche plus sur « Essai gratuit »,
+                    qui rouvrait un objet à choisir. */}
                 {t(
-                  'Et avec VOTRE cave ?, Essai gratuit',
-                  'And with YOUR cellar?, Free trial',
+                  'Et avec VOTRE cave ? Commencer gratuitement',
+                  'And with YOUR cellar? Start for free',
                 )}
                 <ArrowRight size={16} strokeWidth={1.75} />
               </Button>
             </a>
             <p className="font-body text-[10px] tracking-[0.18em] uppercase text-foreground-faint">
               {t(
-                `${TRIAL_SHORT.fr} · sans carte · aucune cave à saisir`,
-                `${TRIAL_SHORT.en} · no card · no cellar to enter`,
+                // L'objection propre à la démo — « il va falloir tout
+                // saisir » — reste en troisième position, elle ne vaut qu'ici.
+                `${SIGNUP_REASSURANCE.fr} · aucune cave à saisir`,
+                `${SIGNUP_REASSURANCE.en} · no cellar to enter`,
               )}
             </p>
           </div>

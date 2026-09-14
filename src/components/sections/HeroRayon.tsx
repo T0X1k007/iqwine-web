@@ -5,7 +5,7 @@ import LigneAccord from '@/components/ui/LigneAccord';
 import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl, APP_STORE_URL, CTA_VERS_STORE } from '@/lib/constants';
-import { TRIAL_SHORT } from '@/lib/trial';
+import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -216,10 +216,7 @@ export default function HeroRayon() {
           </div>
 
           <p className="mt-5 text-[13px] tracking-wide text-encre-3">
-            {t(
-              `Essai gratuit, ${TRIAL_SHORT.fr} · Sans carte`,
-              `Free trial, ${TRIAL_SHORT.en} · No card required`,
-            )}
+            {t(SIGNUP_REASSURANCE.fr, SIGNUP_REASSURANCE.en)}
           </p>
 
           {/* La preuve mobile, après la promesse d'essai : on entre par le
