@@ -10,7 +10,14 @@ import { useLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { buildSignupUrl } from "@/lib/constants";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
-import { TRIAL_SHORT } from '@/lib/trial';
+import {
+  TRIAL_PLAN_ID,
+  TRIAL_STEP_1,
+  TRIAL_STEP_2,
+  TRIAL_DAYS_LABEL,
+  TRIAL_ENDS_FREE,
+  FREE_NO_END,
+} from '@/lib/trial';
 import {
   GRILLE,
   formatPriceCad,
@@ -85,10 +92,15 @@ const COPY: Record<PlanId, PlanCopy> = {
       fr: "Commencez votre cave, gardez vos souvenirs et découvrez Octave gratuitement.",
       en: "Start your cellar, keep your memories, and discover Octave for free.",
     },
+    // ⚠️ « Un avant-goût d'Octave » a été RETIRÉ le 2026-09-14. « Avant-goût »
+    // désigne ce qui précède autre chose : le mot rangeait, à lui seul, le
+    // forfait permanent dans la catégorie des préliminaires — exactement la
+    // confusion que cette page devait lever. Aucun mot de cette carte ne doit
+    // situer le Gratuit AVANT quoi que ce soit.
     features: [
-      { fr: "Sans carte de crédit", en: "No credit card" },
+      { fr: "Sans carte de crédit, à aucun moment", en: "No credit card, ever" },
       { fr: "Votre cave et vos souvenirs, sans date de fin", en: "Your cellar and your memories, with no end date" },
-      { fr: "Un avant-goût d’Octave", en: "A taste of Octave" },
+      { fr: "Octave vous conseille chaque mois, pour toujours", en: "Octave advises you every month, forever" },
     ],
   },
   standard: {
@@ -273,6 +285,65 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
         ))}
       </div>
 
+      {/* ══ LA SÉQUENCE, SOUS LA GRILLE ET NULLE PART AILLEURS ══════════════
+          (Eric, 2026-09-14)
+
+          C'est la seule ligne de la page qui nomme les deux objets ENSEMBLE,
+          et c'est précisément pour cela qu'elle existe : tant qu'« essai
+          gratuit » et « forfait Gratuit » ne se rencontraient jamais dans une
+          même phrase, rien n'obligeait le lecteur à les distinguer.
+
+          ── Pourquoi ICI, et pas ailleurs ────────────────────────────────────
+          • Pas au-dessus de la grille : le lecteur n'a pas encore de forfaits
+            en tête, la phrase n'aurait aucun objet auquel s'accrocher — c'est
+            l'échec exact du chapeau de hero qu'elle remplace.
+          • Pas sous la bascule mensuel/annuel : cette zone porte déjà deux
+            lignes de petit texte (« Prix de lancement » et sa note) ; une
+            troisième ne se lirait pas.
+          • Pas dans un encadré : la consigne de forme est absolue, l'essai ne
+            doit JAMAIS prendre l'apparence d'une quatrième carte. C'est du
+            texte courant, centré, sans fond ni filet.
+
+          ── Pourquoi une flèche, et pourquoi EN FLUX ─────────────────────────
+          La phrase décrit un PARCOURS dans le temps. D'un seul tenant, elle se
+          lit comme une liste de conditions ; scandée par une flèche, elle se
+          lit comme un chemin — et un chemin a forcément une suite, donc le
+          premier temps cesse de ressembler à une fin. Le second porte le poids
+          typographique : c'est la moitié que personne ne connaissait.
+
+          ⚠️ EN FLUX DE TEXTE, PAS EN FLEX (corrigé après relecture en rendu
+          réel). Les deux temps ont vécu dans deux `<p>` d'une rangée flex : à
+          1440 px, le premier repliait « 14 jours. » seul sur une deuxième
+          ligne et la flèche se retrouvait centrée entre deux blocs de largeurs
+          inégales — la ligne la plus importante de la page était la plus mal
+          composée. En flux, la coupure tombe où la mesure l'impose, à
+          n'importe quelle largeur, et la flèche reste collée à son texte. */}
+      <FadeInOnScroll delay={0.44}>
+        <p className={`mx-auto mt-10 max-w-[62ch] text-balance text-center text-[15.5px] leading-relaxed md:text-[17px] ${jour ? "text-encre-2" : "text-foreground-dim"}`}>
+          {/* Le premier temps et la flèche restent SOLIDAIRES au-dessus de
+              640 px : sans ça, `text-balance` équilibrait les deux lignes en
+              rejetant « Ensuite, » à la fin de la première, ce qui cassait
+              exactement le rythme à deux temps que la flèche installe. En
+              dessous, on laisse le texte se replier librement — figer une
+              ligne de 47 caractères sur un téléphone la ferait déborder. */}
+          <span className="sm:whitespace-nowrap">
+            {t(TRIAL_STEP_1.fr, TRIAL_STEP_1.en)}{' '}
+            <span aria-hidden className={`px-0.5 font-body ${jour ? "text-or-jour" : "text-or"}`}>
+              →
+            </span>
+          </span>{' '}
+          {/* `sm:block` : le second temps prend sa propre ligne dès qu'il y a
+              la place. `text-balance` seul ne suffisait pas — il rééquilibrait
+              les deux lignes en remontant « Ensuite, » à la fin de la
+              première, et le lecteur retrouvait une phrase continue au lieu de
+              deux temps. Sur téléphone il reste en flux, la mesure y impose
+              déjà la coupure. */}
+          <strong className={`font-medium sm:block ${jour ? "text-encre" : "text-foreground"}`}>
+            {t(TRIAL_STEP_2.fr, TRIAL_STEP_2.en)}
+          </strong>
+        </p>
+      </FadeInOnScroll>
+
       {/* ── LA BANDE HORIZONTALE DU GRATUIT A DISPARU (Eric, 2026-09-13) ──
           Elle existait parce que le Gratuit n'avait pas sa place dans la
           grille : il sortait sous les trois cartes payantes, délibérément d'un
@@ -310,10 +381,20 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
 
       <FadeInOnScroll delay={0.5}>
         <div className="mt-16 text-center max-w-2xl mx-auto">
+          {/* ⚠️ CETTE BANDE NE PORTE PLUS DE DURÉE (Eric, 2026-09-14), et ne
+              doit jamais en reprendre une. Elle disait « 14 jours ou 12
+              conseils · Aucune carte requise », pleine largeur, sous les trois
+              colonnes — donc aussi sous le Gratuit, à qui elle donnait une
+              échéance qu'il n'a pas. C'était la source la plus coûteuse de la
+              confusion, parce qu'elle n'était fausse par aucun mot : seulement
+              par sa largeur.
+              La durée de l'essai vit sur la carte du Standard, et la séquence
+              complète juste sous la grille. Ici, on ne garde que ce qui vaut
+              VRAIMENT pour les trois forfaits. */}
           <p className={`font-body text-[10px] uppercase leading-relaxed tracking-[0.22em] ${jour ? "text-encre-3" : "text-foreground-faint"}`}>
             {locale === "fr"
-              ? `${TRIAL_SHORT.fr} · Aucune carte requise · TPS et TVQ en sus`
-              : `${TRIAL_SHORT.en} · No credit card · GST/QST extra`}
+              ? "Aucune carte requise · Résiliable en tout temps · TPS et TVQ en sus"
+              : "No credit card required · Cancel anytime · GST/QST extra"}
           </p>
         </div>
       </FadeInOnScroll>
@@ -355,6 +436,20 @@ function PlanCard({
   const gratuit = plan.priceMonthlyCents === 0;
   const annuel = isYearly && !gratuit;
 
+  /**
+   * L'essai a UN SEUL objet : le Standard (`TRIAL_PLAN_ID`).
+   *
+   * Le site l'annonçait au niveau de la PAGE, donc au-dessus de trois cartes à
+   * la fois. Un essai qui flotte au-dessus de la grille appartient à tout le
+   * monde, y compris au forfait qui n'en a pas besoin — et le visiteur range
+   * alors le Gratuit parmi les choses qui s'essaient, donc qui s'arrêtent.
+   *
+   * Le rattacher ici le rend vérifiable d'un coup d'œil : une seule carte
+   * porte « gratuits, sans carte », et c'est celle dont le grand nombre n'est
+   * pas zéro.
+   */
+  const essai = plan.id === TRIAL_PLAN_ID;
+
   // Le grand nombre en annuel = l'équivalent MENSUEL (pas la facture annuelle).
   const bigCents = annuel ? monthlyEquivalentCents(plan) : plan.priceMonthlyCents;
 
@@ -370,13 +465,31 @@ function PlanCard({
             : "bg-card border border-border-strong"
       }`}
     >
-      {highlight && (
+      {/* ── LE MÊME EMPLACEMENT, DEUX POIDS (2026-09-14) ───────────────────
+          Le Gratuit reçoit lui aussi un bandeau, et il dit la seule chose que
+          le visiteur avait besoin d'entendre : ce forfait ne se termine pas.
+          Sans lui, la permanence n'existait qu'en 13,5 px sous le « 0 », face
+          à des « gratuit » de toutes tailles ailleurs sur la page.
+
+          Il est DÉLIBÉRÉMENT plus faible que « Recommandé » : filet et teinte
+          estompée contre aplat d'or plein. Deux bandeaux de même force
+          feraient deux recommandations, et Standard cesserait d'être le choix
+          mis en avant. Même emplacement + poids différent = une hiérarchie ;
+          c'est exactement ce qu'on veut dire — les deux cartes se lisent
+          ensemble, l'une est conseillée, l'autre ne finit jamais. */}
+      {highlight ? (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className={`inline-flex items-center gap-2 rounded-full px-4 py-1 font-body text-[10px] font-medium uppercase tracking-[0.22em] ${jour ? "bg-or-jour text-papier" : "bg-or text-on-gold"}`}>
             {t("Recommandé", "Recommended")}
           </span>
         </div>
-      )}
+      ) : gratuit ? (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-1 font-body text-[10px] font-medium uppercase tracking-[0.22em] ${jour ? "border-encre/20 bg-papier text-encre-2" : "border-border-strong bg-card text-foreground-dim"}`}>
+            {t(FREE_NO_END.fr, FREE_NO_END.en)}
+          </span>
+        </div>
+      ) : null}
 
       <div className="mb-6">
         <h3 className={`mb-2 font-[family-name:var(--font-display)] text-3xl italic tracking-[-0.01em] sm:text-4xl ${jour ? "text-encre" : "text-foreground"}`}>
@@ -533,6 +646,26 @@ function PlanCard({
       </ul>
 
       <div className="mt-auto">
+        {/* ── L'ESSAI VIT ICI, ET NULLE PART AILLEURS DANS LA GRILLE ────────
+            (Eric, 2026-09-14)
+
+            Il tenait auparavant dans une bande sous les TROIS cartes
+            (« 14 jours ou 12 conseils · Aucune carte requise »). Une bande
+            pleine largeur appartient typographiquement à tout ce qu'elle
+            souligne : elle posait donc un compte à rebours sous la colonne du
+            Gratuit, et c'est là que naissait la confusion — pas dans un mot,
+            dans un alignement.
+
+            L'essai est une MODALITÉ D'ACCÈS AU STANDARD. Il se dit donc sur la
+            carte du Standard, à l'endroit exact de la décision, en trois
+            degrés décroissants : la durée (en or, elle porte le regard), le
+            bouton, puis la sortie. Aucun encadré, aucun bandeau : un essai qui
+            prendrait la forme d'une carte redeviendrait un quatrième forfait. */}
+        {essai && (
+          <p className={`mb-2 text-center font-body text-[12px] font-medium uppercase tracking-[0.16em] ${jour ? "text-or-jour" : "text-or"}`}>
+            {t(`${TRIAL_DAYS_LABEL.fr} gratuits, sans carte`, `${TRIAL_DAYS_LABEL.en} free, no card`)}
+          </p>
+        )}
         <a
           // Le Gratuit ne transporte PAS de période : il n'en a pas.
           href={buildSignupUrl("pricing_card", {
@@ -555,18 +688,35 @@ function PlanCard({
           >
             {gratuit
               ? t("Commencer gratuitement", "Start for free")
-              : t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
+              : essai
+                ? t(`Essayer ${copy.name.fr} gratuitement`, `Try ${copy.name.en} free`)
+                : t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
             <ArrowRight size={16} strokeWidth={1.75} />
           </Button>
         </a>
 
-        {/* Inversion du risque, on désamorce l'engagement juste sous le CTA. */}
+        {/* ── TROIS NOTES QUI SE LISENT EN RANGÉE, ET S'OPPOSENT ────────────
+            Elles occupent la même ligne d'un bout à l'autre de la grille, au
+            même corps : c'est le seul endroit de la page où les trois forfaits
+            se comparent MOT À MOT sur le temps. Le Gratuit y dit « jamais de
+            date de fin », le Standard y dit « à la fin de l'essai, vous passez
+            au forfait Gratuit ». Lues côte à côte, elles rendent la confusion
+            impossible sans qu'aucune des deux n'ait à expliquer l'autre.
+
+            La note du Standard ne parlait que d'abonnement (« Vous ne payez
+            que si vous décidez de rester »), ce qui laissait supposer qu'à
+            défaut de payer il ne restait rien. */}
         <p className={`mt-3 text-center text-[13px] leading-snug ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}>
           {gratuit
             ? t(
-                "Aucune carte de crédit, à aucun moment. Votre cave reste la vôtre.",
-                "No credit card, ever. Your cellar stays yours.",
+                // Ne répète aucune des trois puces ci-dessus (carte, cave,
+                // conseils) : elle ajoute la conséquence qu'aucune ne tire —
+                // un forfait qui ne finit pas n'a rien à résilier.
+                "Aucune carte de crédit, à aucun moment. Le forfait Gratuit ne se termine jamais : il n’y a rien à résilier.",
+                "No credit card, ever. The Free plan never ends: there is nothing to cancel.",
               )
+            : essai
+            ? t(TRIAL_ENDS_FREE.fr, TRIAL_ENDS_FREE.en)
             : t(
                 "Sans engagement. Résiliable en un geste. Vous ne payez que si vous décidez de rester.",
                 "No commitment. Cancel in one tap. You only pay if you choose to stay.",
