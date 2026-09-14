@@ -1,7 +1,7 @@
 'use client';
 
 import LocaleLink from '@/components/ui/LocaleLink';
-import { ArrowRight, Check, Minus, ShieldCheck, CalendarClock, Lock, XCircle, Smartphone } from 'lucide-react';
+import { ArrowRight, ShieldCheck, CalendarClock, Lock, XCircle, Smartphone } from 'lucide-react';
 import OctaveWordmark from '@/components/octave/OctaveWordmark';
 import Button from '@/components/ui/Button';
 import FadeInOnScroll from '@/components/motion/FadeInOnScroll';
@@ -10,12 +10,11 @@ import SectionFaq from '@/components/sections/SectionFaq';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import {
-  PLANS,
-  FREE_PLAN,
+  GRILLE,
   formatPriceCad,
   planLabel,
   INTERACTION_NOTE,
-  type MarketingPlan,
+  COMMON_BASE_NOTE,
 } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { TRIAL_CTA, TRIAL_SHORT, TRIAL_FULL } from '@/lib/trial';
@@ -65,165 +64,75 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
   },
 ];
 
-// Comparatif : il doit VENDRE LA MONTÉE EN GAMME, pas niveler les plans. Chaque
-// cellule est soit un booléen (✓ /,), soit une « intensité » progressive
-// (1→3 pastilles) qui montre qu’un même bénéfice s’enrichit avec le plan, soit
-// un court texte qualitatif. Le palais qui apprend est VISIBLE dès Standard.
-// Prix, recommandations et utilisateurs restent calculés depuis PLANS plus bas.
-type CompareCell = boolean | { level: 1 | 2 | 3 } | { text: { fr: string; en: string } };
-
-const COMPARE_FEATURES: {
-  label: { fr: string; en: string };
-  hint?: { fr: string; en: string };
-  /** [Gratuit, Standard, Pro, Passionné] */
-  values: [CompareCell, CompareCell, CompareCell, CompareCell];
-}[] = [
-  {
-    label: { fr: 'Octave apprend votre palais', en: 'Octave learns your palate' },
-    hint: { fr: 'Dès la première recommandation', en: 'From your very first recommendation' },
-    // Le palais s'apprend sur TOUS les plans, Gratuit compris : c'est une capacité
-    // universelle (la démo du moat), jamais un différenciateur.
-    values: [true, true, true, true],
-  },
-  // RETIRÉ (P22/R3, 2026-07-16), « Profil de goût qui s'affine » affichait trois
-  // niveaux croissants (1→2→3) : un différenciateur INVENTÉ. Le palais est
-  // universel et identique sur tous les plans ; la ligne précédente le dit déjà.
-  // L'app a retiré la même promesse (« Profil de goût avancé » / « Apprentissage
-  // du palais ») en P21A Lot D, sa garde CI `pricing↔gates` les interdit désormais.
-  {
-    label: { fr: 'Mode restaurant', en: 'Restaurant mode' },
-    hint: { fr: 'Un accord à partir de la carte', en: 'A pairing from the wine list' },
-    values: [true, true, true, true],
-  },
-  {
-    label: { fr: 'Disponibilité locale en direct', en: 'Live local availability' },
-    values: [true, true, true, true],
-  },
-  {
-    label: { fr: 'Carnet de dégustation', en: 'Tasting journal' },
-    // La cave-mémoire est la promesse du Gratuit : le carnet en fait partie.
-    // Cette ligne existe pour que le partage (ligne suivante) se lise comme un
-    // SUPPLÉMENT et non comme la seule façon d'avoir un carnet.
-    values: [true, true, true, true],
-  },
-  {
-    label: { fr: 'Carnet partagé', en: 'Shared journal' },
-    // Ce qui se partage, ce sont LES NOTES, jamais le goût. Le modèle `Tasting`
-    // porte une note PAR USER : « toutes les notes sont visibles, mais le palais
-    // de chacun n'est nourri que par SES propres notes ». Le palais est
-    // strictement personnel côté app (`palateProfile` par `userId`,
-    // `@@unique([userId, dimension, value])`) — la séparation est même un
-    // CORRECTIF : en multi-utilisateur, le membre B écrasait la note de A et
-    // héritait de son `userId`, corrompant le palais de A.
-    //
-    // D'où le libellé : « carnet partagé », jamais « mémoire de goût partagée »,
-    // qui promettrait la mise en commun d'un palais que le produit sépare
-    // exprès, et qui frôle les formulations bannies par `pricing-gates-guard`
-    // (`/profil de goût avancé/i`, `/apprentissage du palais/i`).
-    //
-    // Gaté par le NOMBRE DE MEMBRES : `resolveCellarAttribution` se tait sous
-    // deux membres, donc actif dès `includedUsers > 1`, soit Pro (2) et
-    // Passionné (4).
-    hint: {
-      fr: 'Les notes de chacun, visibles de tous. Votre palais reste le vôtre.',
-      en: 'Everyone’s notes, visible to all. Your palate stays yours.',
-    },
-    values: [false, false, true, true],
-  },
-  {
-    label: { fr: 'Cave partagée', en: 'Shared cellar' },
-    // Enfin VRAIE (P26, 2026-07-16) : inviter un compte existant, basculer de cave,
-    // rôle lecture seule hermétique, journal familial. Elle était affichée ici
-    // AVANT d'exister, le produit l'a rattrapée.
-    // Pro était SOUS-VENDU : `plan-catalog.ts` donne `includedUsers` 1 / 2 / 4
-    // (Standard / Pro / Passionné) et le verrou d'invitation de l'app est
-    // purement numérique (`maxMembers <= 1` refuse), son message disant déjà
-    // « Passez à Pro ou Passionné pour inviter des membres ». Le site était le
-    // dernier endroit à prétendre le contraire. L'infobulle porte les DEUX
-    // chiffres : un crochet nu sous « jusqu'à 4 personnes » promettrait quatre
-    // places sur un forfait qui en a deux.
-    hint: {
-      fr: 'Une cave à plusieurs : 2 personnes sur Pro, 4 sur Passionné',
-      en: 'One cellar, together: 2 people on Pro, 4 on Enthusiast',
-    },
-    values: [false, false, true, true],
-  },
-  // RETIRÉ (P22/R3, 2026-07-16), « Priorité à Octave / Vos demandes passent devant »
-  // n'a JAMAIS existé : aucune file prioritaire n'est câblée. L'app l'a retirée en
-  // P21A Lot D et sa garde CI l'interdit (`/priorité ia/i` dans BANNED). Le site
-  // était le dernier endroit où cette promesse survivait.
-];
-
 /**
- * Les noms de forfaits, LOCALISÉS.
+ * ── CE QUE CE COMPARATIF NE FAIT PLUS, ET POURQUOI (Eric, 2026-09-13) ──────
  *
- * C'était une table figée en français. Depuis la décision d'Eric, `famille`
- * s'affiche « Passionné » ou « Enthusiast » selon la langue, un LIBELLÉ, pas
- * un second produit : l'identifiant, le priceId et l'accès sont identiques.
+ * Il portait six lignes de fonctionnalités. Quatre étaient cochées sur TOUTES
+ * les colonnes (palais, Restaurant, disponibilité locale, carnet), et les deux
+ * dernières ne l'étaient que sur les paliers à plusieurs places — c'est-à-dire
+ * qu'elles redisaient la ligne « Utilisateurs inclus » située quatre rangs plus
+ * haut.
+ *
+ * Un audit du code applicatif a tranché la question de fond : AUCUNE
+ * fonctionnalité n'est réservée à un forfait. Restaurant, magasin, dégustations,
+ * accords, scan, notes et souvenirs sont ouverts à tous, Gratuit compris. Quatre
+ * éléments seulement varient — la taille de la cave, le nombre d'interactions,
+ * le nombre d'utilisateurs, et les palais distincts qui découlent du nombre
+ * d'utilisateurs. Le tableau ne garde donc que ce qui varie, et ce que tout le
+ * monde a se dit UNE fois, en toutes lettres, au-dessus (`COMMON_BASE_NOTE`).
+ *
+ * ⚠️ `renderCompareCell` ET SES TROIS NIVEAUX D'INTENSITÉ ONT ÉTÉ SUPPRIMÉS,
+ * DÉLIBÉRÉMENT. Ce mécanisme — trois pastilles dorées de plus en plus pleines —
+ * permettait de représenter un bénéfice qui « s'enrichit avec le plan » sans
+ * qu'aucun chiffre ne l'étaye. C'est par ce chemin exact que de faux
+ * différenciateurs sont revenus DEUX fois (« Profil de goût qui s'affine »,
+ * P22/R3 ; « Priorité à Octave », P21A Lot D), et la garde CI du dépôt
+ * applicatif interdit désormais ces deux promesses par leur nom.
+ *
+ * NE PAS LE RÉTABLIR. Une ligne qui ne peut pas s'écrire avec un nombre lu dans
+ * `plans.ts` n'a pas sa place dans ce tableau : elle appartient au socle commun,
+ * ou elle n'est pas vraie.
  */
-const planNames = (locale: 'fr' | 'en'): Record<string, string> => ({
-  gratuit: planLabel('gratuit', locale),
-  standard: planLabel('standard', locale),
-  pro: planLabel('pro', locale),
-  famille: planLabel('famille', locale),
-});
 
-/** Colonnes du comparatif : la porte gratuite EN TÊTE, puis les 3 vendables. */
-const COMPARE_COLUMNS: MarketingPlan[] = [FREE_PLAN, ...PLANS];
-
-// Rendu d’une cellule du comparatif. Le niveau d’intensité (1→3) se lit comme
-// trois pastilles : plus elles sont dorées, plus le bénéfice s’enrichit avec le
-// plan, il reste présent (et doré) dès le niveau 1, jamais barré.
-function renderCompareCell(cell: CompareCell, t: T) {
-  if (typeof cell === 'boolean') {
-    return cell ? (
-      <Check size={17} strokeWidth={2} className="inline text-or" aria-label={t('Inclus', 'Included')} />
-    ) : (
-      <Minus size={15} className="inline text-foreground-faint/50" aria-label={t('Non inclus', 'Not included')} />
-    );
-  }
-  if ('level' in cell) {
-    const labels = [t('De base', 'Baseline'), t('Approfondi', 'In-depth'), t('Le plus fin', 'Finest')] as const;
-    return (
-      <span
-        className="inline-flex items-center gap-1"
-        role="img"
-        aria-label={labels[cell.level - 1]}
-      >
-        {[1, 2, 3].map((n) => (
-          <span
-            key={n}
-            aria-hidden
-            className={`h-1.5 w-1.5 rounded-full ${n <= cell.level ? 'bg-or' : 'bg-foreground-faint/25'}`}
-          />
-        ))}
-      </span>
-    );
-  }
-  return (
-    <span className="text-[13px] text-foreground">{t(cell.text.fr, cell.text.en)}</span>
-  );
-}
+/** Colonnes du comparatif : Gratuit · Standard · Premium, l'ordre de la grille. */
+const COMPARE_COLUMNS = GRILLE;
 
 export default function TarifsContent() {
   const { locale } = useLocale();
   const t: T = (fr, en) => (locale === 'fr' ? fr : en);
 
-  // Lignes chiffrées du comparatif, lues depuis PLANS (jamais de tokens).
-  const numericRows = [
+  /**
+   * LES QUATRE LIGNES QUI DIFFÈRENT VRAIMENT, toutes lues dans `plans.ts`.
+   *
+   * Les interactions passent juste sous le prix : depuis que le Gratuit monte à
+   * 100 bouteilles, l'écart de cave avec le Standard n'est plus que d'un facteur
+   * deux, et ce n'est plus lui qui décide d'un achat. Ce qui le décide, c'est
+   * 2 conseils par mois contre 50.
+   *
+   * Aucune ligne ne peut être ajoutée ici sans un nombre qui vienne de la SOT :
+   * c'est la règle qui empêche les faux différenciateurs de revenir.
+   */
+  const numericRows: { label: string; hint?: string; cells: string[] }[] = [
     {
       label: t('Prix par mois', 'Price per month'),
-      cells: COMPARE_COLUMNS.map((p) =>
-        p.priceMonthlyCents === 0 ? t('0 $', '$0') : `${formatPriceCad(p.priceMonthlyCents, locale)} $`,
-      ),
+      // Le symbole se place selon la langue : « 14,95 $ » en français, « $14.95 »
+      // en anglais. La colonne à zéro rendait déjà « $0 » côté anglais, face à
+      // des « 14.95 $ » restés à la française — trois cellules, deux
+      // conventions, sur la ligne la plus lue du tableau.
+      cells: COMPARE_COLUMNS.map((p) => {
+        const montant = formatPriceCad(p.priceMonthlyCents, locale);
+        return p.priceMonthlyCents === 0
+          ? t('0 $', '$0')
+          : t(`${montant} $`, `$${montant}`);
+      }),
     },
     {
       label: t('Interactions avec Octave / mois', 'Interactions with Octave / mo'),
+      hint: t(
+        'Le vrai écart entre les forfaits : la fréquence à laquelle vous demandez conseil.',
+        'The real gap between plans: how often you ask for advice.',
+      ),
       cells: COMPARE_COLUMNS.map((p) => p.monthlyRecommendations.toString()),
-    },
-    {
-      label: t('Utilisateurs inclus', 'Users included'),
-      cells: COMPARE_COLUMNS.map((p) => p.includedUsers.toString()),
     },
     {
       /**
@@ -232,8 +141,7 @@ export default function TarifsContent() {
        * Il est appliqué par l'application depuis toujours et n'apparaissait
        * NULLE PART sur le site : un collectionneur de 400 bouteilles pouvait
        * souscrire Standard et heurter un mur à 200, après avoir importé sa
-       * cave. C'est aussi le seul argument Standard → Pro qui existait déjà et
-       * que personne n'utilisait.
+       * cave.
        */
       label: t('Bouteilles au cellier', 'Bottles in the cellar'),
       cells: COMPARE_COLUMNS.map((p) =>
@@ -241,6 +149,23 @@ export default function TarifsContent() {
           ? t('Illimité', 'Unlimited')
           : p.maxBottles.toLocaleString(locale === 'en' ? 'en-CA' : 'fr-CA'),
       ),
+    },
+    {
+      /**
+       * LES PALAIS DISTINCTS SE DISENT ICI, et pas sur une ligne à eux.
+       *
+       * Ils DÉCOULENT du nombre d'utilisateurs : côté application, le palais est
+       * strictement personnel (`palateProfile` par `userId`), et le verrou du
+       * partage est purement numérique — une invitation est refusée dès que le
+       * forfait n'inclut qu'une place. Une ligne « Chacun son palais » séparée
+       * redirait donc exactement cette ligne-ci, un rang plus bas.
+       */
+      label: t('Utilisateurs inclus', 'Users included'),
+      hint: t(
+        'Chacun son palais : les goûts ne se mélangent jamais.',
+        'Each their own palate: tastes never blend.',
+      ),
+      cells: COMPARE_COLUMNS.map((p) => p.includedUsers.toString()),
     },
   ];
 
@@ -320,12 +245,20 @@ export default function TarifsContent() {
           <FadeInOnScroll>
             <div className="text-center mb-12">
               <p className="iq-eyebrow mb-5">{t('Comparer', 'Compare')}</p>
+              {/* Le titre disait « Plus vous lui en confiez, mieux il vous
+                  connaît » : joli, et faux au sens strict — le palais s'apprend
+                  IDENTIQUEMENT sur les trois forfaits. Ce qui change est la
+                  fréquence, la place et le nombre de palais. Le titre le dit
+                  maintenant, et le tableau ne montre plus que cela. */}
               <h2 className="iq-h1 italic max-w-2xl mx-auto">
                 {t(
-                  'Le même Octave. Plus vous lui en confiez, mieux il vous connaît.',
-                  'The same Octave. The more you entrust him, the better he knows you.',
+                  'Le même Octave dans les trois. Ce qui change, c’est combien vous lui parlez.',
+                  'The same Octave in all three. What changes is how much you talk to him.',
                 )}
               </h2>
+              <p className="mx-auto mt-6 max-w-[58ch] text-[15px] leading-relaxed text-muted-foreground">
+                {t(COMMON_BASE_NOTE.fr, COMMON_BASE_NOTE.en)}
+              </p>
             </div>
           </FadeInOnScroll>
           {/* Le tableau garde son defilement horizontal sur mobile : le
@@ -348,7 +281,7 @@ export default function TarifsContent() {
                         key={p.id}
                         className={`p-4 text-center font-[family-name:var(--font-display)] italic text-lg ${p.highlight ? 'text-or' : 'text-foreground'}`}
                       >
-                        {planNames(locale)[p.id]}
+                        {planLabel(p.id, locale)}
                         {p.highlight && (
                           <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
                             {t('Populaire', 'Popular')}
@@ -360,33 +293,21 @@ export default function TarifsContent() {
                 </thead>
                 <tbody>
                   {numericRows.map((row, i) => (
-                    <tr key={`n${i}`} className="border-b border-white/5">
-                      <td className="p-4 text-[14px] text-muted-foreground">{row.label}</td>
+                    <tr key={`n${i}`} className="border-b border-white/5 last:border-0">
+                      <td className="p-4">
+                        <span className="block text-[14px] text-muted-foreground">{row.label}</span>
+                        {row.hint && (
+                          <span className="mt-0.5 block text-[12px] leading-snug text-foreground-faint/70">
+                            {row.hint}
+                          </span>
+                        )}
+                      </td>
                       {row.cells.map((c, j) => (
                         <td
                           key={j}
                           className={`p-4 text-center text-[15px] tabular-nums ${COMPARE_COLUMNS[j]?.highlight ? 'text-or bg-or/[0.04]' : 'text-foreground'}`}
                         >
                           {c}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                  {COMPARE_FEATURES.map((row, i) => (
-                    <tr key={`f${i}`} className="border-b border-white/5 last:border-0">
-                      <td className="p-4">
-                        <span className="block text-[14px] text-muted-foreground">
-                          {locale === 'fr' ? row.label.fr : row.label.en}
-                        </span>
-                        {row.hint && (
-                          <span className="block text-[12px] leading-snug text-foreground-faint/70 mt-0.5">
-                            {locale === 'fr' ? row.hint.fr : row.hint.en}
-                          </span>
-                        )}
-                      </td>
-                      {row.values.map((v, j) => (
-                        <td key={j} className={`p-4 text-center ${COMPARE_COLUMNS[j]?.highlight ? 'bg-or/[0.04]' : ''}`}>
-                          {renderCompareCell(v, t)}
                         </td>
                       ))}
                     </tr>

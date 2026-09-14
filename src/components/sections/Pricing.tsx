@@ -12,26 +12,49 @@ import { buildSignupUrl } from "@/lib/constants";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import { TRIAL_SHORT } from '@/lib/trial';
 import {
-  PLANS,
+  GRILLE,
   formatPriceCad,
-  annualSavingsCents,
+  formatPriceCadShort,
+  annualSavingsSentence,
   monthlyEquivalentCents,
   maxBottlesLabel,
   INTERACTION_NOTE,
+  COMMON_BASE_NOTE,
+  FOUNDER_PRICE,
+  FOUNDER_PRICE_NOTE,
+  type MarketingPlan,
   type PlanId,
 } from "@/lib/plans";
 
 /**
- * Tarification, 3 forfaits commerciaux définitifs (lit la SOT src/lib/plans.ts).
- * Standard / Pro (recommandé) / Famille (ancrage). Mensuel. « recommandations IA »
- * + « utilisateurs » uniquement, jamais tokens/crédits/API. 14 j d'essai, sans carte.
+ * LA GRILLE, trois cartes, dans l'ordre : Gratuit · Standard · Premium.
+ * (Lit la SOT `src/lib/plans.ts`, aucune valeur écrite ici.)
+ *
+ * ── Ce que la refonte du 2026-09-13 a changé ──────────────────────────────
+ * Quatre paliers sont devenus trois, le Gratuit est ENTRÉ dans la grille comme
+ * première colonne à 0 $ (il vivait sous les cartes, dans une bande d'un rang
+ * visuel inférieur), et le RECOMMANDÉ est passé du palier haut au Standard :
+ * c'est le forfait qu'on veut réellement vendre, pas celui qui sert d'ancrage.
+ *
+ * ── La règle d'écriture des puces, qui n'a pas changé ─────────────────────
+ * Une puce dit ce que le VOLUME rend possible, jamais ce qu'il « débloque » :
+ * aucune fonctionnalité n'est réservée à un forfait, et l'écrire serait le faux
+ * différenciateur que ce fichier a déjà dû purger deux fois. Une puce ne répète
+ * jamais non plus un nombre que l'encadré porte déjà (bouteilles, interactions,
+ * utilisateurs) : le Pro le faisait, seul des trois, ce qui le faisait passer
+ * pour le seul forfait plafonné alors qu'ils le sont tous.
+ *
+ * Jamais de tokens, de crédits ni d'appels API : « interactions avec Octave » et
+ * « utilisateurs inclus », rien d'autre.
  */
 
 interface PlanCopy {
   /**
    * Le nom AFFICHÉ, par langue. Il était un `string` unique, ce qui rendait
-   * impossible de localiser « Passionné » sans en faire un cas particulier.
-   * Tout est bilingue, donc rien n'est une exception.
+   * impossible de localiser un libellé sans en faire un cas particulier.
+   * Tout est bilingue, donc rien n'est une exception — même si, depuis la
+   * sortie de « Passionné », les trois noms sont identiques dans les deux
+   * langues.
    */
   name: Record<'fr' | 'en', string>;
   tagline: Record<Locale, string>;
@@ -39,135 +62,67 @@ interface PlanCopy {
 }
 
 /**
- * Le nombre d'utilisateurs inclus, LU depuis la grille.
+ * LES TROIS PROMESSES, dictées par Eric le 2026-09-13.
  *
- * Le Passionné se vend sur le partage : sa promesse nomme donc un nombre de
- * personnes. L'écrire à la main dans une phrase le condamnerait à diverger le
- * jour où la grille change, et une promesse commerciale fausse coûte plus cher
- * qu'un tableau faux, parce qu'elle est lue avant l'achat, pas après.
+ * Les taglines françaises sont les siennes, mot pour mot. Les puces disent ce
+ * que le volume rend possible, et RIEN d'autre : pas une fonction nommée comme
+ * si elle était réservée (elles sont toutes ouvertes à tous, Gratuit compris),
+ * pas un nombre déjà porté par l'encadré chiffré.
+ *
+ * ⚠️ « sans jamais compter » est INTERDIT à propos du Premium : il reste
+ * plafonné à 200 interactions par mois. « Assez pour recevoir toutes les
+ * semaines » est vrai et donne envie ; « sans compter » est faux.
  */
-function utilisateursInclus(id: PlanId): number {
-  return PLANS.find((p) => p.id === id)?.includedUsers ?? 1;
-}
-
 const COPY: Record<PlanId, PlanCopy> = {
-  // P22, la porte d'entrée. Elle n'a PAS de carte d'achat (rien à acheter) : elle
-  // vit dans le comparatif, avec ses vrais chiffres. Miroir exact de l'app, qui
-  // l'affiche aussi en bloc, jamais en bouton de paiement.
+  // LA PORTE D'ENTRÉE, désormais une carte comme les autres — même gabarit,
+  // même encadré chiffré, même CTA. Ce qui la distingue tient au prix, pas au
+  // rang : elle ne porte ni liseré d'or ni bandeau « Recommandé ».
   gratuit: {
     name: { fr: 'Gratuit', en: 'Free' },
     tagline: {
-      fr: "Votre cave, pour toujours.",
-      en: "Your cellar, forever.",
+      fr: "Commencez votre cave, gardez vos souvenirs et découvrez Octave gratuitement.",
+      en: "Start your cellar, keep your memories, and discover Octave for free.",
     },
     features: [
-      { fr: "Jusqu’à 50 bouteilles, à vie", en: "Up to 50 bottles, for life" },
-      { fr: "Votre cave et vos souvenirs, sans date de fin", en: "Your cellar and memories, with no end date" },
-      { fr: "Un avant-goût d’Octave", en: "A taste of Octave" },
       { fr: "Sans carte de crédit", en: "No credit card" },
+      { fr: "Votre cave et vos souvenirs, sans date de fin", en: "Your cellar and your memories, with no end date" },
+      { fr: "Un avant-goût d’Octave", en: "A taste of Octave" },
     ],
   },
   standard: {
     name: { fr: 'Standard', en: 'Standard' },
     tagline: {
-      fr: "L’essentiel, votre cave, et la bonne bouteille chez vous.",
-      en: "The essentials, your cellar, and the right bottle at home.",
+      fr: "Octave apprend votre palais et vous aide à choisir la bonne bouteille, chez vous et au quotidien.",
+      en: "Octave learns your palate and helps you choose the right bottle, at home and every day.",
     },
+    // ⚠️ NE PAS FAIRE REPOSER CETTE CARTE SUR LA TAILLE DE LA CAVE (2026-09-13).
+    // Depuis que le Gratuit monte à 100 bouteilles, l'écart n'est plus qu'un
+    // facteur deux : réel, mais secondaire. Ce qui vend le Standard, c'est
+    // 50 conseils par mois contre 2, donc la fréquence et le palais qu'elle
+    // permet d'affiner. La cave passe en troisième, et sans emphase.
     features: [
-      { fr: "Plus de liberté pour demander des accords vins & mets", en: "More freedom to ask for food & wine pairings" },
-      { fr: "Plus de liberté pour photographier vos plats et laisser Octave choisir", en: "More freedom to photograph your dishes and let Octave choose" },
-      { fr: "Plus de liberté pour gérer votre cave, étiquette après étiquette", en: "More freedom to manage your cellar, label after label" },
+      { fr: "Assez de conseils pour qu’Octave apprenne vraiment votre palais", en: "Enough advice for Octave to truly learn your palate" },
+      { fr: "De quoi lui demander la bonne bouteille plusieurs fois par semaine", en: "Enough to ask him for the right bottle several times a week" },
+      { fr: "Une cave qui grandit avec vous", en: "A cellar that grows with you" },
     ],
   },
+  // « Premium » à l'écran, `pro` dans le code et dans la facturation (voir
+  // `PlanId`). Ses trois puces disent ses trois vraies différences : la cave
+  // sans plafond, la fréquence, et les palais qui ne se mélangent pas.
   pro: {
-    name: { fr: 'Pro', en: 'Pro' },
+    name: { fr: 'Premium', en: 'Premium' },
     tagline: {
-      fr: "Le forfait de l’amateur, partout où le vin se choisit.",
-      en: "The wine lover’s plan, everywhere wine gets chosen.",
+      fr: "Octave vous accompagne partout, avec une cave sans limite et jusqu’à quatre utilisateurs.",
+      en: "Octave goes with you everywhere, with a limitless cellar and up to four users.",
     },
     features: [
-      { fr: "Tout ce que fait le Standard", en: "Everything Standard does" },
-      // RETIRÉ (D6, 2026-07-16), « Un profil de goût qui s'affine en profondeur »
-      // était un faux différenciateur : le palais s'apprend IDENTIQUEMENT sur tous
-      // les plans (c'est la démo du moat, pas une option payante). Remplacé alors
-      // par la capacité RÉELLE qui distingue Pro : son quota.
-      //
-      // RETIRÉ À NOUVEAU (Eric, 2026-08-02), le remplacement était juste sur le
-      // fond et faux dans l'ensemble : le Pro était le SEUL des trois à répéter
-      // son quota en puce, si bien qu'il avait l'air d'être le seul forfait
-      // plafonné. Les trois le sont. Les trois chiffres vivent maintenant dans
-      // l'encadré, à la même place sur chaque carte ; les puces redeviennent ce
-      // qu'elles doivent être, des bénéfices, pas des limites.
-      //
-      // Ne pas réintroduire ici un nombre déjà porté par l'encadré : c'est
-      // exactement ce qui a produit l'asymétrie.
-      //
-      // ── LA RÈGLE D'ÉCRITURE DE CES PUCES (Eric, 2026-08-02) ──────────────
-      // Une puce dit ce que le VOLUME rend possible. Jamais ce qu'il
-      // « débloque ».
-      //
-      // Le fait technique qui l'impose, RÉÉCRIT le 2026-08-19 après la refonte
-      // du compteur côté application : le quota n'est plus un budget, c'est un
-      // COMPTEUR D'INTERACTIONS, et une demande de conseil en vaut exactement
-      // une, quel que soit le travail qu'Octave fournit derrière. L'accord du
-      // soir, le plat photographié, la carte des vins d'un restaurant, la
-      // bouteille photographiée en succursale pour savoir si elle vous
-      // plairait, la soirée accordée plat par plat : une demande, une
-      // interaction.
-      //
-      // Ce que le commentaire précédent disait de faux, et qu'il ne faut pas
-      // réintroduire : « budget », et « l'étiquette scannée en boutique »
-      // rangée parmi ce qui consomme. Les gestes de GESTION DE CAVE ne
-      // comptent pas. Scanner une étiquette pour entrer une bouteille,
-      // photographier une étagère, importer un fichier, compléter une fiche,
-      // laisser Octave apprendre un goût : rien de tout cela n'entame le
-      // compteur. C'est la meilleure nouvelle de la grille, et c'est pour ça
-      // qu'elle est écrite sous les chiffres (`INTERACTION_NOTE`).
-      //
-      // Aucune de ces fonctions n'est réservée à un forfait : elles existent
-      // TOUTES dès le Standard. Seule la fréquence à laquelle on peut s'en
-      // servir change.
-      //
-      // Écrire « le Pro permet de photographier la carte des vins » serait
-      // donc faux, et exactement le faux différenciateur que D6 avait purgé.
-      // Écrire « de quoi photographier la carte des vins sans compter » est
-      // vrai, et c'est ce qui donne envie : ce n'est pas une porte qui
-      // s'ouvre, c'est une arithmétique qui disparaît.
-      //
-      // Le levier de désir est là : une soirée reçue consomme une dizaine
-      // d'interactions d'un coup. Sur 50, on y pense. Sur 110, on n'y pense
-      // plus. C'est la vraie différence, et elle se dit sans exagérer.
-      { fr: "Plus de liberté pour être guidé au restaurant, carte des vins en main", en: "More freedom to be guided at the restaurant, wine list in hand" },
-      { fr: "Plus de liberté pour concevoir des menus dégustation, plat par plat", en: "More freedom to design tasting menus, course by course" },
-      { fr: "Plus de liberté pour explorer en succursale, étiquette après étiquette", en: "More freedom to explore in store, label after label" },
-    ],
-  },
-  famille: {
-    // Le seul forfait dont le nom est localisé : « Passionné » / « Enthusiast ».
-    // Même identifiant, même priceId, même accès, seul le mot affiché change.
-    name: { fr: 'Passionné', en: 'Enthusiast' },
-    tagline: {
-      fr: "À plusieurs, un Octave partagé, une cave sans fin.",
-      en: "Together, one shared Octave, an endless cellar.",
-    },
-    features: [
-      { fr: "Tout ce que fait le Pro", en: "Everything Pro does" },
-      {
-        // « avec les vôtres, N personnes », et non « avec N personnes » :
-        // `includedUsers` compte le TOTAL, propriétaire compris. L'application
-        // le dit ainsi dans sa propre grille (« Cave partagée, 4 personnes »).
-        // Écrit « partager avec 4 personnes », le client en comprend cinq, et
-        // découvre l'écart au moment d'inviter le dernier, c'est-à-dire après
-        // avoir payé.
-        fr: `Plus de liberté pour partager Octave avec les vôtres, ${utilisateursInclus("famille")} personnes, chacun son palais`,
-        en: `More freedom to share Octave with your household, ${utilisateursInclus("famille")} people, each their own palate`,
-      },
-      { fr: "Plus de liberté pour recevoir toutes les semaines, sans compter vos interactions mensuelles avec Octave", en: "More freedom to host every week, without counting your monthly Octave interactions" },
-      // RETIRÉ (D6, 2026-07-16), « Vos recommandations passent devant » est
-      // « Priorité à Octave » REFORMULÉE : aucune file prioritaire n'existe, ni
-      // n'a jamais existé. Retirée du comparatif ET d'ici. Remplacée par la
-      // capacité RÉELLE du Passionné : sa cave sans plafond.
-      { fr: "Plus de liberté pour collectionner sans plafond, la cave d’une vie", en: "More freedom to collect with no ceiling, a lifetime’s cellar" },
+      { fr: "Une cave sans plafond, la collection d’une vie", en: "A cellar with no ceiling, a lifetime’s collection" },
+      // Le partage est le seul « verrou » réel de la grille, et il est
+      // purement numérique : l'application refuse une invitation dès que le
+      // forfait n'inclut qu'une place. Il se dit donc par les palais, pas par
+      // une fonction qu'on « débloquerait ».
+      { fr: "Chacun son palais : les goûts ne se mélangent jamais", en: "Each their own palate: tastes never blend" },
+      { fr: "Assez d’interactions pour recevoir toutes les semaines", en: "Enough interactions to host every week" },
     ],
   },
 };
@@ -210,8 +165,11 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
         </div>
       </FadeInOnScroll>
 
-      {/* Bascule mensuel / annuel, « 2 mois offerts » est un fait honnête
-          (l'annuel = 10× le mensuel), aucune fausse urgence. Annuel par défaut. */}
+      {/* Bascule mensuel / annuel. Annuel par défaut, aucune fausse urgence.
+          « Deux mois offerts » a été RETIRÉ d'ici (2026-09-13) : il était vrai
+          quand l'annuel valait 10× le mensuel, il ne l'est plus (50,40 $
+          d'économie = 3,37 mois de Standard). Le prix fondateur le remplace, et
+          il ne paraît QUE sous l'annuel — il n'existe pas sur le mensuel. */}
       <FadeInOnScroll delay={0.08}>
         <div className="flex flex-col items-center gap-3 mb-12 sm:mb-14">
           <div
@@ -267,86 +225,59 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
               </span>
             </button>
           </div>
-          <div className="flex flex-col items-center gap-1.5">
-            <span className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide ${jour ? "bg-or-jour/12 text-or-jour" : "bg-or/12 text-or"}`}>
-              {t("Deux mois offerts avec l’abonnement annuel.", "Two months free with the annual plan.")}
-            </span>
+          <div className="flex min-h-[3.25rem] flex-col items-center gap-1.5">
+            {billingPeriod === "yearly" && (
+              <span className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide ${jour ? "bg-or-jour/12 text-or-jour" : "bg-or/12 text-or"}`}>
+                {t(FOUNDER_PRICE.fr, FOUNDER_PRICE.en)}
+              </span>
+            )}
             <span className={`text-[13px] ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}>
-              {t("Un palais qu’Octave affine toute l’année.", "A palate Octave sharpens all year long.")}
+              {billingPeriod === "yearly"
+                ? t(FOUNDER_PRICE_NOTE.fr, FOUNDER_PRICE_NOTE.en)
+                : t("Sans engagement, résiliable en tout temps.", "No commitment, cancel anytime.")}
             </span>
           </div>
         </div>
       </FadeInOnScroll>
 
-      {/* LE SOCLE COMMUN (v3, 2026-08-14) : dit en UNE ligne ce que le
-          comparatif met 12 lignes à démontrer, et dissout la peur de « payer
-          plus pour avoir le vrai produit ». */}
+      {/* LE SOCLE COMMUN, en toutes lettres (Eric, 2026-09-13).
+          Il dissout la peur qui bloque le plus d'achats : « faut-il payer plus
+          pour avoir le vrai produit ? ». Non — aucune fonctionnalité n'est
+          réservée à un forfait, c'est établi par audit du code applicatif. Le
+          texte vit dans `COMMON_BASE_NOTE`, il paraît aussi au-dessus du
+          comparatif, et deux rédactions de la même promesse divergent. */}
       <FadeInOnScroll delay={0.08}>
-        <p className={`mx-auto mb-10 max-w-[54ch] text-center text-[15.5px] leading-relaxed md:text-[16.5px] ${jour ? "text-encre-2" : "text-muted-foreground"}`}>
-          {t('Le même sommelier dans toutes les formules. Ce qui change, c’est la taille de votre cave et le nombre de personnes qui la partagent.',
-             'The same sommelier in every plan. What changes is the size of your cellar and how many people share it.')}
+        <p className={`mx-auto mb-3 max-w-[58ch] text-center text-[15.5px] leading-relaxed md:text-[16.5px] ${jour ? "text-encre-2" : "text-muted-foreground"}`}>
+          {t(COMMON_BASE_NOTE.fr, COMMON_BASE_NOTE.en)}
+        </p>
+        <p className={`mx-auto mb-10 max-w-[58ch] text-center text-[14px] leading-relaxed ${jour ? "text-encre-3" : "text-foreground-dim"}`}>
+          {t('Ce qui change d’un forfait à l’autre : le nombre d’interactions avec Octave, la taille de votre cave et le nombre d’utilisateurs.',
+             'What changes from one plan to the next: how many interactions you have with Octave, the size of your cellar, and how many users.')}
         </p>
       </FadeInOnScroll>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7 max-w-6xl mx-auto items-stretch">
-        {PLANS.map((plan, i) => (
-          <FadeInOnScroll
-            key={plan.id}
-            delay={0.12 + i * 0.1}
-            // Le recommandé passe EN TÊTE sur mobile : empilé, il se retrouvait
-            // au milieu, là où l'œil ne va pas (v3, 2026-08-14).
-            className={`h-full ${plan.highlight ? 'order-first lg:order-none' : ''}`}
-          >
+        {/* `GRILLE` et non `PLANS` : la première carte est le Gratuit, qui n'a
+            pas de prix et ne fait donc pas partie du parcours d'achat.
+            AUCUN `order-first` ici (retiré le 2026-09-13) : il remontait le
+            recommandé en tête sur mobile, ce qui plaçait Standard AVANT
+            Gratuit et cassait la lecture Gratuit → Standard → Premium, qui est
+            précisément la progression que la grille raconte. */}
+        {GRILLE.map((plan, i) => (
+          <FadeInOnScroll key={plan.id} delay={0.12 + i * 0.1} className="h-full">
             <PlanCard plan={plan} locale={locale} billingPeriod={billingPeriod} jour={jour} />
           </FadeInOnScroll>
         ))}
       </div>
 
-      {/* ── LA PORTE D'ENTRÉE GRATUITE, ENFIN VISIBLE (Eric, 2026-08-14) ──
-          Elle ne vivait que dans le comparatif, donc invisible pour qui ne
-          défilait pas jusque-là, alors que c'est le meilleur argument
-          d'acquisition du site. Elle sort en carte HORIZONTALE, délibérément
-          d'un rang visuel inférieur aux trois cartes payantes : ni liseré d'or,
-          ni ombre portée, ni grand prix. Visible et crédible, sans jamais
-          concurrencer le Pro, qui reste le héros commercial.
-          Mesuré avant de trancher : en quatrième colonne, les cartes tombaient
-          à 283 px de large pour 968 px de haut, comprimées. */}
-      <FadeInOnScroll delay={0.42}>
-        <div className={`mx-auto mt-8 max-w-6xl rounded-2xl border p-6 sm:p-7 ${jour ? "border-encre/12 bg-papier-2/35" : "border-white/10 bg-white/[0.02]"}`}>
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-            <div className="lg:max-w-[34%]">
-              <p className={`font-[family-name:var(--font-display)] text-[22px] italic ${jour ? "text-encre" : "text-foreground"}`}>
-                {COPY.gratuit.name[locale]}
-              </p>
-              <p className={`mt-1 text-[14.5px] leading-snug ${jour ? "text-encre-2" : "text-muted-foreground"}`}>
-                {COPY.gratuit.tagline[locale]}
-              </p>
-            </div>
-            <ul className="flex flex-1 flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-x-6">
-              {COPY.gratuit.features.map((f) => (
-                <li key={f.en} className="flex items-start gap-2">
-                  <Check size={15} strokeWidth={2} className={`mt-0.5 shrink-0 ${jour ? "text-or-jour/75" : "text-or/80"}`} aria-hidden />
-                  <span className={`text-[13.5px] leading-snug ${jour ? "text-encre-2" : "text-foreground/85"}`}>{f[locale]}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href={buildSignupUrl('tarifs-gratuit', { lang: locale })}
-              onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'tarifs-gratuit' })}
-              className="shrink-0"
-            >
-              <Button
-                variant="secondary"
-                size="md"
-                className={jour ? "!border-encre/25 !bg-transparent !text-encre hover:!bg-encre/5 hover:!border-encre/35" : ""}
-              >
-                {t('Commencer gratuitement', 'Start for free')}
-                <ArrowRight size={15} strokeWidth={1.75} />
-              </Button>
-            </a>
-          </div>
-        </div>
-      </FadeInOnScroll>
+      {/* ── LA BANDE HORIZONTALE DU GRATUIT A DISPARU (Eric, 2026-09-13) ──
+          Elle existait parce que le Gratuit n'avait pas sa place dans la
+          grille : il sortait sous les trois cartes payantes, délibérément d'un
+          rang visuel inférieur, « sans jamais concurrencer le Pro ». La grille
+          n'a plus que trois colonnes, le Gratuit en occupe la première, et il
+          n'a plus besoin d'une seconde apparition.
+          NE PAS LA RÉTABLIR : deux présentations du même forfait sur un même
+          écran, c'est deux copies à tenir, et l'une des deux finit par mentir. */}
 
       {/* L'objection « pourquoi pas un achat unique » se pose APRES avoir vu
           les prix, jamais avant (v3, 2026-08-14) : elle a donc quitte le haut
@@ -395,7 +326,7 @@ function PlanCard({
   billingPeriod,
   jour = false,
 }: {
-  plan: (typeof PLANS)[number];
+  plan: MarketingPlan;
   locale: Locale;
   billingPeriod: "monthly" | "yearly";
   jour?: boolean;
@@ -405,9 +336,24 @@ function PlanCard({
   const isYearly = billingPeriod === "yearly";
   const t = (fr: string, en: string) => (locale === "fr" ? fr : en);
 
+  /**
+   * ── LE CAS PRIX ZÉRO, OBLIGATOIRE DEPUIS QUE LE GRATUIT EST UNE CARTE ────
+   *
+   * Sans lui, la carte du Gratuit passerait par la même arithmétique que les
+   * autres et afficherait, sous la bascule Annuel : « 0,00 $ · facturé 0 $
+   * annuellement · Économisez 0,00 $ par an ». Trois phrases exactes et
+   * absurdes, sur la carte qui doit être la plus simple de la page.
+   *
+   * Le Gratuit ignore donc la bascule : un forfait sans prix n'a pas de période
+   * de facturation. Il garde en revanche tout le reste du gabarit — l'encadré
+   * chiffré, la note d'interaction, les puces, le CTA — parce que c'est ce qui
+   * en fait une colonne comparable et non une note de bas de page.
+   */
+  const gratuit = plan.priceMonthlyCents === 0;
+  const annuel = isYearly && !gratuit;
+
   // Le grand nombre en annuel = l'équivalent MENSUEL (pas la facture annuelle).
-  const bigCents = isYearly ? monthlyEquivalentCents(plan) : plan.priceMonthlyCents;
-  const savingsCents = annualSavingsCents(plan);
+  const bigCents = annuel ? monthlyEquivalentCents(plan) : plan.priceMonthlyCents;
 
   return (
     <div
@@ -440,9 +386,11 @@ function PlanCard({
           plein est barré à côté et la facture annuelle passe en sous-ligne. */}
       <div className="flex items-baseline gap-2 mb-1">
         <span className={`font-[family-name:var(--font-display)] text-[56px] italic leading-none tracking-[-0.025em] tabular-nums sm:text-[68px] ${jour ? "text-bordeaux-jour" : "text-or"}`}>
-          {formatPriceCad(bigCents, locale)}
+          {/* « 0 » et non « 0,00 » : deux décimales sur la gratuité font lire un
+              prix là où il n'y en a pas. */}
+          {gratuit ? "0" : formatPriceCad(bigCents, locale)}
         </span>
-        {isYearly && (
+        {annuel && (
           <span className={`font-body text-base tabular-nums line-through ${jour ? "text-encre-3" : "text-foreground-faint"}`}>
             {formatPriceCad(plan.priceMonthlyCents, locale)}
           </span>
@@ -454,20 +402,41 @@ function PlanCard({
       <p className={`mb-1.5 font-body text-[11px] uppercase tracking-[0.22em] ${jour ? "text-encre-3" : "text-muted-foreground"}`}>
         {t("/ mois", "/ month")}
       </p>
+      {/* ── LA COMPARAISON ANNUELLE, HONNÊTE (Eric, 2026-09-13) ────────────
+       *
+       * Ce bloc affichait « Économisez X $ par an » sous un prix régulier
+       * annuel barré (179,40 $ / 359,40 $). Ces montants n'ont JAMAIS été des
+       * prix annuels commercialisés : les barrer inventait une réduction. Eric
+       * les a retirés.
+       *
+       * Ce qui reste se vérifie avec les deux seuls chiffres que la carte
+       * affiche déjà : la facture annuelle, et douze fois le tarif mensuel.
+       * Le prix barré qui subsiste À CÔTÉ DU GRAND NOMBRE est d'une autre
+       * nature, et il est vrai : il compare l'équivalent mensuel de l'annuel
+       * (10,75) au tarif mensuel réellement pratiqué (14,95).
+       *
+       * ⚠️ « Prix fondateur » ne paraît QUE dans cette branche annuelle, et il
+       * ne promet RIEN au-delà du lancement — relire `FOUNDER_PRICE`. */}
       <p className="mb-5 text-[13.5px] leading-snug">
-        {isYearly ? (
+        {gratuit ? (
+          <span className={jour ? "text-encre-2" : "text-foreground-dim"}>
+            {t("Gratuit à vie.", "Free for life.")}
+          </span>
+        ) : annuel ? (
           <span className="flex flex-col gap-1">
-            <span className={jour ? "text-encre-2" : "text-foreground-dim"}>
-              {t(
-                `Facturé ${formatPriceCad(plan.priceYearlyCents, locale)} $ annuellement.`,
-                `Billed $${formatPriceCad(plan.priceYearlyCents, locale)} yearly.`,
-              )}
+            <span className={`flex flex-wrap items-center gap-x-2 gap-y-1 ${jour ? "text-encre-2" : "text-foreground-dim"}`}>
+              <span>
+                {t(
+                  `Facturé ${formatPriceCadShort(plan.priceYearlyCents, locale)} $ annuellement.`,
+                  `Billed $${formatPriceCadShort(plan.priceYearlyCents, locale)} yearly.`,
+                )}
+              </span>
+              <span className={`rounded-full px-2 py-0.5 font-body text-[10px] font-medium uppercase tracking-[0.14em] ${jour ? "bg-or-jour/12 text-or-jour" : "bg-or/12 text-or"}`}>
+                {t(FOUNDER_PRICE.fr, FOUNDER_PRICE.en)}
+              </span>
             </span>
             <span className={`font-medium tabular-nums ${jour ? "text-or-jour" : "text-or"}`}>
-              {t(
-                `Économisez ${formatPriceCad(savingsCents, locale)} $ par an.`,
-                `Save $${formatPriceCad(savingsCents, locale)} per year.`,
-              )}
+              {annualSavingsSentence(plan, locale)}
             </span>
           </span>
         ) : (
@@ -481,16 +450,16 @@ function PlanCard({
        * Il n'annonçait que les recommandations et les utilisateurs. Le plafond
        * de BOUTEILLES n'apparaissait nulle part sur la carte, ni ici, ni dans
        * les puces, alors que c'est la limite qui arrête un client pour de
-       * vrai : 200 en Standard, 1 000 en Pro. On vendait un plafond sans le
+       * vrai : 100 au Gratuit, 200 au Standard. On vendait un plafond sans le
        * dire, et l'acheteur le découvrait en le heurtant.
        *
-       * Les trois chiffres sont lus depuis `PLANS`, jamais écrits ici : le
+       * Les trois chiffres sont lus depuis la SOT, jamais écrits ici : le
        * comparatif plus bas lit la même source, et deux tableaux de prix qui
        * divergent est une faute qu'on ne voit qu'une fois vendue.
        *
        * Corollaire tenu ailleurs dans ce fichier : plus aucune puce ne répète
-       * un de ces nombres. Le Pro le faisait, seul des trois, ce qui le faisait
-       * passer pour le seul forfait plafonné. */}
+       * un de ces nombres. Un seul forfait le faisait, ce qui le faisait passer
+       * pour le seul à être plafonné alors qu'ils le sont tous. */}
       {/* ── PLUS DE CARTE DANS LA CARTE (Eric, 2026-08-14) ─────────────────
           Les trois limites vivaient dans un rectangle sombre a fond plein :
           sur mobile, la page devenait une pile de boites imbriquees, un
@@ -498,13 +467,13 @@ function PlanCard({
           deviennent une COMPOSITION TYPOGRAPHIQUE, tenue par deux filets et de
           l'espace : le nombre porte le poids, le mot reste discret. Aucune
           information n'est retiree, les trois chiffres viennent toujours de
-          `PLANS`. */}
+          `plans.ts`. */}
       <div className={`mb-7 space-y-2 border-y py-4 ${jour ? "border-encre/10" : "border-border"}`}>
         {/* `tabular-nums` sur le paragraphe entier, et non sur un `<span>` :
-         * l'étiquette rend une phrase complète (« Jusqu'à 1 000 bouteilles »,
-         * ou « Bouteilles illimitées » quand il n'y a pas de plafond), le
-         * nombre n'est donc pas isolable. Sans ça, le « 200 » du Standard et
-         * le « 1 000 » du Pro ne s'alignent pas d'une carte à l'autre. */}
+         * l'étiquette rend une phrase complète (« Jusqu'à 100 bouteilles », ou
+         * « Bouteilles illimitées » quand il n'y a pas de plafond), le nombre
+         * n'est donc pas isolable. Sans ça, le « 100 » du Gratuit et le « 200 »
+         * du Standard ne s'alignent pas d'une carte à l'autre. */}
         <p className={`text-[14.5px] font-medium leading-snug tabular-nums ${jour ? "text-encre" : "text-foreground"}`}>
           {maxBottlesLabel(plan, locale)}
         </p>
@@ -559,15 +528,16 @@ function PlanCard({
 
       <div className="mt-auto">
         <a
+          // Le Gratuit ne transporte PAS de période : il n'en a pas.
           href={buildSignupUrl("pricing_card", {
             plan: plan.id,
-            period: billingPeriod,
+            period: gratuit ? undefined : billingPeriod,
             lang: locale,
           })}
           onClick={() =>
             track(ANALYTICS_EVENTS.PLAN_SELECTED, {
               plan: plan.id,
-              period: billingPeriod,
+              period: gratuit ? "none" : billingPeriod,
             })
           }
           className="block"
@@ -577,17 +547,24 @@ function PlanCard({
             size="lg"
             className={`w-full ${jour && !highlight ? "!border-encre/25 !bg-transparent !text-encre hover:!bg-encre/5 hover:!border-encre/35" : ""}`}
           >
-            {t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
+            {gratuit
+              ? t("Commencer gratuitement", "Start for free")
+              : t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
             <ArrowRight size={16} strokeWidth={1.75} />
           </Button>
         </a>
 
         {/* Inversion du risque, on désamorce l'engagement juste sous le CTA. */}
         <p className={`mt-3 text-center text-[13px] leading-snug ${jour ? "text-encre-3" : "iq-small text-foreground-dim"}`}>
-          {t(
-            "Sans engagement. Résiliable en un geste. Vous ne payez que si vous décidez de rester.",
-            "No commitment. Cancel in one tap. You only pay if you choose to stay.",
-          )}
+          {gratuit
+            ? t(
+                "Aucune carte de crédit, à aucun moment. Votre cave reste la vôtre.",
+                "No credit card, ever. Your cellar stays yours.",
+              )
+            : t(
+                "Sans engagement. Résiliable en un geste. Vous ne payez que si vous décidez de rester.",
+                "No commitment. Cancel in one tap. You only pay if you choose to stay.",
+              )}
         </p>
       </div>
     </div>
