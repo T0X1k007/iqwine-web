@@ -133,13 +133,13 @@ export const FREE_PLAN = {
 export const FREE_MAX_BOTTLES = FREE_PLAN.maxBottles;
 
 /**
- * CE QU'EST UNE INTERACTION, en une phrase, sous les chiffres.
+ * CE QU'EST UN CONSEIL PERSONNALISÉ D'OCTAVE, en une phrase, sous les chiffres.
  *
  * ── Pourquoi cette note existe ────────────────────────────────────────────
  * Depuis la refonte du compteur côté application (2026-08-19), « 2 / 50 /
- * 200 » est LITTÉRAL : une demande de conseil vaut une interaction, quel que
- * soit le travail qu'Octave fournit derrière. Avant, le nombre traduisait un
- * budget interne et ne décrivait rien que le client pouvait vérifier.
+ * 200 » est LITTÉRAL : une demande vaut un conseil, quel que soit le travail
+ * qu'Octave fournit derrière. Avant, le nombre traduisait un budget interne et
+ * ne décrivait rien que le client pouvait vérifier.
  *
  * Les chiffres n'ont pas bougé, mais ils ne se suffisent pas : « 50 » ne dit
  * pas si remplir sa cave les entame. C'est pourtant LA question qui bloque un
@@ -157,16 +157,34 @@ export const FREE_MAX_BOTTLES = FREE_PLAN.maxBottles;
  * Jamais « jusqu'à » ni « environ » : 50 veut dire 50. Le client achète des
  * conseils, pas de la mécanique.
  *
- * LE TERME EST CANONIQUE, dans les deux langues : « interaction » en français,
- * « interaction » en anglais. Pas « conversation ». La première rédaction
- * anglaise disait « conversation », et le lecteur voyait « 50 interactions with
- * Octave / month » surmontant une phrase qui nommait la chose autrement : deux
- * mots pour un seul compteur, donc un doute sur le nombre de compteurs. Les
- * cartes et le comparatif fixent le mot, cette note s'y range.
+ * ── LE TERME PUBLIC A CHANGÉ (Eric, 2026-09-13) ───────────────────────────
+ * Il était « interaction », dans les deux langues, et cette note disait de le
+ * tenir. Il est désormais **« conseil personnalisé d'Octave »** — forme courte
+ * « conseil d'Octave » quand la place manque — et « interaction avec Octave »
+ * ne paraît PLUS nulle part en public.
+ *
+ * La raison est commerciale, et elle prime sur la convention de dépôt qui l'a
+ * précédée : « interaction » décrit un échange avec un logiciel, « conseil
+ * personnalisé » décrit ce que le client achète. Le mot ne compte pas la même
+ * chose pour l'acheteur, alors qu'il compte exactement la même chose pour le
+ * compteur.
+ *
+ * Côté anglais, « advice » est indénombrable : on écrit « pieces of
+ * personalized advice » là où un nombre précède, et « Octave's personalized
+ * advice » partout ailleurs. Ne PAS écrire « 50 personalized advice ».
+ *
+ * Ce qui n'a pas changé : UN SEUL mot pour UN SEUL compteur. Deux rédactions
+ * (« interaction » ici, « recommandation » dans la FAQ de l'essai) faisaient
+ * douter du nombre de compteurs ; les deux disent maintenant « conseil ».
+ *
+ * ── La promesse d'Eric, vérifiée vraie dans le code ───────────────────────
+ * « Ajouter ou gérer vos bouteilles dans la cave n'utilise aucun conseil. »
+ * Elle s'écrit sans réserve, et c'est le meilleur argument de la grille : la
+ * question qui bloque l'achat est « est-ce que remplir ma cave les mange ? ».
  */
-export const INTERACTION_NOTE = {
-  fr: "Une question posée, une réponse reçue : une interaction. Ajouter vos bouteilles n’en consomme aucune.",
-  en: "One question asked, one answer received: that’s one interaction. Adding your bottles never uses any.",
+export const CONSEILS_NOTE = {
+  fr: "Une question posée, une réponse reçue : un conseil personnalisé d’Octave. Ajouter ou gérer vos bouteilles dans la cave n’utilise aucun conseil.",
+  en: "One question asked, one answer received: that’s one piece of Octave’s personalized advice. Adding or managing bottles in your cellar never uses any.",
 } as const;
 
 /**
@@ -200,7 +218,7 @@ const STANDARD_PLAN: MarketingPlan = {
  * « Premium » à l'écran, `pro` dans le code et dans la facturation.
  *
  * Sa grille est celle de l'ancien Passionné — cave sans plafond, 200
- * interactions, 4 utilisateurs — à l'ancien prix du Pro. C'est la fusion des
+ * conseils, 4 utilisateurs — à l'ancien prix du Pro. C'est la fusion des
  * deux paliers hauts en un seul, décidée par Eric le 2026-09-13 : deux forfaits
  * séparés par un nombre d'utilisateurs ne se choisissaient pas, ils se
  * comparaient.
@@ -318,7 +336,7 @@ export const FOUNDER_PRICE_NOTE = {
  * AUCUNE fonctionnalité n'est réservée à un forfait. Restaurant, magasin,
  * dégustations, accords, scan, notes et souvenirs sont ouverts à TOUS, Gratuit
  * compris. Quatre éléments seulement différencient réellement les paliers : la
- * taille de la cave, le nombre d'interactions, le nombre d'utilisateurs, et les
+ * taille de la cave, le nombre de conseils, le nombre d'utilisateurs, et les
  * palais distincts — qui découlent du nombre d'utilisateurs.
  *
  * Le comparatif a donc cessé de cocher douze cases identiques sur trois
@@ -328,7 +346,7 @@ export const FOUNDER_PRICE_NOTE = {
  * vrai produit.
  *
  * ⚠️ N'écrivez jamais « sans jamais compter » à propos du Premium : il reste
- * plafonné à 200 interactions par mois, la formule serait fausse.
+ * plafonné à 200 conseils par mois, la formule serait fausse.
  */
 export const COMMON_BASE_NOTE = {
   fr: 'Inclus dans tous les forfaits : cave, scan, accords, Restaurant, exploration en magasin et expériences de dégustation.',

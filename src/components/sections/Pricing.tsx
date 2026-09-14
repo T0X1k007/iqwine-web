@@ -18,7 +18,7 @@ import {
   annualSavingsSentence,
   monthlyEquivalentCents,
   maxBottlesLabel,
-  INTERACTION_NOTE,
+  CONSEILS_NOTE,
   COMMON_BASE_NOTE,
   FOUNDER_PRICE,
   FOUNDER_PRICE_NOTE,
@@ -40,12 +40,14 @@ import {
  * Une puce dit ce que le VOLUME rend possible, jamais ce qu'il « débloque » :
  * aucune fonctionnalité n'est réservée à un forfait, et l'écrire serait le faux
  * différenciateur que ce fichier a déjà dû purger deux fois. Une puce ne répète
- * jamais non plus un nombre que l'encadré porte déjà (bouteilles, interactions,
+ * jamais non plus un nombre que l'encadré porte déjà (bouteilles, conseils,
  * utilisateurs) : le Pro le faisait, seul des trois, ce qui le faisait passer
  * pour le seul forfait plafonné alors qu'ils le sont tous.
  *
- * Jamais de tokens, de crédits ni d'appels API : « interactions avec Octave » et
- * « utilisateurs inclus », rien d'autre.
+ * Jamais de tokens, de crédits ni d'appels API : « conseils personnalisés
+ * d'Octave » et « utilisateurs inclus », rien d'autre. Le terme public a changé
+ * le 2026-09-13 — « interaction » ne paraît plus nulle part, voir
+ * `CONSEILS_NOTE` dans `plans.ts`.
  */
 
 interface PlanCopy {
@@ -70,7 +72,7 @@ interface PlanCopy {
  * pas un nombre déjà porté par l'encadré chiffré.
  *
  * ⚠️ « sans jamais compter » est INTERDIT à propos du Premium : il reste
- * plafonné à 200 interactions par mois. « Assez pour recevoir toutes les
+ * plafonné à 200 conseils par mois. « Assez pour recevoir toutes les
  * semaines » est vrai et donne envie ; « sans compter » est faux.
  */
 const COPY: Record<PlanId, PlanCopy> = {
@@ -122,7 +124,7 @@ const COPY: Record<PlanId, PlanCopy> = {
       // forfait n'inclut qu'une place. Il se dit donc par les palais, pas par
       // une fonction qu'on « débloquerait ».
       { fr: "Chacun son palais : les goûts ne se mélangent jamais", en: "Each their own palate: tastes never blend" },
-      { fr: "Assez d’interactions pour recevoir toutes les semaines", en: "Enough interactions to host every week" },
+      { fr: "Assez de conseils pour recevoir toutes les semaines", en: "Enough advice to host every week" },
     ],
   },
 };
@@ -251,8 +253,8 @@ export default function Pricing({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}
           {t(COMMON_BASE_NOTE.fr, COMMON_BASE_NOTE.en)}
         </p>
         <p className={`mx-auto mb-10 max-w-[58ch] text-center text-[14px] leading-relaxed ${jour ? "text-encre-3" : "text-foreground-dim"}`}>
-          {t('Ce qui change d’un forfait à l’autre : le nombre d’interactions avec Octave, la taille de votre cave et le nombre d’utilisateurs.',
-             'What changes from one plan to the next: how many interactions you have with Octave, the size of your cellar, and how many users.')}
+          {t('Ce qui change d’un forfait à l’autre : le nombre de conseils personnalisés d’Octave, la taille de votre cave et le nombre d’utilisateurs.',
+             'What changes from one plan to the next: how much personalized advice you get from Octave, the size of your cellar, and how many users.')}
         </p>
       </FadeInOnScroll>
 
@@ -346,7 +348,7 @@ function PlanCard({
    *
    * Le Gratuit ignore donc la bascule : un forfait sans prix n'a pas de période
    * de facturation. Il garde en revanche tout le reste du gabarit — l'encadré
-   * chiffré, la note d'interaction, les puces, le CTA — parce que c'est ce qui
+   * chiffré, la note sur les conseils, les puces, le CTA — parce que c'est ce qui
    * en fait une colonne comparable et non une note de bas de page.
    */
   const gratuit = plan.priceMonthlyCents === 0;
@@ -481,7 +483,9 @@ function PlanCard({
           <span className={`tabular-nums font-medium ${jour ? "text-encre" : ""}`}>
             {plan.monthlyRecommendations}
           </span>{" "}
-          {t("interactions avec Octave / mois", "interactions with Octave / month")}
+          {/* « advice » est indénombrable en anglais : « pieces of », sans quoi
+              le nombre qui précède rendrait « 50 personalized advice ». */}
+          {t("conseils personnalisés d’Octave / mois", "pieces of personalized advice / month")}
         </p>
         <p className={`text-[14px] leading-snug ${jour ? "text-encre-2" : "text-foreground-dim"}`}>
           <span className={`tabular-nums font-medium ${jour ? "text-encre" : ""}`}>{plan.includedUsers}</span>{" "}
@@ -491,7 +495,7 @@ function PlanCard({
         </p>
       </div>
 
-      {/* CE QU'EST UNE INTERACTION, sous les chiffres et pas ailleurs.
+      {/* CE QU'EST UN CONSEIL, sous les chiffres et pas ailleurs.
        *
        * Le nombre seul ne répond pas à la question qui bloque l'achat : est-ce
        * que remplir ma cave l'entame ? La réponse est non, et c'est le meilleur
@@ -503,12 +507,12 @@ function PlanCard({
        * la teinte estompée et l'absence de fond. La rendre visible reviendrait
        * à annoncer une limite là où on décrit une liberté.
        *
-       * Le texte vient de `INTERACTION_NOTE` (`lib/plans.ts`) : il paraît aussi
+       * Le texte vient de `CONSEILS_NOTE` (`lib/plans.ts`) : il paraît aussi
        * sous le comparatif, et deux rédactions de la même promesse divergent. */}
       <p
         className={`-mt-4 mb-7 text-[12.5px] leading-snug ${jour ? "text-encre-3" : "text-foreground-faint"}`}
       >
-        {t(INTERACTION_NOTE.fr, INTERACTION_NOTE.en)}
+        {t(CONSEILS_NOTE.fr, CONSEILS_NOTE.en)}
       </p>
 
       <ul className="flex flex-col gap-3.5 mb-9 flex-1">

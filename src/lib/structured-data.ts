@@ -99,8 +99,8 @@ export function softwareApplicationLd(locale: Locale) {
     // n'affiche pas.
     description:
       locale === 'en'
-        ? `${maxBottlesLabel(p, 'en')} · ${p.monthlyRecommendations} interactions with Octave per month · ${p.includedUsers} user(s)`
-        : `${maxBottlesLabel(p, 'fr')} · ${p.monthlyRecommendations} interactions avec Octave par mois · ${p.includedUsers} utilisateur(s)`,
+        ? `${maxBottlesLabel(p, 'en')} · ${p.monthlyRecommendations} pieces of personalized advice from Octave per month · ${p.includedUsers} user(s)`
+        : `${maxBottlesLabel(p, 'fr')} · ${p.monthlyRecommendations} conseils personnalisés d'Octave par mois · ${p.includedUsers} utilisateur(s)`,
   }));
 
   return {

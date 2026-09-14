@@ -76,7 +76,7 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
      * LA QUESTION QUI DÉBLOQUE L'ACHAT (2026-08-19).
      *
      * Depuis la refonte du compteur côté application, « 2 / 50 / 200 » est
-     * LITTÉRAL : une demande de conseil vaut une interaction, quel que soit le
+     * LITTÉRAL : une demande vaut un conseil, quel que soit le
      * travail fourni derrière. Les chiffres du site n'ont pas bougé, mais ils
      * ne disaient pas ce qu'ils comptaient, et celui qui hésite se demande
      * toujours la même chose : est-ce que remplir ma cave va les manger ?
@@ -84,33 +84,39 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
      * La réponse est non, et c'est le meilleur argument de la grille. Elle est
      * placée juste avant « Dois-je saisir toute ma cave ? », qui la prolonge.
      *
-     * Règle d'écriture, la même qu'à `INTERACTION_NOTE` : jamais « requêtes »,
+     * Règle d'écriture, la même qu'à `CONSEILS_NOTE` : jamais « requêtes »,
      * « crédits », « jetons » ni « appels IA », jamais un montant, jamais
      * « jusqu'à » ni « environ ». On décrit des conseils, pas de la mécanique.
+     *
+     * ⚠️ LE TERME PUBLIC EST « CONSEIL PERSONNALISÉ D'OCTAVE » depuis le
+     * 2026-09-13 (Eric). « Interaction » a disparu de cette réponse comme du
+     * reste du site. La phrase d'Eric — « Ajouter ou gérer vos bouteilles dans
+     * la cave n'utilise aucun conseil » — est vérifiée vraie dans le code et
+     * s'écrit sans réserve : c'est la question qui bloque l'achat.
      */
     q: {
-      fr: 'Qu’est-ce qu’une interaction avec Octave ?',
-      en: 'What counts as an interaction with Octave?',
+      fr: 'Qu’est-ce qu’un conseil personnalisé d’Octave ?',
+      en: 'What counts as a piece of personalized advice from Octave?',
     },
     a: {
-      fr: `Une interaction, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en succursale pour savoir si elle vous plairait.
+      fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en succursale pour savoir si elle vous plairait.
 
-Une demande, une interaction, peu importe le travail que ça lui demande derrière.
+Une demande, un conseil, peu importe le travail que ça lui demande derrière.
 
-Remplir et tenir votre cave ne consomme rien. Scanner une étiquette pour entrer une bouteille, photographier une étagère, importer un ticket de caisse ou un fichier, compléter la fiche d’un vin, laisser Octave apprendre votre goût : tout cela fait partie de votre cave, pas de vos conseils. Vous pouvez entrer mille bouteilles sans toucher à vos interactions.
+Ajouter ou gérer vos bouteilles dans la cave n’utilise aucun conseil. Scanner une étiquette pour entrer une bouteille, photographier une étagère, importer un ticket de caisse ou un fichier, compléter la fiche d’un vin, laisser Octave apprendre votre goût : tout cela fait partie de votre cave, pas de vos conseils. Vous pouvez entrer mille bouteilles sans en toucher un seul.
 
-Vos interactions reviennent chaque mois, le jour de votre facturation. Si vous payez à l’année, elles reviennent quand même tous les mois.
+Vos conseils reviennent chaque mois, le jour de votre facturation. Si vous payez à l’année, ils reviennent quand même tous les mois.
 
-Et si une panne technique empêche Octave de répondre, l’interaction vous est rendue.`,
-      en: `An interaction is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A dish you show it so it finds the pairing. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
+Et si une panne technique empêche Octave de répondre, le conseil vous est rendu.`,
+      en: `A piece of personalized advice is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A dish you show it so it finds the pairing. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
 
-One request, one interaction, however much work it takes behind the scenes.
+One request, one piece of advice, however much work it takes behind the scenes.
 
-Filling and keeping your cellar costs nothing. Scanning a label to add a bottle, photographing a shelf, importing a receipt or a file, completing a wine’s details, letting Octave learn your taste: all of it belongs to your cellar, not to your advice. You can enter a thousand bottles without touching your interactions.
+Adding or managing bottles in your cellar never uses any advice. Scanning a label to add a bottle, photographing a shelf, importing a receipt or a file, completing a wine’s details, letting Octave learn your taste: all of it belongs to your cellar, not to your advice. You can enter a thousand bottles without using a single piece of it.
 
-Your interactions come back every month, on your billing day. If you pay yearly, they still come back every month.
+Your advice comes back every month, on your billing day. If you pay yearly, it still comes back every month.
 
-And if a technical failure keeps Octave from answering, the interaction is given back to you.`,
+And if a technical failure keeps Octave from answering, the advice is given back to you.`,
     },
   },
   {
@@ -145,10 +151,15 @@ And if a technical failure keeps Octave from answering, the interaction is given
     a: {
       // La question portait « à la fin des 14 jours » et ne décrivait que la
       // barrière temporelle. Un utilisateur actif peut atteindre les douze
-      // recommandations en trois jours : la réponse doit nommer les DEUX
-      // bornes, et dire laquelle arrive en premier.
-      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} recommandations d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première, c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
-      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} of Octave’s recommendations. If you use it a lot, the second limit can arrive before the first, that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
+      // conseils en trois jours : la réponse doit nommer les DEUX bornes, et
+      // dire laquelle arrive en premier.
+      //
+      // « recommandations d'Octave » disait ici ce que `TRIAL_FULL` appelait
+      // « interactions » : deux mots pour un seul compteur, sur la même page.
+      // Les deux disent « conseils personnalisés d'Octave » depuis le
+      // 2026-09-13.
+      fr: `Au premier des deux : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} conseils personnalisés d’Octave. Si vous l’utilisez beaucoup, la seconde borne peut arriver avant la première, c’est normal, et vous le voyez venir dans l’application. Rien d’automatique ensuite : comme l’essai est sans carte, vous n’êtes jamais débité par surprise, vous choisissez de continuer ou non. Votre cave et votre palais, eux, restent.`,
+      en: `Whichever comes first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} pieces of Octave’s personalized advice. If you use it a lot, the second limit can arrive before the first, that is expected, and you see it coming inside the app. Nothing is automatic afterwards: since the trial needs no card, you are never charged by surprise, you choose whether to continue. Your cellar and your palate stay with you.`,
     },
   },
   {
@@ -197,8 +208,8 @@ And if a technical failure keeps Octave from answering, the interaction is given
       en: 'What is the difference between the plans?',
     },
     a: {
-      fr: 'Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre d’interactions avec Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.',
-      en: 'No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how many interactions you have with Octave each month, the size of your cellar and how many users — and each user keeps their own palate.',
+      fr: 'Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.',
+      en: 'No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users — and each user keeps their own palate.',
     },
   },
   {

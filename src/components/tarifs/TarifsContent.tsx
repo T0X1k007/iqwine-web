@@ -13,7 +13,7 @@ import {
   GRILLE,
   formatPriceCad,
   planLabel,
-  INTERACTION_NOTE,
+  CONSEILS_NOTE,
   COMMON_BASE_NOTE,
 } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
@@ -76,7 +76,7 @@ const REASSURANCE: { icon: typeof ShieldCheck; fr: [string, string]; en: [string
  * Un audit du code applicatif a tranché la question de fond : AUCUNE
  * fonctionnalité n'est réservée à un forfait. Restaurant, magasin, dégustations,
  * accords, scan, notes et souvenirs sont ouverts à tous, Gratuit compris. Quatre
- * éléments seulement varient — la taille de la cave, le nombre d'interactions,
+ * éléments seulement varient — la taille de la cave, le nombre de conseils,
  * le nombre d'utilisateurs, et les palais distincts qui découlent du nombre
  * d'utilisateurs. Le tableau ne garde donc que ce qui varie, et ce que tout le
  * monde a se dit UNE fois, en toutes lettres, au-dessus (`COMMON_BASE_NOTE`).
@@ -104,7 +104,7 @@ export default function TarifsContent() {
   /**
    * LES QUATRE LIGNES QUI DIFFÈRENT VRAIMENT, toutes lues dans `plans.ts`.
    *
-   * Les interactions passent juste sous le prix : depuis que le Gratuit monte à
+   * Les conseils passent juste sous le prix : depuis que le Gratuit monte à
    * 100 bouteilles, l'écart de cave avec le Standard n'est plus que d'un facteur
    * deux, et ce n'est plus lui qui décide d'un achat. Ce qui le décide, c'est
    * 2 conseils par mois contre 50.
@@ -127,7 +127,7 @@ export default function TarifsContent() {
       }),
     },
     {
-      label: t('Interactions avec Octave / mois', 'Interactions with Octave / mo'),
+      label: t('Conseils personnalisés d’Octave / mois', 'Octave’s personalized advice / mo'),
       hint: t(
         'Le vrai écart entre les forfaits : la fréquence à laquelle vous demandez conseil.',
         'The real gap between plans: how often you ask for advice.',
@@ -316,8 +316,8 @@ export default function TarifsContent() {
               </table>
             </div>
 
-            {/* CE QU'EST UNE INTERACTION. La ligne « Interactions avec Octave /
-                mois » donne un nombre et rien d'autre ; le lecteur qui hésite
+            {/* CE QU'EST UN CONSEIL. La ligne « Conseils personnalisés
+                d'Octave » donne un nombre et rien d'autre ; le lecteur qui hésite
                 se demande si remplir sa cave l'entame. La réponse est non, et
                 elle vaut mieux que le nombre lui-même.
 
@@ -325,11 +325,11 @@ export default function TarifsContent() {
                 La mettre dans une cellule en ferait une caractéristique de plus
                 à comparer, alors qu'elle vaut pour les quatre colonnes.
 
-                Texte lu depuis `INTERACTION_NOTE` (`lib/plans.ts`), le même que
+                Texte lu depuis `CONSEILS_NOTE` (`lib/plans.ts`), le même que
                 sous chaque carte de prix : une seule promesse, une seule
                 rédaction. */}
             <p className="mt-4 text-[12.5px] leading-snug text-foreground-faint">
-              {t(INTERACTION_NOTE.fr, INTERACTION_NOTE.en)}
+              {t(CONSEILS_NOTE.fr, CONSEILS_NOTE.en)}
             </p>
           </FadeInOnScroll>
 

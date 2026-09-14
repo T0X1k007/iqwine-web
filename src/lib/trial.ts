@@ -29,6 +29,18 @@
  * classe d'écart que ce fichier existe pour empêcher.
  */
 
+/**
+ * ⚠️ LE COMPTEUR SE DIT « CONSEIL PERSONNALISÉ D'OCTAVE » (Eric, 2026-09-13).
+ *
+ * Ce fichier écrivait « interactions avec Octave », la FAQ de l'essai écrivait
+ * « recommandations d'Octave » : deux mots pour un seul compteur, sur la même
+ * page. Les deux disent désormais « conseils personnalisés d'Octave », le terme
+ * public unique, et « interaction » ne paraît plus nulle part.
+ *
+ * Côté anglais, « advice » est indénombrable : « 12 pieces of personalized
+ * advice from Octave », jamais « 12 personalized advice ».
+ */
+
 /** Durée maximale de l'essai, en jours. Doit égaler `TRIAL_DAYS` de l'app. */
 export const TRIAL_DAYS = 14;
 
@@ -47,8 +59,8 @@ export type SiteLocale = 'fr' | 'en';
  * conditions. Un texte qui présente l'essai sans elle est un texte faux.
  */
 export const TRIAL_FULL: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions avec Octave, au premier des deux`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions with Octave, whichever comes first`,
+  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} conseils personnalisés d’Octave, au premier des deux`,
+  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} pieces of personalized advice from Octave, whichever comes first`,
 };
 
 /**
@@ -68,6 +80,6 @@ export const TRIAL_CTA: Record<SiteLocale, string> = {
 
 /** Forme brève mais HONNÊTE, tient sur une ligne de réassurance. */
 export const TRIAL_SHORT: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} interactions`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} interactions`,
+  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} conseils`,
+  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} pieces of advice`,
 };

@@ -13,6 +13,18 @@
 > `pro` a été conservé sous le nom « Premium » (voir `PlanId` dans
 > `src/lib/plans.ts`). La mécanique bilingue de `planLabel` demeure en place,
 > prête pour le prochain libellé qui devra différer selon la langue.
+>
+> ### 🔒 `pro` sous le libellé « Premium » — VERROUILLÉ, ne pas « corriger »
+>
+> Décision d'Eric, confirmée le 2026-09-13. La clé interne du palier haut reste
+> **`PRO`** (application) / **`pro`** (site) ; seul le libellé public devient
+> **« Premium »**, dans les deux langues.
+>
+> Conséquence directe, et c'est la ligne qu'on vient « corriger » de bonne foi :
+> le lien d'inscription envoie **`?plan=pro`**, et c'est le **bon** paramètre.
+> `PLAN_SELECTED` rapporte lui aussi `plan: 'pro'`. Ne renommez pas
+> l'identifiant pour le faire ressembler au mot affiché — c'est précisément ce
+> que ce document interdit depuis « Passionné ».
 
 # « Passionné » / « Enthusiast » — un libellé, un seul forfait
 

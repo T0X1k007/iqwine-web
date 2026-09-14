@@ -49,7 +49,7 @@ function FaqItem({ q, a, jour = false }: { q: string; a: string; jour?: boolean 
             className="overflow-hidden"
           >
             {/* `whitespace-pre-line` : les réponses courtes tiennent en une
-                phrase, mais celle sur les interactions d'Octave est écrite en
+                phrase, mais celle sur les conseils d'Octave est écrite en
                 paragraphes, et un `<p>` replie les sauts de ligne en espaces.
                 Sans ça, elle se rendait en un seul pavé. Les autres réponses
                 n'en contiennent aucun, elles ne bougent pas. */}
