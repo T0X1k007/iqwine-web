@@ -355,9 +355,16 @@ export default function TarifsContent() {
                             tableau comparait quatre lignes de nombres et pas
                             une ligne de TEMPS — c'est pourtant la seule
                             dimension sur laquelle le visiteur se trompait. */}
+                        {/* « Recommandé », jamais « Populaire ». Eric a
+                            explicitement écarté la preuve sociale (« Le choix
+                            de la majorité ») au profit de la recommandation
+                            assumée, le 2026-09-13. Le tableau disait pourtant
+                            « Populaire » pendant que la carte, quatre cents
+                            pixels plus haut, disait « Recommandé » : deux mots
+                            pour une seule désignation, sur un même écran. */}
                         {p.highlight && (
                           <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-or/70">
-                            {t('Populaire', 'Popular')}
+                            {t('Recommandé', 'Recommended')}
                           </span>
                         )}
                         {p.id === 'gratuit' && (
