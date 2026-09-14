@@ -271,17 +271,27 @@ export default function Navbar() {
         {/* Mobile hamburger + CTA « Essai » compact toujours visible (hors menu) */}
         <div className="lg:hidden flex items-center gap-2">
           <LanguageToggle />
+          {/* ── SOUS 360 px, CE BOUTON S'EFFACE ────────────────────────────
+              Même la forme brève y déborde de 31 px, et ce qui sort de l'écran
+              est le hamburger : le visiteur perdrait la navigation entière
+              pour gagner un CTA.
+
+              C'est LUI qu'on retire, et pas le sélecteur de langue voisin, qui
+              serait le choix arithmétique équivalent : ce CTA est dupliqué à
+              l'identique dans le menu, le sélecteur de langue ne l'est PAS.
+              Le masquer rendrait le site unilingue sur un petit téléphone. */}
           <a
+            className="hidden min-[360px]:block"
             href={buildSignupUrl('nav_mobile_bar', { lang: locale })}
             onClick={() => track(ANALYTICS_EVENTS.SIGNUP_CLICK, { source: 'nav_mobile_bar' })}
           >
-            {/* Libellé plein dès qu'il y a la place, repli en dessous : le
-                bloc droit de la barre est incompressible et un libellé long
-                pousse le hamburger hors de l'écran à 320 et 360 px. Mesuré au
-                navigateur, pas supposé — voir `SIGNUP_CTA_TINY`. */}
+            {/* Forme brève : « Commencer gratuitement » ne tient pas ici. Le
+                bloc droit de la barre est incompressible (bouton
+                `whitespace-nowrap`), et le libellé plein pousse le hamburger
+                hors de l'écran jusqu'à 414 px en français. Mesuré au
+                navigateur à huit largeurs, pas supposé. */}
             <Button variant={jour ? 'primary' : 'or'} size="sm">
-              <span className="hidden min-[375px]:inline">{t(SIGNUP_CTA.fr, SIGNUP_CTA.en)}</span>
-              <span className="min-[375px]:hidden">{t(SIGNUP_CTA_TINY.fr, SIGNUP_CTA_TINY.en)}</span>
+              {t(SIGNUP_CTA_TINY.fr, SIGNUP_CTA_TINY.en)}
             </Button>
           </a>
           <button

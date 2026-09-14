@@ -166,10 +166,31 @@ export const TRIAL_SHORT: Record<SiteLocale, string> = {
    `?plan=`. Voir la note dans `Pricing.tsx`, qui portait ce paramètre.
    ══════════════════════════════════════════════════════════════════════════ */
 
-/** Le titre : ce qu'on fait, et ce qu'on obtient. */
+/**
+ * Le titre, en DEUX temps — l'acte, puis ce qu'on obtient.
+ *
+ * Les deux moitiés sont exposées séparément parce que le rendu les met sur
+ * deux lignes distinctes : laissé à `text-balance`, le titre coupait au milieu
+ * de la première phrase (« Commencez / gratuitement. / Découvrez tout
+ * iQWine. »), soit trois lignes dont une orpheline, là où le sens en appelle
+ * deux. Un titre de six mots n'a pas le droit d'être mal composé.
+ *
+ * `SIGNUP_HEADLINE` reste la forme d'un seul tenant, pour les métadonnées —
+ * un `<title>` ou une description n'ont pas de lignes.
+ */
+export const SIGNUP_HEADLINE_1: Record<SiteLocale, string> = {
+  fr: 'Commencez gratuitement.',
+  en: 'Start for free.',
+};
+
+export const SIGNUP_HEADLINE_2: Record<SiteLocale, string> = {
+  fr: 'Découvrez tout iQWine.',
+  en: 'Discover all of iQWine.',
+};
+
 export const SIGNUP_HEADLINE: Record<SiteLocale, string> = {
-  fr: 'Commencez gratuitement. Découvrez tout iQWine.',
-  en: 'Start for free. Discover all of iQWine.',
+  fr: `${SIGNUP_HEADLINE_1.fr} ${SIGNUP_HEADLINE_2.fr}`,
+  en: `${SIGNUP_HEADLINE_1.en} ${SIGNUP_HEADLINE_2.en}`,
 };
 
 /**

@@ -24,11 +24,12 @@ import {
 } from '@/lib/plans';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import {
-  SIGNUP_HEADLINE,
+  SIGNUP_HEADLINE_1,
+  SIGNUP_HEADLINE_2,
   SIGNUP_SUB,
   SIGNUP_CTA,
   TRIAL_ON_SIGNUP_FULL,
-  FREE_ALWAYS,
+  FREE_NO_END,
 } from '@/lib/trial';
 
 /**
@@ -237,10 +238,14 @@ export default function TarifsContent() {
               « gratuit = 14 jours », et il gardait cette équation en
               descendant vers une carte intitulée « Gratuit ». */}
           <h1
-            className="mx-auto max-w-[18ch] text-balance font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
+            className="mx-auto max-w-[24ch] font-[family-name:var(--font-display)] font-medium italic leading-[1.08] tracking-[-0.02em] text-foreground"
             style={{ fontSize: 'clamp(34px, 5vw, 58px)' }}
           >
-            {t(SIGNUP_HEADLINE.fr, SIGNUP_HEADLINE.en)}
+            {/* Une ligne par phrase : l'acte, puis la promesse. Laissé au
+                `text-balance`, le titre coupait au milieu de la première et
+                rendait trois lignes dont une orpheline. */}
+            <span className="block text-balance">{t(SIGNUP_HEADLINE_1.fr, SIGNUP_HEADLINE_1.en)}</span>
+            <span className="block text-balance">{t(SIGNUP_HEADLINE_2.fr, SIGNUP_HEADLINE_2.en)}</span>
           </h1>
           <p className="mx-auto mt-4 max-w-[56ch] text-[16.5px] leading-relaxed text-muted-foreground sm:mt-5 md:text-[17.5px]">
             {t(SIGNUP_SUB.fr, SIGNUP_SUB.en)}
@@ -354,7 +359,7 @@ export default function TarifsContent() {
                         )}
                         {p.id === 'gratuit' && (
                           <span className="block font-body not-italic text-[9px] tracking-[0.14em] uppercase text-foreground-faint">
-                            {t(FREE_ALWAYS.fr, FREE_ALWAYS.en)}
+                            {t(FREE_NO_END.fr, FREE_NO_END.en)}
                           </span>
                         )}
                       </th>
