@@ -389,7 +389,7 @@ export default function Pricing({
           >
             {t(
               "Ensuite : Gratuit, Standard ou Premium, à vous de voir.",
-              "Then: Free, Standard or Premium — up to you.",
+              "Then: Free, Standard or Premium, up to you.",
             )}
           </strong>
         </p>

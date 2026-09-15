@@ -372,8 +372,8 @@ export const TRIAL_DAYS_ADJ: Record<SiteLocale, string> = {
 export const TRIAL_MECHANICS: Record<SiteLocale, string> = {
   fr: `Les fonctionnalités du Standard s’arrêtent au premier des deux seuils atteints : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} conseils personnalisés d’Octave. Si vous en profitez beaucoup, le second peut arriver avant le premier, et vous le voyez venir dans l’application.
 
-Ils peuvent aussi durer plus longtemps : chaque palier de cave franchi — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} puis ${TRIAL_BOTTLE_TIERS.at(-1)} bouteilles — ajoute ${TRIAL_TIER_BONUS_DAYS} jours, jusqu’à ${TRIAL_MAX_BONUS_DAYS} jours de plus, soit ${TRIAL_DAYS_MAX} jours au total.`,
+Ils peuvent aussi durer plus longtemps : chaque palier de cave franchi, ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} puis ${TRIAL_BOTTLE_TIERS.at(-1)} bouteilles, ajoute ${TRIAL_TIER_BONUS_DAYS} jours, jusqu’à ${TRIAL_MAX_BONUS_DAYS} jours de plus, soit ${TRIAL_DAYS_MAX} jours au total.`,
   en: `The Standard features stop at whichever limit you reach first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} pieces of personalized advice from Octave. If you make the most of them, the second can come before the first, and you see it coming inside the app.
 
-They can also last longer: every cellar milestone you pass — ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles — adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
+They can also last longer: every cellar milestone you pass, ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles, adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
 };
