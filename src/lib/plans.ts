@@ -102,7 +102,7 @@ export interface MarketingPlan {
  * d'exister (P26 l'a rendue vraie le 2026-07-16).
  */
 export const FREE_PLAN = {
-  id: 'gratuit',
+  id: "gratuit",
   priceMonthlyCents: 0,
   priceYearlyCents: 0,
   includedUsers: 1,
@@ -259,8 +259,12 @@ export const GRILLE: MarketingPlan[] = [FREE_PLAN, ...PLANS];
  * exactement le genre de fuite d'une convention interne vers la page de vente
  * qu'un chiffre non traduit produit.
  */
-export function maxBottlesLabel(plan: MarketingPlan, locale: "fr" | "en"): string {
-  if (plan.maxBottles < 0) return locale === "en" ? "Unlimited bottles" : "Bouteilles illimitées";
+export function maxBottlesLabel(
+  plan: MarketingPlan,
+  locale: "fr" | "en",
+): string {
+  if (plan.maxBottles < 0)
+    return locale === "en" ? "Unlimited bottles" : "Bouteilles illimitées";
   const n = plan.maxBottles.toLocaleString(locale === "en" ? "en-CA" : "fr-CA");
   return locale === "en" ? `Up to ${n} bottles` : `Jusqu'à ${n} bouteilles`;
 }
@@ -281,7 +285,10 @@ export function formatPriceCad(cents: number, locale: "fr" | "en"): string {
  * montants qui ont de vrais centimes (14,95 · 30,40 · 12,42) repassent par
  * `formatPriceCad` et les gardent tous.
  */
-export function formatPriceCadShort(cents: number, locale: "fr" | "en"): string {
+export function formatPriceCadShort(
+  cents: number,
+  locale: "fr" | "en",
+): string {
   if (cents % 100 === 0) return String(Math.round(cents / 100));
   return formatPriceCad(cents, locale);
 }
@@ -334,13 +341,13 @@ export function monthlyEquivalentCents(plan: MarketingPlan): number {
  * situe le prix dans le temps, sans jamais dire jusqu'à quand.
  */
 export const LAUNCH_PRICE = {
-  fr: 'Prix de lancement',
-  en: 'Launch price',
+  fr: "Prix de lancement",
+  en: "Launch price",
 } as const;
 
 export const LAUNCH_PRICE_NOTE = {
-  fr: 'Offert aux premiers abonnés, sur l’abonnement annuel.',
-  en: 'Offered to our first subscribers, on the annual plan.',
+  fr: "Offert aux premiers abonnés, sur l’abonnement annuel.",
+  en: "Offered to our first subscribers, on the annual plan.",
 } as const;
 
 /**
@@ -363,8 +370,8 @@ export const LAUNCH_PRICE_NOTE = {
  * plafonné à 200 conseils par mois, la formule serait fausse.
  */
 export const COMMON_BASE_NOTE = {
-  fr: 'Inclus dans tous les forfaits : cave, scan, accords, Restaurant, exploration en magasin et expériences de dégustation.',
-  en: 'Included in every plan: cellar, scan, pairings, Restaurant, in-store exploration and tasting experiences.',
+  fr: "Inclus dans tous les forfaits : cave, scan, accords, Restaurant, exploration en magasin et expériences de dégustation.",
+  en: "Included in every plan: cellar, scan, pairings, Restaurant, in-store exploration and tasting experiences.",
 } as const;
 
 /**
@@ -382,9 +389,12 @@ export const COMMON_BASE_NOTE = {
  * Ce qui reste est vérifiable par le lecteur avec les deux chiffres que la page
  * affiche déjà : douze fois le tarif mensuel, moins la facture annuelle.
  */
-export function annualSavingsSentence(plan: MarketingPlan, locale: 'fr' | 'en'): string {
+export function annualSavingsSentence(
+  plan: MarketingPlan,
+  locale: "fr" | "en",
+): string {
   const montant = formatPriceCad(annualSavingsCents(plan), locale);
-  return locale === 'fr'
+  return locale === "fr"
     ? `Économisez ${montant} $ comparativement à 12 mois au tarif mensuel.`
     : `Save $${montant} compared with 12 months at the monthly rate.`;
 }
@@ -411,15 +421,24 @@ export function annualSavingsSentence(plan: MarketingPlan, locale: 'fr' | 'en'):
  * revenus et deux jeux de price IDs, pour un mot. Voir
  * `docs/libelle-forfait-localise.md`.
  */
-const PLAN_LABELS: Record<PlanId, Record<'fr' | 'en', string>> = {
-  gratuit: { fr: 'Gratuit', en: 'Free' },
-  standard: { fr: 'Standard', en: 'Standard' },
+const PLAN_LABELS: Record<PlanId, Record<"fr" | "en", string>> = {
+  gratuit: { fr: "Gratuit", en: "Free" },
+  // « Passionné » / « Enthusiast » depuis le 2026-09-15, sous l'identifiant
+  // `standard` (voir `PlanId`), qui NE BOUGE PAS : ni le type, ni `?plan=standard`,
+  // ni `TRIAL_PLAN_ID`, ni ce que l'application facture. Seul le nom lu par un
+  // humain change.
+  //
+  // ⚠ Le nom « Passionné » désignait jusqu'au 2026-09-14 un AUTRE forfait, à
+  // 59,95 $/mois, retiré de la vente et sans aucun abonné. Ses identifiants
+  // techniques (`ca.iqwine.app.passionne.*`, ses price IDs Stripe) restent morts
+  // et ne doivent JAMAIS être réutilisés pour servir ce nom-ci.
+  standard: { fr: "Passionné", en: "Enthusiast" },
   // « Premium » dans les deux langues, sous l'identifiant `pro` (voir `PlanId`).
-  // Plus aucun libellé n'est localisé depuis la sortie de « Passionné » de la
-  // grille : la mécanique reste en place, elle n'a simplement plus de client.
-  pro: { fr: 'Premium', en: 'Premium' },
+  // La mécanique bilingue reprend tout son sens avec `standard`, qui diffère
+  // désormais d'une langue à l'autre.
+  pro: { fr: "Premium", en: "Premium" },
 };
 
-export function planLabel(id: PlanId, locale: 'fr' | 'en'): string {
+export function planLabel(id: PlanId, locale: "fr" | "en"): string {
   return PLAN_LABELS[id][locale];
 }

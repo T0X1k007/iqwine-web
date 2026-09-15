@@ -26,18 +26,19 @@ import {
   CONSEILS_NOTE,
   LAUNCH_PRICE,
   LAUNCH_PRICE_NOTE,
+  planLabel,
   type MarketingPlan,
   type PlanId,
 } from "@/lib/plans";
 
 /**
- * LA GRILLE, trois cartes, dans l'ordre : Gratuit · Standard · Premium.
+ * LA GRILLE, trois cartes, dans l'ordre : Gratuit · Passionné · Premium.
  * (Lit la SOT `src/lib/plans.ts`, aucune valeur écrite ici.)
  *
  * ── Ce que la refonte du 2026-09-13 a changé ──────────────────────────────
  * Quatre paliers sont devenus trois, le Gratuit est ENTRÉ dans la grille comme
  * première colonne à 0 $ (il vivait sous les cartes, dans une bande d'un rang
- * visuel inférieur), et le RECOMMANDÉ est passé du palier haut au Standard :
+ * visuel inférieur), et le RECOMMANDÉ est passé du palier haut au Passionné :
  * c'est le forfait qu'on veut réellement vendre, pas celui qui sert d'ancrage.
  *
  * ── La règle d'écriture des puces, qui n'a pas changé ─────────────────────
@@ -62,7 +63,6 @@ interface PlanCopy {
    * sortie de « Passionné », les trois noms sont identiques dans les deux
    * langues.
    */
-  name: Record<"fr" | "en", string>;
   tagline: Record<Locale, string>;
   features: Array<Record<Locale, string>>;
 }
@@ -84,7 +84,6 @@ const COPY: Record<PlanId, PlanCopy> = {
   // même encadré chiffré, même CTA. Ce qui la distingue tient au prix, pas au
   // rang : elle ne porte ni liseré d'or ni bandeau « Recommandé ».
   gratuit: {
-    name: { fr: "Gratuit", en: "Free" },
     tagline: {
       fr: "Commencez votre cave, gardez vos souvenirs et découvrez Octave gratuitement.",
       en: "Start your cellar, keep your memories, and discover Octave for free.",
@@ -110,14 +109,13 @@ const COPY: Record<PlanId, PlanCopy> = {
     ],
   },
   standard: {
-    name: { fr: "Standard", en: "Standard" },
     tagline: {
       fr: "Octave apprend votre palais et vous aide à choisir la bonne bouteille, chez vous et au quotidien.",
       en: "Octave learns your palate and helps you choose the right bottle, at home and every day.",
     },
     // ⚠️ NE PAS FAIRE REPOSER CETTE CARTE SUR LA TAILLE DE LA CAVE (2026-09-13).
     // Depuis que le Gratuit monte à 100 bouteilles, l'écart n'est plus qu'un
-    // facteur deux : réel, mais secondaire. Ce qui vend le Standard, c'est
+    // facteur deux : réel, mais secondaire. Ce qui vend le Passionné, c'est
     // 50 conseils par mois contre 2, donc la fréquence et le palais qu'elle
     // permet d'affiner. La cave passe en troisième, et sans emphase.
     features: [
@@ -139,7 +137,6 @@ const COPY: Record<PlanId, PlanCopy> = {
   // `PlanId`). Ses trois puces disent ses trois vraies différences : la cave
   // sans plafond, la fréquence, et les palais qui ne se mélangent pas.
   pro: {
-    name: { fr: "Premium", en: "Premium" },
     tagline: {
       fr: "Octave vous accompagne partout, avec une cave sans limite et jusqu’à quatre utilisateurs.",
       en: "Octave goes with you everywhere, with a limitless cellar and up to four users.",
@@ -314,8 +311,8 @@ export default function Pricing({
         {/* `GRILLE` et non `PLANS` : la première carte est le Gratuit, qui n'a
             pas de prix et ne fait donc pas partie du parcours d'achat.
             AUCUN `order-first` ici (retiré le 2026-09-13) : il remontait le
-            recommandé en tête sur mobile, ce qui plaçait Standard AVANT
-            Gratuit et cassait la lecture Gratuit → Standard → Premium, qui est
+            recommandé en tête sur mobile, ce qui plaçait le palier payé AVANT
+            Gratuit et cassait la lecture Gratuit → Passionné → Premium, qui est
             précisément la progression que la grille raconte. */}
         {GRILLE.map((plan, i) => (
           <FadeInOnScroll
@@ -337,7 +334,7 @@ export default function Pricing({
           (Eric, 2026-09-14)
 
           Une seule ligne, en texte courant, qui dit le parcours entier : on
-          entre gratuitement, on reçoit le Standard 14 jours, puis on choisit.
+          entre gratuitement, on reçoit le Passionné 14 jours, puis on choisit.
 
           ── Pourquoi ICI ────────────────────────────────────────────────────
           • Pas au-dessus de la grille : le lecteur n'a pas encore de forfaits
@@ -388,8 +385,8 @@ export default function Pricing({
             className={`font-medium sm:block ${jour ? "text-encre" : "text-foreground"}`}
           >
             {t(
-              "Ensuite : Gratuit, Standard ou Premium, à vous de voir.",
-              "Then: Free, Standard or Premium, up to you.",
+              "Ensuite : Gratuit, Passionné ou Premium, à vous de voir.",
+              "Then: Free, Enthusiast or Premium, up to you.",
             )}
           </strong>
         </p>
@@ -411,7 +408,7 @@ export default function Pricing({
           réponse elle-même qui n'a plus lieu d'être ici.
 
           La page ne défend plus le principe de l'abonnement : elle ouvre sur un
-          forfait Gratuit permanent et sur quatorze jours de Standard offerts.
+          forfait Gratuit permanent et sur quatorze jours de Passionné offerts.
           Justifier l'abonnement sous une grille qui commence à 0 $ répond à une
           objection que la page vient de désamorcer — et la rappeler la réveille.
 
@@ -448,7 +445,7 @@ export default function Pricing({
               échéance qu'il n'a pas. C'était la source la plus coûteuse de la
               confusion, parce qu'elle n'était fausse par aucun mot : seulement
               par sa largeur.
-              La durée de l'essai vit sur la carte du Standard, et la séquence
+              La durée de l'essai vit sur la carte du Passionné, et la séquence
               complète juste sous la grille. Ici, on ne garde que ce qui vaut
               VRAIMENT pour les trois forfaits. */}
           <p
@@ -510,7 +507,7 @@ function PlanCard({
    * Les 14 jours sont désormais un BÉNÉFICE DE L'INSCRIPTION, reçu par toute
    * nouvelle entrée, y compris par la carte Gratuit. Ils s'annoncent donc là
    * où l'on entre — sur le Gratuit — et jamais comme une option à cocher.
-   * Le Standard redevient un forfait qu'on choisit, tout simplement.
+   * Le Passionné redevient un forfait qu'on choisit, tout simplement.
    */
 
   // Le grand nombre en annuel = l'équivalent MENSUEL (pas la facture annuelle).
@@ -538,7 +535,7 @@ function PlanCard({
 
           Il est DÉLIBÉRÉMENT plus faible que « Recommandé » : filet et teinte
           estompée contre aplat d'or plein. Deux bandeaux de même force
-          feraient deux recommandations, et Standard cesserait d'être le choix
+          feraient deux recommandations, et le Passionné cesserait d'être le choix
           mis en avant. Même emplacement + poids différent = une hiérarchie ;
           c'est exactement ce qu'on veut dire — les deux cartes se lisent
           ensemble, l'une est conseillée, l'autre ne finit jamais. */}
@@ -564,7 +561,7 @@ function PlanCard({
         <h3
           className={`mb-2 font-[family-name:var(--font-display)] text-3xl italic tracking-[-0.01em] sm:text-4xl ${jour ? "text-encre" : "text-foreground"}`}
         >
-          {copy.name[locale]}
+          {planLabel(plan.id, locale)}
         </h3>
         <p
           className={`text-[14px] leading-snug sm:min-h-[2.75rem] ${jour ? "text-encre-2" : "iq-small text-foreground-dim"}`}
@@ -658,7 +655,7 @@ function PlanCard({
        * Il n'annonçait que les recommandations et les utilisateurs. Le plafond
        * de BOUTEILLES n'apparaissait nulle part sur la carte, ni ici, ni dans
        * les puces, alors que c'est la limite qui arrête un client pour de
-       * vrai : 100 au Gratuit, 200 au Standard. On vendait un plafond sans le
+       * vrai : 100 au Gratuit, 200 au Passionné. On vendait un plafond sans le
        * dire, et l'acheteur le découvrait en le heurtant.
        *
        * Les trois chiffres sont lus depuis la SOT, jamais écrits ici : le
@@ -683,7 +680,7 @@ function PlanCard({
          * l'étiquette rend une phrase complète (« Jusqu'à 100 bouteilles », ou
          * « Bouteilles illimitées » quand il n'y a pas de plafond), le nombre
          * n'est donc pas isolable. Sans ça, le « 100 » du Gratuit et le « 200 »
-         * du Standard ne s'alignent pas d'une carte à l'autre. */}
+         * du Passionné ne s'alignent pas d'une carte à l'autre. */}
         <p
           className={`text-[14.5px] font-medium leading-snug tabular-nums ${jour ? "text-encre" : "text-foreground"}`}
         >
@@ -767,7 +764,7 @@ function PlanCard({
             dans un alignement.
 
             L'essai est une MODALITÉ D'ACCÈS AU STANDARD. Il se dit donc sur la
-            carte du Standard, à l'endroit exact de la décision, en trois
+            carte du Passionné, à l'endroit exact de la décision, en trois
             degrés décroissants : la durée (en or, elle porte le regard), le
             bouton, puis la sortie. Aucun encadré, aucun bandeau : un essai qui
             prendrait la forme d'une carte redeviendrait un quatrième forfait. */}
@@ -778,7 +775,7 @@ function PlanCard({
            *
            * Cette carte envoyait `?plan=gratuit`, que l'application lit comme
            * un choix EXPLICITE de forfait Gratuit : elle pose alors
-           * `trialDays: 0` et n'accorde AUCUN jour de Standard. La page aurait
+           * `trialDays: 0` et n'accorde AUCUN jour de Passionné. La page aurait
            * donc promis « Standard offert les 14 premiers jours » sur la seule
            * carte dont le bouton demandait, en silence, de ne rien offrir.
            *
@@ -818,7 +815,10 @@ function PlanCard({
           >
             {gratuit
               ? t(SIGNUP_CTA.fr, SIGNUP_CTA.en)
-              : t(`Choisir ${copy.name.fr}`, `Choose ${copy.name.en}`)}
+              : t(
+                  `Choisir ${planLabel(plan.id, "fr")}`,
+                  `Choose ${planLabel(plan.id, "en")}`,
+                )}
             <ArrowRight size={16} strokeWidth={1.75} />
           </Button>
         </a>
@@ -827,11 +827,11 @@ function PlanCard({
             Elles occupent la même ligne d'un bout à l'autre de la grille, au
             même corps : c'est le seul endroit de la page où les trois forfaits
             se comparent MOT À MOT sur le temps. Le Gratuit y dit « jamais de
-            date de fin », le Standard y dit « à la fin de l'essai, vous passez
+            date de fin », le Passionné y dit « à la fin de l'essai, vous passez
             au forfait Gratuit ». Lues côte à côte, elles rendent la confusion
             impossible sans qu'aucune des deux n'ait à expliquer l'autre.
 
-            La note du Standard ne parlait que d'abonnement (« Vous ne payez
+            La note du Passionné ne parlait que d'abonnement (« Vous ne payez
             que si vous décidez de rester »), ce qui laissait supposer qu'à
             défaut de payer il ne restait rien. */}
         {/* HAUTEUR RÉSERVÉE IDENTIQUE aux trois notes (Eric, 2026-09-14).

@@ -1,4 +1,9 @@
-import { TRIAL_DAYS, TRIAL_DAYS_LABEL, TRIAL_MECHANICS, TRIAL_ON_SIGNUP_FULL } from '@/lib/trial';
+import {
+  TRIAL_DAYS,
+  TRIAL_DAYS_LABEL,
+  TRIAL_MECHANICS,
+  TRIAL_ON_SIGNUP_FULL,
+} from "@/lib/trial";
 import {
   FREE_PLAN,
   STANDARD_PLAN,
@@ -7,7 +12,7 @@ import {
   monthlyEquivalentCents,
   formatPriceCad,
   planLabel,
-} from '@/lib/plans';
+} from "@/lib/plans";
 
 /**
  * Les chiffres de la réponse « Pourquoi choisir l'annuel ? » sont DÉRIVÉS.
@@ -17,14 +22,14 @@ import {
  * qu'aucune valeur ne la reliait à la grille. Une réponse qui cite un prix doit
  * le lire dans `plans.ts`, sans quoi elle survit au prix qu'elle décrit.
  */
-function annuel(locale: 'fr' | 'en'): string {
+function annuel(locale: "fr" | "en"): string {
   const eqS = formatPriceCad(monthlyEquivalentCents(STANDARD_PLAN), locale);
   const eqP = formatPriceCad(monthlyEquivalentCents(PREMIUM_PLAN), locale);
   const ecoS = formatPriceCad(annualSavingsCents(STANDARD_PLAN), locale);
   const ecoP = formatPriceCad(annualSavingsCents(PREMIUM_PLAN), locale);
   const nS = planLabel(STANDARD_PLAN.id, locale);
   const nP = planLabel(PREMIUM_PLAN.id, locale);
-  return locale === 'fr'
+  return locale === "fr"
     ? `Le prix de lancement, et un palais qu’Octave affine toute l’année. À l’année, le ${nS} revient à ${eqS} $ par mois et le ${nP} à ${eqP} $, soit ${ecoS} $ et ${ecoP} $ de moins que douze mois au tarif mensuel. Il est offert aux premiers abonnés et pourra évoluer par la suite.`
     : `The launch price, and a palate Octave sharpens all year long. Yearly, ${nS} works out to $${eqS} a month and ${nP} to $${eqP}, which is $${ecoS} and $${ecoP} less than twelve months at the monthly rate. It is offered to our first subscribers and may change later on.`;
 }
@@ -43,7 +48,10 @@ function annuel(locale: 'fr' | 'en'): string {
  * RÉELLEMENT visible sur la page. Une source unique n'est donc pas seulement
  * plus propre, elle est la condition d'éligibilité.
  */
-export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> }[] = [
+export const FAQ: {
+  q: Record<"fr" | "en", string>;
+  a: Record<"fr" | "en", string>;
+}[] = [
   {
     /**
      * La réponse énonçait la double barrière — une information de DURÉE sous
@@ -52,10 +60,13 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
      * l'endroit où un lecteur inquiet vérifie que la gratuité ne cache rien.
      * La mécanique de l'essai a sa propre entrée, deux questions plus bas.
      */
-    q: { fr: 'Dois-je donner ma carte de crédit ?', en: 'Do I need a credit card?' },
+    q: {
+      fr: "Dois-je donner ma carte de crédit ?",
+      en: "Do I need a credit card?",
+    },
     a: {
-      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de Standard non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez Standard ou Premium.`,
-      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of Standard, and the Free plan never does. You only give a card the day you choose Standard or Premium.`,
+      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de Passionné non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez Standard ou Premium.`,
+      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of Enthusiast, and the Free plan never does. You only give a card the day you choose Standard or Premium.`,
     },
   },
   {
@@ -86,35 +97,38 @@ export const FAQ: { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', strin
     a: {
       fr: `Non, jamais. Il n’y a pas d’essai d’un côté et un forfait de l’autre : il y a un forfait Gratuit, à 0 $, sans date de fin — et un cadeau de bienvenue posé dessus.
 
-${TRIAL_ON_SIGNUP_FULL.fr} : toute nouvelle inscription reçoit les fonctionnalités du Standard, sans carte et sans rien demander. Ensuite, ce cadeau s’arrête, mais le forfait, lui, continue : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, un utilisateur, aussi longtemps que vous voudrez.
+${TRIAL_ON_SIGNUP_FULL.fr} : toute nouvelle inscription reçoit les fonctionnalités du Passionné, sans carte et sans rien demander. Ensuite, ce cadeau s’arrête, mais le forfait, lui, continue : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, un utilisateur, aussi longtemps que vous voudrez.
 
-Votre cave, vos notes, vos souvenirs et le palais qu’Octave a appris restent en place. Rien ne se bloque, rien ne passe en lecture seule, rien ne vous est prélevé. Vous choisissez Standard ou Premium le jour où vous en avez envie, ou jamais.`,
+Votre cave, vos notes, vos souvenirs et le palais qu’Octave a appris restent en place. Rien ne se bloque, rien ne passe en lecture seule, rien ne vous est prélevé. Vous choisissez Passionné ou Premium le jour où vous en avez envie, ou jamais.`,
       en: `No, never. There isn’t a trial on one side and a plan on the other: there is a Free plan, at $0, with no end date — and a welcome gift laid on top of it.
 
-${TRIAL_ON_SIGNUP_FULL.en}: every new sign-up receives the Standard features, no card, nothing to ask for. Afterwards the gift stops, but the plan carries on: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one user, for as long as you like.
+${TRIAL_ON_SIGNUP_FULL.en}: every new sign-up receives the Enthusiast features, no card, nothing to ask for. Afterwards the gift stops, but the plan carries on: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one user, for as long as you like.
 
-Your cellar, your notes, your memories and the palate Octave has learned all stay put. Nothing locks, nothing goes read-only, nothing is charged to you. You choose Standard or Premium the day you feel like it, or never.`,
+Your cellar, your notes, your memories and the palate Octave has learned all stay put. Nothing locks, nothing goes read-only, nothing is charged to you. You choose Enthusiast or Premium the day you feel like it, or never.`,
     },
   },
   {
-    q: { fr: 'Puis-je résilier ?', en: 'Can I cancel?' },
+    q: { fr: "Puis-je résilier ?", en: "Can I cancel?" },
     a: {
-      fr: 'Oui, à tout moment. La résiliation prend effet au renouvellement de votre terme mensuel ou annuel.',
-      en: 'Yes, anytime. Cancellation takes effect at the renewal of your monthly or annual term.',
+      fr: "Oui, à tout moment. La résiliation prend effet au renouvellement de votre terme mensuel ou annuel.",
+      en: "Yes, anytime. Cancellation takes effect at the renewal of your monthly or annual term.",
     },
   },
   {
-    q: { fr: 'Mes données sont-elles privées ?', en: 'Is my data private?' },
+    q: { fr: "Mes données sont-elles privées ?", en: "Is my data private?" },
     a: {
-      fr: 'Vos goûts et votre cave vous appartiennent : chiffrés, privés, exportables.',
-      en: 'Your taste and cellar are yours: encrypted, private, exportable.',
+      fr: "Vos goûts et votre cave vous appartiennent : chiffrés, privés, exportables.",
+      en: "Your taste and cellar are yours: encrypted, private, exportable.",
     },
   },
   {
-    q: { fr: 'Où Octave vérifie-t-il la disponibilité ?', en: 'Where does Octave check availability?' },
+    q: {
+      fr: "Où Octave vérifie-t-il la disponibilité ?",
+      en: "Where does Octave check availability?",
+    },
     a: {
-      fr: 'La disponibilité par magasin est vérifiée à partir de données officielles à jour, partout au Québec. Ailleurs, iQWine recommande depuis votre cave et par scan d’étiquette ou de carte.',
-      en: 'Store-level availability is verified from up-to-date official data, across Québec. Elsewhere, iQWine recommends from your cellar and via label or menu scan.',
+      fr: "La disponibilité par magasin est vérifiée à partir de données officielles à jour, partout au Québec. Ailleurs, iQWine recommande depuis votre cave et par scan d’étiquette ou de carte.",
+      en: "Store-level availability is verified from up-to-date official data, across Québec. Elsewhere, iQWine recommends from your cellar and via label or menu scan.",
     },
   },
   {
@@ -141,8 +155,8 @@ Your cellar, your notes, your memories and the palate Octave has learned all sta
      * s'écrit sans réserve : c'est la question qui bloque l'achat.
      */
     q: {
-      fr: 'Qu’est-ce qu’un conseil personnalisé d’Octave ?',
-      en: 'What counts as a piece of personalized advice from Octave?',
+      fr: "Qu’est-ce qu’un conseil personnalisé d’Octave ?",
+      en: "What counts as a piece of personalized advice from Octave?",
     },
     a: {
       fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en succursale pour savoir si elle vous plairait.
@@ -166,27 +180,30 @@ And if a technical failure keeps Octave from answering, the advice is given back
     },
   },
   {
-    q: { fr: 'Dois-je saisir toute ma cave ?', en: 'Do I have to enter my whole cellar?' },
+    q: {
+      fr: "Dois-je saisir toute ma cave ?",
+      en: "Do I have to enter my whole cellar?",
+    },
     a: {
-      fr: 'Non. Octave répond dès la première question ; ajoutez vos bouteilles à votre rythme.',
-      en: 'No. Octave answers from your very first question; add your bottles at your own pace.',
+      fr: "Non. Octave répond dès la première question ; ajoutez vos bouteilles à votre rythme.",
+      en: "No. Octave answers from your very first question; add your bottles at your own pace.",
     },
   },
   {
     q: {
-      fr: 'Combien de temps avant ma première recommandation ?',
-      en: 'How long until my first recommendation?',
+      fr: "Combien de temps avant ma première recommandation ?",
+      en: "How long until my first recommendation?",
     },
     a: {
-      fr: 'Environ 30 secondes.',
-      en: 'About 30 seconds.',
+      fr: "Environ 30 secondes.",
+      en: "About 30 seconds.",
     },
   },
   {
-    q: { fr: 'Sur quels appareils ?', en: 'On which devices?' },
+    q: { fr: "Sur quels appareils ?", en: "On which devices?" },
     a: {
-      fr: 'Sur le web et sur mobile (iOS et Android), installable en un geste.',
-      en: 'On the web and on mobile (iOS and Android), installable in one tap.',
+      fr: "Sur le web et sur mobile (iOS et Android), installable en un geste.",
+      en: "On the web and on mobile (iOS and Android), installable in one tap.",
     },
   },
   {
@@ -219,10 +236,10 @@ Nothing is automatic at the end: since no card was ever given, you are never cha
     },
   },
   {
-    q: { fr: 'Octave peut-il se tromper ?', en: 'Can Octave be wrong?' },
+    q: { fr: "Octave peut-il se tromper ?", en: "Can Octave be wrong?" },
     a: {
-      fr: 'Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts, pas sur un assistant générique. Et il vous dit quand il hésite plutôt que d’inventer.',
-      en: 'Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste, not a generic assistant. And it tells you when it’s unsure rather than making things up.',
+      fr: "Octave ne devine pas : il s’appuie sur des données de disponibilité réelles et à jour, votre cave et vos goûts, pas sur un assistant générique. Et il vous dit quand il hésite plutôt que d’inventer.",
+      en: "Octave doesn’t guess: it relies on real, up-to-date availability data, your cellar and your taste, not a generic assistant. And it tells you when it’s unsure rather than making things up.",
     },
   },
   {
@@ -237,8 +254,8 @@ Nothing is automatic at the end: since no card was ever given, you are never cha
      * La réponse énonce désormais ce que le lecteur peut vérifier lui-même avec
      * les chiffres de la page : l'équivalent mensuel et l'écart en dollars.
      */
-    q: { fr: 'Pourquoi choisir l’annuel ?', en: 'Why choose annual?' },
-    a: { fr: annuel('fr'), en: annuel('en') },
+    q: { fr: "Pourquoi choisir l’annuel ?", en: "Why choose annual?" },
+    a: { fr: annuel("fr"), en: annuel("en") },
   },
   {
     /**
@@ -253,10 +270,13 @@ Nothing is automatic at the end: since no card was ever given, you are never cha
      * s'entend comme un statut acquis, donc comme un tarif gardé à vie — la
      * chose même que cette réponse refuse de promettre.
      */
-    q: { fr: 'Qu’est-ce que le prix de lancement ?', en: 'What is the launch price?' },
+    q: {
+      fr: "Qu’est-ce que le prix de lancement ?",
+      en: "What is the launch price?",
+    },
     a: {
-      fr: 'C’est le prix de lancement de l’abonnement annuel, offert aux premiers abonnés. Il ne s’applique qu’à l’annuel, jamais au mensuel, et il pourra évoluer par la suite.',
-      en: 'It is the launch price of the annual subscription, offered to our first subscribers. It applies to the annual plan only, never to monthly, and it may change later on.',
+      fr: "C’est le prix de lancement de l’abonnement annuel, offert aux premiers abonnés. Il ne s’applique qu’à l’annuel, jamais au mensuel, et il pourra évoluer par la suite.",
+      en: "It is the launch price of the annual subscription, offered to our first subscribers. It applies to the annual plan only, never to monthly, and it may change later on.",
     },
   },
   {
@@ -266,19 +286,19 @@ Nothing is automatic at the end: since no card was ever given, you are never cha
      * audit du code applicatif, et c'est le meilleur argument de la page.
      */
     q: {
-      fr: 'Quelle est la différence entre les forfaits ?',
-      en: 'What is the difference between the plans?',
+      fr: "Quelle est la différence entre les forfaits ?",
+      en: "What is the difference between the plans?",
     },
     a: {
-      fr: 'Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.',
-      en: 'No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users — and each user keeps their own palate.',
+      fr: "Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.",
+      en: "No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users — and each user keeps their own palate.",
     },
   },
   {
-    q: { fr: 'Et si je change d’avis ?', en: 'What if I change my mind?' },
+    q: { fr: "Et si je change d’avis ?", en: "What if I change my mind?" },
     a: {
-      fr: 'Vous résiliez en un geste, en tout temps. En annuel, vous pouvez aussi repasser au mensuel quand vous voulez.',
-      en: 'Cancel in one tap, anytime. On annual, you can also switch back to monthly whenever you like.',
+      fr: "Vous résiliez en un geste, en tout temps. En annuel, vous pouvez aussi repasser au mensuel quand vous voulez.",
+      en: "Cancel in one tap, anytime. On annual, you can also switch back to monthly whenever you like.",
     },
   },
 ];

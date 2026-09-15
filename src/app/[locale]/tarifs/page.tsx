@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
-import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
-import TarifsContent from '@/components/tarifs/TarifsContent';
-import { SIGNUP_SUB } from '@/lib/trial';
-import { faqPageLd } from '@/lib/structured-data';
-import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
+import type { Metadata } from "next";
+import { pageMetadata, type ParamsLocale } from "@/lib/page-metadata";
+import TarifsContent from "@/components/tarifs/TarifsContent";
+import { SIGNUP_SUB } from "@/lib/trial";
+import { faqPageLd } from "@/lib/structured-data";
+import { isLocale, DEFAULT_LOCALE } from "@/lib/locale";
 
 /**
  * Le title portait « Tarifs · iQWine », qui ne dit ni ce qu'on achete ni ce
@@ -12,7 +12,8 @@ import { isLocale, DEFAULT_LOCALE } from '@/lib/locale';
  */
 const TEXTES = {
   fr: {
-    title: 'Tarifs iQWine : votre sommelier IA, essai gratuit sans carte · iQWine',
+    title:
+      "Tarifs iQWine : votre sommelier IA, essai gratuit sans carte · iQWine",
     // La description menait par les trois noms de forfaits et ne disait de
     // l'essai que ses deux bornes. Dans un resultat de recherche, ce sont les
     // premiers mots qui sont lus : elle mene donc par la SEQUENCE, qui est ce
@@ -20,14 +21,16 @@ const TEXTES = {
     description: `${SIGNUP_SUB.fr} Sans carte, sans engagement.`,
   },
   en: {
-    title: 'iQWine pricing: your AI sommelier, free trial, no card · iQWine',
+    title: "iQWine pricing: your AI sommelier, free trial, no card · iQWine",
     description: `${SIGNUP_SUB.en} No card, no commitment.`,
   },
 } as const;
 
-export async function generateMetadata({ params }: ParamsLocale): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ParamsLocale): Promise<Metadata> {
   const { locale } = await params;
-  return pageMetadata('/tarifs', locale, TEXTES);
+  return pageMetadata("/tarifs", locale, TEXTES);
 }
 
 /**
@@ -36,7 +39,7 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
  * réassurance → FAQ → clôture ivoire.
  *
  * L'OFFRE, ELLE, A CHANGÉ le 2026-09-13 : quatre paliers sont devenus trois
- * (Gratuit · Standard · Premium), le Gratuit est entré dans la grille et monte
+ * (Gratuit · Passionné · Premium), le Gratuit est entré dans la grille et monte
  * à 100 bouteilles, l'annuel du Standard passe à 149 $ sous l'étiquette « prix
  * de lancement », et le comparatif ne montre plus que les quatre lignes qui
  * diffèrent réellement. La description ci-dessus nomme donc les trois forfaits
@@ -55,7 +58,7 @@ export default async function TarifsPage({ params }: ParamsLocale) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqPageLd(langue)).replace(/</g, '\\u003c'),
+          __html: JSON.stringify(faqPageLd(langue)).replace(/</g, "\\u003c"),
         }}
       />
       <TarifsContent />
