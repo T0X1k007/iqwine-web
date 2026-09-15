@@ -1,30 +1,52 @@
-> ## ⚠️ HISTORIQUE — le forfait décrit ici n'existe plus (2026-09-13)
+> ## ⚠️ HISTORIQUE — lisez d'abord ceci (mis à jour le 2026-09-15)
 >
-> La refonte des forfaits a ramené la grille à trois paliers — **Gratuit ·
-> Standard · Premium** — et le palier `famille` / « Passionné » en est sorti :
-> sa capacité (cave sans plafond, 200 interactions, 4 utilisateurs) a été
-> reprise par **Premium**, au prix de l'ancien Pro. Plus aucun libellé du site
-> ne diffère d'une langue à l'autre.
+> **Ce document décrit une décision de 2026-08-02 qui portait sur le forfait
+> `FAMILLE`. Ce forfait est retiré, et le nom « Passionné » a changé de
+> propriétaire.**
+>
+> ### La nomenclature d'aujourd'hui
+>
+> | clé technique | français | anglais |
+> | ------------- | -------- | ------- |
+> | `gratuit` / `FREE` | Gratuit | Free |
+> | `standard` / `STANDARD` | **Passionné** | **Enthusiast** |
+> | `pro` / `PRO` | Premium | Premium |
+> | `FAMILLE` | *(retiré, plus aucun nom commercial)* | *(idem)* |
+>
+> Le 2026-09-13, la grille est passée à trois paliers et `FAMILLE` en est
+> sorti : sa capacité — cave sans plafond, 200 conseils, 4 utilisateurs — a été
+> reprise par **Premium**, au prix de l'ancien Pro.
+>
+> Le 2026-09-15, le palier `standard` a pris le nom **« Passionné »** /
+> **« Enthusiast »**, libéré par le retrait de `FAMILLE`. La mécanique bilingue
+> de `planLabel` redevient donc utile : les deux langues diffèrent à nouveau.
+>
+> ### 🔒 CE QUI EST VERROUILLÉ, et qu'on vient « corriger » de bonne foi
 >
 > **Ce document reste vrai sur le fond, et c'est pour cela qu'il est conservé :**
-> il établit la règle qu'un **libellé affiché** et un **identifiant de
-> facturation** sont deux choses distinctes, et que le second ne bouge pas quand
-> le premier change. C'est exactement en s'appuyant sur elle que l'identifiant
-> `pro` a été conservé sous le nom « Premium » (voir `PlanId` dans
-> `src/lib/plans.ts`). La mécanique bilingue de `planLabel` demeure en place,
-> prête pour le prochain libellé qui devra différer selon la langue.
+> un **libellé affiché** et un **identifiant de facturation** sont deux choses
+> distinctes, et le second ne bouge pas quand le premier change.
 >
-> ### 🔒 `pro` sous le libellé « Premium » — VERROUILLÉ, ne pas « corriger »
+> · l'identifiant `pro` porte le nom « Premium » ; `?plan=pro` est le BON
+>   paramètre, et `PLAN_SELECTED` rapporte bien `plan: 'pro'` ;
+> · l'identifiant `standard` porte le nom « Passionné » ; `?plan=standard` est
+>   le BON paramètre, `TRIAL_PLAN_ID` vaut toujours `"standard"`, et les
+>   produits Apple sont `ca.iqwine.app.standard.*`.
 >
-> Décision d'Eric, confirmée le 2026-09-13. La clé interne du palier haut reste
-> **`PRO`** (application) / **`pro`** (site) ; seul le libellé public devient
-> **« Premium »**, dans les deux langues.
+> ### ⚠️ LE PIÈGE LE PLUS TENTANT DE TOUT LE DÉPÔT
 >
-> Conséquence directe, et c'est la ligne qu'on vient « corriger » de bonne foi :
-> le lien d'inscription envoie **`?plan=pro`**, et c'est le **bon** paramètre.
-> `PLAN_SELECTED` rapporte lui aussi `plan: 'pro'`. Ne renommez pas
-> l'identifiant pour le faire ressembler au mot affiché — c'est précisément ce
-> que ce document interdit depuis « Passionné ».
+> Il existe des identifiants **`ca.iqwine.app.passionne.*`** et des price IDs
+> Stripe qui portent le mot « passionne ». **Ils appartiennent à l'ANCIEN
+> forfait `FAMILLE`, retiré de la vente, et ils sont morts.** Le nouveau
+> Passionné n'est PAS servi par eux et ne doit JAMAIS l'être.
+>
+> Voir un identifiant qui dit « standard » servir un forfait nommé
+> « Passionné », pendant qu'existe un identifiant qui dit « passionne » et ne
+> sert rien, est déroutant — et c'est voulu. Les « réunir » casserait des
+> abonnements en cours et réactiverait une offre retirée.
+>
+> Source canonique des noms : `lib/billing/plan-label.ts` (application), et
+> `PLAN_LABELS` de `src/lib/plans.ts` (site).
 
 # « Passionné » / « Enthusiast » — un libellé, un seul forfait
 
