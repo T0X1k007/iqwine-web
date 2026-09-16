@@ -6,33 +6,36 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
  * BADGES DE PLATEFORMES, « et c'est déjà sur votre téléphone »
- * (décision d'Eric, 2026-08-28, iOS 1.0 publiée).
+ * (décision d'Eric, 2026-08-28, iOS 1.0 publiée ·
+ *  Android publiée le 2026-09-16, les DEUX plaques mènent à leur boutique).
  *
  * ── Ce que ces badges NE sont pas ─────────────────────────────────────────
  * Ils ne remplacent pas le CTA. Le bouton principal du hero et de la
  * résolution continue de mener à l'essai, pour tout le monde : la majorité du
- * trafic est sur ordinateur, et Android n'est pas publiée. Les badges DISENT
- * la disponibilité mobile, ils ne détournent pas l'entonnoir (cf. la bascule
- * `CTA_VERS_STORE`, documentée dans `constants.ts`).
+ * trafic est sur ordinateur, où un lien de boutique est un cul-de-sac. Les
+ * badges DISENT la disponibilité mobile, ils ne détournent pas l'entonnoir
+ * (cf. la bascule `CTA_VERS_STORE`, documentée dans `constants.ts`).
  *
- * ── Pourquoi Apple a son badge officiel et Android non ────────────────────
+ * ── Pourquoi Apple a son badge officiel et Android un jumeau dessiné ──────
  * Apple : l'artwork officiel, servi depuis `public/badges/`, en QUATRE
  * déclinaisons — deux langues × deux tons. Apple impose le badge noir sur
  * fond clair et le badge blanc sur fond sombre ; c'est exactement la raison
  * d'être de la prop `ton` (le hero est ivoire, la résolution est nuit).
  *
- * Android : PAS le badge Google Play. Ses conditions d'usage le réservent aux
- * applications effectivement présentes sur le Play Store, et son artwork dit
- * littéralement « Disponible sur » — ce serait faux aujourd'hui. On dessine
- * donc son JUMEAU : même hauteur, même rayon de coin, même partition
- * typographique (une ligne de service en petites capitales, un nom en gros),
- * même police sans empattement que le badge Apple. Côte à côte, ils forment
- * une paire ; mais l'un est plein (il mène quelque part) et l'autre est
- * seulement cerné (il annonce). La différence de traitement EST le message.
+ * Android : un JUMEAU dessiné, pas le badge Google Play. Il est né d'une
+ * contrainte qui a cessé d'exister, l'artwork officiel dit « Disponible
+ * sur », et ça aurait été faux avant la publication. On le garde pour
+ * l'instant parce qu'il fait PAIRE avec Apple : même hauteur, même rayon de
+ * coin, même partition typographique (une ligne de service en petites
+ * capitales, un nom en gros), même police sans empattement. Poser un jour
+ * l'artwork Google officiel dans `public/badges/` reste possible, et ne
+ * changerait que cette plaque-ci.
  *
- * ── Le jour où Android sort ───────────────────────────────────────────────
- * Poser `PLAY_STORE_URL` dans `constants.ts` : la plaque devient un lien et
- * change de libellé toute seule. Rien à toucher ici.
+ * ── La bascule de disponibilité ───────────────────────────────────────────
+ * Elle tient dans `PLAY_STORE_URL` (constants.ts), et nulle part ailleurs :
+ * une URL donne un lien « Disponible sur Android », `null` ramène l'annonce
+ * « Bientôt disponible », désactivée. Rien à toucher ici dans un sens comme
+ * dans l'autre.
  */
 
 /**
@@ -93,7 +96,7 @@ export default function BadgesPlateformes({
 }: {
   /** Le fond sur lequel la paire est posée. Décide la déclinaison Apple. */
   ton: 'jour' | 'nuit';
-  /** Emplacement, propagé à l'analytique (`app_store_click`). */
+  /** Emplacement, propagé à l'analytique (`app_store_click` / `play_store_click`). */
   source: string;
   className?: string;
 }) {
@@ -159,14 +162,15 @@ export default function BadgesPlateformes({
         />
       </a>
 
-      {/* Android, cerné : il annonce. Non cliquable tant que PLAY_STORE_URL
-          est `null` — et l'information « bientôt » est PORTÉE PAR LE TEXTE,
-          donc lue par les lecteurs d'écran comme par les yeux. */}
+      {/* Android : un lien dès que PLAY_STORE_URL existe, une annonce cernée
+          et non cliquable sinon. Dans les deux cas l'information est PORTÉE
+          PAR LE TEXTE, donc lue par les lecteurs d'écran comme par les yeux. */}
       {androidPublie ? (
         <a
           href={PLAY_STORE_URL as string}
           target="_blank"
           rel="noopener"
+          onClick={() => track(ANALYTICS_EVENTS.PLAY_STORE_CLICK, { source })}
           className="inline-block rounded-[10px] transition-opacity duration-[140ms] hover:opacity-80"
         >
           {plaqueAndroid}

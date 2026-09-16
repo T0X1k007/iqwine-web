@@ -1,7 +1,7 @@
 import { GRILLE, formatPriceCad, maxBottlesLabel, planLabel } from '@/lib/plans';
 import { FAQ } from '@/lib/faq';
 import { TRIAL_DAYS, TRIAL_FULL } from '@/lib/trial';
-import { APP_STORE_URL } from '@/lib/constants';
+import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
 
 /**
@@ -110,15 +110,16 @@ export function softwareApplicationLd(locale: Locale) {
     applicationCategory: 'LifestyleApplication',
     operatingSystem: 'Web, iOS, Android',
     /**
-     * L'adresse d'installation, depuis la publication iOS (2026-08-28). Elle
-     * est DÉRIVÉE de `APP_STORE_URL`, comme tout le reste de ce fichier : le
-     * badge de la page d'accueil et le balisage ne peuvent pas diverger.
+     * Les adresses d'installation, DÉRIVÉES de `APP_STORE_URL` et de
+     * `PLAY_STORE_URL`, comme tout le reste de ce fichier : les badges de la
+     * page d'accueil et le balisage ne peuvent pas diverger.
      *
-     * Android reste déclarée en `operatingSystem` — l'app web y fonctionne —
-     * mais SANS adresse, parce qu'il n'y en a pas encore. Annoncer à Google un
-     * téléchargement qui n'existe pas coûterait plus que le silence.
+     * Deux boutiques depuis le 2026-09-16 (iOS le 2026-08-28, Android
+     * approuvée par Google Play) : `downloadUrl` accepte plusieurs URL, et on
+     * n'en déclare jamais une qui n'existe pas, d'où le filtre sur `null`,
+     * qui rend son unique adresse au balisage si Android repassait à `null`.
      */
-    downloadUrl: APP_STORE_URL,
+    downloadUrl: [APP_STORE_URL, PLAY_STORE_URL].filter(Boolean) as string[],
     publisher: { '@id': `${SITE}/#organization` },
     inLanguage: BCP47[locale],
     offers: offres,

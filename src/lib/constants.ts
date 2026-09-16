@@ -28,12 +28,17 @@ export const APP_STORE_URL =
   'https://apps.apple.com/ca/app/iqwine-sommelier-ia-vins/id6798458954';
 
 /**
- * Android n'est PAS publiée (au 2026-08-28). Tant que c'est `null`, la plaque
- * Android s'affiche « Bientôt disponible », désactivée, non cliquable. Le jour
- * de la publication, poser l'URL Play Store ici SUFFIT : la plaque devient un
- * lien, sans toucher au composant.
+ * Android 1.0 EST PUBLIÉE (2026-09-16), approuvée par Google Play. URL Play
+ * Store canonique, identifiant d'application `ca.iqwine.app`.
+ *
+ * C'est cette constante, et elle seule, qui pilote la plaque Android de
+ * `BadgesPlateformes` : une URL en fait un lien « Disponible sur Android »,
+ * `null` la ramène à l'annonce « Bientôt disponible », désactivée. Le type
+ * garde donc son `| null`, pour qu'un retrait de la boutique reste un `null`
+ * à poser ici, sans toucher au composant.
  */
-export const PLAY_STORE_URL: string | null = null;
+export const PLAY_STORE_URL: string | null =
+  'https://play.google.com/store/apps/details?id=ca.iqwine.app';
 
 /**
  * LA BASCULE DES CTA (décision d'Eric, 2026-08-28).
@@ -44,11 +49,14 @@ export const PLAY_STORE_URL: string | null = null;
  * publiée depuis, et cette bascule n'a délibérément PAS été activée :
  *
  *   - le gros du trafic d'une page d'accueil est sur ordinateur, où un lien
- *     App Store est un cul-de-sac ;
- *   - Android n'est pas publiée : un visiteur Android à qui l'on dit
- *     « Télécharger » ne trouve rien ;
+ *     de boutique est un cul-de-sac ;
  *   - la ligne « Essai gratuit · Sans carte » qui accompagne les deux CTA
- *     deviendrait un contresens, l'App Store ne connaît pas notre essai.
+ *     deviendrait un contresens, les boutiques ne connaissent pas notre essai.
+ *
+ * Une troisième raison a existé jusqu'au 2026-09-16 : « Android n'est pas
+ * publiée, un visiteur Android à qui l'on dit Télécharger ne trouve rien. »
+ * Elle est tombée, l'application Android est en ligne. Les deux autres
+ * tiennent, la bascule reste donc au repos.
  *
  * La disponibilité mobile se dit désormais par les badges, et le CTA continue
  * de faire entrer TOUT LE MONDE dans l'essai. Passer ce booléen à `true`

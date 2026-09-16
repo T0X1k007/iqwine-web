@@ -26,9 +26,10 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * Vérité produit : fenêtre de dégustation par millésime ET par format ;
  * l'apogée est un repère, jamais une certitude (le produit le dit lui-même) ;
  * notifications calmes ≤ 2/semaine ; emplacements suivis case par case.
- * CTA : il mène à l'essai, et il y reste — iOS est publiée depuis le
- * 2026-08-28 sans que le libellé bascule (cf. `CTA_VERS_STORE`, constants.ts).
- * La disponibilité mobile se dit dessous, par les badges App Store / Android.
+ * CTA : il mène à l'essai, et il y reste, les deux applications sont publiées
+ * (iOS le 2026-08-28, Android le 2026-09-16) sans que le libellé bascule
+ * (cf. `CTA_VERS_STORE`, constants.ts). La disponibilité mobile se dit
+ * dessous, par les badges App Store et Play Store.
  * L'ancienne FinalCta est remplacée par cette résolution (fichier conservé).
  */
 

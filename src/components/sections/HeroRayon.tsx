@@ -32,11 +32,13 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * toucher au layout (même conteneur, même overlay).
  *
  * ── CTA à bascule, et pourquoi elle reste au repos ────────────────────────
- * iOS 1.0 est publiée depuis le 2026-08-28, mais le CTA ne bascule PAS vers
- * « Télécharger iQWine » : le trafic est majoritairement sur ordinateur, où
- * l'App Store est un cul-de-sac, et Android n'est pas sortie. La bascule vit
- * dans `CTA_VERS_STORE` (constants.ts), documentée, prête à être activée d'un
- * booléen. La disponibilité mobile, elle, se dit sous le CTA : les badges.
+ * Les deux applications sont publiées (iOS le 2026-08-28, Android le
+ * 2026-09-16), mais le CTA ne bascule PAS vers « Télécharger iQWine » : le
+ * trafic est majoritairement sur ordinateur, où un lien de boutique est un
+ * cul-de-sac, et la ligne d'essai qui suit le CTA n'y voudrait plus rien
+ * dire. La bascule vit dans `CTA_VERS_STORE` (constants.ts), documentée,
+ * prête à être activée d'un booléen. La disponibilité mobile, elle, se dit
+ * sous le CTA : les badges.
  */
 
 /** Rangées du rayon provisoire, ordres figés (stabilité SSR, zéro Math.random). */
