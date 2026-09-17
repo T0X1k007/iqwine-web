@@ -16,18 +16,24 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * badges DISENT la disponibilité mobile, ils ne détournent pas l'entonnoir
  * (cf. la bascule `CTA_VERS_STORE`, documentée dans `constants.ts`).
  *
- * ── Deux artworks officiels, servis depuis `public/badges/` ───────────────
- * Apple : QUATRE déclinaisons, deux langues × deux tons. Apple impose le
- * badge noir sur fond clair et le badge blanc sur fond sombre ; c'est
- * exactement la raison d'être de la prop `ton` (le hero est ivoire, la
- * résolution est nuit).
+ * ── Quatre fichiers par marque, servis depuis `public/badges/` ────────────
+ * Apple : deux langues × deux tons, artwork officiel. Apple impose le badge
+ * noir sur fond clair et le badge blanc sur fond sombre ; c'est exactement la
+ * raison d'être de la prop `ton` (le hero est ivoire, la résolution est
+ * nuit).
  *
- * Google Play : DEUX déclinaisons, une par langue. Google ne publie qu'un
- * seul ton, la boîte noire cerclée, pensée pour tenir sur clair comme sur
- * sombre ; il n'y a donc rien à choisir selon le fond. Sa proportion diffère
- * de celle d'Apple (3,375 contre 3,159), et c'est pour ça que les deux
- * plaques se posent à HAUTEUR égale (`h-11`) en laissant la largeur suivre :
- * un badge de boutique ne se déforme jamais.
+ * Google Play : deux langues × deux tons, mais un seul des deux vient de
+ * Google. Google ne publie QUE la boîte noire cerclée, servie telle quelle
+ * sur le hero ivoire. Le fichier `-blanc` est cette même boîte inversée
+ * ici, décision d'Eric du 2026-09-16 : sur la section nuit, un badge noir à
+ * côté du badge Apple blanc dépareillait la paire. L'inversion ne touche que
+ * la boîte et le texte, les quatre couleurs du triangle Play restent
+ * exactement celles de Google, et le cerne gris disparaît dans le blanc,
+ * comme sur le badge Apple blanc.
+ *
+ * La proportion de Google diffère de celle d'Apple (3,375 contre 3,159), et
+ * c'est pour ça que les deux plaques se posent à HAUTEUR égale (`h-11`) en
+ * laissant la largeur suivre : un badge de boutique ne se déforme jamais.
  *
  * ── Le jumeau dessiné, qui survit pour un seul cas ────────────────────────
  * Tant qu'Android n'était pas publiée, on dessinait une plaque maison, parce
@@ -71,9 +77,9 @@ function RobotAndroid({ size = 22 }: { size?: number }) {
 }
 
 /**
- * Les deux tons. `fichier` choisit la déclinaison Apple imposée par le fond ;
- * les autres clés habillent le jumeau Android avec les jetons du même monde
- * (encre sur ivoire, foreground sur nuit).
+ * Les deux tons. `fichier` choisit la déclinaison, Apple comme Google, imposée
+ * par le fond ; les autres clés habillent le jumeau dessiné de l'annonce avec
+ * les jetons du même monde (encre sur ivoire, foreground sur nuit).
  */
 const TONS = {
   jour: {
@@ -179,7 +185,7 @@ export default function BadgesPlateformes({
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- artwork officiel Google, SVG servi tel quel (aucune conversion AVIF/WebP à faire) */}
           <img
-            src={`/badges/google-play-${locale}.svg`}
+            src={`/badges/google-play-${locale}-${s.fichier}.svg`}
             alt={googlePlayLabel}
             width={149}
             height={44}
