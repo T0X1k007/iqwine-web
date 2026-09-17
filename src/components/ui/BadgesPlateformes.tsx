@@ -16,26 +16,29 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
  * badges DISENT la disponibilité mobile, ils ne détournent pas l'entonnoir
  * (cf. la bascule `CTA_VERS_STORE`, documentée dans `constants.ts`).
  *
- * ── Pourquoi Apple a son badge officiel et Android un jumeau dessiné ──────
- * Apple : l'artwork officiel, servi depuis `public/badges/`, en QUATRE
- * déclinaisons — deux langues × deux tons. Apple impose le badge noir sur
- * fond clair et le badge blanc sur fond sombre ; c'est exactement la raison
- * d'être de la prop `ton` (le hero est ivoire, la résolution est nuit).
+ * ── Deux artworks officiels, servis depuis `public/badges/` ───────────────
+ * Apple : QUATRE déclinaisons, deux langues × deux tons. Apple impose le
+ * badge noir sur fond clair et le badge blanc sur fond sombre ; c'est
+ * exactement la raison d'être de la prop `ton` (le hero est ivoire, la
+ * résolution est nuit).
  *
- * Android : un JUMEAU dessiné, pas le badge Google Play. Il est né d'une
- * contrainte qui a cessé d'exister, l'artwork officiel dit « Disponible
- * sur », et ça aurait été faux avant la publication. On le garde pour
- * l'instant parce qu'il fait PAIRE avec Apple : même hauteur, même rayon de
- * coin, même partition typographique (une ligne de service en petites
- * capitales, un nom en gros), même police sans empattement. Poser un jour
- * l'artwork Google officiel dans `public/badges/` reste possible, et ne
- * changerait que cette plaque-ci.
+ * Google Play : DEUX déclinaisons, une par langue. Google ne publie qu'un
+ * seul ton, la boîte noire cerclée, pensée pour tenir sur clair comme sur
+ * sombre ; il n'y a donc rien à choisir selon le fond. Sa proportion diffère
+ * de celle d'Apple (3,375 contre 3,159), et c'est pour ça que les deux
+ * plaques se posent à HAUTEUR égale (`h-11`) en laissant la largeur suivre :
+ * un badge de boutique ne se déforme jamais.
+ *
+ * ── Le jumeau dessiné, qui survit pour un seul cas ────────────────────────
+ * Tant qu'Android n'était pas publiée, on dessinait une plaque maison, parce
+ * que l'artwork Google dit « Disponible sur » et que ça aurait été faux. Ce
+ * dessin reste ici, et sert EXACTEMENT ce cas : si `PLAY_STORE_URL` repassait
+ * à `null`, la paire retombe sur une annonce « Bientôt disponible », cernée
+ * et non cliquable, sans jamais afficher un badge Google mensonger.
  *
  * ── La bascule de disponibilité ───────────────────────────────────────────
- * Elle tient dans `PLAY_STORE_URL` (constants.ts), et nulle part ailleurs :
- * une URL donne un lien « Disponible sur Android », `null` ramène l'annonce
- * « Bientôt disponible », désactivée. Rien à toucher ici dans un sens comme
- * dans l'autre.
+ * Elle tient dans `PLAY_STORE_URL` (constants.ts), et nulle part ailleurs.
+ * Rien à toucher ici dans un sens comme dans l'autre.
  */
 
 /**
@@ -105,25 +108,25 @@ export default function BadgesPlateformes({
   const s = TONS[ton];
 
   const androidPublie = PLAY_STORE_URL !== null;
-  /**
-   * La ligne de service, tenue COURTE à dessein : « Bientôt disponible sur »
-   * poussait la plaque à ~170 px contre 139 px pour le badge Apple, et la
-   * paire boitait. Sans le « sur », les deux plaques font la même largeur —
-   * et « Bientôt disponible / Android » se lit exactement pareil. La phrase
-   * entière reste dite aux lecteurs d'écran par l'`aria-label`.
-   */
-  const androidService = androidPublie
-    ? t('Disponible sur', 'Available on')
-    : t('Bientôt disponible', 'Coming soon');
-  const androidLabel = androidPublie
-    ? t('Disponible sur Android', 'Available on Android')
-    : t('Bientôt disponible sur Android', 'Coming soon to Android');
 
-  /* Le jumeau. Rendu une fois, servi soit nu (annonce), soit dans un lien. */
+  /** L'artwork officiel porte déjà la phrase ; l'`alt` la redit au lecteur d'écran. */
+  const googlePlayLabel = t('Disponible sur Google Play', 'Get it on Google Play');
+
+  /**
+   * La ligne de service du jumeau dessiné, tenue COURTE à dessein : « Bientôt
+   * disponible sur » poussait la plaque à ~170 px contre 139 px pour le badge
+   * Apple, et la paire boitait. Sans le « sur », les deux plaques font la même
+   * largeur, et « Bientôt disponible / Android » se lit exactement pareil. La
+   * phrase entière reste dite aux lecteurs d'écran par l'`aria-label`.
+   */
+  const annonceService = t('Bientôt disponible', 'Coming soon');
+  const annonceLabel = t('Bientôt disponible sur Android', 'Coming soon to Android');
+
+  /* Le jumeau dessiné, servi seulement quand il n'y a rien à lier. */
   const plaqueAndroid = (
     <span
       role="img"
-      aria-label={androidLabel}
+      aria-label={annonceLabel}
       className={`inline-flex h-11 min-w-[139px] select-none items-center justify-center gap-2 rounded-[10px] border px-3 ${s.bordure} ${s.fond}`}
     >
       <span className={s.petit}>
@@ -133,7 +136,7 @@ export default function BadgesPlateformes({
         <span
           className={`text-[7.5px] font-medium uppercase tracking-[0.09em] ${s.petit}`}
         >
-          {androidService}
+          {annonceService}
         </span>
         <span className={`mt-[3px] text-[15px] font-semibold tracking-[-0.01em] ${s.grand}`}>
           Android
@@ -162,9 +165,10 @@ export default function BadgesPlateformes({
         />
       </a>
 
-      {/* Android : un lien dès que PLAY_STORE_URL existe, une annonce cernée
-          et non cliquable sinon. Dans les deux cas l'information est PORTÉE
-          PAR LE TEXTE, donc lue par les lecteurs d'écran comme par les yeux. */}
+      {/* Google Play, plein : le badge officiel dès que PLAY_STORE_URL existe,
+          l'annonce dessinée et non cliquable sinon. Dans les deux cas
+          l'information est PORTÉE PAR LE TEXTE, donc lue par les lecteurs
+          d'écran comme par les yeux. */}
       {androidPublie ? (
         <a
           href={PLAY_STORE_URL as string}
@@ -173,7 +177,14 @@ export default function BadgesPlateformes({
           onClick={() => track(ANALYTICS_EVENTS.PLAY_STORE_CLICK, { source })}
           className="inline-block rounded-[10px] transition-opacity duration-[140ms] hover:opacity-80"
         >
-          {plaqueAndroid}
+          {/* eslint-disable-next-line @next/next/no-img-element -- artwork officiel Google, SVG servi tel quel (aucune conversion AVIF/WebP à faire) */}
+          <img
+            src={`/badges/google-play-${locale}.svg`}
+            alt={googlePlayLabel}
+            width={149}
+            height={44}
+            className="block h-11 w-auto"
+          />
         </a>
       ) : (
         <span className="inline-block cursor-default">{plaqueAndroid}</span>
