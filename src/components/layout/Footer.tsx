@@ -62,6 +62,7 @@ export default function Footer() {
     // haut et le pied de page disent « Notre histoire », l'URL ne bouge pas.
     { label: t('Notre histoire', 'Our story'), href: '/notre-maison' },
     { label: t('Contact', 'Contact'), href: '/contact' },
+    { label: t('Support', 'Support'), href: '/support' },
   ];
 
   return (

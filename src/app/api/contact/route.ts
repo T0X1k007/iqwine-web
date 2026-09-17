@@ -1,13 +1,26 @@
 import { NextResponse } from 'next/server';
 import { verifierTurnstile } from '@/lib/turnstile';
+import { sourceUrlDeLaPage } from '@/lib/formulaires';
 
 /**
- * POST /api/contact, formulaire « Contactez-nous / Démonstration / Partenariat »
- * du site iqwine.ai. Forward best-effort vers l'app cellier-vin
- * (POST /api/contact) qui persiste la demande + notifie l'admin. Aucune adresse
- * courriel publique exposée.
+ * POST /api/contact, LE relais unique des formulaires publics du site
+ * iqwine.ai. Forward best-effort vers l'app cellier-vin (POST /api/contact)
+ * qui persiste la demande + notifie l'alias concerné. Aucune adresse courriel
+ * publique exposée.
  *
  * Mirroir du pattern beta-signup (validation + rate-limit IP + forward app).
+ *
+ * ── DEUX PORTES, UN SEUL RELAIS (2026-09-16) ──────────────────────────────
+ * `/contact` et `/support` postent tous deux ici. C'est délibéré : dupliquer
+ * cette route pour la page Support aurait dupliqué le pot de miel, le
+ * plafond par IP, Turnstile et le relais, c'est-à-dire quatre gardes à tenir
+ * en double et à oublier une fois. La porte se dit par le champ `page`, que
+ * le serveur traduit en `sourceUrl` via une table fermée
+ * (`lib/formulaires.ts`) — le client ne l'écrit jamais lui-même.
+ *
+ * Le plafond de 5 requêtes par heure est donc COMMUN aux deux formulaires, et
+ * c'est le comportement voulu : il protège une ressource partagée, le seau
+ * Redis de l'application et la réputation d'envoi, pas une page.
  */
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -165,7 +178,13 @@ export async function POST(request: Request) {
       const res = await fetch(`${IQWINE_APP_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Origin: 'https://iqwine.ai' },
-        body: JSON.stringify({ category, email, message, name: name || null, sourceUrl: 'iqwine.ai/contact' }),
+        body: JSON.stringify({
+          category,
+          email,
+          message,
+          name: name || null,
+          sourceUrl: sourceUrlDeLaPage(body.page),
+        }),
         signal: controller.signal,
       });
       if (!res.ok) {

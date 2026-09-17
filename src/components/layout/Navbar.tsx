@@ -47,7 +47,7 @@ export default function Navbar() {
   // au défilement, ce dont se charge la peau contextuelle.
   // Ajoutées à la passe claire du 2026-08-14 : /le-film (entrée ivoire),
   // /contact, /beta et les deux pages légales, désormais entièrement claires.
-  const ROUTES_JOUR = ['/', '/fonctions', '/choisir-un-vin', '/cellier-intelligent', '/accord-mets-vins', '/sommelier-ia', '/carte-des-vins', '/notre-maison', '/le-film', '/contact', '/beta', '/conditions', '/confidentialite'];
+  const ROUTES_JOUR = ['/', '/fonctions', '/choisir-un-vin', '/cellier-intelligent', '/accord-mets-vins', '/sommelier-ia', '/carte-des-vins', '/notre-maison', '/le-film', '/contact', '/support', '/beta', '/conditions', '/confidentialite'];
   const jourInitial = ROUTES_JOUR.includes(cheminCanonique);
   const [surNuit, setSurNuit] = useState(!jourInitial);
   const jour = !surNuit;

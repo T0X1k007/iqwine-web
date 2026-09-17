@@ -7,13 +7,24 @@ import Input from '@/components/ui/Input';
 import { useLocale } from '@/lib/i18n';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import TurnstileField, { type TurnstileFieldHandle } from '@/components/ui/TurnstileField';
+import { PAGE_FORMULAIRE_DEFAUT, type PageFormulaire } from '@/lib/formulaires';
 
 /**
- * ContactForm, le formulaire public de /contact.
+ * ContactForm, LE formulaire public du site. Servi par /contact et par
+ * /support (2026-09-16), avec la même mécanique et des sujets différents.
  *
  * POST vers /api/contact (route locale) qui forward vers l'app cellier-vin.
  * Aucune adresse courriel exposée. Validation client + serveur, états
  * succès/erreur. Mirroir du pattern VagueFondateurs.
+ *
+ * ── Pourquoi la page Support réutilise CE composant ───────────────────────
+ * Un second formulaire aurait dupliqué quatre choses qui n'ont aucune raison
+ * de diverger : le pot de miel, la règle des 5 caractères alignée sur le
+ * serveur, la remise à zéro du jeton Turnstile après un échec, et la forme
+ * exacte du corps posté. Chacune est ici derrière un défaut réel. Ce qui
+ * change d'une porte à l'autre — les sujets proposés, le sujet présélectionné,
+ * la porte déclarée au serveur — passe par des props, et la page /contact
+ * garde exactement le comportement qu'elle avait.
  *
  * ── Le sujet choisi ici DÉCIDE où le courriel atterrit ────────────────────
  * Ce n'est pas un simple libellé. L'application range la demande sous cette
@@ -30,7 +41,7 @@ import TurnstileField, { type TurnstileFieldHandle } from '@/components/ui/Turns
  * produit donc pas une dégradation discrète : il produit un formulaire qui
  * affiche « Envoi impossible » APRÈS que la personne a écrit son message.
  */
-type Category = 'CONTACT' | 'INFO' | 'BILLING' | 'SUPPORT' | 'DEMO' | 'PARTNERSHIP';
+export type Category = 'CONTACT' | 'INFO' | 'BILLING' | 'SUPPORT' | 'DEMO' | 'PARTNERSHIP';
 
 const CATEGORY_LABELS: Record<Category, Record<'fr' | 'en', string>> = {
   CONTACT: { fr: 'Contactez-nous', en: 'Contact us' },
@@ -73,16 +84,34 @@ const CATEGORIES_OFFERTES: Category[] = [
 interface ContactFormProps {
   /** Clé publique Turnstile, lue au runtime par la coquille serveur. `''` = anti-bot inactif. */
   turnstileSiteKey?: string;
+  /**
+   * Les sujets proposés, dans l'ordre d'affichage. Par défaut la liste
+   * complète de /contact — c'est ce qui laisse cette page inchangée.
+   */
+  categories?: Category[];
+  /** Le sujet présélectionné. Doit appartenir à `categories`. */
+  defaultCategory?: Category;
+  /**
+   * La PORTE par laquelle la demande entre. Le serveur en dérive le
+   * `sourceUrl` inscrit sur la demande ; le client n'écrit jamais cette
+   * adresse lui-même (cf. `lib/formulaires.ts`).
+   */
+  page?: PageFormulaire;
 }
 
-export default function ContactForm({ turnstileSiteKey = '' }: ContactFormProps) {
+export default function ContactForm({
+  turnstileSiteKey = '',
+  categories = CATEGORIES_OFFERTES,
+  defaultCategory = 'CONTACT',
+  page = PAGE_FORMULAIRE_DEFAUT,
+}: ContactFormProps) {
   const { locale } = useLocale();
   const t = useCallback(
     (fr: string, en: string) => (locale === 'fr' ? fr : en),
     [locale],
   );
 
-  const [category, setCategory] = useState<Category>('CONTACT');
+  const [category, setCategory] = useState<Category>(defaultCategory);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -140,6 +169,7 @@ export default function ContactForm({ turnstileSiteKey = '' }: ContactFormProps)
             message: message.trim(),
             website,
             turnstileToken,
+            page,
           }),
         });
         if (!res.ok) {
@@ -149,7 +179,7 @@ export default function ContactForm({ turnstileSiteKey = '' }: ContactFormProps)
               t('Une erreur est survenue. Réessayez.', 'Something went wrong. Try again.'),
           );
         }
-        track(ANALYTICS_EVENTS.CONTACT_SUBMITTED, { category });
+        track(ANALYTICS_EVENTS.CONTACT_SUBMITTED, { category, source: page });
         setSuccess(true);
       } catch (err) {
         setError(err instanceof Error ? err.message : t('Erreur inconnue.', 'Unknown error.'));
@@ -161,7 +191,7 @@ export default function ContactForm({ turnstileSiteKey = '' }: ContactFormProps)
         setSubmitting(false);
       }
     },
-    [category, name, email, message, website, turnstileToken, turnstileSiteKey, t],
+    [category, name, email, message, website, turnstileToken, turnstileSiteKey, page, t],
   );
 
   if (success) {
@@ -198,7 +228,7 @@ export default function ContactForm({ turnstileSiteKey = '' }: ContactFormProps)
           onChange={(e) => setCategory(e.target.value as Category)}
           className="rounded-md border border-encre/20 bg-[#fdfaf3] px-4 py-3 text-[15px] text-encre transition-colors focus:border-bordeaux-jour focus:outline-none focus:ring-1 focus:ring-bordeaux-jour/25"
         >
-          {CATEGORIES_OFFERTES.map((c) => (
+          {categories.map((c) => (
             <option key={c} value={c}>
               {CATEGORY_LABELS[c][locale === 'fr' ? 'fr' : 'en']}
             </option>

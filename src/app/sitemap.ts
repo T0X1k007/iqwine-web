@@ -40,6 +40,9 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   { path: '/tarifs', priority: 0.7, freq: 'monthly' },
   { path: '/notre-maison', priority: 0.5, freq: 'yearly' },
   { path: '/contact', priority: 0.4, freq: 'yearly' },
+  // L'assistance publique : peu de valeur d'acquisition, mais c'est l'adresse
+  // que les boutiques affichent. Elle doit être découvrable et indexable.
+  { path: '/support', priority: 0.4, freq: 'yearly' },
   { path: '/conditions', priority: 0.3, freq: 'yearly' },
   { path: '/confidentialite', priority: 0.3, freq: 'yearly' },
 ];

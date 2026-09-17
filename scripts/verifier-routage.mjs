@@ -72,6 +72,7 @@ const PAGES = [
   '/tarifs',
   '/notre-maison',
   '/contact',
+  '/support',
   '/conditions',
   '/confidentialite',
 ];
@@ -244,8 +245,8 @@ console.log('\n7. Sitemap bilingue, découvrable');
   // 12 pages depuis l'ajout du hub /fonctions (architecture 2026-08-13) —
   // ce compte est le CONTRAT : toute nouvelle page Fonction doit l'incrémenter
   // ici en même temps qu'elle entre dans PAGES du sitemap.
-  verifier('28 URL (14 pages × 2 langues)', urls === 28, `${urls} trouvées`);
-  verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 28);
+  verifier('30 URL (15 pages × 2 langues)', urls === 30, `${urls} trouvées`);
+  verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 30);
   // Aucun `x-default` ne doit désigner une URL de langue dans le sitemap non plus.
   const xdefaults = [...corps.matchAll(/hreflang="x-default" href="([^"]+)"/g)].map((m) => m[1]);
   verifier(

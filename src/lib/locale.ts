@@ -109,6 +109,11 @@ export const SEGMENTS: Record<string, Record<Locale, string>> = {
   // Identiques dans les deux langues : on les déclare quand même, pour que la
   // table soit la liste EXHAUSTIVE des pages et non un cas particulier.
   contact: { fr: 'contact', en: 'contact' },
+  // L'assistance publique (2026-09-16). Même mot dans les deux langues, comme
+  // « contact » : c'est l'adresse qu'on déclare aux boutiques d'applications,
+  // et une adresse de support qui change de mot selon la langue est une
+  // adresse qu'on recopie de travers dans une console de publication.
+  support: { fr: 'support', en: 'support' },
   conditions: { fr: 'conditions', en: 'terms' },
   confidentialite: { fr: 'confidentialite', en: 'privacy' },
   beta: { fr: 'beta', en: 'beta' },

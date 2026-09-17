@@ -134,6 +134,10 @@ crédit.
 ## Contact
 
 ${SITE}/fr/contact
+
+## Support
+
+${SITE}/fr/support
 `;
 
 export function GET(): Response {
