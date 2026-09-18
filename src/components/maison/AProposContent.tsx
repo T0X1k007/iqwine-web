@@ -15,13 +15,17 @@ import { ArrowRight } from 'lucide-react';
  * doublon. URLs conservées : /notre-maison ↔ /en/our-story (le slug anglais
  * dit déjà ce que la page est devenue), zéro redirection, zéro risque SEO.
  *
- * Quatre sections, la narration approuvée regroupée :
+ * Cinq sections, la narration approuvée regroupée :
  *   1. L'IDÉE (ivoire) : la question d'ouverture, en pleine largeur.
  *   2. L'HISTOIRE (ivoire) : le récit du fondateur + LA photo (la grande,
  *      dans la cave, verre à la main) au moment « Puis la cave a grandi »,
  *      avec la bio courte en légende ; le « je » vit ici.
- *   3. NOTRE VISION (le « nous ») : deux plaisirs, choisir et partager.
- *   4. NOS RACINES (nuit brève, respiration maximale) : la signature Québec,
+ *   3. UNE HISTOIRE DE FAMILLE (ivoire) : le miroir du diptyque : Mégane,
+ *      photo à gauche et récit à droite, le duo père-fille, puis le déclic
+ *      et la naissance d'Octave en coda (texte et ordre d'Eric, 2026-09-18 :
+ *      Mégane suit directement le portrait du fondateur).
+ *   4. NOTRE VISION (le « nous ») : deux plaisirs, choisir et partager.
+ *   5. NOS RACINES (nuit brève, respiration maximale) : la signature Québec,
  *      la fermeture, et un seul lien discret vers Octave.
  *
  * Règles respectées : aucune mécanique produit expliquée, aucun CV, aucun
@@ -58,6 +62,31 @@ const RECIT_SUITE: { fr: string; en: string }[] = [
   {
     fr: 'Parce qu’au fond, ma passion pour le vin n’a jamais été une histoire de collection. C’est une histoire de moments, de découvertes et de gens avec qui on les partage.',
     en: 'Because in the end, my passion for wine was never about collecting. It is about moments, discoveries, and the people we share them with.',
+  },
+];
+
+/** Le récit de Mégane. Texte approuvé par Eric (2026-09-18), aucune phrase réécrite. */
+const FAMILLE: { fr: string; en: string; grand?: boolean }[] = [
+  {
+    fr: 'Passionnée depuis toujours par le design, l’architecture, la musique et la création, Mégane apporte à iQWine un regard différent, instinctif et résolument tourné vers sa génération.',
+    en: 'Passionate about design, architecture, music and creation for as long as she can remember, Mégane brings iQWine a different eye, instinctive and resolutely attuned to her generation.',
+  },
+  {
+    fr: 'Poursuivant aujourd’hui ses études en architecture, elle crée depuis plusieurs années du contenu numérique, des vidéos courtes et des univers visuels destinés aux réseaux sociaux.',
+    en: 'Now pursuing her studies in architecture, she has been creating digital content, short videos and visual worlds for social media for several years.',
+  },
+  {
+    fr: 'Au sein d’iQWine, elle contribue activement à faire connaître notre vision et à donner vie à la marque, en réunissant ce que nous aimons tous les deux : le design, la musique, la technologie et le plaisir de créer quelque chose qui nous ressemble.',
+    en: 'Within iQWine, she plays an active part in sharing our vision and bringing the brand to life, uniting what we both love: design, music, technology, and the pleasure of creating something that feels like us.',
+  },
+  {
+    fr: 'iQWine est ainsi devenu plus qu’un projet entrepreneurial.',
+    en: 'iQWine has become more than an entrepreneurial project.',
+    grand: true,
+  },
+  {
+    fr: 'C’est un projet père-fille, une occasion de créer ensemble, d’apprendre l’un de l’autre et de faire grandir une idée qui nous passionne.',
+    en: 'It is a father-daughter project, a chance to create together, to learn from one another and to grow an idea we are passionate about.',
   },
 ];
 
@@ -175,7 +204,105 @@ export default function AProposContent() {
             </FadeInOnScroll>
           </div>
 
-          {/* Le déclic, puis la naissance d'Octave. */}
+        </div>
+      </section>
+
+      {/* ══ 3 · UNE HISTOIRE DE FAMILLE (ivoire, le miroir) ═════════════ */}
+      {/* La réponse au diptyque du fondateur : même grille, colonnes
+          INVERSÉES (photo à gauche, récit à droite) pour le duo père-fille.
+          Le portrait est premier dans le DOM : sur mobile la photo précède
+          le texte, l'ordre demandé par Eric (2026-09-18). */}
+      <section className="mouvement-jour relative" id="famille">
+        <div className="mx-auto w-[min(480px,72%)]">
+          <LigneAccord ton="jour" />
+        </div>
+        <div className="mx-auto max-w-[1060px] px-6 py-12 lg:py-16">
+          <div>
+            <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or-jour">
+              {t('Une histoire de famille', 'A family story')}
+            </p>
+            <h2
+              className="mt-3 text-balance font-[family-name:var(--font-display)] font-medium leading-[1.08] tracking-[-0.02em] text-encre"
+              style={{ fontSize: 'clamp(28px, 3.4vw, 44px)' }}
+            >
+              {t('Une aventure qui se construit ', 'An adventure we are building ')}
+              <span className="text-bordeaux-jour">{t('à deux', 'together')}</span>
+            </h2>
+          </div>
+
+          <div className="mt-9 grid items-start gap-10 lg:mt-11 lg:grid-cols-[0.44fr_0.56fr] lg:gap-14">
+            <FadeInOnScroll delay={0.1}>
+              <figure>
+                <div className="mx-auto max-w-[400px] overflow-hidden rounded-[18px] shadow-[0_30px_70px_-32px_rgba(60,38,18,0.5)]">
+                  <picture>
+                    {/* La source fait 1086 px de large : pas de variante 1400,
+                        on ne sur-échantillonne jamais (règle de generer-images). */}
+                    <source type="image/avif" srcSet="/photos/lifestyle/megane-800.avif 800w, /photos/lifestyle/megane-1086.avif 1086w" sizes="(max-width: 1024px) 100vw, 44vw" />
+                    <source type="image/webp" srcSet="/photos/lifestyle/megane-800.webp 800w, /photos/lifestyle/megane-1086.webp 1086w" sizes="(max-width: 1024px) 100vw, 44vw" />
+                    <img
+                      src="/photos/lifestyle/megane.jpg"
+                      alt={t(
+                        'Mégane Bigras, création et croissance chez iQWine, souriante dans la cave.',
+                        'Mégane Bigras, creation and growth at iQWine, smiling in the cellar.',
+                      )}
+                      width={1086}
+                      height={1448}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-auto w-full"
+                    />
+                  </picture>
+                </div>
+                <figcaption className="mx-auto mt-4 max-w-[400px] border-l-2 border-or-jour/40 pl-4">
+                  <p className="font-[family-name:var(--font-display)] text-[18px] italic text-encre">
+                    {t(
+                      'Mégane Bigras, création & croissance chez iQWine',
+                      'Mégane Bigras, Creation & Growth at iQWine',
+                    )}
+                  </p>
+                  <p className="mt-1 max-w-[40ch] text-[13.5px] leading-snug text-encre-3">
+                    {t(
+                      'Passionnée de design, d’architecture, de musique et de création numérique.',
+                      'Passionate about design, architecture, music and digital creation.',
+                    )}
+                  </p>
+                </figcaption>
+              </figure>
+            </FadeInOnScroll>
+
+            <div>
+              <p
+                className="font-[family-name:var(--font-display)] italic leading-[1.34] text-encre"
+                style={{ fontSize: 'clamp(20px, 2.6vw, 31px)' }}
+              >
+                {t('iQWine est aussi une histoire de famille.', 'iQWine is also a family story.')}
+              </p>
+              <div className="mt-9 lg:mt-11">
+                {FAMILLE.map((par) =>
+                  par.grand ? (
+                    <FadeInOnScroll key={par.fr}>
+                      <p
+                        className="my-6 font-[family-name:var(--font-display)] italic leading-snug text-bordeaux-jour"
+                        style={{ fontSize: 'clamp(22px, 2.8vw, 30px)' }}
+                      >
+                        {t(par.fr, par.en)}
+                      </p>
+                    </FadeInOnScroll>
+                  ) : (
+                    <FadeInOnScroll key={par.fr}>
+                      <p className="mb-5 text-[16.5px] leading-relaxed text-encre-2 md:text-[17.5px]">
+                        {t(par.fr, par.en)}
+                      </p>
+                    </FadeInOnScroll>
+                  ),
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Le déclic, puis la naissance d'Octave. Déplacé SOUS le portrait
+              de Mégane (Eric, 2026-09-18) : la conclusion ferme désormais
+              l'histoire de famille entière, pas le seul récit du fondateur. */}
           <div className="mx-auto mt-10 max-w-[62ch] text-center lg:mt-14">
             <FadeInOnScroll>
               <p className="text-[16px] leading-relaxed text-encre-2 md:text-[17px]">
@@ -208,7 +335,7 @@ export default function AProposContent() {
         </div>
       </section>
 
-      {/* ══ 3 · NOTRE VISION (ivoire, le « nous ») ══════════════════════ */}
+      {/* ══ 4 · NOTRE VISION (ivoire, le « nous ») ══════════════════════ */}
       <section className="mouvement-jour relative" id="vision">
         <div className="mx-auto w-[min(480px,72%)]">
           <LigneAccord variante="inflexion" ton="jour" />
@@ -280,7 +407,7 @@ export default function AProposContent() {
         </div>
       </section>
 
-      {/* ══ 4 · NOS RACINES (nuit brève, la signature) ══════════════════ */}
+      {/* ══ 5 · NOS RACINES (nuit brève, la signature) ══════════════════ */}
       <section
         id="racines"
         data-nav-delai="90"
