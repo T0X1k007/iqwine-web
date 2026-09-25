@@ -128,8 +128,12 @@ const NAV_LINKS_MAP = {
 // Un chemin listé ici reste EN LIGNE à son URL, mais tous les liens internes
 // qui le visent (barre, menu mobile, pied de page, pages) deviennent inertes :
 // libellé visible, rien à cliquer. LocaleLink fait le tri, un seul endroit.
-// Pour rouvrir la page : retirer son chemin de la liste.
-export const PAGES_EN_PAUSE: readonly string[] = ['/notre-maison'];
+// Mettre une page en pause : ajouter son chemin. La rouvrir : le retirer.
+//
+// VIDE depuis le 2026-09-25 : /notre-maison a été refondue et remise en
+// ligne le jour même. Le mécanisme reste, c'est lui qui rend la mise en
+// pause d'une page immédiate et réversible sans toucher à chaque lien.
+export const PAGES_EN_PAUSE: readonly string[] = [];
 
 // ─── Menu « Fonctions » (dropdown), des MOMENTS, jamais des modules ───────
 // Tant qu'une page Fonction n'est pas née (ordre L), son entrée mène au
