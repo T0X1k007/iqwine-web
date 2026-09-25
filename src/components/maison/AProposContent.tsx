@@ -203,8 +203,8 @@ export default function AProposContent() {
                   style={{ fontSize: 'clamp(23px, 3.1vw, 38px)' }}
                 >
                   {t(
-                    'Et si mon père pouvait, à tout moment, choisir une bouteille parfaitement dans nos goûts, l’ouvrir au bon moment et la partager autour du bon repas, sans même avoir à y réfléchir ?',
-                    'What if my father could, at any moment, choose a bottle perfectly suited to our taste, open it at just the right time and share it over the right meal, without even having to think about it?',
+                    'Et si mon père pouvait, à tout moment, choisir une bouteille parfaitement dans ses goûts, l’ouvrir au bon moment et la partager autour du bon repas, sans même avoir à y réfléchir ?',
+                    'What if my father could, at any moment, choose a bottle perfectly suited to his taste, open it at just the right time and share it over the right meal, without even having to think about it?',
                   )}
                 </blockquote>
                 <figcaption className="mt-9 flex flex-col items-center gap-3">
