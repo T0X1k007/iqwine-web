@@ -7,177 +7,153 @@ import LocaleLink from '@/components/ui/LocaleLink';
 import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import { useLocale } from '@/lib/i18n';
 import { ArrowRight } from 'lucide-react';
-import type { ReactNode } from 'react';
 
 /**
- * /notre-maison, NOTRE HISTOIRE (refonte éditoriale du 2026-09-25).
+ * /notre-maison, NOTRE HISTOIRE (textes finaux d'Eric, 2026-09-25).
  *
- * ── Ce que la page raconte désormais ──────────────────────────────────────
- * Décision d'Eric (2026-09-25) : iQWine est l'idée de Mégane. Elle en est la
- * FONDATRICE et dirige le produit et la marque ; Eric l'accompagne, direction
- * et mise en œuvre techniques ; c'est un projet familial. La page précédente
- * ouvrait sur le récit d'Eric à la première personne (« j'ai commencé à
- * collectionner… ») et le légendait « fondateur » : ce récit est retiré, il
- * faisait d'Eric l'origine du concept. Textes : brief « Refonte Notre
- * histoire » d'Eric, repris mot pour mot en français.
+ * ── Le ressort de la page : une question, une réponse ─────────────────────
+ * La question d'ouverture est posée par MÉGANE (« et si mon père pouvait… »)
+ * et le récit qui suit est la réponse d'ÉRIC (« ma cave grandissait… quand
+ * Mégane m'a parlé de son idée »). Deux voix, dans cet ordre : c'est ce qui
+ * rend la page humaine plutôt que corporative, et c'est ce que la mise en
+ * page donne à voir. La question est donc attribuée à Mégane sous le texte,
+ * et le récit porte un surtitre « Éric raconte » : sans ces deux marqueurs,
+ * un lecteur attribue tout au même « je » et l'origine se brouille.
  *
- * ── La hiérarchie EST le message ──────────────────────────────────────────
- *   1. L'IDÉE (ivoire) : le titre pose l'origine (« Une idée de Mégane »),
- *      puis le portrait de Mégane, PREMIER visage de la page, texte à gauche
- *      et photo à droite, « Fondatrice d'iQWine » en clair.
- *   2. LA TECHNIQUE (ivoire, le miroir) : Eric, photo à gauche et texte à
- *      droite, direction & mise en œuvre techniques.
- *   3. UNE HISTOIRE DE FAMILLE : la complémentarité père-fille, sans jamais
- *      faire de l'origine un 50/50, puis la coda « ce sommelier, il fallait
- *      le créer », réécrite sans attribuer l'idée à Eric.
- *   4. NOTRE VISION (le « nous ») : deux plaisirs, choisir et partager.
- *   5. NOS RACINES (nuit brève) : la signature Québec et un lien vers Octave.
+ * ── Ce que la structure doit prouver ──────────────────────────────────────
+ * Mégane est la FONDATRICE, et l'idée vient d'elle. La page le dit trois
+ * fois, à trois endroits qu'on ne peut pas manquer : l'attribution de la
+ * question, « quand Mégane m'a parlé de son idée » dans le récit, et son
+ * titre sous sa photo. Elle est à gauche du diptyque, donc lue en premier.
+ * iQWine inc. n'existe pas : jamais « présidente », jamais « CEO ».
  *
- * ── Contrainte corporative ────────────────────────────────────────────────
- * iQWine inc. N'EXISTE PAS : le projet est porté par Groupe Medtech Inc.
- * Jamais « présidente », « CEO » ni « iQWine inc. » ici : Mégane est
- * « Fondatrice d'iQWine », le projet et la marque, pas une société.
+ * ── Les mouvements ────────────────────────────────────────────────────────
+ *   1. LA QUESTION (ivoire) : plein cadre, une seule phrase, signée Mégane.
+ *   2. ÉRIC RACONTE (ivoire) : colonne étroite, la paragraphe pivot (« quand
+ *      Mégane m'a parlé de son idée ») ressort en encre pleine.
+ *   3. LE DIPTYQUE (ivoire) : les deux portraits côte à côte, même cadrage,
+ *      Mégane à gauche. Le nom sous la photo EST la légende du document, on
+ *      ne répète pas la même identité deux fois dans le même bloc.
+ *   4. UNE HISTOIRE DE FAMILLE : la ligne « on n'est pas toujours d'accord »
+ *      devient la citation en grand, c'est la phrase la plus humaine du lot.
+ *   5. OCTAVE : la coda, l'anneau, puis les deux phrases de fermeture.
+ *   6. NOTRE VISION, puis NOS RACINES : inchangés.
  *
- * Règles de voix : aucun tiret cadratin, aucune mécanique produit, aucun CV.
- * La photo de Mégane passe en tête : c'est elle qui charge en priorité.
+ * Textes repris mot pour mot du document final, à une exception près, signalée
+ * à Eric : le tiret de « du premier coup — et c'est souvent là » est devenu
+ * une virgule (règle de voix, aucun tiret en pause).
  */
 
 type T = (fr: string, en: string) => string;
-type Paragraphe = { fr: string; en: string; fort?: boolean };
+type Paragraphe = { fr: string; en: string; pivot?: boolean };
 
-/** Mégane, fondatrice. Texte du brief d'Eric (2026-09-25), mot pour mot. */
-const MEGANE: Paragraphe[] = [
+/** Le récit d'Éric, à sa voix. `pivot` : le moment où l'idée de Mégane entre. */
+const RECIT: Paragraphe[] = [
   {
-    fr: 'Mégane est la fondatrice d’iQWine. C’est elle qui a imaginé le concept à l’origine du projet : un sommelier personnel capable d’apprendre à connaître chaque personne pour l’aider à choisir ses vins selon ses propres goûts.',
-    en: 'Mégane is the founder of iQWine. She imagined the concept behind the project: a personal sommelier able to get to know each person and help them choose wines according to their own taste.',
-    fort: true,
+    fr: 'À la maison, le vin faisait déjà partie des plaisirs qu’on aimait partager. De mon côté, ma cave grandissait depuis plusieurs années, avec toutes les questions qui viennent avec elle : quel vin ouvrir ce soir ? Lequel garder encore ? Qu’est-ce qui accompagnerait vraiment ce plat ? Et quelles bouteilles risquaient de passer leur apogée pendant qu’on attendait une meilleure occasion ?',
+    en: 'At home, wine was already part of the pleasures we liked to share. On my side, my cellar had been growing for several years, with all the questions that come with it: which wine should we open tonight? Which one should we keep a little longer? What would truly go with this dish? And which bottles were at risk of sliding past their peak while we waited for a better occasion?',
   },
   {
-    fr: 'Passionnée par le design, la création et l’expérience utilisateur, Mégane voulait rendre le monde du vin plus simple, plus personnel et moins intimidant. De cette vision est né iQWine, puis Octave, son sommelier virtuel.',
-    en: 'Passionate about design, creation and user experience, Mégane wanted to make the world of wine simpler, more personal and less intimidating. From that vision came iQWine, and then Octave, its virtual sommelier.',
+    fr: 'J’ai commencé à étudier le vieillissement, la maturité, la conservation et les accords. Puis quelque chose d’inattendu s’est produit : mes proches ont commencé à se tourner vers moi pour choisir leurs vins.',
+    en: 'I started studying ageing, maturity, cellaring and pairings. Then something unexpected happened: the people around me began turning to me to choose their wines.',
   },
   {
-    fr: 'Depuis les débuts du projet, elle définit la vision du produit, l’expérience recherchée et les fonctionnalités qu’elle souhaite offrir aux utilisateurs. Les commentaires des bêta-testeurs viennent enrichir cette réflexion et l’aident à déterminer comment iQWine doit évoluer.',
-    en: 'Since the project began, she has defined the product vision, the experience it should offer and the features she wants to bring to users. Feedback from beta testers enriches that thinking and helps her decide how iQWine should evolve.',
+    fr: 'Quand Mégane m’a parlé de son idée, elle rejoignait naturellement toutes ces questions que je me posais déjà comme amateur de vin.',
+    en: 'When Mégane told me about her idea, it met, quite naturally, every question I was already asking myself as a wine lover.',
+    pivot: true,
   },
   {
-    fr: 'Mégane a également construit l’univers de la marque et pilote sa création, son contenu, ses vidéos, sa publicité et ses communications.',
-    en: 'Mégane also built the world of the brand and leads its creative work, content, videos, advertising and communications.',
-  },
-  {
-    fr: 'De l’idée initiale à l’expérience proposée aujourd’hui, elle porte la vision d’iQWine et en dirige l’évolution.',
-    en: 'From the first idea to the experience offered today, she carries the vision of iQWine and leads its evolution.',
-    fort: true,
+    fr: 'Entrepreneur québécois en technologie depuis toujours, j’ai eu envie de l’accompagner dans cette aventure. Depuis, je partage avec elle les échanges, les essais, les commentaires des premiers utilisateurs et surtout le plaisir de vivre cette aventure ensemble.',
+    en: 'A Québec technology entrepreneur from the start, I wanted to join her on this adventure. Since then, I have shared with her the conversations, the attempts, the feedback of the first users and, above all, the pleasure of living this adventure together.',
   },
 ];
 
-/** Eric, direction & mise en œuvre techniques. Texte du brief, mot pour mot. */
-const ERIC: Paragraphe[] = [
+/** Les deux portraits. L'ordre du tableau EST l'ordre de lecture. */
+const PORTRAITS = [
   {
-    fr: 'Le rôle d’Éric est de transformer la vision produit et les fonctionnalités définies pour iQWine en une plateforme fonctionnelle, fiable et évolutive.',
-    en: 'Éric’s role is to turn the product vision and the features defined for iQWine into a platform that works, that is reliable, and that can grow.',
-    fort: true,
+    cle: 'megane',
+    photo: {
+      base: '/photos/lifestyle/megane',
+      largeur: 1086,
+      hauteur: 1448,
+      variantes: '800w, 1086w',
+      premiere: true,
+    },
+    nom: 'Mégane Bigras',
+    role: { fr: 'Fondatrice d’iQWine', en: 'Founder of iQWine' },
+    domaine: { fr: 'Création & croissance', en: 'Creation & growth' },
+    alt: {
+      fr: 'Mégane Bigras, fondatrice d’iQWine, souriante dans une cave à vin.',
+      en: 'Mégane Bigras, founder of iQWine, smiling in a wine cellar.',
+    },
+    paragraphes: [
+      {
+        fr: 'Passionnée par le design, la création et l’expérience utilisateur, Mégane apporte à iQWine le regard d’une nouvelle génération d’amateurs de vin.',
+        en: 'Passionate about design, creation and user experience, Mégane brings iQWine the eye of a new generation of wine lovers.',
+      },
+      {
+        fr: 'Elle façonne l’expérience, l’univers de la marque et son contenu, tout en restant à l’écoute des utilisateurs pour faire évoluer iQWine de façon simple, personnelle et intuitive.',
+        en: 'She shapes the experience, the world of the brand and its content, while staying close to users so iQWine evolves in a way that is simple, personal and intuitive.',
+      },
+      {
+        fr: 'Son objectif : rendre le vin plus accessible, moins intimidant et surtout plus agréable à découvrir.',
+        en: 'Her goal: to make wine more approachable, less intimidating and, above all, more enjoyable to discover.',
+      },
+    ],
   },
   {
-    fr: 'Entrepreneur et passionné de technologie, Éric accompagne Mégane dans la réalisation technique du projet. À partir des besoins et fonctionnalités recherchés, il accompagne leur mise en œuvre technique et supervise leur intégration dans la plateforme.',
-    en: 'An entrepreneur with a passion for technology, Éric supports Mégane in building the project technically. Starting from the needs and features sought, he supports their technical implementation and oversees their integration into the platform.',
+    cle: 'eric',
+    photo: {
+      base: '/photos/lifestyle/bio-cave',
+      largeur: 1023,
+      hauteur: 1537,
+      variantes: '800w, 1400w',
+      premiere: false,
+    },
+    nom: 'Éric Bigras',
+    role: { fr: 'Entrepreneur & passionné de technologie', en: 'Entrepreneur & technology enthusiast' },
+    domaine: {
+      fr: 'Entrepreneuriat, technologie & passion du vin',
+      en: 'Entrepreneurship, technology & a passion for wine',
+    },
+    alt: {
+      fr: 'Éric Bigras dans une cave à vin, un verre de vin à la main.',
+      en: 'Éric Bigras in a wine cellar, a glass of wine in hand.',
+    },
+    paragraphes: [
+      {
+        fr: 'Entrepreneur québécois en technologie depuis toujours et épicurien assumé, Éric collectionne le vin depuis plusieurs années avec une idée assez simple : avoir la bonne bouteille au bon moment.',
+        en: 'A Québec technology entrepreneur from the start and a self-confessed epicurean, Éric has been collecting wine for several years with a fairly simple idea: to have the right bottle at the right moment.',
+      },
+      {
+        fr: 'Son expérience entrepreneuriale et son intérêt pour les nouvelles technologies lui permettent aujourd’hui d’accompagner Mégane dans son aventure avec iQWine.',
+        en: 'His experience in business and his interest in new technologies now let him support Mégane on her adventure with iQWine.',
+      },
+      {
+        fr: 'Pour lui, iQWine est surtout devenu une aventure père-fille où se rencontrent technologie, entrepreneuriat et plaisir du vin.',
+        en: 'For him, iQWine has above all become a father-daughter adventure where technology, entrepreneurship and the pleasure of wine meet.',
+      },
+    ],
   },
+] as const;
+
+const FAMILLE_AVANT: { fr: string; en: string }[] = [
   {
-    fr: 'Il contribue également aux tests, au débogage, aux correctifs et au suivi technique nécessaires à l’évolution d’iQWine.',
-    en: 'He also contributes to the testing, debugging, fixes and technical follow-up that iQWine needs to keep evolving.',
-  },
-  {
-    fr: 'Son expérience entrepreneuriale et technologique lui permet de faire le pont entre une idée produit et sa réalisation concrète.',
-    en: 'His experience in business and technology lets him bridge the gap between a product idea and its concrete realisation.',
-  },
-  {
-    fr: 'Mégane imagine et dirige le produit. Éric veille à ce que cette vision puisse prendre vie techniquement.',
-    en: 'Mégane imagines and leads the product. Éric makes sure that vision can come to life, technically.',
-    fort: true,
+    fr: 'Deux générations, deux regards différents et beaucoup de discussions autour d’une même idée. Mégane apporte sa créativité, sa vision et son instinct pour l’expérience. Éric apporte son expérience entrepreneuriale, sa curiosité technologique et sa passion du vin.',
+    en: 'Two generations, two different points of view and a great many conversations around one idea. Mégane brings her creativity, her vision and her instinct for experience. Éric brings his experience in business, his curiosity for technology and his passion for wine.',
   },
 ];
 
-/** La famille, puis la naissance d'Octave. Texte du brief, mot pour mot. */
-const FAMILLE: { fr: string; en: string }[] = [
+const OCTAVE_SUITE: { fr: string; en: string }[] = [
   {
-    fr: 'Mégane porte la vision du produit, l’expérience utilisateur et l’univers de la marque. Éric apporte son expérience entrepreneuriale et technologique pour transformer cette vision en une plateforme fonctionnelle et évolutive.',
-    en: 'Mégane carries the product vision, the user experience and the world of the brand. Éric brings his experience in business and technology to turn that vision into a platform that works and keeps evolving.',
+    fr: 'Pas simplement pour associer un plat à un vin. Pas simplement pour gérer des bouteilles. Mais pour apprendre, se souvenir et affiner ses conseils au fil du temps.',
+    en: 'Not simply to match a dish with a wine. Not simply to manage bottles. But to learn, to remember, and to refine his advice over time.',
   },
   {
-    fr: 'Deux générations, deux expertises complémentaires, réunies autour d’une même ambition : rendre le vin plus simple à comprendre, plus personnel et surtout plus agréable à découvrir.',
-    en: 'Two generations, two complementary kinds of expertise, brought together by one ambition: to make wine simpler to understand, more personal and, above all, more enjoyable to discover.',
-  },
-];
-
-const OCTAVE: { fr: string; en: string }[] = [
-  {
-    fr: 'Octave est né de la volonté de créer un sommelier différent : personnel, accessible et capable d’apprendre les goûts de chacun au fil du temps.',
-    en: 'Octave was born from the wish to create a different kind of sommelier: personal, approachable, and able to learn each person’s taste over time.',
-  },
-  {
-    fr: 'Cette vision guide le développement d’iQWine depuis ses débuts : utiliser la technologie non pas pour compliquer le vin, mais pour le rendre plus humain, plus intuitif et plus personnel.',
-    en: 'That vision has guided the development of iQWine from the start: using technology not to complicate wine, but to make it more human, more intuitive and more personal.',
+    fr: 'Parce qu’au fond, notre passion pour le vin n’est pas une histoire de collection. C’est une histoire de moments, de découvertes et de gens avec qui on les partage.',
+    en: 'Because in the end, our passion for wine is not about collecting. It is about moments, discoveries, and the people we share them with.',
   },
 ];
-
-/** Un récit en paragraphes web ; les paragraphes « forts » ouvrent et ferment. */
-function Recit({ paragraphes, t }: { paragraphes: Paragraphe[]; t: T }) {
-  return (
-    <div className="mt-7 lg:mt-8">
-      {paragraphes.map((par) => (
-        <FadeInOnScroll key={par.fr}>
-          <p
-            className={`mb-5 text-[16.5px] leading-relaxed md:text-[17.5px] ${
-              par.fort ? 'font-medium text-encre' : 'text-encre-2'
-            }`}
-          >
-            {t(par.fr, par.en)}
-          </p>
-        </FadeInOnScroll>
-      ))}
-    </div>
-  );
-}
-
-/** L'identification d'un portrait : le rôle en capitales, puis le titre éditorial. */
-function Identite({
-  nom,
-  role,
-  domaine,
-  titre,
-}: {
-  nom: string;
-  role: string;
-  domaine: string;
-  titre: ReactNode;
-}) {
-  return (
-    <div>
-      <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or-jour">
-        {nom} <span aria-hidden>·</span> <span className="text-bordeaux-jour">{role}</span>
-      </p>
-      <h2
-        className="mt-3 text-balance font-[family-name:var(--font-display)] font-medium leading-[1.1] tracking-[-0.02em] text-encre"
-        style={{ fontSize: 'clamp(26px, 3vw, 38px)' }}
-      >
-        {titre}
-      </h2>
-      <p className="mt-2 font-[family-name:var(--font-display)] text-[17px] italic text-encre-3 sm:text-[19px]">
-        {domaine}
-      </p>
-    </div>
-  );
-}
-
-/** La légende sous une photo : le nom et le rôle, puis le domaine. */
-function Legende({ titre, domaine }: { titre: string; domaine: string }) {
-  return (
-    <figcaption className="mx-auto mt-4 max-w-[400px] border-l-2 border-or-jour/40 pl-4">
-      <p className="font-[family-name:var(--font-display)] text-[18px] italic text-encre">{titre}</p>
-      <p className="mt-1 max-w-[40ch] text-[13.5px] leading-snug text-encre-3">{domaine}</p>
-    </figcaption>
-  );
-}
 
 export default function AProposContent() {
   const { locale } = useLocale();
@@ -185,170 +161,175 @@ export default function AProposContent() {
 
   return (
     <main>
-      {/* ══ 1 · L'IDÉE, PUIS MÉGANE (ivoire) ═══════════════════════════ */}
-      {/* Le titre pose l'origine en une ligne, l'introduction la raconte en
-          une phrase, et le premier portrait est celui de la fondatrice. */}
+      {/* ══ 1 · LA QUESTION (ivoire, plein cadre) ═══════════════════════ */}
+      {/* Une seule phrase à l'écran, signée. Le guillemet d'or, très pâle et
+          derrière le texte, donne la profondeur sans ajouter d'élément : la
+          page s'ouvre sur une voix, pas sur une mise en page. */}
       <section
         className="mouvement-jour relative"
         id="histoire"
         style={{ paddingTop: 'var(--nav-h)' }}
       >
-        <div className="mx-auto max-w-[1060px] px-6 pb-12 pt-8 lg:pb-16 lg:pt-10">
+        <div className="mx-auto max-w-[1060px] px-6 pb-16 pt-8 lg:pb-24 lg:pt-10">
           <FilAriane
             elements={[
               { label: t('Accueil', 'Home'), href: '/' },
               { label: t('Notre histoire', 'Our story') },
             ]}
           />
-          <div className="mt-10 lg:mt-12">
+          <div className="mt-12 text-center lg:mt-16">
             <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or-jour">
               {t('Notre histoire', 'Our story')}
             </p>
             <h1
-              className="mt-3 text-balance font-[family-name:var(--font-display)] font-medium leading-[1.08] tracking-[-0.02em] text-encre"
+              className="mx-auto mt-4 max-w-[20ch] text-balance font-[family-name:var(--font-display)] font-medium leading-[1.08] tracking-[-0.02em] text-encre"
               style={{ fontSize: 'clamp(31px, 3.75vw, 50px)' }}
             >
-              {t('Une idée de Mégane, devenue ', 'Mégane’s idea, grown into ')}
-              <span className="text-bordeaux-jour">{t('une aventure à deux', 'an adventure for two')}</span>
+              {t('Octave est né d’une ', 'Octave was born from a ')}
+              <span className="text-bordeaux-jour">{t('question toute simple', 'simple question')}</span>
             </h1>
-            <p
-              className="mt-6 max-w-[46ch] font-[family-name:var(--font-display)] italic leading-[1.4] text-encre"
-              style={{ fontSize: 'clamp(19px, 2.2vw, 26px)' }}
-            >
-              {t(
-                'iQWine est né d’une idée de Mégane Bigras : créer un sommelier personnel capable d’apprendre réellement à connaître chaque personne pour l’aider à choisir ses vins selon ses propres goûts.',
-                'iQWine was born from an idea by Mégane Bigras: to create a personal sommelier able to truly get to know each person and help them choose wines according to their own taste.',
-              )}
-            </p>
-          </div>
 
-          {/* Le portrait de Mégane : texte à gauche, photo à droite, les deux
-              colonnes calées en haut. */}
-          <div
-            className="mt-12 grid items-start gap-10 lg:mt-16 lg:grid-cols-[0.56fr_0.44fr] lg:gap-14"
-            id="megane"
-          >
-            <div>
-              <Identite
-                nom="Mégane Bigras"
-                role={t('Fondatrice d’iQWine', 'Founder of iQWine')}
-                domaine={t('Vision produit, création & croissance', 'Product vision, creation & growth')}
-                titre={
-                  <>
-                    {t('L’idée derrière ', 'The idea behind ')}
-                    <span className="text-bordeaux-jour">iQWine</span>
-                  </>
-                }
-              />
-              <Recit paragraphes={MEGANE} t={t} />
-            </div>
-
-            {/* Sur mobile, la photo de Mégane passe AVANT son texte : elle
-                est le premier visage de la page, dès l'introduction. */}
-            <FadeInOnScroll delay={0.1} className="order-first lg:order-none">
-              <figure>
-                <div className="mx-auto max-w-[400px] overflow-hidden rounded-[18px] shadow-[0_30px_70px_-32px_rgba(60,38,18,0.5)]">
-                  <picture>
-                    {/* La source fait 1086 px de large : pas de variante 1400,
-                        on ne sur-échantillonne jamais (règle de generer-images). */}
-                    <source type="image/avif" srcSet="/photos/lifestyle/megane-800.avif 800w, /photos/lifestyle/megane-1086.avif 1086w" sizes="(max-width: 1024px) 100vw, 44vw" />
-                    <source type="image/webp" srcSet="/photos/lifestyle/megane-800.webp 800w, /photos/lifestyle/megane-1086.webp 1086w" sizes="(max-width: 1024px) 100vw, 44vw" />
-                    <img
-                      src="/photos/lifestyle/megane.jpg"
-                      alt={t(
-                        'Mégane Bigras, fondatrice d’iQWine, souriante dans une cave à vin.',
-                        'Mégane Bigras, founder of iQWine, smiling in a wine cellar.',
-                      )}
-                      width={1086}
-                      height={1448}
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="async"
-                      className="h-auto w-full"
-                    />
-                  </picture>
-                </div>
-                <Legende
-                  titre={t('Mégane Bigras, fondatrice d’iQWine', 'Mégane Bigras, Founder of iQWine')}
-                  domaine={t('Vision produit, création & croissance', 'Product vision, creation & growth')}
-                />
+            <FadeInOnScroll>
+              <figure className="mt-14 lg:mt-20">
+                <span
+                  aria-hidden
+                  className="mx-auto block select-none font-[family-name:var(--font-display)] leading-[0.5] text-or-jour/35"
+                  style={{ fontSize: 'clamp(46px, 5vw, 68px)' }}
+                >
+                  {t('«', '“')}
+                </span>
+                <blockquote
+                  className="mx-auto mt-7 max-w-[min(660px,92%)] font-[family-name:var(--font-display)] italic leading-[1.32] text-encre"
+                  style={{ fontSize: 'clamp(23px, 3.1vw, 38px)' }}
+                >
+                  {t(
+                    'Et si mon père pouvait, à tout moment, choisir une bouteille parfaitement dans nos goûts, l’ouvrir au bon moment et la partager autour du bon repas, sans même avoir à y réfléchir ?',
+                    'What if my father could, at any moment, choose a bottle perfectly suited to our taste, open it at just the right time and share it over the right meal, without even having to think about it?',
+                  )}
+                </blockquote>
+                <figcaption className="mt-9 flex flex-col items-center gap-3">
+                  <span aria-hidden className="h-px w-12 bg-or-jour/50" />
+                  <span className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-encre-3">
+                    Mégane Bigras <span className="text-or-jour">·</span>{' '}
+                    {t('Fondatrice d’iQWine', 'Founder of iQWine')}
+                  </span>
+                </figcaption>
               </figure>
             </FadeInOnScroll>
           </div>
         </div>
       </section>
 
-      {/* ══ 2 · ÉRIC, LA TECHNIQUE (ivoire, le miroir) ═══════════════════ */}
-      {/* Même grille, colonnes INVERSÉES : photo à gauche, texte à droite. Le
-          portrait est premier dans le DOM, sur mobile la photo précède le
-          texte, comme pour Mégane au-dessus. */}
-      <section className="mouvement-jour relative" id="eric">
+      {/* ══ 2 · ÉRIC RACONTE (ivoire, colonne étroite) ══════════════════ */}
+      {/* La réponse à la question. Colonne de lecture, pas de photo : les
+          visages arrivent au mouvement suivant, et le texte porte seul. */}
+      <section className="mouvement-jour relative" id="recit">
         <div className="mx-auto w-[min(480px,72%)]">
           <LigneAccord ton="jour" />
         </div>
         <div className="mx-auto max-w-[1060px] px-6 py-12 lg:py-16">
-          <div className="grid items-start gap-10 lg:grid-cols-[0.44fr_0.56fr] lg:gap-14">
-            <FadeInOnScroll delay={0.1}>
-              <figure>
-                <div className="mx-auto max-w-[400px] overflow-hidden rounded-[18px] shadow-[0_30px_70px_-32px_rgba(60,38,18,0.5)]">
-                  <picture>
-                    <source type="image/avif" srcSet="/photos/lifestyle/bio-cave-800.avif 800w, /photos/lifestyle/bio-cave-1400.avif 1400w" sizes="(max-width: 1024px) 100vw, 44vw" />
-                    <source type="image/webp" srcSet="/photos/lifestyle/bio-cave-800.webp 800w, /photos/lifestyle/bio-cave-1400.webp 1400w" sizes="(max-width: 1024px) 100vw, 44vw" />
-                    <img
-                      src="/photos/lifestyle/bio-cave.jpg"
-                      alt={t(
-                        'Éric Bigras dans une cave à vin, un verre de vin à la main.',
-                        'Éric Bigras in a wine cellar, a glass of wine in hand.',
-                      )}
-                      width={1200}
-                      height={1803}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-auto w-full"
-                    />
-                  </picture>
-                </div>
-                <Legende
-                  titre={t(
-                    'Éric Bigras, direction & mise en œuvre technique',
-                    'Éric Bigras, Technical Direction & Implementation',
-                  )}
-                  domaine={t(
-                    'Technologie, intégration & évolution de la plateforme',
-                    'Technology, integration & platform evolution',
-                  )}
-                />
-              </figure>
+          <div className="mx-auto max-w-[62ch]">
+            <FadeInOnScroll>
+              <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or-jour">
+                {t('Éric raconte', 'In Éric’s words')}
+              </p>
             </FadeInOnScroll>
-
-            <div>
-              <Identite
-                nom="Éric Bigras"
-                role={t('Direction & mise en œuvre technique', 'Technical direction & implementation')}
-                domaine={t(
-                  'Technologie, intégration & évolution de la plateforme',
-                  'Technology, integration & platform evolution',
-                )}
-                titre={
-                  <>
-                    {t('Donner vie techniquement ', 'Bringing the vision ')}
-                    <span className="text-bordeaux-jour">{t('à la vision', 'to life, technically')}</span>
-                  </>
-                }
-              />
-              <Recit paragraphes={ERIC} t={t} />
+            <div className="mt-7">
+              {RECIT.map((par) => (
+                <FadeInOnScroll key={par.fr}>
+                  <p
+                    className={
+                      par.pivot
+                        ? 'my-8 border-l-2 border-or-jour/45 pl-6 font-[family-name:var(--font-display)] italic leading-[1.35] text-encre'
+                        : 'mb-6 text-[16.5px] leading-relaxed text-encre-2 md:text-[17.5px]'
+                    }
+                    style={par.pivot ? { fontSize: 'clamp(20px, 2.3vw, 27px)' } : undefined}
+                  >
+                    {t(par.fr, par.en)}
+                  </p>
+                </FadeInOnScroll>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══ 3 · UNE HISTOIRE DE FAMILLE, PUIS OCTAVE ═════════════════════ */}
-      {/* La complémentarité, centrée : elle vient APRÈS les deux portraits et
-          ne rejoue pas l'origine, qui appartient à Mégane. La coda « ce
-          sommelier, il fallait le créer » garde son émotion, sans « je ». */}
-      <section className="mouvement-jour relative" id="famille">
+      {/* ══ 3 · LE DIPTYQUE (ivoire) ════════════════════════════════════ */}
+      {/* Les deux portraits côte à côte, MÊME cadrage 4/5 : deux personnes
+          d'égale présence, lues de gauche à droite, Mégane d'abord. Le nom
+          sous la photo sert de légende ET d'identification, une seule fois. */}
+      <section className="mouvement-jour relative" id="portraits">
         <div className="mx-auto w-[min(480px,72%)]">
           <LigneAccord ton="jour" />
+        </div>
+        <div className="mx-auto max-w-[1060px] px-6 py-12 lg:py-16">
+          <div className="grid gap-12 md:grid-cols-2 md:gap-10 lg:gap-14">
+            {PORTRAITS.map((p, i) => (
+              <FadeInOnScroll key={p.cle} delay={i * 0.08}>
+                <article className="flex h-full flex-col">
+                  <figure>
+                    <div className="mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-[18px] shadow-[0_30px_70px_-32px_rgba(60,38,18,0.5)]">
+                      <picture>
+                        <source
+                          type="image/avif"
+                          srcSet={p.photo.variantes
+                            .split(', ')
+                            .map((v) => `${p.photo.base}-${v.replace('w', '')}.avif ${v}`)
+                            .join(', ')}
+                          sizes="(max-width: 768px) 100vw, 46vw"
+                        />
+                        <source
+                          type="image/webp"
+                          srcSet={p.photo.variantes
+                            .split(', ')
+                            .map((v) => `${p.photo.base}-${v.replace('w', '')}.webp ${v}`)
+                            .join(', ')}
+                          sizes="(max-width: 768px) 100vw, 46vw"
+                        />
+                        <img
+                          src={`${p.photo.base}.jpg`}
+                          alt={t(p.alt.fr, p.alt.en)}
+                          width={p.photo.largeur}
+                          height={p.photo.hauteur}
+                          loading={p.photo.premiere ? 'eager' : 'lazy'}
+                          fetchPriority={p.photo.premiere ? 'high' : undefined}
+                          decoding="async"
+                          className="h-full w-full object-cover object-[center_22%]"
+                        />
+                      </picture>
+                    </div>
+                    <figcaption className="mx-auto mt-6 max-w-[420px]">
+                      <h2 className="font-[family-name:var(--font-display)] text-[25px] font-medium leading-tight text-encre sm:text-[28px]">
+                        {p.nom}
+                      </h2>
+                      <p className="mt-2 text-[11.5px] font-medium uppercase tracking-[0.2em] text-bordeaux-jour">
+                        {t(p.role.fr, p.role.en)}
+                      </p>
+                      <p className="mt-2 font-[family-name:var(--font-display)] text-[16.5px] italic text-encre-3">
+                        {t(p.domaine.fr, p.domaine.en)}
+                      </p>
+                    </figcaption>
+                  </figure>
+                  <div className="mx-auto mt-7 max-w-[420px]">
+                    {p.paragraphes.map((par) => (
+                      <p key={par.fr} className="mb-5 text-[16px] leading-relaxed text-encre-2 md:text-[16.5px]">
+                        {t(par.fr, par.en)}
+                      </p>
+                    ))}
+                  </div>
+                </article>
+              </FadeInOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 4 · UNE HISTOIRE DE FAMILLE (ivoire) ════════════════════════ */}
+      {/* La citation « on n'est pas toujours d'accord » est la phrase la plus
+          humaine de la page : elle sort du paragraphe et prend le centre. */}
+      <section className="mouvement-jour relative" id="famille">
+        <div className="mx-auto w-[min(480px,72%)]">
+          <LigneAccord variante="inflexion" ton="jour" />
         </div>
         <div className="mx-auto max-w-[1060px] px-6 py-12 lg:py-16">
           <FadeInOnScroll>
@@ -360,8 +341,8 @@ export default function AProposContent() {
                 className="mt-3 text-balance font-[family-name:var(--font-display)] font-medium leading-[1.08] tracking-[-0.02em] text-encre"
                 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)' }}
               >
-                {t('Une vision, ', 'One vision, ')}
-                <span className="text-bordeaux-jour">{t('deux expertises', 'two kinds of expertise')}</span>
+                {t('Une aventure qui se construit ', 'An adventure we are building ')}
+                <span className="text-bordeaux-jour">{t('à deux', 'together')}</span>
               </h2>
               <p
                 className="mt-7 font-[family-name:var(--font-display)] italic leading-[1.34] text-encre"
@@ -371,29 +352,63 @@ export default function AProposContent() {
               </p>
             </div>
           </FadeInOnScroll>
+
           <div className="mx-auto mt-8 max-w-[60ch] space-y-5">
-            {FAMILLE.map((par) => (
+            {FAMILLE_AVANT.map((par) => (
               <FadeInOnScroll key={par.fr}>
                 <p className="text-[16.5px] leading-relaxed text-encre-2 md:text-[17.5px]">{t(par.fr, par.en)}</p>
               </FadeInOnScroll>
             ))}
           </div>
 
-          <div className="mx-auto mt-14 max-w-[62ch] text-center lg:mt-20">
-            <FadeInOnScroll>
-              <p className="inline-flex items-center gap-2.5 font-[family-name:var(--font-display)] text-[21px] italic text-or-jour sm:text-[24px]">
-                <OctaveAnneau size={18} className="text-or-jour" />
-                Octave
-              </p>
+          <FadeInOnScroll>
+            <blockquote className="mx-auto mt-12 max-w-[min(680px,90%)] text-center lg:mt-16">
+              <span aria-hidden className="mx-auto mb-7 block h-px w-12 bg-or-jour/50" />
               <p
-                className="mt-4 font-[family-name:var(--font-display)] font-medium italic leading-snug text-encre"
+                className="font-[family-name:var(--font-display)] font-medium italic leading-[1.24] text-bordeaux-jour"
+                style={{ fontSize: 'clamp(24px, 3.3vw, 40px)' }}
+              >
+                {t(
+                  'Deux générations, deux regards et une même passion pour transformer une belle idée en une expérience à partager avec les autres.',
+                  'Two generations, two points of view and one shared passion: turning a beautiful idea into an experience to share with others.',
+                )}
+              </p>
+              <span aria-hidden className="mx-auto mt-7 block h-px w-12 bg-or-jour/50" />
+            </blockquote>
+          </FadeInOnScroll>
+
+          <FadeInOnScroll>
+            <p className="mx-auto mt-12 max-w-[60ch] text-[16.5px] leading-relaxed text-encre-2 md:text-[17.5px] lg:mt-16">
+              {t(
+                'Au fil du temps, ce qui était une idée est devenu une aventure que nous avons le plaisir de construire ensemble.',
+                'Over time, what began as an idea became an adventure we have the pleasure of building together.',
+              )}
+            </p>
+          </FadeInOnScroll>
+        </div>
+      </section>
+
+      {/* ══ 5 · OCTAVE, LA CODA (ivoire) ════════════════════════════════ */}
+      <section className="mouvement-jour relative" id="octave">
+        <div className="mx-auto w-[min(480px,72%)]">
+          <LigneAccord ton="jour" />
+        </div>
+        <div className="mx-auto max-w-[1060px] px-6 py-12 lg:py-16">
+          <div className="mx-auto max-w-[62ch] text-center">
+            <FadeInOnScroll>
+              <p
+                className="mx-auto max-w-[min(620px,92%)] text-balance font-[family-name:var(--font-display)] font-medium italic leading-snug text-encre"
                 style={{ fontSize: 'clamp(26px, 3.8vw, 44px)' }}
               >
-                {t('Ce sommelier, il fallait le créer.', 'This sommelier had to be created.')}
+                {t('Ce sommelier, il fallait lui donner vie.', 'This sommelier had to be brought to life.')}
+              </p>
+              <p className="mt-7 inline-flex items-center gap-2.5 font-[family-name:var(--font-display)] text-[21px] italic text-or-jour sm:text-[24px]">
+                <OctaveAnneau size={18} className="text-or-jour" />
+                {t('C’est ainsi qu’Octave a commencé à prendre forme.', 'That is how Octave began to take shape.')}
               </p>
             </FadeInOnScroll>
-            <div className="mt-8 space-y-5 text-left">
-              {OCTAVE.map((par) => (
+            <div className="mt-9 space-y-5 text-left">
+              {OCTAVE_SUITE.map((par) => (
                 <FadeInOnScroll key={par.fr}>
                   <p className="mx-auto max-w-[56ch] text-[16px] leading-relaxed text-encre-2 md:text-[17px]">
                     {t(par.fr, par.en)}
