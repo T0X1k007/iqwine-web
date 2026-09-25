@@ -49,7 +49,7 @@ const BODY = `# iQWine
 > **Octave**, apprend les goûts de la personne qui l'utilise et l'aide à choisir
 > quoi boire, quoi acheter et quand ouvrir ses bouteilles.
 
-Éditeur : Groupe Medtech Inc. (Québec, Canada). Interface et sommelier
+iQWine (Québec, Canada). Interface et sommelier
 disponibles en français et en anglais. Conçu au Québec, hébergé au Canada.
 
 ## Ce que fait iQWine

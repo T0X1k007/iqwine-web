@@ -45,7 +45,6 @@ export function organizationLd(locale: Locale) {
     '@type': 'Organization',
     '@id': `${SITE}/#organization`,
     name: 'iQWine',
-    legalName: 'Groupe Medtech Inc.',
     url: SITE,
     logo: `${SITE}/icon.png`,
     description:
