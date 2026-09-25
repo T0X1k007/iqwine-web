@@ -380,8 +380,8 @@ export default function AProposContent() {
           <FadeInOnScroll>
             <p className="mx-auto mt-12 max-w-[60ch] text-[16.5px] leading-relaxed text-encre-2 md:text-[17.5px] lg:mt-16">
               {t(
-                'Au fil du temps, ce qui était une idée est devenu une aventure que nous avons le plaisir de construire ensemble.',
-                'Over time, what began as an idea became an adventure we have the pleasure of building together.',
+                'Au fil du temps, ce qui n’était qu’une idée au départ est devenu une belle aventure que nous avons le plaisir de partager.',
+                'Over time, what was only an idea at first became a beautiful adventure we have the pleasure of sharing.',
               )}
             </p>
           </FadeInOnScroll>
