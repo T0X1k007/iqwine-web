@@ -25,18 +25,23 @@ import AProposContent from '@/components/maison/AProposContent';
  * racontant ce qu'elle contient vraiment (la naissance d'Octave). 67 et 61
  * caractères, dans la norme du site.
  *
- * Ce qui NE bouge PAS : l'URL, le canonical, les hreflang et le H1 narratif.
+ * Ce qui NE bouge PAS : l'URL, le canonical, les hreflang.
+ *
+ * ── LA DESCRIPTION SUIT LA NOUVELLE HISTOIRE (2026-09-25) ──────────────
+ * Elle attribuait l'origine à « un amateur de vin québécois », soit Eric.
+ * Elle nomme désormais Mégane, fondatrice, et le projet familial, sans
+ * aucune mention corporative (iQWine inc. n'existe pas).
  */
 const TEXTES = {
   fr: {
     title: 'Notre histoire : comment est né Octave, votre sommelier IA · iQWine',
     description:
-      'Octave est né d’une question toute simple, posée par un amateur de vin québécois : choisir une bouteille dans ses goûts, l’ouvrir au bon moment, la partager autour du bon repas.',
+      'iQWine est né d’une idée de Mégane Bigras, sa fondatrice : un sommelier personnel qui apprend vos goûts. L’histoire d’un projet familial québécois, et d’Octave.',
   },
   en: {
     title: 'Our story: how Octave, your AI sommelier, came to be · iQWine',
     description:
-      'Octave was born from a simple question asked by a Québec wine lover: choose a bottle suited to your taste, open it at the right time, share it over the right meal.',
+      'iQWine began as an idea by Mégane Bigras, its founder: a personal sommelier that learns your taste. The story of a Québec family project, and of Octave.',
   },
 } as const;
 
