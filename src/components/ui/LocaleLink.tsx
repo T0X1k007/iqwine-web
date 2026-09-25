@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { useLocale } from '@/lib/i18n';
 import { localePath } from '@/lib/locale';
+import { PAGES_EN_PAUSE } from '@/lib/constants';
 
 /**
  * UN LIEN INTERNE QUI RESTE DANS SA LANGUE.
@@ -45,6 +46,18 @@ export default function LocaleLink({
   const coupe = href.search(/[?#]/);
   const chemin = coupe === -1 ? href : href.slice(0, coupe);
   const suffixe = coupe === -1 ? '' : href.slice(coupe);
+
+  // Page en pause : le libellé reste à sa place, mais plus rien ne s'y clique.
+  if (PAGES_EN_PAUSE.includes(chemin)) {
+    return (
+      <span
+        aria-disabled="true"
+        className={`${rest.className ?? ''} pointer-events-none cursor-default opacity-50`}
+      >
+        {rest.children}
+      </span>
+    );
+  }
 
   return <Link href={`${localePath(chemin, locale)}${suffixe}`} {...rest} />;
 }
