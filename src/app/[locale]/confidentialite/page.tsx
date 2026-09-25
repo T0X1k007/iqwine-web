@@ -34,8 +34,8 @@ export default function ConfidentialitePage() {
       meta={`En vigueur le ${LEGAL_EFFECTIVE_DATE} · Conforme à la Loi 25 (Québec)`}
     >
       <LegalSection title="Responsable de la protection des renseignements">
-        iQWine est exploité par {LEGAL_ENTITY.legalName}, située à{' '}
-        {LEGAL_ENTITY.city}, qui agit à titre de responsable des renseignements
+        iQWine (par {LEGAL_ENTITY.legalName}), située à{' '}
+        {LEGAL_ENTITY.city}, agit à titre de responsable des renseignements
         personnels au sens de la Loi 25. Toute demande (accès, rectification,
         suppression, retrait du consentement, plainte) peut être transmise
         depuis l’application (section Support) ou via notre page{' '}
