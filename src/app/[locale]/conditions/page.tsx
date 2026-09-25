@@ -77,8 +77,10 @@ export default async function ConditionsPage({ params }: ParamsLocale) {
       <LegalSection title={t('s9Title')}>{t('s9Body')}</LegalSection>
 
       <LegalSection title={t('s10Title')}>
+        {/* La phrase de marque (s10Mark) n'est plus affichée, décision d'Eric
+            du 2026-09-25 : iQWine n'est pas présentée comme une marque de
+            commerce de l'entité. Retirée aussi à la source, dans cellier-vin. */}
         <p>{t('s10Body')}</p>
-        <p>{t('s10Mark')}</p>
       </LegalSection>
 
       <LegalSection title={t('s11Title')}>{t('s11Body')}</LegalSection>
