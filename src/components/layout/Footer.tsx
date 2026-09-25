@@ -2,7 +2,6 @@
 
 import LocaleLink from '@/components/ui/LocaleLink';
 import Logo from '@/components/ui/Logo';
-import { LEGAL_ENTITY } from '@/lib/legal-meta';
 import { useLocale } from '@/lib/i18n';
 
 /**
@@ -101,17 +100,12 @@ export default function Footer() {
         {/* Bas de page, copyright + avis de marque + consommation responsable */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col gap-2">
           <p className="font-body text-[10px] tracking-[0.18em] text-foreground-faint">
-            © {new Date().getFullYear()} iQWine · {LEGAL_ENTITY.legalName}
+            © {new Date().getFullYear()} iQWine
           </p>
-          {/* Avis de marque — IDENTIQUE sur /fr et /en, volontairement jamais
-              traduit : c'est l'ancrage français que la Charte de la langue
-              française exige quand `iQWine` s'affiche en contexte anglais
-              (audit OQLF 2026-08-14). « sommelier virtuel » = le générique
-              déclaré au REQ. ™ tant que la marque n'est pas ENREGISTRÉE à
-              l'OPIC (demande 2494635) — jamais ®, jamais « marque déposée ». */}
-          <p className="text-[11px] text-foreground-faint">
-            iQWine™, sommelier virtuel, est une marque de commerce de {LEGAL_ENTITY.legalName}
-          </p>
+          {/* L'avis de marque « iQWine™, sommelier virtuel, est une marque de
+              commerce de… » a quitté le pied de page sur demande d'Eric
+              (2026-09-25). Il servait d'ancrage français au sens de l'audit
+              OQLF du 2026-08-14 : à rediscuter avant de le remettre. */}
           <p className="text-[11px] text-foreground-faint">
             {t(
               "Réservé aux personnes en âge de consommer de l'alcool.",
