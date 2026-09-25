@@ -10,7 +10,7 @@ import { ArrowRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 /**
- * /notre-maison — NOTRE HISTOIRE (refonte éditoriale du 2026-09-25).
+ * /notre-maison, NOTRE HISTOIRE (refonte éditoriale du 2026-09-25).
  *
  * ── Ce que la page raconte désormais ──────────────────────────────────────
  * Décision d'Eric (2026-09-25) : iQWine est l'idée de Mégane. Elle en est la
