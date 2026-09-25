@@ -79,12 +79,12 @@ const ERIC: Paragraphe[] = [
     fort: true,
   },
   {
-    fr: 'Entrepreneur et passionné de technologie, Éric accompagne Mégane dans la réalisation technique du projet. À partir des besoins et fonctionnalités recherchés, il les traduit en instructions techniques pour les outils de développement et supervise leur intégration dans la plateforme.',
-    en: 'An entrepreneur with a passion for technology, Éric supports Mégane in building the project technically. Starting from the needs and features sought, he translates them into technical instructions for the development tools and oversees their integration into the platform.',
+    fr: 'Entrepreneur et passionné de technologie, Éric accompagne Mégane dans la réalisation technique du projet. À partir des besoins et fonctionnalités recherchés, il accompagne leur mise en œuvre technique et supervise leur intégration dans la plateforme.',
+    en: 'An entrepreneur with a passion for technology, Éric supports Mégane in building the project technically. Starting from the needs and features sought, he supports their technical implementation and oversees their integration into the platform.',
   },
   {
-    fr: 'Il assure également les tests, le débogage, les correctifs et la maintenance technique nécessaires à l’évolution d’iQWine.',
-    en: 'He also handles the testing, debugging, fixes and technical maintenance that iQWine needs to keep evolving.',
+    fr: 'Il contribue également aux tests, au débogage, aux correctifs et au suivi technique nécessaires à l’évolution d’iQWine.',
+    en: 'He also contributes to the testing, debugging, fixes and technical follow-up that iQWine needs to keep evolving.',
   },
   {
     fr: 'Son expérience entrepreneuriale et technologique lui permet de faire le pont entre une idée produit et sa réalisation concrète.',
