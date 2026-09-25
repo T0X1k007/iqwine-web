@@ -253,23 +253,37 @@ function Portrait({ personne, t, premiere }: { personne: Personne; t: T; premier
   );
 }
 
-/** Le nom, le rôle et la biographie d'une personne. */
+/**
+ * Le nom, le rôle et la biographie d'une personne, EN BANDE PLEINE LARGEUR
+ * sous la photo (demande d'Eric, 2026-09-25 : « moins hautes »). Les trois
+ * paragraphes passent en colonnes : à 1200 px chacune fait ~45 caractères,
+ * la mesure de lecture reste bonne et le bloc perd les deux tiers de sa
+ * hauteur. Empilés, ils formaient une longue coulée dans une demi-colonne.
+ */
 function Identite({ personne, t }: { personne: Personne; t: T }) {
   return (
-    <div className="border-t border-encre/10" style={{ marginTop: 'clamp(36px, 4.5vw, 60px)', paddingTop: 'clamp(28px, 3.5vw, 44px)' }}>
+    <div
+      className="border-t border-encre/10"
+      style={{ marginTop: 'clamp(44px, 5.5vw, 76px)', paddingTop: 'clamp(28px, 3.5vw, 44px)' }}
+    >
       <h2
         className="font-[family-name:var(--font-display)] font-medium leading-[1.1] tracking-[-0.02em] text-encre"
-        style={{ fontSize: 'clamp(24px, 2.4vw, 30px)' }}
+        style={{ fontSize: 'clamp(26px, 2.6vw, 34px)' }}
       >
         {personne.nom}
       </h2>
-      <p className="mt-2.5 text-[11.5px] font-medium uppercase tracking-[0.2em] text-bordeaux-jour">
-        {t(personne.role.fr, personne.role.en)}
+      <p className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span className="text-[11.5px] font-medium uppercase tracking-[0.2em] text-bordeaux-jour">
+          {t(personne.role.fr, personne.role.en)}
+        </span>
+        <span aria-hidden className="text-or-jour">
+          ·
+        </span>
+        <span className="font-[family-name:var(--font-display)] text-[17px] italic text-encre-3">
+          {t(personne.domaine.fr, personne.domaine.en)}
+        </span>
       </p>
-      <p className="mt-2 font-[family-name:var(--font-display)] text-[17px] italic text-encre-3">
-        {t(personne.domaine.fr, personne.domaine.en)}
-      </p>
-      <div className="mt-7 max-w-[62ch] space-y-5">
+      <div className="mt-8 grid gap-x-10 gap-y-5 md:grid-cols-3 lg:gap-x-14">
         {personne.paragraphes.map((par) => (
           <p key={par.fr} className={CORPS}>
             {t(par.fr, par.en)}
@@ -331,12 +345,13 @@ export default function AProposContent() {
                 </p>
               </div>
 
-              <Identite personne={MEGANE} t={t} />
             </div>
 
             {/* Le portrait, collant. Hors FadeInOnScroll, voir l'en-tête. */}
             <Portrait personne={MEGANE} t={t} premiere />
           </div>
+
+          <Identite personne={MEGANE} t={t} />
         </div>
       </section>
 
@@ -375,9 +390,10 @@ export default function AProposContent() {
                   </FadeInOnScroll>
                 ))}
               </div>
-              <Identite personne={ERIC} t={t} />
             </div>
           </div>
+
+          <Identite personne={ERIC} t={t} />
         </div>
       </section>
 
