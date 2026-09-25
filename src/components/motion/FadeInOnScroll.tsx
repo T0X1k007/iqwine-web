@@ -16,6 +16,14 @@ interface FadeInOnScrollProps {
  * viewport, pas au mount. IntersectionObserver via framer-motion `whileInView`,
  * une seule fois. Le contenu déjà à l'écran au chargement s'anime immédiatement.
  * `prefers-reduced-motion` respecté (rendu direct, sans animation).
+ *
+ * ⚠ N'ENVELOPPE JAMAIS UN ÉLÉMENT `position: sticky` (constaté le 2026-09-25).
+ * Ce composant anime en `transform` et pose `will-change: transform` : les deux
+ * créent un bloc conteneur, et un descendant collant se met alors à coller à
+ * CE bloc au lieu du viewport, donc ne colle plus du tout. Le défaut est
+ * silencieux, rien ne casse, l'élément défile simplement comme un élément
+ * ordinaire. Poser le collant en DEHORS, ou animer le contenu intérieur.
+ * Même piège avec un ancêtre en `overflow` autre que `visible`, `clip` inclus.
  */
 const OFFSET: Record<NonNullable<FadeInOnScrollProps['direction']>, { x?: number; y?: number }> = {
   up: { y: 26 },
