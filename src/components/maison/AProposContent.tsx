@@ -138,8 +138,8 @@ const ERIC: Personne = {
   nom: 'Éric Bigras',
   role: { fr: 'Porte-parole d’iQWine', en: 'Spokesperson for iQWine' },
   domaine: {
-    fr: 'Entrepreneuriat & technologie',
-    en: 'Entrepreneurship & technology',
+    fr: 'Entrepreneuriat & passion du vin',
+    en: 'Entrepreneurship & a passion for wine',
   },
   alt: {
     fr: 'Éric Bigras dans une cave à vin, un verre de vin à la main.',
