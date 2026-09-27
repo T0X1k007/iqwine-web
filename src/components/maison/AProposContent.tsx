@@ -136,10 +136,10 @@ const MEGANE: Personne = {
 
 const ERIC: Personne = {
   nom: 'Éric Bigras',
-  role: { fr: 'Entrepreneur & passionné de technologie', en: 'Entrepreneur & technology enthusiast' },
+  role: { fr: 'Porte-parole d’iQWine', en: 'Spokesperson for iQWine' },
   domaine: {
-    fr: 'Entrepreneuriat, technologie & passion du vin',
-    en: 'Entrepreneurship, technology & a passion for wine',
+    fr: 'Entrepreneuriat & technologie',
+    en: 'Entrepreneurship & technology',
   },
   alt: {
     fr: 'Éric Bigras dans une cave à vin, un verre de vin à la main.',
