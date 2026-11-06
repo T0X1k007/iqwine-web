@@ -119,7 +119,9 @@ for (const p of PAGES.filter((p) => p !== '/')) {
     const attendu = `/${langue}/${SEGMENTS_ROUTAGE[segment]?.[langue] ?? segment}`;
     verifier(
       `${p} (${langue}) → ${attendu} en UN saut`,
-      r.status === 307 && loc.endsWith(attendu),
+      // Français (le repli) : 308, l'adresse que le x-default désigne.
+      // Anglais négocié : 307, la réponse dépend de la personne.
+      r.status === (langue === 'fr' ? 308 : 307) && loc.endsWith(attendu),
       `${r.status} ${loc || '(rien)'}`,
     );
   }
@@ -127,11 +129,10 @@ for (const p of PAGES.filter((p) => p !== '/')) {
 {
   const r = await sansSuivre('/octave');
   verifier(
-    // 307, comme tous les chemins nus depuis qu'ils négocient : sans
-    // `Accept-Language`, le repli est le français. La variante anglaise est
-    // vérifiée au contrôle 11.
+    // Sans `Accept-Language`, le repli est le français, donc 308. La
+    // variante anglaise (307) est vérifiée au contrôle 11.
     '/octave → /fr/sommelier-ia en UN saut',
-    r.status === 307 && r.location.endsWith('/fr/sommelier-ia'),
+    r.status === 308 && r.location.endsWith('/fr/sommelier-ia'),
     `${r.status} ${r.location}`,
   );
 }
@@ -141,7 +142,7 @@ for (const p of PAGES.filter((p) => p !== '/')) {
   const r = await sansSuivre('/recevoir');
   verifier(
     '/recevoir → /fr/accord-mets-vins en UN saut',
-    r.status === 307 && r.location.endsWith('/fr/accord-mets-vins'),
+    r.status === 308 && r.location.endsWith('/fr/accord-mets-vins'),
     `${r.status} ${r.location}`,
   );
 }
@@ -153,7 +154,7 @@ for (const p of PAGES.filter((p) => p !== '/')) {
   const nu = await sansSuivre('/recherche');
   verifier(
     '/recherche → /fr/choisir-un-vin en UN saut',
-    nu.status === 307 && nu.location.endsWith('/fr/choisir-un-vin'),
+    nu.status === 308 && nu.location.endsWith('/fr/choisir-un-vin'),
     `${nu.status} ${nu.location}`,
   );
   for (const [depuis, vers] of [
@@ -200,13 +201,16 @@ for (const p of ['/', '/tarifs', '/apogee']) {
     );
 
     /**
-     * `x-default` doit rester NEUTRE : il désigne le chemin SANS langue, qui
-     * négocie. Y trouver `/fr` signifierait qu'on déclare le français comme
-     * réponse universelle — alors que ce n'est qu'un repli opérationnel.
+     * `x-default` : la racine neutre pour l'accueil, la version FRANÇAISE pour
+     * une page intérieure (jamais un chemin nu qui redirige : Google retenait
+     * ces chemins comme canoniques, Search Console, 2026-11-06). Jamais
+     * l'anglais.
      */
     const xd = corps.match(/hrefLang="x-default" href="([^"]+)"/i)?.[1] || '';
-    const neutre = !/\/(fr|en)(\/|$)/.test(new URL(xd).pathname);
-    verifier(`${chemin} x-default NEUTRE`, neutre, xd);
+    const xdChemin = xd ? new URL(xd).pathname : '';
+    const accueil = /^\/(fr|en)$/.test(chemin);
+    const xdAttendu = accueil ? xdChemin === '/' : /^\/fr\//.test(xdChemin);
+    verifier(`${chemin} x-default ${accueil ? 'racine neutre' : 'français'}`, xdAttendu, xd);
   }
 }
 
@@ -247,11 +251,15 @@ console.log('\n7. Sitemap bilingue, découvrable');
   // ici en même temps qu'elle entre dans PAGES du sitemap.
   verifier('30 URL (15 pages × 2 langues)', urls === 30, `${urls} trouvées`);
   verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 30);
-  // Aucun `x-default` ne doit désigner une URL de langue dans le sitemap non plus.
+  // Dans le sitemap aussi : la racine pour l'accueil, le français ailleurs,
+  // jamais l'anglais ni un chemin nu intérieur.
   const xdefaults = [...corps.matchAll(/hreflang="x-default" href="([^"]+)"/g)].map((m) => m[1]);
   verifier(
-    'aucun x-default ne pointe vers /fr ou /en',
-    xdefaults.every((u) => !/\/(fr|en)(\/|$)/.test(new URL(u).pathname)),
+    'x-default du sitemap : racine ou page française, jamais l\'anglais',
+    xdefaults.every((u) => {
+      const chemin = new URL(u).pathname;
+      return chemin === '/' || /^\/fr\//.test(chemin);
+    }),
   );
   const robots = await html('/robots.txt');
   verifier('robots.txt annonce le sitemap', robots.corps.includes('/sitemap.xml'));
@@ -440,7 +448,7 @@ console.log('\n11. Les chemins nus négocient (x-default doit dire vrai)');
     const loc = r.headers.get('location') ?? '';
     verifier(
       `/tarifs (${entete.slice(0, 5)}) → ${attendu}`,
-      loc.endsWith(attendu),
+      loc.endsWith(attendu) && r.status === (attendu.startsWith('/fr') ? 308 : 307),
       `HTTP ${r.status} → ${loc || '(rien)'}`,
     );
   }

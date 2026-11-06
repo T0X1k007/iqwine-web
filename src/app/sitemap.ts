@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { LOCALES, absoluteUrl, SITE_ORIGIN } from '@/lib/locale';
+import { DEFAULT_LOCALE, LOCALES, absoluteUrl, SITE_ORIGIN } from '@/lib/locale';
 
 /**
  * SITEMAP BILINGUE, chaque page, dans chaque langue, avec ses alternatives.
@@ -63,10 +63,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           'fr-CA': absoluteUrl(page.path, 'fr'),
           'en-CA': absoluteUrl(page.path, 'en'),
-          // Le point d'entrée NEUTRE de cette page, pas sa version française.
-          // Cf. `alternatesFor` : `x-default` désigne un comportement, non une
-          // langue, et le repli vers le français est opérationnel, pas déclaré.
-          'x-default': `${SITE_ORIGIN}${page.path === '/' ? '/' : page.path}`,
+          // Mêmes règles que `alternatesFor` : la racine neutre pour l'accueil,
+          // la version française pour une page intérieure.
+          'x-default':
+            page.path === '/' ? `${SITE_ORIGIN}/` : absoluteUrl(page.path, DEFAULT_LOCALE),
         },
       },
     })),
