@@ -86,7 +86,25 @@ function FaqItem({ q, a, jour = false }: { q: string; a: string; jour?: boolean 
   );
 }
 
-export default function SectionFaq({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } = {}) {
+/** Une question et sa réponse, dans les deux langues. */
+export type ItemFaq = { q: Record<'fr' | 'en', string>; a: Record<'fr' | 'en', string> };
+
+/**
+ * `items`, `titre` et `surtitre` (2026-11-06) : les pages Cellier, Apogée et
+ * Sommelier affichent LEURS questions avec le même accordéon, toujours présent
+ * dans le HTML. Sans `items`, la section reste celle de la page Tarifs.
+ */
+export default function SectionFaq({
+  ton = 'nuit',
+  items = QA,
+  titre,
+  surtitre,
+}: {
+  ton?: 'jour' | 'nuit';
+  items?: ItemFaq[];
+  titre?: Record<'fr' | 'en', string>;
+  surtitre?: Record<'fr' | 'en', string>;
+} = {}) {
   // La FAQ suit le mouvement de la page qui l'accueille (v3, 2026-08-14).
   const jour = ton === 'jour';
   const { locale } = useLocale();
@@ -96,14 +114,14 @@ export default function SectionFaq({ ton = 'nuit' }: { ton?: 'jour' | 'nuit' } =
     <SectionWrapper id="faq" withDivider={!jour} rhythm="standard" className={`section-breathe ${jour ? "mouvement-jour" : ""}`}>
       <FadeInOnScroll>
         <div className="text-center mb-10 sm:mb-14">
-          <div className={`iq-eyebrow mb-5 ${jour ? "text-or-jour" : ""}`}>{t('Questions', 'Questions')}</div>
-          <h2 className={`iq-h1 italic ${jour ? "text-encre" : ""}`}>{t('Avant de commencer.', 'Before you start.')}</h2>
+          <div className={`iq-eyebrow mb-5 ${jour ? "text-or-jour" : ""}`}>{surtitre ? surtitre[locale] : t('Questions', 'Questions')}</div>
+          <h2 className={`iq-h1 italic ${jour ? "text-encre" : ""}`}>{titre ? titre[locale] : t('Avant de commencer.', 'Before you start.')}</h2>
         </div>
       </FadeInOnScroll>
 
       <FadeInOnScroll delay={0.1}>
         <div className={`mx-auto max-w-2xl divide-y border-y ${jour ? "divide-encre/10 border-encre/10" : "divide-border border-border"}`}>
-          {QA.map((item) => (
+          {items.map((item) => (
             <FaqItem key={item.q.en} q={item.q[locale]} a={item.a[locale]} jour={jour} />
           ))}
         </div>

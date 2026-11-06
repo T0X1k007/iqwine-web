@@ -239,5 +239,57 @@ export function faqPageLd(locale: Locale) {
   };
 }
 
+/**
+ * LE FIL D'ARIANE, en `BreadcrumbList` (audit du 2026-11-06).
+ *
+ * `FilAriane` l'affiche à l'écran depuis la v3 ; son commentaire annonçait le
+ * balisage « posé côté serveur, page par page ». Les pages touchées par le
+ * lot de contenus du 2026-11-06 le posent. Les éléments sont des chemins NUS :
+ * la langue et le slug traduit viennent d'`absoluteUrl`, comme partout.
+ */
+export function breadcrumbLd(
+  locale: Locale,
+  elements: { nom: string; chemin: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: elements.map((e, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: e.nom,
+      item: absoluteUrl(e.chemin, locale),
+    })),
+  };
+}
+
+/**
+ * Un `FAQPage` pour une page qui AFFICHE ses propres questions (Guide,
+ * Cellier, Apogée, Sommelier). Même règle que `faqLd` : le texte balisé est
+ * exactement le texte visible, lu dans la même source.
+ */
+export function faqPageDepuis(
+  locale: Locale,
+  chemin: string,
+  items: { q: Record<Locale, string>; a: Record<Locale, string> }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${absoluteUrl(chemin, locale)}#faq`,
+    inLanguage: BCP47[locale],
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.q[locale],
+      acceptedAnswer: { '@type': 'Answer', text: item.a[locale] },
+    })),
+  };
+}
+
+/** Sérialise un ou plusieurs blocs JSON-LD pour un `<script>`, sans `<` brut. */
+export function jsonLdScript(blocs: unknown): string {
+  return JSON.stringify(blocs).replace(/</g, '\\u003c');
+}
+
 /** Le nombre de jours d'essai, pour les appelants qui l'affichent. */
 export { TRIAL_DAYS };
