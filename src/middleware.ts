@@ -6,6 +6,7 @@ import {
   isLocale,
   localePath,
   resoudreAlias,
+  segmentCanonique,
   negotiateLocale,
   splitLocalePath,
 } from '@/lib/locale';
@@ -43,17 +44,18 @@ import {
  * l'ancienne. Les redirections PERMANENTES d'anciennes URL vers les nouvelles
  * vivent dans `next.config.ts`.
  *
- * ── Une page intérieure : 308 vers le français, 307 vers l'anglais ────────
- * Un chemin nu intérieur (`/tarifs`) répondait lui aussi en 307. Search
- * Console a montré le prix (2026-11-06) : une redirection temporaire dit
- * « l'adresse durable, c'est moi », Google l'a retenue comme canonique, et les
- * 13 pages françaises intérieures sortaient de l'index comme doublons.
+ * ── Une page intérieure : 308 vers le français, toujours ──────────────────
+ * Un chemin nu intérieur (`/tarifs`) répondait lui aussi en 307 négocié.
+ * Search Console (2026-11-06) montre que Google retenait ces chemins nus comme
+ * canoniques et classait les 13 pages françaises intérieures en doublons.
  *
- * Le repli français (Google n'envoie ni cookie ni `Accept-Language`) part
- * donc en 308 : c'est l'adresse que le `x-default` de la page désigne. Une
- * personne dont le choix ou le navigateur dit « anglais » garde sa 307 vers
- * `/en/…`. Comme la réponse dépend de la requête, elle n'est mise en cache
- * nulle part (`private, no-store`) et le dit (`Vary`).
+ * Un chemin nu intérieur redirige donc en 308 vers sa version française, la
+ * même pour tout le monde : une redirection PERMANENTE ne doit jamais dépendre
+ * d'un cookie ni d'une langue, sinon un cache (navigateur, CDN) qui la garde
+ * resservirait à l'un le choix de l'autre. Elle n'a ni `Vary` ni cookie, et se
+ * met en cache sans risque. Ces chemins ne servent plus qu'aux anciens liens
+ * (le site lie toujours des URL de langue) ; un anglophone qui en suit un
+ * arrive en français et bascule d'un geste. Seul l'accueil négocie.
  */
 
 export function middleware(req: NextRequest): NextResponse {
@@ -63,32 +65,42 @@ export function middleware(req: NextRequest): NextResponse {
   // Déjà dans une langue : l'URL fait autorité, on ne s'en mêle plus.
   if (dejaLocalise !== null) return NextResponse.next();
 
-  const memorise = req.cookies.get(LOCALE_COOKIE)?.value;
-  const cible = isLocale(memorise)
-    ? memorise
-    : negotiateLocale(req.headers.get('accept-language'));
-
   const url = req.nextUrl.clone();
-  // `resoudreAlias` AVANT `localePath` : `/octave` devient `/sommelier-ia`,
-  // puis se localise en `/en/ai-sommelier`. Un seul saut, dans la bonne langue.
-  // Passer par une redirection de configuration aurait imposé le français, ou
-  // ajouté un second saut.
-  url.pathname = localePath(resoudreAlias(rest), cible);
   // Les paramètres de campagne et les ancres survivent : `search` est recopié,
   // et un fragment n'atteint jamais le serveur — le navigateur le rattache
   // lui-même à la destination. Un lien profond partagé reste un lien profond.
   url.search = search;
 
-  const interieure = rest !== '/';
-  const res = NextResponse.redirect(url, interieure && cible === DEFAULT_LOCALE ? 308 : 307);
-  // Une réponse qui dépend du cookie et de la langue ne se partage pas : aucun
-  // cache, ni navigateur ni CDN, ne doit resservir le saut d'un autre.
+  if (rest !== '/') {
+    // `resoudreAlias` AVANT `localePath` : `/octave` devient `/sommelier-ia`,
+    // puis se localise en `/fr/sommelier-ia`. Un seul saut, identique pour tous.
+    // Un slug ANGLAIS sans préfixe (`/pricing`, `/wine-pairing`) désigne la
+    // version anglaise : il y va, toujours. Sinon `/fr/pricing` serait un 404.
+    // La cible ne dépend que du chemin : la 308 reste identique pour tous.
+    const [premier, ...suite] = rest.replace(/^\//, '').split('/');
+    const canoniqueEn = segmentCanonique(premier ?? '', 'en');
+    if (premier && canoniqueEn !== premier) {
+      url.pathname = localePath(['', canoniqueEn, ...suite].join('/'), 'en');
+    } else {
+      url.pathname = localePath(resoudreAlias(rest), DEFAULT_LOCALE);
+    }
+    return NextResponse.redirect(url, 308);
+  }
+
+  const memorise = req.cookies.get(LOCALE_COOKIE)?.value;
+  const cible = isLocale(memorise)
+    ? memorise
+    : negotiateLocale(req.headers.get('accept-language'));
+
+  url.pathname = localePath('/', cible);
+  const res = NextResponse.redirect(url, 307);
+  // La racine dépend du cookie et de la langue : aucun cache, ni navigateur ni
+  // CDN, ne doit resservir le saut d'un autre, et la réponse le dit.
   res.headers.set('Vary', 'Cookie, Accept-Language');
   res.headers.set('Cache-Control', 'private, no-store');
 
   // On mémorise la langue NÉGOCIÉE aussi. Sans cela, un visiteur repasserait
-  // par la négociation à chaque retour sur la racine, et un changement manuel
-  // fait depuis une page intérieure serait oublié dès qu'il revient à l'accueil.
+  // par la négociation à chaque retour sur la racine.
   if (!isLocale(memorise)) {
     res.cookies.set(LOCALE_COOKIE, cible, {
       path: '/',
