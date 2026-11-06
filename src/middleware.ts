@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import {
+  DEFAULT_LOCALE,
   LOCALE_COOKIE,
   LOCALE_COOKIE_MAX_AGE,
   isLocale,
@@ -34,14 +35,25 @@ import {
  * depuis la Californie : s'en servir, c'est se tromper précisément sur les gens
  * qu'on cherche à servir.
  *
- * ── 307 et non 308, et c'est délibéré ─────────────────────────────────────
+ * ── La racine : 307, et c'est délibéré ────────────────────────────────────
  * La racine n'a pas UNE destination : elle en a deux, selon la personne. Un 308
  * la graverait dans le cache du navigateur ET dans l'index des moteurs — le
  * premier visiteur figerait la langue de tous les suivants sur ce cache, et
  * quelqu'un qui change de langue verrait sa racine continuer de le renvoyer à
- * l'ancienne. Les redirections PERMANENTES, elles, vivent dans
- * `next.config.ts` : ce sont les anciennes URL vers les nouvelles, qui ont bien
- * une destination unique.
+ * l'ancienne. Les redirections PERMANENTES d'anciennes URL vers les nouvelles
+ * vivent dans `next.config.ts`.
+ *
+ * ── Une page intérieure : 308 vers le français, 307 vers l'anglais ────────
+ * Un chemin nu intérieur (`/tarifs`) répondait lui aussi en 307. Search
+ * Console a montré le prix (2026-11-06) : une redirection temporaire dit
+ * « l'adresse durable, c'est moi », Google l'a retenue comme canonique, et les
+ * 13 pages françaises intérieures sortaient de l'index comme doublons.
+ *
+ * Le repli français (Google n'envoie ni cookie ni `Accept-Language`) part
+ * donc en 308 : c'est l'adresse que le `x-default` de la page désigne. Une
+ * personne dont le choix ou le navigateur dit « anglais » garde sa 307 vers
+ * `/en/…`. Comme la réponse dépend de la requête, elle n'est mise en cache
+ * nulle part (`private, no-store`) et le dit (`Vary`).
  */
 
 export function middleware(req: NextRequest): NextResponse {
@@ -67,7 +79,12 @@ export function middleware(req: NextRequest): NextResponse {
   // lui-même à la destination. Un lien profond partagé reste un lien profond.
   url.search = search;
 
-  const res = NextResponse.redirect(url, 307);
+  const interieure = rest !== '/';
+  const res = NextResponse.redirect(url, interieure && cible === DEFAULT_LOCALE ? 308 : 307);
+  // Une réponse qui dépend du cookie et de la langue ne se partage pas : aucun
+  // cache, ni navigateur ni CDN, ne doit resservir le saut d'un autre.
+  res.headers.set('Vary', 'Cookie, Accept-Language');
+  res.headers.set('Cache-Control', 'private, no-store');
 
   // On mémorise la langue NÉGOCIÉE aussi. Sans cela, un visiteur repasserait
   // par la négociation à chaque retour sur la racine, et un changement manuel

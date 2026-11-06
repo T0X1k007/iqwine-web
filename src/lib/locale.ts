@@ -31,8 +31,9 @@ export type Locale = (typeof LOCALES)[number];
  * La nuance est celle qu'Eric a tranchée. Le français est le repli
  * OPÉRATIONNEL du lancement au Québec : c'est ce qu'on sert quand ni le
  * souvenir, ni le profil, ni le navigateur ne disent rien. Ce n'est pas une
- * propriété du site, et `x-default` ne le déclare donc PAS — il désigne la
- * racine neutre, qui négocie.
+ * propriété du site : le `x-default` de l'accueil désigne la racine neutre,
+ * qui négocie. Celui des pages intérieures suit ce repli (voir
+ * `alternatesFor`), et le suivra s'il change.
  *
  * Le jour où l'anglais pèse davantage, changer cette ligne change le repli
  * sans rien dire de faux aux moteurs entre-temps.
@@ -316,22 +317,29 @@ export function absoluteUrl(rest: string, locale: Locale): string {
 /**
  * Le bloc `alternates` de Next : canonical + hreflang + x-default.
  *
- * ── `x-default` pointe vers la RACINE, et c'est délibéré (décision d'Eric) ─
- * Il désigne le point d'entrée NEUTRE : `https://iqwine.ai/`, qui négocie et
- * oriente. Il ne désigne pas le français.
+ * ── `x-default` : la RACINE pour l'accueil, la page française ailleurs ─────
+ * L'accueil garde son point d'entrée NEUTRE, `https://iqwine.ai/`, qui négocie
+ * et oriente : c'est le cas d'usage que Google documente pour `x-default`
+ * (la page qui détecte et redirige), et la décision d'Eric s'y applique telle
+ * quelle.
  *
- * La distinction n'est pas théorique. `x-default` répond à « quelle version
- * servir à quelqu'un dont je ne sais pas la langue ? ». Y mettre le français
- * répondrait « le français », ce qui est un repli OPÉRATIONNEL — vrai pour le
- * lancement au Québec — et non une propriété du site. Le jour où l'anglais
- * pèse davantage, la réponse changerait sans qu'aucune balise ne l'ait dit.
+ * Les pages intérieures, elles, désignaient aussi leur chemin nu (`/tarifs`),
+ * qui répondait par une redirection TEMPORAIRE. Search Console a mesuré ce que
+ * cela coûtait (inspection du 2026-11-06) : Google retenait ces chemins nus
+ * comme canoniques et classait les 13 pages françaises intérieures en
+ * « Page en double : Google n'a pas choisi la même URL canonique que
+ * l'utilisateur ». Une 307 dit « la vraie adresse, c'est moi » ; Google l'a
+ * cru. Les paires hreflang pointaient alors vers des pages hors de l'index.
  *
- * ── Et pourquoi une URL qui REDIRIGE est ici correcte ────────────────────
- * Un `canonical` ne doit jamais pointer vers une redirection — il désigne LA
- * page, et un saut n'est pas une page. `x-default` désigne au contraire un
- * comportement : Google documente explicitement la page qui détecte et
- * redirige comme son cas d'usage. Les deux règles se contrediraient si elles
- * répondaient à la même question ; elles n'y répondent pas.
+ * Le `x-default` d'une page intérieure désigne donc sa version française, le
+ * repli que le chemin nu sert de toute façon à qui n'exprime aucune langue, et
+ * le chemin nu redirige en 308 vers elle (voir `middleware.ts`).
+ *
+ * ── Et pourquoi la racine peut, elle, rediriger ───────────────────────────
+ * Un `canonical` ne doit jamais pointer vers une redirection : il désigne LA
+ * page. `x-default` désigne au contraire un comportement, et Google documente
+ * explicitement la page d'accueil qui détecte et redirige comme son cas
+ * d'usage. Les deux règles ne répondent pas à la même question.
  */
 export function alternatesFor(rest: string, locale: Locale) {
   return {
@@ -339,10 +347,9 @@ export function alternatesFor(rest: string, locale: Locale) {
     languages: {
       'fr-CA': absoluteUrl(rest, 'fr'),
       'en-CA': absoluteUrl(rest, 'en'),
-      // La racine du CHEMIN, sans langue : `/tarifs` pour la page tarifs,
-      // `/` pour l'accueil. Chacune a son propre point d'entrée neutre, qui
-      // négocie et redirige vers la bonne langue de CETTE page.
-      'x-default': `${SITE_ORIGIN}${rest === '/' ? '/' : rest}`,
+      // L'accueil : la racine neutre, qui négocie. Une page intérieure : sa
+      // version française, jamais un chemin nu qui redirige (voir plus haut).
+      'x-default': rest === '/' ? `${SITE_ORIGIN}/` : absoluteUrl(rest, DEFAULT_LOCALE),
     },
   };
 }
