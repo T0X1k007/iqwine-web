@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from '@/lib/i18n';
-import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
+import { PLAY_STORE_URL, lienBoutique } from '@/lib/constants';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 /**
@@ -155,7 +155,7 @@ export default function BadgesPlateformes({
     <div className={`flex flex-wrap items-center gap-3 ${className}`}>
       {/* Apple, plein : il mène quelque part. */}
       <a
-        href={APP_STORE_URL}
+        href={lienBoutique('apple', source)}
         target="_blank"
         rel="noopener"
         onClick={() => track(ANALYTICS_EVENTS.APP_STORE_CLICK, { source })}
@@ -177,7 +177,7 @@ export default function BadgesPlateformes({
           d'écran comme par les yeux. */}
       {androidPublie ? (
         <a
-          href={PLAY_STORE_URL as string}
+          href={lienBoutique('google', source)}
           target="_blank"
           rel="noopener"
           onClick={() => track(ANALYTICS_EVENTS.PLAY_STORE_CLICK, { source })}

@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button';
 import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
 import { ArrowRight } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
-import { buildSignupUrl, APP_STORE_URL, CTA_VERS_STORE } from '@/lib/constants';
+import { buildSignupUrl, lienBoutique, CTA_VERS_STORE } from '@/lib/constants';
 import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -41,7 +41,7 @@ export default function SectionResolution() {
     ? t('Télécharger iQWine', 'Download iQWine')
     : t('Rencontrer Octave', 'Meet Octave');
   const ctaHref = CTA_VERS_STORE
-    ? APP_STORE_URL
+    ? lienBoutique('apple', 'resolution')
     : buildSignupUrl('resolution', { lang: locale });
 
   return (

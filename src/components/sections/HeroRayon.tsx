@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 import LigneAccord from '@/components/ui/LigneAccord';
 import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
 import { useLocale } from '@/lib/i18n';
-import { buildSignupUrl, APP_STORE_URL, CTA_VERS_STORE } from '@/lib/constants';
+import { buildSignupUrl, lienBoutique, CTA_VERS_STORE } from '@/lib/constants';
 import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -162,7 +162,9 @@ export default function HeroRayon() {
   const ctaLabel = CTA_VERS_STORE
     ? t('Télécharger iQWine', 'Download iQWine')
     : t('Rencontrer Octave', 'Meet Octave');
-  const ctaHref = CTA_VERS_STORE ? APP_STORE_URL : buildSignupUrl('hero', { lang: locale });
+  const ctaHref = CTA_VERS_STORE
+    ? lienBoutique('apple', 'hero')
+    : buildSignupUrl('hero', { lang: locale });
 
   return (
     <section

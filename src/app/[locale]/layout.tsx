@@ -4,6 +4,8 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import AttributionArrivee from '@/components/analytics/AttributionArrivee';
+import MesureAudience from '@/components/analytics/MesureAudience';
 import '../globals.css';
 import { TRIAL_SHORT } from '@/lib/trial';
 import { notFound } from 'next/navigation';
@@ -180,6 +182,10 @@ export default async function RootLayout({
           <div id="contenu">{children}</div>
           <Footer />
         </I18nProvider>
+        {/* Source d'arrivée gardée jusqu'au CTA d'essai (audit 2026-11-06, M-03). */}
+        <AttributionArrivee />
+        {/* Mesure d'audience : éteinte tant que l'interrupteur n'est pas posé (M-01). */}
+        <MesureAudience />
       </body>
       {process.env.NEXT_PUBLIC_GA_ID && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
