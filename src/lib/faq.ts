@@ -59,14 +59,20 @@ export const FAQ: {
      * et pour les deux forfaits sans carte, pas seulement pour l'essai : c'est
      * l'endroit où un lecteur inquiet vérifie que la gratuité ne cache rien.
      * La mécanique de l'essai a sa propre entrée, deux questions plus bas.
+     *
+     * ⚠️ LES NOMS DE FORFAIT SE LISENT DANS `planLabel` (audit du 2026-11-06,
+     * constat V-03). Cette réponse écrivait « Standard » en dur, l'identifiant
+     * technique, dans le texte visible ET dans le JSON-LD : un assistant citait
+     * donc un forfait qui n'existe pas à l'écran. Le nom affiché est
+     * « Passionné » / « Enthusiast » ; la clé `standard` ne bouge pas.
      */
     q: {
       fr: "Dois-je donner ma carte de crédit ?",
       en: "Do I need a credit card?",
     },
     a: {
-      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de Passionné non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez Standard ou Premium.`,
-      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of Enthusiast, and the Free plan never does. You only give a card the day you choose Standard or Premium.`,
+      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de ${planLabel(STANDARD_PLAN.id, "fr")} non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez ${planLabel(STANDARD_PLAN.id, "fr")} ou ${planLabel(PREMIUM_PLAN.id, "fr")}.`,
+      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of ${planLabel(STANDARD_PLAN.id, "en")}, and the Free plan never does. You only give a card the day you choose ${planLabel(STANDARD_PLAN.id, "en")} or ${planLabel(PREMIUM_PLAN.id, "en")}.`,
     },
   },
   {
