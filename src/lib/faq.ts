@@ -101,12 +101,12 @@ export const FAQ: {
       en: `Does the Free plan expire after the first ${TRIAL_DAYS} days?`,
     },
     a: {
-      fr: `Non, jamais. Il n’y a pas d’essai d’un côté et un forfait de l’autre : il y a un forfait Gratuit, à 0 $, sans date de fin — et un cadeau de bienvenue posé dessus.
+      fr: `Non, jamais. Il n’y a pas d’essai d’un côté et un forfait de l’autre : il y a un forfait Gratuit, à 0 $, sans date de fin, et un cadeau de bienvenue posé dessus.
 
 ${TRIAL_ON_SIGNUP_FULL.fr} : toute nouvelle inscription reçoit les fonctionnalités du Passionné, sans carte et sans rien demander. Ensuite, ce cadeau s’arrête, mais le forfait, lui, continue : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, un utilisateur, aussi longtemps que vous voudrez.
 
 Votre cave, vos notes, vos souvenirs et le palais qu’Octave a appris restent en place. Rien ne se bloque, rien ne passe en lecture seule, rien ne vous est prélevé. Vous choisissez Passionné ou Premium le jour où vous en avez envie, ou jamais.`,
-      en: `No, never. There isn’t a trial on one side and a plan on the other: there is a Free plan, at $0, with no end date — and a welcome gift laid on top of it.
+      en: `No, never. There isn’t a trial on one side and a plan on the other: there is a Free plan, at $0, with no end date, and a welcome gift laid on top of it.
 
 ${TRIAL_ON_SIGNUP_FULL.en}: every new sign-up receives the Enthusiast features, no card, nothing to ask for. Afterwards the gift stops, but the plan carries on: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one user, for as long as you like.
 
@@ -300,8 +300,8 @@ Nothing is automatic at the end: since no card was ever given, you are never cha
       en: "What is the difference between the plans?",
     },
     a: {
-      fr: "Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.",
-      en: "No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users — and each user keeps their own palate.",
+      fr: "Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs, et chaque utilisateur garde son propre palais.",
+      en: "No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users, and each user keeps their own palate.",
     },
   },
   {
