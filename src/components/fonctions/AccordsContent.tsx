@@ -10,6 +10,7 @@ import OctaveAnneau from '@/components/octave/OctaveAnneau';
 import Button from '@/components/ui/Button';
 import DemoControlPanel from '@/components/demo/DemoControlPanel';
 import DemoPhone from '@/components/demo/DemoPhone';
+import DemoTranscription from '@/components/demo/DemoTranscription';
 import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { getDemoCards, type DemoMeal, type DemoSource } from '@/lib/demoData';
@@ -313,6 +314,11 @@ export default function AccordsContent() {
               </AnimatePresence>
             </div>
           </div>
+
+          {/* Les quatre plats et toutes les réponses, en texte, dans le HTML
+              servi (audit du 2026-11-06, V-14). Visuellement masqué : la démo
+              ci-dessus reste la seule chose qu'on voit. */}
+          <DemoTranscription locale={locale} />
         </div>
       </section>
 
