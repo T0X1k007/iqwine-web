@@ -165,7 +165,7 @@ Your cellar, your notes, your memories and the palate Octave has learned all sta
       en: "What counts as a piece of personalized advice from Octave?",
     },
     a: {
-      fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en magasin pour savoir si elle vous plairait.
+      fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en magasin pour savoir si elle vous plairait.
 
 Une demande, un conseil, peu importe le travail que ça lui demande derrière.
 
@@ -174,7 +174,7 @@ Ajouter ou gérer vos bouteilles dans la cave n’utilise aucun conseil. Scanner
 Vos conseils reviennent chaque mois, le jour de votre facturation. Si vous payez à l’année, ils reviennent quand même tous les mois.
 
 Et si une panne technique empêche Octave de répondre, le conseil vous est rendu.`,
-      en: `A piece of personalized advice is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A dish you show it so it finds the pairing. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
+      en: `A piece of personalized advice is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
 
 One request, one piece of advice, however much work it takes behind the scenes.
 
