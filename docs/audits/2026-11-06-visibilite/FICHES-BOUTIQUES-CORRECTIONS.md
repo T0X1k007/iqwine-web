@@ -7,7 +7,7 @@ Il y a deux natures de champs, à ne pas mélanger :
 - **Informations du titulaire** (compte personnel Play au nom d'Eric Bigras ; vendeur Apple Groupe Medtech inc.) : **inchangées**, conformément à ta consigne. Seuls les liens publics et l'adresse de contact de la fiche sont corrigés, sans toucher à l'identité légale.
 
 Vérités produit utilisées (code servi, tag `v0.163.0` de l'app) :
-- « Photographier un plat » existe : choix « Plat » de la caméra du sommelier (`messages/fr.json:1593`, Guide EN l. 5014). Il reste donc dans les fiches.
+- « Photographier un plat » est **dormant** : `PHOTO_DE_PLAT_DORMANTE` (`lib/scan/photo-de-plat.ts`) masque l'option dans `CameraIntentSheet.tsx:413` et la refuse dans `ScanFlowHost.tsx:257`, même si ses textes existent encore dans `messages/`. La fiche App Store le promet : **à retirer**.
 - **Aucun « historique des prix »** n'existe dans les textes de l'app (recherche vide dans `messages/`). La promesse « reconnaître un bon prix » est retirée : c'est aussi une promesse de « bonne affaire », interdite (doc produit 05 §5).
 
 ## Google Play Console
@@ -64,6 +64,8 @@ La description d'une version déjà publiée ne se modifie qu'avec **une nouvell
 | « Vous êtes dans un point de vente, face à un mur de bouteilles, sans savoir par où commencer. » | « Vous êtes en magasin, face à un mur de bouteilles, sans savoir par où commencer. » |
 | « Parmi les vins disponibles dans les points de vente pris en charge, il vous aide à trouver ceux qui vous correspondent, et vous dit lesquels sont en succursale près de vous. » | « Parmi les vins offerts en magasin au Québec, il vous aide à trouver ceux qui vous correspondent, et vous dit lesquels sont disponibles près de vous. » |
 | « Repérer, parmi les vins des points de vente pris en charge, ceux qui vous correspondent » | « Repérer, parmi les vins offerts en magasin, ceux qui vous correspondent » |
+
+Retirer la puce « • Photographier un plat pour obtenir un accord » (fonction dormante) de la liste « CE QUE VOUS POUVEZ FAIRE », et son équivalent anglais s'il existe dans la liste « WHAT YOU CAN DO ».
 
 Retirer aussi le tiret cadratin de « …vous correspondent — et vous dit… » (une virgule le remplace dans la proposition ci-dessus).
 
