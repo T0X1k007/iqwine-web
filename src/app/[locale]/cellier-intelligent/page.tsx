@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import CellierContent from '@/components/fonctions/CellierContent';
-import { TRIAL_SHORT } from '@/lib/trial';
+import JsonLd from '@/components/seo/JsonLd';
+import { breadcrumbLd, faqPageDepuis } from '@/lib/structured-data';
+import { FAQ_CELLIER } from '@/lib/faq-fonctions';
+import { FREE_PLAN } from '@/lib/plans';
+import { DEFAULT_LOCALE, isLocale } from '@/lib/locale';
 
 /**
  * /cellier-intelligent — première page Fonction (conception validée par Eric,
@@ -10,13 +14,16 @@ import { TRIAL_SHORT } from '@/lib/trial';
  * Title/meta = hypothèses du chantier 0, affinables sur données réelles.
  */
 const TEXTES = {
+  // Audit du 2026-11-06 (P1) : le titre assume le Gratuit, premier mot ajouté
+  // à « application de cave » dans les suggestions de recherche. À arbitrer
+  // par Éric contre l'ancien « …qui sait quand ouvrir » (annexe 4, §8, point 6).
   fr: {
-    title: 'L’application de cave à vin qui sait quand ouvrir · iQWine',
-    description: `Photo, code-barres ou reçu : chaque bouteille entre en un geste, et votre cave sait quand l’ouvrir. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    title: `Application de cave à vin gratuite jusqu’à ${FREE_PLAN.maxBottles} bouteilles`,
+    description: `Photo, code-barres, reçu ou import Excel : votre cave entre en un geste, et sait quand ouvrir chaque bouteille. Sur iPhone, Android et le web.`,
   },
   en: {
-    title: 'The wine cellar app that knows when to open · iQWine',
-    description: `Photo, barcode or receipt: each bottle gets in at once, and your cellar knows when to open it. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    title: `Wine cellar app, free up to ${FREE_PLAN.maxBottles} bottles · iQWine`,
+    description: `Photo, barcode, receipt or Excel import: your cellar gets in at once, and knows when to open each bottle. On iPhone, Android and the web.`,
   },
 } as const;
 
@@ -25,6 +32,22 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
   return pageMetadata('/cellier-intelligent', locale, TEXTES);
 }
 
-export default function CellierPage() {
-  return <CellierContent />;
+export default async function CellierPage({ params }: ParamsLocale) {
+  const { locale } = await params;
+  const l = isLocale(locale) ? locale : DEFAULT_LOCALE;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbLd(l, [
+            { nom: l === 'fr' ? 'Accueil' : 'Home', chemin: '/' },
+            { nom: l === 'fr' ? 'Fonctions' : 'Features', chemin: '/fonctions' },
+            { nom: l === 'fr' ? 'Le cellier' : 'The cellar', chemin: '/cellier-intelligent' },
+          ]),
+          faqPageDepuis(l, '/cellier-intelligent', FAQ_CELLIER),
+        ]}
+      />
+      <CellierContent />
+    </>
+  );
 }
