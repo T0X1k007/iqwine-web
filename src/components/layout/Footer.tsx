@@ -35,20 +35,13 @@ export default function Footer() {
     { label: t('Le film (1 min)', 'The film (1 min)'), href: '/le-film' },
     { label: t('Questions fréquentes', 'FAQ'), href: '/tarifs#faq' },
     { label: t('Programme bêta', 'Beta program'), href: '/beta' },
-    // Deux pages de contenu servies par l'application (P24). Le domaine suit la
-    // bascule du 2026-08-02 : `app.iqwine.ca` redirige, mais un lien de pied de
-    // page vit des années et ne doit pas dépendre d'une redirection.
-    //
-    // Le commentaire d'origine les présentait comme des « liens entrants SEO ».
-    // Mesuré le 2026-08-02, les deux répondent `x-robots-tag: noindex, nofollow`
-    //, l'application entière est fermée aux moteurs, et c'est voulu. Ce sont
-    // donc des liens pour des HUMAINS, pas un levier de référencement : ne pas
-    // les compter comme tel en jugeant le SEO du site.
-    { label: t('Apprendre le vin', 'Learn wine'), href: 'https://app.iqwine.ai/apprendre' },
-    {
-      label: t('Octave vérifiable', 'Verifiable Octave'),
-      href: 'https://app.iqwine.ai/octave-verifiable',
-    },
+    // Le Guide et « Octave vérifiable » vivaient dans l'application (P24),
+    // fermée aux moteurs : `x-robots-tag: noindex, nofollow`. Rapatriés sur
+    // iqwine.ai le 2026-11-06 (audit de visibilité, lots P3 et P7) : le pied
+    // de page pointe désormais vers les pages du site, plus vers app.iqwine.ai.
+    { label: t('Le Guide d’Octave', 'Octave’s Guide'), href: '/guide' },
+    { label: t('Octave vérifiable', 'Verifiable Octave'), href: '/sommelier-ia#verifiable' },
+    { label: t('Comparer les applications', 'Compare wine apps'), href: '/comparatif-applications-vin' },
   ];
 
   const legal: FooterLink[] = [
