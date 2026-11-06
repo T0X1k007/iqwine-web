@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 // dérivent l'une de l'autre, c'est une redirection qui pointe dans le vide le
 // jour où l'on en ajoute une seule d'un côté.
 import { SEGMENTS } from './src/lib/locale';
+import { ajoutsCspMesure } from './src/lib/mesure';
 
 /**
  * Les pages dont le slug anglais DIFFÈRE du nom de dossier. Ce sont les seules
@@ -43,19 +44,23 @@ const nextConfig: NextConfig = {
     // Dev mode requires 'unsafe-eval' for React error overlay / sourcemaps.
     const isDev = process.env.NODE_ENV !== 'production';
     const devScriptExtras = isDev ? " 'unsafe-eval'" : '';
+    // Mesure d'audience (audit 2026-11-06, M-02) : chaînes VIDES tant que
+    // l'interrupteur NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN n'est pas posé au
+    // build. Éteint = CSP identique, octet pour octet, à la précédente.
+    const mesure = ajoutsCspMesure();
 
     const csp = [
       "default-src 'self'",
       // 'unsafe-inline' required for Next.js hydration + framer-motion animations
       // challenges.cloudflare.com required for Turnstile script
-      `script-src 'self' 'unsafe-inline'${devScriptExtras} https://challenges.cloudflare.com`,
+      `script-src 'self' 'unsafe-inline'${devScriptExtras} https://challenges.cloudflare.com${mesure.script}`,
       // Google Fonts stylesheets
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob:",
       // Google Fonts font files
       "font-src 'self' data: https://fonts.gstatic.com",
       // Turnstile calls /siteverify and loads its widget from challenges.cloudflare.com
-      "connect-src 'self' https://challenges.cloudflare.com",
+      `connect-src 'self' https://challenges.cloudflare.com${mesure.connect}`,
       // Turnstile renders inside an iframe
       "frame-src https://challenges.cloudflare.com",
       "frame-ancestors 'none'",
