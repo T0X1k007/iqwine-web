@@ -112,3 +112,18 @@ Selon la documentation de Google (liste des robots courants de Google ; Agent Se
 - **Décision d'Éric, avant la déclaration** :
   - soit déclarer sur le compte personnel, en acceptant l'affichage de l'adresse et d'un téléphone ;
   - soit passer d'abord à un **compte d'organisation** (Groupe Medtech inc., D-U-N-S requis), pour afficher les coordonnées de l'entreprise.
+
+## 8. Publication du 2026-11-06 (GO d'Éric)
+
+- **Site** : `production` = `main` = `5efdbba` (fusion de `visibilite/lot-a-publier` et de la correction de l'en-tête mobile). Déploiement Vercel de production : succès.
+- **Vérifié en production** :
+  - routage 210/210 contre `https://iqwine.ai` ;
+  - les 38 URL du sitemap répondent 200 ;
+  - canonical et x-default conformes ;
+  - `/tarifs`, `/sommelier-ia` → 308 vers le français, `/pricing` → 308 vers `/en/pricing`, sans `Vary` ni cookie ;
+  - `/` → 307 `private, no-store` avec `Vary: Cookie, Accept-Language` ;
+  - aucun « 12 conseils », « point de vente » ni « succursale » ; « SAQ » seulement au §7 légal ;
+  - en-tête mobile sans chevauchement de 320 à 768 px, en FR et en EN.
+- **Search Console** : indexation demandée pour `/fr/sommelier-ia`, `/fr/tarifs`, `/fr/cellier-intelligent`, `/fr/apogee` (4 confirmations « Indexation demandée »). La canonique choisie par Google reste « Page en double » **tant que Google n'a pas réexploré** : à confirmer dans 2 à 6 semaines.
+- **Google Play** : 5 modifications **en cours d'examen** (fiche FR, nom, description courte et description EN, politique `https://iqwine.ai/fr/confidentialite`). Coordonnées publiées : `support@iqwine.ca`, `https://iqwine.ai`. Déclaration IA : icône et image de présentation étiquetées, sur indication d'Éric. Aucune autre modification en attente.
+- **Non fait** : Bing (prochaine étape), captures (compte de démonstration), Claude-User (exception ciblée à étudier), statut de commerçant (décision d'Éric).

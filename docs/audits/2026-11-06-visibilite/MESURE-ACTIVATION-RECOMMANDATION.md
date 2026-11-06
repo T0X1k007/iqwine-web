@@ -4,7 +4,18 @@ Préparé le 2026-11-06. **Toute nouvelle collecte reste désactivée.**
 - Site, branche `visibilite/mesure` : l'interrupteur `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` est absent, rien n'est chargé et la CSP est inchangée.
 - App, branche `dev/attribution-acquisition` : poussée, non fusionnée, non déployée.
 
-## 1. Définition d'activation recommandée
+## 0. DÉCISION D'ÉRIC (2026-11-06) : définition de référence
+
+> **Activation** = premier conseil personnalisé d'Octave **effectivement livré** dans les 7 jours suivant l'inscription. Sont exclus : démos, erreurs, réponses interrompues, comptes internes, comptes de test et **les comptes personnels d'Éric**.
+> Une explication d'étiquette compte **seulement** si elle contient un véritable conseil personnalisé selon le palais. Un scan d'identification ne compte jamais.
+
+Les anciens indicateurs restent, sous des noms distincts :
+- « Engagement sommelier : au moins une recommandation affichée » (runbook §5) ;
+- « Entonnoir cave (P21B) ».
+
+La collecte nouvelle reste éteinte.
+
+## 1. Définition d'activation recommandée (proposition, adoptée ci-dessus)
 
 > **Activé** = au moins **un conseil personnalisé d'Octave livré**, c'est-à-dire une `OctaveInteraction` à l'état `CONFIRMEE`, **dans les 7 jours** suivant l'inscription.
 
@@ -49,7 +60,9 @@ Elle est déjà calculée, à côté des autres, dans `scripts/lecture/attributi
 5. **Correctif à faire avant d'allumer** : sur la branche `visibilite/mesure`, la transmission de la source vers l'inscription n'a **pas** d'interrupteur. Il faut lui en ajouter un avant toute fusion.
 6. **App** : passer la branche `dev/attribution-acquisition` par son processus normal (Release Gate, staging, GO prod), après la mise à jour de la Politique.
 
-## 4. Coût
+## 4. Coût (Vercel : non vérifié en console pour les taxes)
 
 - Cloudflare Web Analytics : 0 $.
 - Vercel : le site tourne sur Hobby, que les règles d'usage de Vercel réservent à un usage non commercial. **Pro coûte 20 $ US par mois** (1 siège déployeur et 20 $ US de crédit d'usage inclus ; chaque siège déployeur de plus à 20 $ US par mois ; sièges lecteurs gratuits) ; source : [vercel.com/pricing](https://vercel.com/pricing), [docs Pro](https://vercel.com/docs/plans/pro-plan), consultés le 2026-11-06. **Aucun changement de forfait sans ton accord.**
+
+Vercel Pro, précisions : 20 $ US par mois de base (1 siège déployeur, 20 $ US de crédit d'usage), facturé en dollars US. Les taxes applicables (TPS/TVQ) ne sont pas affichées dans la documentation consultée : à confirmer à l'écran de paiement, sans s'engager. Contrôle des dépenses : « Spend Management » sur Pro (notification, webhook ou mise en pause des projets à un seuil). Aucun changement de forfait sans l'accord d'Éric.
