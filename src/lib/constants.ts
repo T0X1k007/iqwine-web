@@ -23,9 +23,22 @@ export const APP_LOGIN_URL =
  *
  * Elle sert au badge App Store (`BadgesPlateformes`) et, si un jour on active
  * `CTA_VERS_STORE` ci-dessous, aux CTA de la page d'accueil.
+ *
+ * ── Le segment de nom suit le nom de la fiche (audit du 2026-11-06) ───────
+ * Elle portait `iqwine-sommelier-ia-vins`, l'ancien nom de la fiche. Apple ne
+ * lit que l'identifiant (`id6798458954`) et redirige tout autre segment : le
+ * lien n'était donc pas cassé, mais il n'était plus l'adresse canonique, celle
+ * que la fiche française déclare elle-même (`rel="canonical"` de la page
+ * servie avec `?l=fr-CA`, vérifié par curl le 2026-11-06).
+ *
+ * ⚠️ Sans `?l=fr-CA`, Apple renvoie encore cette adresse en 301 vers le
+ * segment anglais (`iqwine-personal-sommelier`) de la boutique CA : la langue
+ * de la fiche se choisit par ce paramètre, pas par le segment. Une URL par
+ * langue éviterait ce saut ; elle demanderait de localiser cette constante,
+ * ce que ce lot ne fait pas.
  */
 export const APP_STORE_URL =
-  'https://apps.apple.com/ca/app/iqwine-sommelier-ia-vins/id6798458954';
+  'https://apps.apple.com/ca/app/iqwine-sommelier-personnel/id6798458954';
 
 /**
  * Android 1.0 EST PUBLIÉE (2026-09-16), approuvée par Google Play. URL Play
