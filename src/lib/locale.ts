@@ -106,6 +106,14 @@ export const SEGMENTS: Record<string, Record<Locale, string>> = {
   'accord-mets-vins': { fr: 'accord-mets-vins', en: 'wine-pairing' },
   'carte-des-vins': { fr: 'carte-des-vins', en: 'wine-list' },
   'notre-maison': { fr: 'notre-maison', en: 'our-story' },
+  // ── Lot de contenus de l'audit du 2026-11-06 ─────────────────────────────
+  // Le Guide d'Octave, rapatrié de l'application (noindex) : un accueil et
+  // deux pages thématiques. Les clés à barre oblique sont des chemins
+  // complets : `localePath` et `splitLocalePath` traduisent le chemin entier,
+  // et les réécritures de `next.config` en dérivent comme pour les autres.
+  guide: { fr: 'guide', en: 'guide' },
+  'guide/conseils-d-octave': { fr: 'guide/conseils-d-octave', en: 'guide/octave-advice' },
+  'guide/votre-cave': { fr: 'guide/votre-cave', en: 'guide/your-cellar' },
   // Identiques dans les deux langues : on les déclare quand même, pour que la
   // table soit la liste EXHAUSTIVE des pages et non un cas particulier.
   contact: { fr: 'contact', en: 'contact' },
