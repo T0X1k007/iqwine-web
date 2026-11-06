@@ -12,7 +12,9 @@ import { useLocale } from '@/lib/i18n';
 import { buildSignupUrl } from '@/lib/constants';
 import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, ArrowRight } from 'lucide-react';
+import SectionFaq from '@/components/sections/SectionFaq';
+import { FAQ_SOMMELIER, PREUVES_VERIFIABLES } from '@/lib/octave-verifiable';
 
 /**
  * /sommelier-ia — REFONTE (conception LOCK avec corrections S4 + S2,
@@ -433,11 +435,11 @@ export default function SommelierContent() {
                 ))}
                 <FadeInOnScroll delay={0.24}>
                   <a
-                    href="https://app.iqwine.ai/octave-verifiable"
+                    href="#verifiable"
                     className="inline-flex items-center gap-2 text-[13.5px] font-medium text-or transition-colors hover:text-or-soft"
                   >
                     {t('Octave vérifiable : voir sur quoi il s’appuie', 'Verifiable Octave: see what his advice stands on')}
-                    <ArrowUpRight size={14} strokeWidth={1.75} aria-hidden />
+                    <ArrowDown size={14} strokeWidth={1.75} aria-hidden />
                   </a>
                 </FadeInOnScroll>
               </div>
@@ -459,6 +461,69 @@ export default function SommelierContent() {
           </div>
         </div>
       </section>
+
+      {/* ══ S5b · OCTAVE VÉRIFIABLE — nuit (audit du 2026-11-06, P3) ═════
+          Le contenu de `app.iqwine.ai/octave-verifiable` (noindex) rapatrié
+          ici, pour que la preuve de confiance soit lisible par les moteurs et
+          les assistants. Source : `src/lib/octave-verifiable.ts`. */}
+      <section
+        id="verifiable"
+        className="relative scroll-mt-24 overflow-hidden text-foreground"
+        style={{ background: '#150f0c' }}
+      >
+        <div className="relative mx-auto max-w-[1440px] px-6 pb-16 lg:px-8">
+          <div className="mx-auto max-w-[1060px] border-t border-white/10 pt-12">
+            <FadeInOnScroll>
+              <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or">
+                {t('Octave vérifiable', 'Verifiable Octave')}
+              </p>
+              <h2
+                className="mt-3 max-w-[30ch] font-[family-name:var(--font-display)] font-medium leading-[1.14] tracking-[-0.02em]"
+                style={{ fontSize: 'clamp(26px, 3.8vw, 42px)' }}
+              >
+                {t('Ce qu’Octave ne fait jamais : ', 'What Octave never does: ')}
+                <span className="text-or">{t('vous inventer un vin.', 'make up a wine.')}</span>
+              </h2>
+              <p className="mt-4 max-w-[60ch] text-[15.5px] leading-relaxed text-muted-foreground">
+                {t(
+                  'Beaucoup d’assistants inventent quand ils ne savent pas. Octave, non. Voici sur quoi reposent ses conseils.',
+                  'Many assistants make things up when they don’t know. Octave doesn’t. Here is what his advice rests on.',
+                )}
+              </p>
+            </FadeInOnScroll>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {PREUVES_VERIFIABLES.map((p, i) => (
+                <FadeInOnScroll key={p.id} delay={0.06 * i}>
+                  <div className="h-full rounded-[14px] border border-or/20 bg-or/[0.03] p-5">
+                    <h3 className="font-[family-name:var(--font-display)] text-[20px] font-medium leading-snug text-foreground">
+                      {t(p.titre.fr, p.titre.en)}
+                    </h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{t(p.texte.fr, p.texte.en)}</p>
+                  </div>
+                </FadeInOnScroll>
+              ))}
+            </div>
+            <FadeInOnScroll delay={0.2}>
+              <LocaleLink
+                href="/guide"
+                className="mt-7 inline-flex items-center gap-2 text-[13.5px] font-medium text-or transition-colors hover:text-or-soft"
+              >
+                {t('Le Guide d’Octave : ses réponses, en clair', 'Octave’s Guide: his answers, in plain words')}
+                <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+              </LocaleLink>
+            </FadeInOnScroll>
+          </div>
+        </div>
+      </section>
+
+      {/* Questions de la page : visibles (accordéon toujours dans le HTML) ET
+          balisées en `FAQPage` par `sommelier-ia/page.tsx`, même source. */}
+      <SectionFaq
+        ton="jour"
+        items={FAQ_SOMMELIER}
+        surtitre={{ fr: 'Questions', en: 'Questions' }}
+        titre={{ fr: 'Ce qu’on demande sur Octave.', en: 'What people ask about Octave.' }}
+      />
 
       {/* ══ S6 · L'ACTION — retour au jour ══════════════════════════════ */}
       <section className="mouvement-jour relative">

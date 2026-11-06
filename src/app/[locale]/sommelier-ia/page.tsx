@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
 import SommelierContent from '@/components/fonctions/SommelierContent';
 import { TRIAL_SHORT } from '@/lib/trial';
+import JsonLd from '@/components/seo/JsonLd';
+import { breadcrumbLd, faqPageDepuis } from '@/lib/structured-data';
+import { FAQ_SOMMELIER } from '@/lib/octave-verifiable';
+import { DEFAULT_LOCALE, isLocale } from '@/lib/locale';
 
 /**
  * /sommelier-ia — REFONTE v3 (conception LOCK, Eric 2026-08-13). La page de
@@ -25,6 +29,25 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
   return pageMetadata('/sommelier-ia', locale, TEXTES);
 }
 
-export default function OctavePage() {
-  return <SommelierContent />;
+/**
+ * Depuis le 2026-11-06, la page affiche « Octave vérifiable » et ses propres
+ * questions : le `FAQPage` les déclare mot pour mot (`FAQ_SOMMELIER`).
+ */
+export default async function OctavePage({ params }: ParamsLocale) {
+  const { locale } = await params;
+  const l = isLocale(locale) ? locale : DEFAULT_LOCALE;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbLd(l, [
+            { nom: l === 'fr' ? 'Accueil' : 'Home', chemin: '/' },
+            { nom: l === 'fr' ? 'Octave, sommelier IA' : 'Octave, AI sommelier', chemin: '/sommelier-ia' },
+          ]),
+          faqPageDepuis(l, '/sommelier-ia', FAQ_SOMMELIER),
+        ]}
+      />
+      <SommelierContent />
+    </>
+  );
 }
