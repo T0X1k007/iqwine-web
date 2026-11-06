@@ -215,9 +215,13 @@ And if a technical failure keeps Octave from answering, the advice is given back
       // ── LE SECOND NIVEAU, ET LE SEUL ENDROIT OÙ IL VIT (2026-09-14) ─────
       //
       // Arbitrage d'Eric : « 14 jours » est le message de premier niveau, net,
-      // sans astérisque sur place ; les mécaniques additionnelles — la laisse
-      // de douze conseils, la prolongation par remplissage de cave — ne
+      // sans astérisque sur place ; les mécaniques additionnelles, les
+      // conseils inclus et la prolongation par remplissage de cave, ne
       // doivent pas le brouiller, mais peuvent s'expliquer secondairement.
+      //
+      // 2026-11-06 : les conseils inclus ne sont plus une « laisse » qui
+      // ferme l'essai. Au 25e, seuls les conseils d'Octave s'arrêtent, le
+      // reste continue jusqu'au bout des jours (voir `TRIAL_MECHANICS`).
       // C'est ici, sous une question qui les appelle explicitement, derrière
       // un accordéon replié : personne ne les rencontre par accident, tout le
       // monde les trouve en les cherchant.

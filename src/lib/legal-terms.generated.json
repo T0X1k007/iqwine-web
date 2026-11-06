@@ -15,12 +15,12 @@
   },
   "trial": {
     "days": 14,
-    "recos": 12
+    "recos": 25
   },
   "enNotice": "This English version is provided for convenience; the French version is the authoritative one.",
   "terms": {
     "fr": {
-      "metaTitle": "Conditions d’utilisation — iQWine",
+      "metaTitle": "Conditions d’utilisation · iQWine",
       "metaDescription": "Conditions d’utilisation du service iQWine.",
       "h1": "Conditions d’utilisation",
       "effectiveOn": "En vigueur le {date}",
@@ -30,7 +30,7 @@
       "s2Body": "En créant un compte ou en utilisant iQWine, vous acceptez les présentes conditions ainsi que la <privacy>Politique de confidentialité</privacy>. Si vous n’y consentez pas, n’utilisez pas le service.",
       "s2Age": "Le service s’adresse aux personnes ayant l’âge légal pour acheter et consommer de l’alcool dans leur lieu de résidence. En créant un compte, vous déclarez avoir atteint cet âge.",
       "s3Title": "3. Le service",
-      "s3Body": "iQWine est un assistant numérique de gestion de cave à vin : inventaire, fenêtres de consommation, recommandations assistées par intelligence artificielle et fonctionnalités connexes. Un essai gratuit est offert, sans engagement, d’une durée de {days} jours ou de {recos} interactions avec Octave, la première de ces deux limites atteinte mettant fin à l’essai. L’essai gratuit est limité à une utilisation par utilisateur. La suppression d’un compte ne réinitialise pas l’admissibilité à l’essai gratuit.",
+      "s3Body": "iQWine est un assistant numérique de gestion de cave à vin : inventaire, fenêtres de consommation, recommandations assistées par intelligence artificielle et fonctionnalités connexes. Un essai gratuit est offert, sans engagement, d’une durée de {days} jours, qui comprend {recos} interactions avec Octave ; l’utilisation de ces interactions ne met pas fin à l’essai. À la fin de l’essai, le compte continue sur le forfait Gratuit. L’essai gratuit est limité à une utilisation par utilisateur. La suppression d’un compte ne réinitialise pas l’admissibilité à l’essai gratuit.",
       "s4Title": "4. Votre compte",
       "s4Body": "Vous êtes responsable de la confidentialité de vos identifiants et de l’exactitude des renseignements fournis. Un seul compte par personne, sauf forfaits multi-utilisateurs.",
       "s5Title": "5. Forfaits, facturation et changements",
@@ -92,7 +92,7 @@
       "s21Body": "Pour toute question relative aux présentes conditions : depuis l’application (section Support), via notre <contact>page Contact</contact>, par courriel à {email} ou par téléphone au {phone}. Par la poste : iQWine (par {legalName}), {address}."
     },
     "en": {
-      "metaTitle": "Terms of Service — iQWine",
+      "metaTitle": "Terms of Service · iQWine",
       "metaDescription": "iQWine terms of service.",
       "h1": "Terms of Service",
       "effectiveOn": "In effect on {date}",
@@ -102,7 +102,7 @@
       "s2Body": "By creating an account or using iQWine, you accept these terms as well as the <privacy>Privacy Policy</privacy>. If you do not agree, do not use the service.",
       "s2Age": "The service is intended for people of legal age to purchase and consume alcohol in their place of residence. By creating an account, you declare that you have reached that age.",
       "s3Title": "3. The service",
-      "s3Body": "iQWine is a digital wine-cellar management assistant: inventory, drinking windows, AI-assisted recommendations and related features. A free trial is offered, with no commitment, lasting {days} days or {recos} interactions with Octave, whichever of these two limits is reached first ending the trial. The free trial is limited to one use per user. Deleting an account does not reset free-trial eligibility.",
+      "s3Body": "iQWine is a digital wine-cellar management assistant: inventory, drinking windows, AI-assisted recommendations and related features. A free trial is offered, with no commitment, lasting {days} days and including {recos} interactions with Octave; using these interactions does not end the trial. At the end of the trial, the account carries on with the Free plan. The free trial is limited to one use per user. Deleting an account does not reset free-trial eligibility.",
       "s4Title": "4. Your account",
       "s4Body": "You are responsible for keeping your credentials confidential and for the accuracy of the information you provide. One account per person, except for multi-user plans.",
       "s5Title": "5. Plans, billing and changes",
