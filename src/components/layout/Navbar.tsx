@@ -156,10 +156,17 @@ export default function Navbar() {
          * « Accueil iQWine ».
          *
          * Sans attribut, le nom accessible redevient le texte visible. */}
-        <LocaleLink href="/" className="flex items-center gap-3">
+        {/* ── SOUS 440 px, LE LOGO SEUL ─────────────────────────────────────
+         * Logo, mot-symbole et signature prennent 165 px ; le bloc de droite
+         * (langue, CTA, menu) en prend environ 240. Entre 360 et 414 px, le
+         * sélecteur FR/EN recouvrait la signature, dans les deux langues
+         * (mesuré au navigateur, 2026-11-06). Le mot-symbole se retire donc
+         * sous 440 px : le logo officiel reste, et son `alt="iQWine"` garde le
+         * nom accessible du lien. */}
+        <LocaleLink href="/" className="flex shrink-0 items-center gap-3">
           <Logo size={60} className="lg:hidden" />
           <Logo size={80} className="hidden lg:block" />
-          <span className="flex flex-col">
+          <span className="hidden min-[440px]:flex flex-col">
             <span className="font-[family-name:var(--font-display)] text-[26px] md:text-[38px] font-semibold tracking-tight leading-none">
               <span className={`transition-colors duration-300 ${jour ? 'text-encre/85' : 'text-foreground/85'}`}>iQ</span>
               <span className={`transition-colors duration-300 ${jour ? 'text-or-jour' : 'text-or'}`}>Wine</span>
