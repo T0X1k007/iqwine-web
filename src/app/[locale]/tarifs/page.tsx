@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { pageMetadata, type ParamsLocale } from "@/lib/page-metadata";
 import TarifsContent from "@/components/tarifs/TarifsContent";
-import { SIGNUP_SUB } from "@/lib/trial";
+import { TRIAL_DAYS_LABEL } from "@/lib/trial";
+import { PREMIUM_PLAN, STANDARD_PLAN, planLabel } from "@/lib/plans";
 import { faqPageLd } from "@/lib/structured-data";
 import { isLocale, DEFAULT_LOCALE } from "@/lib/locale";
 
@@ -12,17 +13,22 @@ import { isLocale, DEFAULT_LOCALE } from "@/lib/locale";
  */
 const TEXTES = {
   fr: {
-    title:
-      "Tarifs iQWine : votre sommelier IA, essai gratuit sans carte · iQWine",
+    // « · iQWine » retiré (2026-11-06) : le nom ouvre déjà le titre, et le
+    // doublon le portait à 69 caractères, au-delà de ce qu'un résultat affiche.
+    title: "Tarifs iQWine : votre sommelier IA, essai gratuit sans carte",
     // La description menait par les trois noms de forfaits et ne disait de
     // l'essai que ses deux bornes. Dans un resultat de recherche, ce sont les
     // premiers mots qui sont lus : elle mene donc par la SEQUENCE, qui est ce
     // que le visiteur vient verifier avant de cliquer.
-    description: `${SIGNUP_SUB.fr} Sans carte, sans engagement.`,
+    //
+    // 2026-11-06 : elle reprenait le sous-titre MOT POUR MOT (`SIGNUP_SUB`),
+    // soit 201 caractères, coupés dans un résultat de recherche. Elle garde
+    // la même séquence en une phrase : Passionné offert, puis le choix.
+    description: `Découvrez le forfait ${planLabel(STANDARD_PLAN.id, "fr")} gratuitement pendant ${TRIAL_DAYS_LABEL.fr}, puis continuez gratuitement ou choisissez ${planLabel(STANDARD_PLAN.id, "fr")} ou ${planLabel(PREMIUM_PLAN.id, "fr")}. Sans carte, sans engagement.`,
   },
   en: {
-    title: "iQWine pricing: your AI sommelier, free trial, no card · iQWine",
-    description: `${SIGNUP_SUB.en} No card, no commitment.`,
+    title: "iQWine pricing: your AI sommelier, free trial, no card",
+    description: `Discover the ${planLabel(STANDARD_PLAN.id, "en")} plan free for ${TRIAL_DAYS_LABEL.en}, then keep going for free or choose ${planLabel(STANDARD_PLAN.id, "en")} or ${planLabel(PREMIUM_PLAN.id, "en")}. No card, no commitment.`,
   },
 } as const;
 

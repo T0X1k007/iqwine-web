@@ -12,11 +12,11 @@ import { TRIAL_SHORT } from '@/lib/trial';
 const TEXTES = {
   fr: {
     title: 'L’application de cave à vin qui sait quand ouvrir · iQWine',
-    description: `Chaque bouteille entre en un geste, photo, code-barres ou reçu, puis votre cave se souvient de tout : emplacement, valeur, histoire, et le bon moment pour ouvrir. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    description: `Photo, code-barres ou reçu : chaque bouteille entre en un geste, et votre cave sait quand l’ouvrir. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
     title: 'The wine cellar app that knows when to open · iQWine',
-    description: `Every bottle gets in with one gesture, photo, barcode or receipt, then your cellar remembers everything: location, value, history, and the right moment to open. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    description: `Photo, barcode or receipt: each bottle gets in at once, and your cellar knows when to open it. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 

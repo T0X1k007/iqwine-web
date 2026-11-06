@@ -12,11 +12,11 @@ import { TRIAL_SHORT } from '@/lib/trial';
 const TEXTES = {
   fr: {
     title: 'Octave, le sommelier IA qui apprend vos goûts · iQWine',
-    description: `Pas un chatbot : un sommelier qui se souvient de vous. Ses choix sont calculés, expliqués, et nourris par VOS dégustations. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    description: `Pas un chatbot : un sommelier qui se souvient de vous. Ses choix sont expliqués, nourris par VOS dégustations. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
     title: 'Octave, the AI sommelier that learns your taste · iQWine',
-    description: `Not a chatbot: a sommelier who remembers you. His choices are computed, explained, and fed by YOUR tastings. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    description: `Not a chatbot: a sommelier who remembers you. His choices are explained and fed by YOUR tastings. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 

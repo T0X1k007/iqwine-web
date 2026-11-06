@@ -14,11 +14,11 @@ import { BCP47, type Locale } from '@/lib/locale';
 const TEXTES = {
   fr: {
     title: 'Choisir un vin au restaurant, avec votre sommelier IA · iQWine',
-    description: `La carte arrive, longue, parfois dans une autre langue. Photographiez-la : Octave la lit et met en évidence les vins faits pour votre palais. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    description: `Photographiez la carte des vins, même en langue étrangère : Octave y repère les vins faits pour votre palais. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
     title: 'Choosing wine at a restaurant, with your AI sommelier · iQWine',
-    description: `The wine list arrives, long, sometimes in another language. Photograph it: Octave reads it and highlights the wines made for your palate. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    description: `Photograph the wine list, even in another language: Octave spots the wines made for your palate. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 
