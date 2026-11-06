@@ -39,7 +39,7 @@ export default async function ConditionsPage({ params }: ParamsLocale) {
   const appleItems = Array.from({ length: 9 }, (_, i) => t(`s13AppleItem${i + 1}`));
 
   return (
-    <LegalPage title={t('h1')} meta={t('effectiveOn')}>
+    <LegalPage title={t('h1')} meta={t('effectiveOn')} langue={langue}>
       {langue === 'en' && (
         <p className="mb-10 rounded-lg border border-border px-4 py-3 text-[13px] leading-relaxed text-muted-foreground">
           {NOTICE_EN}

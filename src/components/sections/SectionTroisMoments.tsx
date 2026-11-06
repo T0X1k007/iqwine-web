@@ -13,11 +13,11 @@ import type { Locale } from '@/lib/i18n';
  * Vague 1 : fusion. Cette section absorbe les anciennes sections Proof (vraies
  * captures du produit) et AI (démo vidéo Octave via OctaveDemoVideo), toutes
  * deux RETIRÉES. Trois moments d'usage en un coup d'œil :
- * À la maison · Au point de vente · Au restaurant.
+ * À la maison · En magasin · Au restaurant.
  *
  * Captures DISTINCTES par colonne (jamais le même PNG deux fois) :
  *   maison      → 02-home-suggestions (choisir dans sa cave)
- *   point de vente → 06-recherche-hors-cave (bouteille en tablette, en magasin)
+ *   en magasin → 06-recherche-hors-cave (bouteille en tablette, en magasin)
  *   restaurant  → 03-menu-scan (accord avec le plat, sur place)
  *
  * Mobile : stack vertical (iPhone + texte par moment), puis la vidéo Octave.
@@ -49,9 +49,9 @@ const MOMENTS: Moment[] = [
     },
   },
   {
-    eyebrow: { fr: '02 · Au point de vente', en: '02 · At the store' },
+    eyebrow: { fr: '02 · En magasin', en: '02 · At the store' },
     title: {
-      fr: 'Au point de vente',
+      fr: 'En magasin',
       en: 'At the store',
     },
     body: {
@@ -94,7 +94,7 @@ export default function SectionTroisMoments() {
           </div>
           <h2 className="iq-display italic">
             {locale === 'fr'
-              ? 'À la maison. Au point de vente. Au restaurant.'
+              ? 'À la maison. En magasin. Au restaurant.'
               : 'At home. At the store. At the restaurant.'}
           </h2>
         </div>

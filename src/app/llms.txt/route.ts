@@ -3,7 +3,8 @@
  *
  * ── Pourquoi cette route existe ───────────────────────────────────────────
  * Les moteurs génératifs citent ce qu'ils peuvent VÉRIFIER. iQWine a construit
- * exactement ça : prix SAQ réels, corroboration déterministe des apogées, et le
+ * exactement ça : prix réels en magasin, corroboration déterministe des
+ * apogées, et le
  * droit de dire « je ne sais pas ». Ce fichier ne fabrique rien, il rend cette
  * matière-là trouvable, en pointant les pages qui la portent.
  *
@@ -16,6 +17,21 @@
  * Statique : aucune donnée dynamique, aucune PII. Sert du Markdown selon la
  * convention llms.txt.
  */
+
+import {
+  FREE_PLAN,
+  PREMIUM_PLAN,
+  STANDARD_PLAN,
+  formatPriceCad,
+  formatPriceCadShort,
+  maxBottlesLabel,
+  planLabel,
+  type MarketingPlan,
+} from "@/lib/plans";
+import { TRIAL_DAYS, TRIAL_DAYS_MAX, TRIAL_RECOS } from "@/lib/trial";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/constants";
+import { LEGAL_ENTITY } from "@/lib/legal-meta";
+import { PROFILS_OFFICIELS } from "@/lib/structured-data";
 
 export const dynamic = "force-static";
 
@@ -43,14 +59,39 @@ export const dynamic = "force-static";
 // recréent à la main. Un repli n'est utile que s'il est JUSTE.
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://iqwine.ai";
 
+/**
+ * ── LES FAITS QUE LES ASSISTANTS DEMANDENT (audit du 2026-11-06, V-27) ────
+ * Le fichier était exact mais muet sur ce qu'on lui demande le plus : le
+ * prix, l'essai, les appareils, qui est derrière. Ces faits sont ajoutés ici
+ * DÉRIVÉS, jamais recopiés : prix et inclusions de `plans.ts`, essai de
+ * `trial.ts`, boutiques de `constants.ts`, entité des Conditions
+ * synchronisées, profils de `structured-data.ts`. Le jour où un prix bouge,
+ * ce fichier bouge avec la page Tarifs, sans que personne ait à s'en souvenir.
+ *
+ * Règles tenues : aucun lien vers l'application (`app.iqwine.ai` n'est pas
+ * une adresse à communiquer), aucune offre Restaurant, Mégane Bigras
+ * fondatrice, vocabulaire « en magasin ».
+ */
+function ligneForfait(plan: MarketingPlan): string {
+  const nom = planLabel(plan.id, "fr");
+  const prix =
+    plan.priceMonthlyCents === 0
+      ? "0 $, sans date de fin"
+      : `${formatPriceCad(plan.priceMonthlyCents, "fr")} $ par mois ou ${formatPriceCadShort(plan.priceYearlyCents, "fr")} $ par an`;
+  const utilisateurs =
+    plan.includedUsers > 1 ? `${plan.includedUsers} utilisateurs, cave partagée` : "1 utilisateur";
+  return `- **${nom}** : ${prix}. ${maxBottlesLabel(plan, "fr")}, ${plan.monthlyRecommendations} conseils personnalisés d'Octave par mois, ${utilisateurs}.`;
+}
+
 const BODY = `# iQWine
 
 > iQWine est une application de sommellerie personnelle. Son sommelier IA,
 > **Octave**, apprend les goûts de la personne qui l'utilise et l'aide à choisir
 > quoi boire, quoi acheter et quand ouvrir ses bouteilles.
 
-iQWine (Québec, Canada). Interface et sommelier
-disponibles en français et en anglais. Conçu au Québec, hébergé au Canada.
+iQWine (par ${LEGAL_ENTITY.legalName}), ${LEGAL_ENTITY.city}. Fondatrice :
+Mégane Bigras. Interface et sommelier disponibles en français et en anglais.
+Conçu au Québec, hébergé au Canada.
 
 ## Ce que fait iQWine
 
@@ -75,20 +116,44 @@ Six situations concrètes :
 - **Suivre la fenêtre de consommation (apogée).** Chaque bouteille indique où
   elle en est : trop jeune, à son sommet, ou à boire sans tarder. Octave
   prévient quand une bouteille approche de sa limite.
-- **Voir la disponibilité et les prix.** Lorsqu'un point de vente pris en
-  charge publie ces informations, Octave les affiche telles quelles.
+- **Voir la disponibilité et les prix.** Lorsqu'un magasin pris en charge
+  publie ces informations, Octave les affiche telles quelles.
 
 ## À qui cela s'adresse
 
 Aux amateurs de vin qui possèdent une cave, de quelques dizaines à plusieurs
 milliers de bouteilles, et qui veulent décider vite et bien : chez eux, en
-magasin, au restaurant ou à table. Un essai gratuit est proposé, sans carte de
-crédit.
+magasin, au restaurant ou à table.
+
+## Forfaits et prix (dollars canadiens)
+
+${ligneForfait(FREE_PLAN)}
+${ligneForfait(STANDARD_PLAN)}
+${ligneForfait(PREMIUM_PLAN)}
+
+Aucune fonctionnalité n'est réservée à un forfait : ce qui change, c'est le
+nombre de conseils personnalisés d'Octave, la taille de la cave et le nombre
+d'utilisateurs. Le tarif annuel est un prix de lancement, offert aux premiers
+abonnés, qui pourra évoluer.
+
+**À l'inscription**, sans carte de crédit : le forfait ${planLabel(STANDARD_PLAN.id, "fr")} est offert
+pendant ${TRIAL_DAYS} jours, avec ${TRIAL_RECOS} conseils personnalisés d'Octave inclus. Si ces
+conseils sont tous utilisés avant la fin, seuls les conseils s'arrêtent ; le
+reste continue jusqu'au bout des ${TRIAL_DAYS} jours, qui peuvent s'allonger jusqu'à
+${TRIAL_DAYS_MAX} jours quand la cave se remplit. Ensuite, le compte continue sur le
+forfait Gratuit, à moins de choisir ${planLabel(STANDARD_PLAN.id, "fr")} ou ${planLabel(PREMIUM_PLAN.id, "fr")}.
+
+Détails et questions fréquentes : ${SITE}/fr/tarifs
+
+## Plateformes
+
+- **iPhone** : App Store, ${APP_STORE_URL}
+${PLAY_STORE_URL ? `- **Android** : Google Play, au Canada, ${PLAY_STORE_URL}\n` : ""}- **Web** : depuis un navigateur, en commençant sur ${SITE}
 
 ## Ce que nous garantissons
 
-- **Les prix affichés sont réels** quand ils sont publiés par un point de vente
-  pris en charge ; quand ils ne le sont pas, c'est annoncé comme une estimation,
+- **Les prix affichés sont réels** quand ils sont publiés par un magasin pris
+  en charge ; quand ils ne le sont pas, c'est annoncé comme une estimation,
   jamais présenté comme un fait.
 - **L'apogée est un repère, jamais une certitude.** Une bouteille reste vivante,
   et Octave le dit plutôt que de trancher à tort.
@@ -99,8 +164,8 @@ crédit.
 
 ## Limites que nous assumons
 
-- La couverture des prix et des disponibilités dépend des points de vente pris
-  en charge, actuellement au Québec. iQWine n'est pas un annuaire de succursales.
+- La couverture des prix et des disponibilités dépend des magasins pris en
+  charge, actuellement au Québec. iQWine n'est pas un annuaire de magasins.
 - Les recommandations dépendent de la cave et des retours de l'utilisateur :
   sans cave ni dégustation notée, Octave ne devine pas ses goûts.
 - Octave conseille ; il n'achète pas et ne vend pas de vin.
@@ -131,13 +196,18 @@ crédit.
 - [Pricing](${SITE}/en/pricing)
 - [Our story](${SITE}/en/our-story)
 
+## Liens officiels
+
+- Site : ${SITE}
+${PROFILS_OFFICIELS.map((url) => `- ${url}`).join("\n")}
+
 ## Contact
 
 ${SITE}/fr/contact
 
 ## Support
 
-${SITE}/fr/support
+${SITE}/support
 `;
 
 export function GET(): Response {

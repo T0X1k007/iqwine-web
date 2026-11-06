@@ -54,7 +54,7 @@ const MOMENTS: Moment[] = [
     photo: {
       src: 'hub-comparaison',
       alt: {
-        fr: 'Deux bouteilles comparées à deux mains devant le rayon d’un point de vente de vins.',
+        fr: 'Deux bouteilles comparées à deux mains devant le rayon d’un magasin de vins.',
         en: 'Two bottles weighed in two hands in front of a wine store shelf.',
       },
       position: '50% 45%',

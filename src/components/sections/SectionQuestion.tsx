@@ -96,7 +96,7 @@ export default function SectionQuestion() {
                   <img
                     src="/photos/lifestyle/rayon-choix-bouteille.jpg"
                     alt={t(
-                      'Dans un point de vente de vins, un homme hésite devant un mur de bouteilles.',
+                      'Dans un magasin de vins, un homme hésite devant un mur de bouteilles.',
                       'In a wine store, a man hesitates in front of a wall of bottles.',
                     )}
                     width={1200}

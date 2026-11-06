@@ -10,11 +10,18 @@ import type { ReactNode } from 'react';
 export function LegalPage({
   title,
   meta,
+  langue = 'fr',
   children,
 }: {
   title: string;
   /** Ligne d'en-tête (ex. « En vigueur le 9 juin 2026 · Conforme à la Loi 25 »). */
   meta: string;
+  /**
+   * Langue de la page (2026-11-06) : le lien de retour disait « Retour à
+   * l'accueil » jusque sur /en/privacy et /en/terms, seul mot français d'une
+   * page désormais entièrement anglaise.
+   */
+  langue?: 'fr' | 'en';
   children: ReactNode;
 }) {
   // Le titre passait SOUS la barre fixe (QA v3, 2026-08-14) : `py-24` valait
@@ -36,7 +43,7 @@ export function LegalPage({
       {children}
         <p className="mt-16">
           <LocaleLink href="/" className="text-bordeaux-jour underline underline-offset-4 hover:text-or-jour">
-            ← Retour à l’accueil
+            {langue === 'en' ? '← Back to home' : '← Retour à l’accueil'}
           </LocaleLink>
         </p>
       </div>

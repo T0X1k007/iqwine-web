@@ -59,14 +59,20 @@ export const FAQ: {
      * et pour les deux forfaits sans carte, pas seulement pour l'essai : c'est
      * l'endroit où un lecteur inquiet vérifie que la gratuité ne cache rien.
      * La mécanique de l'essai a sa propre entrée, deux questions plus bas.
+     *
+     * ⚠️ LES NOMS DE FORFAIT SE LISENT DANS `planLabel` (audit du 2026-11-06,
+     * constat V-03). Cette réponse écrivait « Standard » en dur, l'identifiant
+     * technique, dans le texte visible ET dans le JSON-LD : un assistant citait
+     * donc un forfait qui n'existe pas à l'écran. Le nom affiché est
+     * « Passionné » / « Enthusiast » ; la clé `standard` ne bouge pas.
      */
     q: {
       fr: "Dois-je donner ma carte de crédit ?",
       en: "Do I need a credit card?",
     },
     a: {
-      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de Passionné non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez Standard ou Premium.`,
-      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of Enthusiast, and the Free plan never does. You only give a card the day you choose Standard or Premium.`,
+      fr: `Non, à aucun moment. L’inscription n’en demande pas, vos ${TRIAL_DAYS_LABEL.fr} de ${planLabel(STANDARD_PLAN.id, "fr")} non plus, et le forfait Gratuit jamais. Vous ne donnez une carte que le jour où vous choisissez ${planLabel(STANDARD_PLAN.id, "fr")} ou ${planLabel(PREMIUM_PLAN.id, "fr")}.`,
+      en: `No, never. Signing up doesn’t ask for one, neither do your ${TRIAL_DAYS_LABEL.en} of ${planLabel(STANDARD_PLAN.id, "en")}, and the Free plan never does. You only give a card the day you choose ${planLabel(STANDARD_PLAN.id, "en")} or ${planLabel(PREMIUM_PLAN.id, "en")}.`,
     },
   },
   {
@@ -95,12 +101,12 @@ export const FAQ: {
       en: `Does the Free plan expire after the first ${TRIAL_DAYS} days?`,
     },
     a: {
-      fr: `Non, jamais. Il n’y a pas d’essai d’un côté et un forfait de l’autre : il y a un forfait Gratuit, à 0 $, sans date de fin — et un cadeau de bienvenue posé dessus.
+      fr: `Non, jamais. Il n’y a pas d’essai d’un côté et un forfait de l’autre : il y a un forfait Gratuit, à 0 $, sans date de fin, et un cadeau de bienvenue posé dessus.
 
 ${TRIAL_ON_SIGNUP_FULL.fr} : toute nouvelle inscription reçoit les fonctionnalités du Passionné, sans carte et sans rien demander. Ensuite, ce cadeau s’arrête, mais le forfait, lui, continue : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, un utilisateur, aussi longtemps que vous voudrez.
 
 Votre cave, vos notes, vos souvenirs et le palais qu’Octave a appris restent en place. Rien ne se bloque, rien ne passe en lecture seule, rien ne vous est prélevé. Vous choisissez Passionné ou Premium le jour où vous en avez envie, ou jamais.`,
-      en: `No, never. There isn’t a trial on one side and a plan on the other: there is a Free plan, at $0, with no end date — and a welcome gift laid on top of it.
+      en: `No, never. There isn’t a trial on one side and a plan on the other: there is a Free plan, at $0, with no end date, and a welcome gift laid on top of it.
 
 ${TRIAL_ON_SIGNUP_FULL.en}: every new sign-up receives the Enthusiast features, no card, nothing to ask for. Afterwards the gift stops, but the plan carries on: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one user, for as long as you like.
 
@@ -159,7 +165,7 @@ Your cellar, your notes, your memories and the palate Octave has learned all sta
       en: "What counts as a piece of personalized advice from Octave?",
     },
     a: {
-      fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un plat que vous lui montrez pour qu’il trouve l’accord. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en succursale pour savoir si elle vous plairait.
+      fr: `Un conseil personnalisé, c’est une fois où vous demandez conseil à Octave et où il vous répond. Une question sur ce que vous allez boire ce soir. Une carte des vins photographiée au restaurant. Un menu complet à accorder. Une question posée à voix haute, à table ou en cuisine. Une étiquette étrangère qu’il vous traduit. Une bouteille photographiée en magasin pour savoir si elle vous plairait.
 
 Une demande, un conseil, peu importe le travail que ça lui demande derrière.
 
@@ -168,7 +174,7 @@ Ajouter ou gérer vos bouteilles dans la cave n’utilise aucun conseil. Scanner
 Vos conseils reviennent chaque mois, le jour de votre facturation. Si vous payez à l’année, ils reviennent quand même tous les mois.
 
 Et si une panne technique empêche Octave de répondre, le conseil vous est rendu.`,
-      en: `A piece of personalized advice is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A dish you show it so it finds the pairing. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
+      en: `A piece of personalized advice is one time you ask Octave for advice and it answers. A question about what to drink tonight. A wine list photographed at the restaurant. A whole menu to match, course by course. A question asked out loud, at the table or in the kitchen. A foreign label it translates for you. A bottle photographed in the store, to know whether you would like it.
 
 One request, one piece of advice, however much work it takes behind the scenes.
 
@@ -215,9 +221,13 @@ And if a technical failure keeps Octave from answering, the advice is given back
       // ── LE SECOND NIVEAU, ET LE SEUL ENDROIT OÙ IL VIT (2026-09-14) ─────
       //
       // Arbitrage d'Eric : « 14 jours » est le message de premier niveau, net,
-      // sans astérisque sur place ; les mécaniques additionnelles — la laisse
-      // de douze conseils, la prolongation par remplissage de cave — ne
+      // sans astérisque sur place ; les mécaniques additionnelles, les
+      // conseils inclus et la prolongation par remplissage de cave, ne
       // doivent pas le brouiller, mais peuvent s'expliquer secondairement.
+      //
+      // 2026-11-06 : les conseils inclus ne sont plus une « laisse » qui
+      // ferme l'essai. Au 25e, seuls les conseils d'Octave s'arrêtent, le
+      // reste continue jusqu'au bout des jours (voir `TRIAL_MECHANICS`).
       // C'est ici, sous une question qui les appelle explicitement, derrière
       // un accordéon replié : personne ne les rencontre par accident, tout le
       // monde les trouve en les cherchant.
@@ -290,8 +300,8 @@ Nothing is automatic at the end: since no card was ever given, you are never cha
       en: "What is the difference between the plans?",
     },
     a: {
-      fr: "Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs — et chaque utilisateur garde son propre palais.",
-      en: "No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users — and each user keeps their own palate.",
+      fr: "Aucune fonctionnalité n’est réservée à un forfait : la cave, le scan, les accords, le mode Restaurant, l’exploration en magasin et les expériences de dégustation sont dans les trois, Gratuit compris. Ce qui change, c’est le nombre de conseils personnalisés d’Octave chaque mois, la taille de votre cave et le nombre d’utilisateurs, et chaque utilisateur garde son propre palais.",
+      en: "No feature is reserved to a plan: the cellar, scanning, pairings, Restaurant mode, in-store exploration and tasting experiences are in all three, Free included. What changes is how much personalized advice you get from Octave each month, the size of your cellar and how many users, and each user keeps their own palate.",
     },
   },
   {

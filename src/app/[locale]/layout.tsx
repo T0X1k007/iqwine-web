@@ -89,13 +89,13 @@ const BASE_METADATA: Metadata = {
 const TEXTES_ACCUEIL = {
   fr: {
     title: 'iQWine · Octave, votre sommelier IA qui apprend vos goûts',
-    description: `Octave, votre sommelier IA, apprend votre palais et vous aide à choisir un vin, en magasin, au restaurant, devant votre cave. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    description: `Octave, votre sommelier IA, apprend votre palais et vous aide à choisir un vin, en magasin ou au restaurant. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
     ogTitle: 'Octave. À l’unisson de vos goûts.',
     ogDescription: `Votre sommelier IA personnel : il apprend vos goûts, lit une carte des vins, accorde vos plats et connaît votre cave, jusqu'à l'apogée de chaque bouteille. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
     title: 'iQWine · Octave, the AI sommelier that learns your taste',
-    description: `Octave, your personal AI sommelier, learns your palate and helps you choose wine, in the store, at the restaurant, in front of your cellar. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    description: `Octave, your AI sommelier, learns your palate and helps you choose wine, in store or at a restaurant. Free trial: ${TRIAL_SHORT.en}, no card.`,
     ogTitle: 'Octave. In tune with your taste.',
     ogDescription: `Your personal AI sommelier: he learns your taste, reads wine lists, pairs your meals and knows your cellar, down to each bottle's peak window. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },

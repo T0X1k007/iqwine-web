@@ -70,6 +70,10 @@ const PAGES = [
   '/le-film',
   '/apogee',
   '/tarifs',
+  '/guide',
+  '/guide/conseils-d-octave',
+  '/guide/votre-cave',
+  '/comparatif-applications-vin',
   '/notre-maison',
   '/contact',
   '/support',
@@ -93,18 +97,17 @@ console.log('1. La racine négocie, sans jamais consulter l’IP');
   verifier('les paramètres de campagne survivent', params.location.includes('utm_source=x&ref=y'));
 }
 
-// ── 2. LES CHEMINS NUS NÉGOCIENT — ils ne forcent plus le français ────────
+// ── 2. LES CHEMINS NUS INTÉRIEURS : 308 VERS LE FRANÇAIS, POUR TOUS ───────
 //
-// Ils rendaient un 308 PERMANENT vers `/fr/…`, quel que soit l'`Accept-Language`.
-// C'était mesurable et faux : `alternatesFor` déclare `x-default` sur ces mêmes
-// chemins en affirmant qu'ils orientent selon la langue. Ils ne le faisaient
-// que pour l'accueil.
-//
-// Ils rendent maintenant un 307 — temporaire, parce qu'une réponse qui dépend
-// d'un en-tête ne peut pas être permanente — vers la bonne langue ET le bon
-// slug. Un anglophone qui suit un vieux lien `/tarifs` arrive sur
-// `/en/pricing`, en UN saut.
-console.log('\n2. Les chemins nus négocient, vers la bonne langue et le bon slug');
+// Historique : 308 vers `/fr/…` (2026-07), puis 307 négocié (2026-08-03),
+// parce que le `x-default` désignait ces chemins. Search Console (2026-11-06)
+// a montré que Google retenait alors les chemins nus comme canoniques et
+// sortait les pages françaises de l'index. Le `x-default` d'une page
+// intérieure désigne maintenant sa version française, et le chemin nu y
+// redirige en 308, identique pour tous : une redirection permanente ne varie
+// jamais selon un cookie ou une langue (ni `Vary`, ni cookie posé). Seule la
+// racine négocie (contrôle 1).
+console.log('\n2. Les chemins nus intérieurs : 308 vers le français, sans variation');
 for (const p of PAGES.filter((p) => p !== '/')) {
   const segment = p.slice(1);
   for (const [langue, entete] of [
@@ -116,10 +119,14 @@ for (const p of PAGES.filter((p) => p !== '/')) {
       headers: { 'accept-language': entete },
     });
     const loc = r.headers.get('location') ?? '';
-    const attendu = `/${langue}/${SEGMENTS_ROUTAGE[segment]?.[langue] ?? segment}`;
+    // Toujours le français, quelle que soit la langue demandée : une
+    // redirection permanente ne varie jamais selon la requête.
+    const attendu = `/fr/${SEGMENTS_ROUTAGE[segment]?.fr ?? segment}`;
     verifier(
       `${p} (${langue}) → ${attendu} en UN saut`,
-      r.status === 307 && loc.endsWith(attendu),
+      // Français (le repli) : 308, l'adresse que le x-default désigne.
+      // Anglais négocié : 307, la réponse dépend de la personne.
+      r.status === 308 && loc.endsWith(attendu) && !r.headers.get('vary')?.match(/cookie|accept-language/i) && !r.headers.get('set-cookie'),
       `${r.status} ${loc || '(rien)'}`,
     );
   }
@@ -127,11 +134,10 @@ for (const p of PAGES.filter((p) => p !== '/')) {
 {
   const r = await sansSuivre('/octave');
   verifier(
-    // 307, comme tous les chemins nus depuis qu'ils négocient : sans
-    // `Accept-Language`, le repli est le français. La variante anglaise est
-    // vérifiée au contrôle 11.
+    // Sans `Accept-Language`, le repli est le français, donc 308. La
+    // variante anglaise (307) est vérifiée au contrôle 11.
     '/octave → /fr/sommelier-ia en UN saut',
-    r.status === 307 && r.location.endsWith('/fr/sommelier-ia'),
+    r.status === 308 && r.location.endsWith('/fr/sommelier-ia'),
     `${r.status} ${r.location}`,
   );
 }
@@ -141,7 +147,7 @@ for (const p of PAGES.filter((p) => p !== '/')) {
   const r = await sansSuivre('/recevoir');
   verifier(
     '/recevoir → /fr/accord-mets-vins en UN saut',
-    r.status === 307 && r.location.endsWith('/fr/accord-mets-vins'),
+    r.status === 308 && r.location.endsWith('/fr/accord-mets-vins'),
     `${r.status} ${r.location}`,
   );
 }
@@ -153,7 +159,7 @@ for (const p of PAGES.filter((p) => p !== '/')) {
   const nu = await sansSuivre('/recherche');
   verifier(
     '/recherche → /fr/choisir-un-vin en UN saut',
-    nu.status === 307 && nu.location.endsWith('/fr/choisir-un-vin'),
+    nu.status === 308 && nu.location.endsWith('/fr/choisir-un-vin'),
     `${nu.status} ${nu.location}`,
   );
   for (const [depuis, vers] of [
@@ -200,13 +206,16 @@ for (const p of ['/', '/tarifs', '/apogee']) {
     );
 
     /**
-     * `x-default` doit rester NEUTRE : il désigne le chemin SANS langue, qui
-     * négocie. Y trouver `/fr` signifierait qu'on déclare le français comme
-     * réponse universelle — alors que ce n'est qu'un repli opérationnel.
+     * `x-default` : la racine neutre pour l'accueil, la version FRANÇAISE pour
+     * une page intérieure (jamais un chemin nu qui redirige : Google retenait
+     * ces chemins comme canoniques, Search Console, 2026-11-06). Jamais
+     * l'anglais.
      */
     const xd = corps.match(/hrefLang="x-default" href="([^"]+)"/i)?.[1] || '';
-    const neutre = !/\/(fr|en)(\/|$)/.test(new URL(xd).pathname);
-    verifier(`${chemin} x-default NEUTRE`, neutre, xd);
+    const xdChemin = xd ? new URL(xd).pathname : '';
+    const accueil = /^\/(fr|en)$/.test(chemin);
+    const xdAttendu = accueil ? xdChemin === '/' : /^\/fr\//.test(xdChemin);
+    verifier(`${chemin} x-default ${accueil ? 'racine neutre' : 'français'}`, xdAttendu, xd);
   }
 }
 
@@ -245,13 +254,18 @@ console.log('\n7. Sitemap bilingue, découvrable');
   // 12 pages depuis l'ajout du hub /fonctions (architecture 2026-08-13) —
   // ce compte est le CONTRAT : toute nouvelle page Fonction doit l'incrémenter
   // ici en même temps qu'elle entre dans PAGES du sitemap.
-  verifier('30 URL (15 pages × 2 langues)', urls === 30, `${urls} trouvées`);
-  verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 30);
-  // Aucun `x-default` ne doit désigner une URL de langue dans le sitemap non plus.
+  // 19 pages depuis le lot de contenus du 2026-11-06 (Guide ×3, comparatif).
+  verifier('38 URL (19 pages × 2 langues)', urls === 38, `${urls} trouvées`);
+  verifier('chaque entrée porte ses alternates', (corps.match(/x-default/g) || []).length === 38);
+  // Dans le sitemap aussi : la racine pour l'accueil, le français ailleurs,
+  // jamais l'anglais ni un chemin nu intérieur.
   const xdefaults = [...corps.matchAll(/hreflang="x-default" href="([^"]+)"/g)].map((m) => m[1]);
   verifier(
-    'aucun x-default ne pointe vers /fr ou /en',
-    xdefaults.every((u) => !/\/(fr|en)(\/|$)/.test(new URL(u).pathname)),
+    'x-default du sitemap : racine ou page française, jamais l\'anglais',
+    xdefaults.every((u) => {
+      const chemin = new URL(u).pathname;
+      return chemin === '/' || /^\/fr\//.test(chemin);
+    }),
   );
   const robots = await html('/robots.txt');
   verifier('robots.txt annonce le sitemap', robots.corps.includes('/sitemap.xml'));
@@ -422,16 +436,16 @@ console.log('\n10. Slugs anglais — service, redirections, aucune boucle');
   }
 }
 
-// ── 11. LES CHEMINS NUS NÉGOCIENT VRAIMENT ────────────────────────────────
+// ── 11. UN CHEMIN NU INTÉRIEUR NE NÉGOCIE PAS ─────────────────────────────
 //
-// `x-default` désigne ces chemins en affirmant qu'ils orientent selon la
-// langue. Ils l'affirmaient sans le faire : mesuré le 2026-08-03, `/tarifs`
-// rendait 308 vers `/fr/tarifs` quel que soit l'`Accept-Language`.
-console.log('\n11. Les chemins nus négocient (x-default doit dire vrai)');
+// Même avec un navigateur anglais, `/tarifs` et l'alias `/octave` rendent la
+// même 308 vers le français : le `x-default` de ces pages désigne leur
+// version française, plus le chemin nu (voir contrôle 2).
+console.log('\n11. Un chemin nu intérieur ne négocie pas (308 invariant)');
 {
   for (const [entete, attendu] of [
     ['fr-CA,fr;q=0.9', '/fr/tarifs'],
-    ['en-CA,en;q=0.9', '/en/pricing'],
+    ['en-CA,en;q=0.9', '/fr/tarifs'],
   ]) {
     const r = await fetch(`${BASE}/tarifs`, {
       redirect: 'manual',
@@ -440,7 +454,7 @@ console.log('\n11. Les chemins nus négocient (x-default doit dire vrai)');
     const loc = r.headers.get('location') ?? '';
     verifier(
       `/tarifs (${entete.slice(0, 5)}) → ${attendu}`,
-      loc.endsWith(attendu),
+      loc.endsWith(attendu) && r.status === 308,
       `HTTP ${r.status} → ${loc || '(rien)'}`,
     );
   }
@@ -452,10 +466,18 @@ console.log('\n11. Les chemins nus négocient (x-default doit dire vrai)');
   });
   const locOct = oct.headers.get('location') ?? '';
   verifier(
-    '/octave (en) → /en/ai-sommelier en un saut',
-    locOct.endsWith('/en/ai-sommelier'),
+    '/octave (en) → /fr/sommelier-ia en un saut, en 308 (jamais négocié)',
+    locOct.endsWith('/fr/sommelier-ia') && oct.status === 308,
     `HTTP ${oct.status} → ${locOct || '(rien)'}`,
   );
+}
+
+// ── 12. UN SLUG ANGLAIS SANS PRÉFIXE VA À L'ANGLAIS ───────────────────────
+// `/pricing` menait à `/fr/pricing`, un 404 (audit du 2026-11-06).
+console.log('\n12. Un slug anglais sans préfixe va vers /en, en 308');
+for (const [depuis, vers] of [['/pricing', '/en/pricing'], ['/wine-pairing', '/en/wine-pairing']]) {
+  const r = await sansSuivre(depuis, { 'Accept-Language': 'fr-CA' });
+  verifier(`${depuis} → ${vers} en 308`, r.status === 308 && r.location.endsWith(vers), `${r.status} ${r.location}`);
 }
 
 // ── LE RÉSUMÉ EST LA DERNIÈRE CHOSE DU FICHIER ────────────────────────────

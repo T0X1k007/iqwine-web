@@ -12,11 +12,11 @@ import { TRIAL_SHORT } from '@/lib/trial';
 const TEXTES = {
   fr: {
     title: 'Fonctions · iQWine, votre sommelier IA',
-    description: `Choisir en magasin, lire une carte des vins, accorder un plat, suivre votre cave et l'apogée de chaque bouteille, un sommelier IA qui apprend vos goûts. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    description: `En magasin, au restaurant, à table et devant votre cave : un sommelier IA qui apprend vos goûts. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
     title: 'Features · iQWine, your AI sommelier',
-    description: `Choose in the store, read a wine list, pair a meal, follow your cellar and every bottle's peak, an AI sommelier that learns your taste. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    description: `In store, at the restaurant, at the table and at your cellar: an AI sommelier who learns your taste. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 

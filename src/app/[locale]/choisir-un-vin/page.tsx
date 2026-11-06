@@ -14,12 +14,12 @@ import { TRIAL_SHORT } from '@/lib/trial';
  */
 const TEXTES = {
   fr: {
-    title: 'Comment choisir un bon vin ? Votre sommelier IA vous guide · iQWine',
-    description: `Devant le rayon, des centaines d’étiquettes et une seule question : laquelle est pour vous ? Octave connaît votre palais et votre budget, dans votre cave comme près de vous. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    title: 'Comment choisir un bon vin ? Votre sommelier IA vous guide',
+    description: `Devant le rayon, une seule question : laquelle est pour vous ? Octave connaît votre palais et votre budget. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
-    title: 'How to choose a good wine? Your AI sommelier guides you · iQWine',
-    description: `Hundreds of labels, one question: which one is for you? Octave knows your palate and your budget, in your cellar and near you. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    title: 'How to choose a good wine? Your AI sommelier guides you',
+    description: `Hundreds of labels, one question: which one is for you? Octave knows your palate and your budget. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 

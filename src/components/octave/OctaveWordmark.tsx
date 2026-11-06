@@ -18,6 +18,18 @@
  *
  * Anneau = champagne (`text-or-soft` sur le svg) ; « ctave » hérite de la couleur
  * du titre → le O est le joyau, le mot reste naturel et lisible.
+ *
+ * ── LE « O » EXISTE AUSSI EN TEXTE (audit du 2026-11-06, constat V-20) ────
+ * Le O n'était qu'un dessin : tout lecteur qui extrait le TEXTE de la page
+ * (robot d'indexation, assistant, mode lecture, copier-coller) lisait le H1
+ * de /tarifs « Trouvez votre ctave ». `role="img"` et `aria-label` servaient
+ * les lecteurs d'écran, pas eux.
+ *
+ * Une lettre « O » visuellement masquée (`sr-only` : 1 px, découpée, hors du
+ * flux) précède désormais l'anneau. Elle ne prend aucune place, le dessin
+ * ne bouge pas d'un pixel, et le texte extrait redevient « Octave ». Les
+ * lecteurs d'écran, eux, continuent de lire l'étiquette du `role="img"`, qui
+ * rend ses enfants muets : aucun « O » ne s'entend en double.
  */
 export default function OctaveWordmark({
   className,
@@ -33,6 +45,7 @@ export default function OctaveWordmark({
 }) {
   return (
     <span className={`whitespace-nowrap ${className ?? ''}`} role="img" aria-label={ariaLabel}>
+      <span className="sr-only">O</span>
       <svg
         viewBox="0 0 120 120"
         fill="none"

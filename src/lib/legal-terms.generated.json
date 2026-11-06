@@ -15,12 +15,12 @@
   },
   "trial": {
     "days": 14,
-    "recos": 12
+    "recos": 25
   },
   "enNotice": "This English version is provided for convenience; the French version is the authoritative one.",
   "terms": {
     "fr": {
-      "metaTitle": "Conditions d’utilisation — iQWine",
+      "metaTitle": "Conditions d’utilisation · iQWine",
       "metaDescription": "Conditions d’utilisation du service iQWine.",
       "h1": "Conditions d’utilisation",
       "effectiveOn": "En vigueur le {date}",
@@ -30,7 +30,7 @@
       "s2Body": "En créant un compte ou en utilisant iQWine, vous acceptez les présentes conditions ainsi que la <privacy>Politique de confidentialité</privacy>. Si vous n’y consentez pas, n’utilisez pas le service.",
       "s2Age": "Le service s’adresse aux personnes ayant l’âge légal pour acheter et consommer de l’alcool dans leur lieu de résidence. En créant un compte, vous déclarez avoir atteint cet âge.",
       "s3Title": "3. Le service",
-      "s3Body": "iQWine est un assistant numérique de gestion de cave à vin : inventaire, fenêtres de consommation, recommandations assistées par intelligence artificielle et fonctionnalités connexes. Un essai gratuit est offert, sans engagement, d’une durée de {days} jours ou de {recos} interactions avec Octave, la première de ces deux limites atteinte mettant fin à l’essai. L’essai gratuit est limité à une utilisation par utilisateur. La suppression d’un compte ne réinitialise pas l’admissibilité à l’essai gratuit.",
+      "s3Body": "iQWine est un assistant numérique de gestion de cave à vin : inventaire, fenêtres de consommation, recommandations assistées par intelligence artificielle et fonctionnalités connexes. Un essai gratuit est offert, sans engagement, d’une durée de {days} jours, qui comprend {recos} interactions avec Octave ; l’utilisation de ces interactions ne met pas fin à l’essai. À la fin de l’essai, le compte continue sur le forfait Gratuit. L’essai gratuit est limité à une utilisation par utilisateur. La suppression d’un compte ne réinitialise pas l’admissibilité à l’essai gratuit.",
       "s4Title": "4. Votre compte",
       "s4Body": "Vous êtes responsable de la confidentialité de vos identifiants et de l’exactitude des renseignements fournis. Un seul compte par personne, sauf forfaits multi-utilisateurs.",
       "s5Title": "5. Forfaits, facturation et changements",
@@ -92,7 +92,7 @@
       "s21Body": "Pour toute question relative aux présentes conditions : depuis l’application (section Support), via notre <contact>page Contact</contact>, par courriel à {email} ou par téléphone au {phone}. Par la poste : iQWine (par {legalName}), {address}."
     },
     "en": {
-      "metaTitle": "Terms of Service — iQWine",
+      "metaTitle": "Terms of Service · iQWine",
       "metaDescription": "iQWine terms of service.",
       "h1": "Terms of Service",
       "effectiveOn": "In effect on {date}",
@@ -102,7 +102,7 @@
       "s2Body": "By creating an account or using iQWine, you accept these terms as well as the <privacy>Privacy Policy</privacy>. If you do not agree, do not use the service.",
       "s2Age": "The service is intended for people of legal age to purchase and consume alcohol in their place of residence. By creating an account, you declare that you have reached that age.",
       "s3Title": "3. The service",
-      "s3Body": "iQWine is a digital wine-cellar management assistant: inventory, drinking windows, AI-assisted recommendations and related features. A free trial is offered, with no commitment, lasting {days} days or {recos} interactions with Octave, whichever of these two limits is reached first ending the trial. The free trial is limited to one use per user. Deleting an account does not reset free-trial eligibility.",
+      "s3Body": "iQWine is a digital wine-cellar management assistant: inventory, drinking windows, AI-assisted recommendations and related features. A free trial is offered, with no commitment, lasting {days} days and including {recos} interactions with Octave; using these interactions does not end the trial. At the end of the trial, the account carries on with the Free plan. The free trial is limited to one use per user. Deleting an account does not reset free-trial eligibility.",
       "s4Title": "4. Your account",
       "s4Body": "You are responsible for keeping your credentials confidential and for the accuracy of the information you provide. One account per person, except for multi-user plans.",
       "s5Title": "5. Plans, billing and changes",
@@ -162,6 +162,62 @@
       "s20Body": "These terms are governed by the laws applicable in {jurisdiction}, without regard to conflict-of-law rules.",
       "s21Title": "21. Contact",
       "s21Body": "For any question regarding these terms: from the application (Support section), via our <contact>Contact page</contact>, by email at {email} or by phone at {phone}. By mail: iQWine (by {legalName}), {address}."
+    }
+  },
+  "privacy": {
+    "fr": {
+      "metaTitle": "Politique de confidentialité · iQWine",
+      "metaDescription": "Politique de confidentialité et protection des renseignements personnels (Loi 25).",
+      "h1": "Politique de confidentialité",
+      "effectiveOn": "En vigueur le {date} · Conforme à la Loi 25 (Québec)",
+      "p1Title": "Responsable de la protection des renseignements",
+      "p1Body": "iQWine (par {legalName}), située à {city}, agit à titre de responsable des renseignements personnels au sens de la Loi 25. Toute demande (accès, rectification, suppression, retrait du consentement, plainte) peut être transmise depuis l’application, section Support, et est traitée par notre responsable de la protection des renseignements personnels.",
+      "p2Title": "Renseignements que nous recueillons",
+      "p2Body": "À la création du compte : nom, adresse courriel, adresse IP (sécurité). À l’utilisation : données de votre cave (bouteilles, dégustations, préférences), et données techniques d’usage. Les renseignements de paiement sont traités directement par notre prestataire de paiement (Stripe) et ne sont pas conservés par iQWine. Lorsque vous utilisez les fonctions de photo ou de dictée : les IMAGES que vous transmettez (étiquettes de bouteilles, cartes des vins de restaurant, plats, étagères de cellier, reçus d’achat) et les ENREGISTREMENTS VOCAUX de vos notes de dégustation. Ces contenus sont analysés par un fournisseur d’intelligence artificielle pour en extraire le texte et les caractéristiques du vin ; ils ne sont pas conservés par ce fournisseur pour l’entraînement de ses modèles. Un reçu d’achat peut comporter des mentions que nous n’utilisons pas (date, magasin) : elles ne sont ni extraites, ni enregistrées, ni journalisées.",
+      "p3Title": "Finalités",
+      "p3Body": "Fournir et améliorer le service, générer des recommandations, assurer la facturation, la sécurité et le support. Nous ne vendons jamais vos renseignements personnels et ne les utilisons pas à des fins de marketing sans votre consentement distinct.",
+      "p4Title": "Consentement et retrait",
+      "p4Body": "La création d’un compte requiert votre consentement explicite à la présente politique et aux conditions d’utilisation, dont nous conservons une preuve horodatée et versionnée. Le consentement marketing est distinct et facultatif. Vous pouvez retirer votre consentement à tout moment depuis vos paramètres ou en nous contactant.",
+      "p5Title": "Conservation des renseignements",
+      "p5Intro": "Nous conservons vos renseignements le temps nécessaire aux finalités ci-dessus :",
+      "p5Item1": "Données de compte et de cave : tant que votre compte est actif ; anonymisées ou supprimées après la suppression du compte.",
+      "p5Item2": "Renseignements de facturation et fiscaux : conservés pour la durée requise par nos obligations légales et comptables.",
+      "p5Item3": "Preuves de consentement : conservées à des fins probatoires conformément à la Loi 25.",
+      "p5Item4": "Admissibilité à l’essai gratuit : après la suppression de votre compte, nous conservons un registre minimal (adresse courriel normalisée et empreinte technique non réversible) à seule fin de prévenir l’abus des essais gratuits. Aucune adresse IP brute n’est conservée.",
+      "p5Item5": "Journaux techniques et de sécurité : conservés pour une durée limitée.",
+      "p6Title": "Communication à des tiers et hors Québec",
+      "p6Body": "Nous faisons appel à des prestataires pour exploiter le service, dont certains peuvent traiter des renseignements hors Québec : hébergement et base de données, courriel transactionnel, prestataire de paiement, fournisseurs d’intelligence artificielle, et observabilité (suivi des erreurs et journalisation). Nous mettons en place les mesures nécessaires pour que ces communications offrent une protection adéquate de vos renseignements. Nous ne vendons ni ne louons vos renseignements personnels. Le fournisseur d’intelligence artificielle est Google (Gemini), aux États-Unis ; c’est à lui que sont transmises les images et les dictées décrites à la section 2.",
+      "p7Title": "Données de tiers",
+      "p7Body": "Certaines informations affichées (prix, disponibilités, images, descriptifs) proviennent de sources tierces, dont la Société des alcools du Québec (SAQ). Ces données appartiennent à leurs détenteurs respectifs, sont fournies à titre indicatif et peuvent être inexactes ou modifiées sans préavis.",
+      "p8Title": "Vos droits (Loi 25)",
+      "p8Body": "Vous avez le droit d’accéder à vos renseignements, de les rectifier, de les faire supprimer, de retirer votre consentement et de porter plainte. Vous pouvez exporter vos données personnelles et supprimer votre compte directement depuis vos paramètres, section confidentialité."
+    },
+    "en": {
+      "metaTitle": "Privacy Policy · iQWine",
+      "metaDescription": "Privacy policy and protection of personal information (Law 25, Québec).",
+      "h1": "Privacy Policy",
+      "effectiveOn": "In effect on {date} · Compliant with Law 25 (Québec)",
+      "p1Title": "Personal information protection officer",
+      "p1Body": "iQWine (by {legalName}), located in {city}, acts as the controller of personal information within the meaning of Law 25. Any request (access, rectification, deletion, withdrawal of consent, complaint) may be submitted from the application, Support section, and is handled by our personal information protection officer.",
+      "p2Title": "Information we collect",
+      "p2Body": "At account creation: name, email address, IP address (security). During use: your cellar data (bottles, tastings, preferences), and technical usage data. Payment information is processed directly by our payment provider (Stripe) and is not retained by iQWine. When you use the photo or dictation features: the IMAGES you send (bottle labels, restaurant wine lists, dishes, cellar shelves, purchase receipts) and the VOICE RECORDINGS of your tasting notes. This content is analysed by an artificial intelligence provider to extract text and wine characteristics; it is not retained by that provider to train its models. A purchase receipt may carry details we do not use (date, store): they are neither extracted, stored, nor logged.",
+      "p3Title": "Purposes",
+      "p3Body": "To provide and improve the service, generate recommendations, and ensure billing, security and support. We never sell your personal information and do not use it for marketing purposes without your separate consent.",
+      "p4Title": "Consent and withdrawal",
+      "p4Body": "Creating an account requires your explicit consent to this policy and to the terms of service, of which we keep a timestamped and versioned record. Marketing consent is separate and optional. You may withdraw your consent at any time from your settings or by contacting us.",
+      "p5Title": "Data retention",
+      "p5Intro": "We retain your information for as long as necessary for the purposes above:",
+      "p5Item1": "Account and cellar data: as long as your account is active; anonymized or deleted after account deletion.",
+      "p5Item2": "Billing and tax information: retained for the period required by our legal and accounting obligations.",
+      "p5Item3": "Proof of consent: retained for evidentiary purposes in accordance with Law 25.",
+      "p5Item4": "Free-trial eligibility: after your account is deleted, we keep a minimal record (a normalized email address and a non-reversible technical fingerprint) solely to prevent free-trial abuse. No raw IP address is retained.",
+      "p5Item5": "Technical and security logs: retained for a limited period.",
+      "p6Title": "Disclosure to third parties and outside Québec",
+      "p6Body": "We use service providers to operate the service, some of which may process information outside Québec: hosting and database, transactional email, payment provider, artificial-intelligence providers, and observability (error tracking and logging). We put in place the measures necessary for these communications to offer adequate protection of your information. We do not sell or rent your personal information. The artificial intelligence provider is Google (Gemini), in the United States; it is the recipient of the images and dictations described in section 2.",
+      "p7Title": "Third-party data",
+      "p7Body": "Certain displayed information (prices, availability, images, descriptions) comes from third-party sources, including the Société des alcools du Québec (SAQ). This data belongs to its respective holders, is provided for information purposes and may be inaccurate or changed without notice.",
+      "p8Title": "Your rights (Law 25)",
+      "p8Body": "You have the right to access your information, to rectify it, to have it deleted, to withdraw your consent and to file a complaint. You may export your personal data and delete your account directly from your settings, privacy section."
     }
   }
 }

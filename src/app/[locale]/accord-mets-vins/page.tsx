@@ -12,11 +12,11 @@ import { TRIAL_SHORT } from '@/lib/trial';
 const TEXTES = {
   fr: {
     title: 'Accords mets et vins, selon votre palais · iQWine',
-    description: `Photographiez votre plat : Octave comprend ce que vous allez manger et choisit l'accord, jusque dans votre propre cave, à la case près. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
+    description: `Photographiez votre plat : Octave choisit l'accord, jusque dans votre propre cave, à la case près. Essai : ${TRIAL_SHORT.fr}, sans carte.`,
   },
   en: {
     title: 'Wine pairing, tuned to your palate · iQWine',
-    description: `Photograph your dish: Octave understands what you're about to eat and picks the pairing, down to your own cellar, slot included. Free trial: ${TRIAL_SHORT.en}, no card.`,
+    description: `Photograph your dish: Octave picks the pairing, down to your own cellar, slot included. Free trial: ${TRIAL_SHORT.en}, no card.`,
   },
 } as const;
 

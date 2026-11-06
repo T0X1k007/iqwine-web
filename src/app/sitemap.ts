@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { LOCALES, absoluteUrl, SITE_ORIGIN } from '@/lib/locale';
+import { DEFAULT_LOCALE, LOCALES, absoluteUrl, SITE_ORIGIN } from '@/lib/locale';
 
 /**
  * SITEMAP BILINGUE, chaque page, dans chaque langue, avec ses alternatives.
@@ -38,6 +38,11 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   { path: '/accord-mets-vins', priority: 0.9, freq: 'monthly' },
   { path: '/carte-des-vins', priority: 0.9, freq: 'monthly' },
   { path: '/tarifs', priority: 0.7, freq: 'monthly' },
+  // Lot de contenus du 2026-11-06 : le Guide d'Octave et le comparatif.
+  { path: '/guide', priority: 0.7, freq: 'monthly' },
+  { path: '/guide/conseils-d-octave', priority: 0.6, freq: 'monthly' },
+  { path: '/guide/votre-cave', priority: 0.6, freq: 'monthly' },
+  { path: '/comparatif-applications-vin', priority: 0.6, freq: 'monthly' },
   { path: '/notre-maison', priority: 0.5, freq: 'yearly' },
   { path: '/contact', priority: 0.4, freq: 'yearly' },
   // L'assistance publique : peu de valeur d'acquisition, mais c'est l'adresse
@@ -63,10 +68,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           'fr-CA': absoluteUrl(page.path, 'fr'),
           'en-CA': absoluteUrl(page.path, 'en'),
-          // Le point d'entrée NEUTRE de cette page, pas sa version française.
-          // Cf. `alternatesFor` : `x-default` désigne un comportement, non une
-          // langue, et le repli vers le français est opérationnel, pas déclaré.
-          'x-default': `${SITE_ORIGIN}${page.path === '/' ? '/' : page.path}`,
+          // Mêmes règles que `alternatesFor` : la racine neutre pour l'accueil,
+          // la version française pour une page intérieure.
+          'x-default':
+            page.path === '/' ? `${SITE_ORIGIN}/` : absoluteUrl(page.path, DEFAULT_LOCALE),
         },
       },
     })),

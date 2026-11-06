@@ -24,7 +24,7 @@ import { ArrowRight } from 'lucide-react';
  *
  * ── Les 3 ajustements d'Eric, contraignants ─────────────────────────────
  * 1. S4 dit le RÉSULTAT, jamais la mécanique : pas d'ordre des opérations,
- *    pas de « vérifié point de vente par point de vente », pas de priorité
+ *    pas de « vérifié magasin par magasin », pas de priorité
  *    cave/proximité décrite. Titre et texte fournis par Eric, quasi tels
  *    quels.
  * 2. AUCUNE revendication d'exclusivité, nulle part. Le fil rouge (la

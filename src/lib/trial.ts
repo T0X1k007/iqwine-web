@@ -23,10 +23,34 @@
  *
  * ── Ce qui doit rester synchronisé ────────────────────────────────────────
  * `TRIAL_DAYS` et `TRIAL_RECOS` doublent `lib/billing/plan-catalog.ts` du dépôt
- * applicatif (`TRIAL_DAYS = 14`, `TRIAL_AI_RECOMMENDATIONS = 12`). Deux dépôts,
+ * applicatif (`TRIAL_DAYS = 14`, `TRIAL_AI_RECOMMENDATIONS = 25`). Deux dépôts,
  * deux déploiements : la duplication est inévitable, l'oubli ne doit pas
  * l'être. **Changer l'un OBLIGE à changer l'autre**, c'est exactement la
- * classe d'écart que ce fichier existe pour empêcher.
+ * classe d'écart que ce fichier existe pour empêcher. `npm run legal:verifier`
+ * refuse l'écart dès que le dépôt applicatif est présent.
+ *
+ * ── LA DOUBLE BARRIÈRE N'EXISTE PLUS (app, 2026-11-03 ; audit du 2026-11-06) ──
+ * Ce qui précède raconte l'essai d'août : 14 jours OU 12 conseils, au premier
+ * des deux. L'application a changé de règle le 2026-11-03 (Éric) et le site
+ * est resté trois jours en retard, à annoncer 12 au lieu de 25 (constat V-01
+ * de l'audit de visibilité). La règle EN VIGUEUR, lue dans le code de
+ * `cellier-vin` au tag v0.163.0 :
+ *
+ *   · l'essai dure 14 jours (prolongés si la cave se remplit) et se termine
+ *     par le TEMPS seulement : `endTrialToGratuit(cellarId, reason: "time")`,
+ *     appelée par le seul cron du cycle de vie (`lib/billing/subscription.ts`,
+ *     `lib/billing/lifecycle-cron.ts`) ;
+ *   · 25 conseils personnalisés d'Octave sont INCLUS. Au 26e demandé, le
+ *     compteur refuse le conseil (`lib/octave/interactions.ts`, raison
+ *     « EPUISE »), et rien d'autre : le reste du Passionné continue jusqu'au
+ *     bout des 14 jours ;
+ *   · les Conditions de l'app l'écrivent : « l'utilisation de ces interactions
+ *     ne met pas fin à l'essai » (`Legal.terms.s3Body`).
+ *
+ * « Au premier des deux » est donc devenu FAUX, et toutes les phrases de ce
+ * fichier qui le disaient ont été réécrites le 2026-11-06. Ne pas le
+ * réintroduire : ce serait recréer l'écart D5 à l'envers, en promettant moins
+ * que le produit, mais en décrivant une mécanique qui n'existe pas.
  */
 
 /**
@@ -37,18 +61,20 @@
  * page. Les deux disent désormais « conseils personnalisés d'Octave », le terme
  * public unique, et « interaction » ne paraît plus nulle part.
  *
- * Côté anglais, « advice » est indénombrable : « 12 pieces of personalized
- * advice from Octave », jamais « 12 personalized advice ».
+ * Côté anglais, « advice » est indénombrable : « 25 pieces of personalized
+ * advice from Octave », jamais « 25 personalized advice ».
  */
 
 /** Durée de base de l'essai, en jours. Doit égaler `TRIAL_DAYS` de l'app. */
 export const TRIAL_DAYS = 14;
 
 /**
- * Recommandations d'Octave incluses dans l'essai. Doit égaler
- * `TRIAL_AI_RECOMMENDATIONS` de l'app.
+ * Conseils personnalisés d'Octave INCLUS dans l'essai. Doit égaler
+ * `TRIAL_AI_RECOMMENDATIONS` de l'app (25 depuis le 2026-11-03 : la moitié des
+ * 50 conseils mensuels du Passionné, pour deux semaines). Ce n'est plus une
+ * borne de l'essai : l'atteindre arrête les conseils, pas l'essai.
  */
-export const TRIAL_RECOS = 12;
+export const TRIAL_RECOS = 25;
 
 /**
  * LA PROLONGATION PAR REMPLISSAGE DE CAVE, troisième mécanique de l'essai,
@@ -98,20 +124,19 @@ export type SiteLocale = "fr" | "en";
 export const TRIAL_PLAN_ID = "standard";
 
 /**
- * La phrase qui dit les deux bornes, celles qui peuvent RACCOURCIR l'essai.
+ * La phrase qui dit ce que l'essai CONTIENT : une durée, et des conseils.
  *
- * ⚠️ ELLE N'EST PLUS « LA VÉRITÉ ENTIÈRE » : depuis que la prolongation par
- * remplissage de cave est documentée ici, la règle complète s'écrit
- * `TRIAL_MECHANICS`. Celle-ci en garde la moitié qui protège l'utilisateur —
- * l'essai peut finir avant le quatorzième jour — et c'est la seule moitié dont
- * l'omission puisse se retourner en litige (écart D5).
+ * ⚠️ ELLE DISAIT « au premier des deux » JUSQU'AU 2026-11-06, et c'était vrai
+ * de l'essai d'août (double barrière). Depuis le 2026-11-03, côté application,
+ * les conseils ne terminent plus l'essai : la phrase dit donc « avec … inclus »,
+ * c'est-à-dire une allocation, et plus jamais une seconde échéance. La règle
+ * complète, prolongation comprise, s'écrit `TRIAL_MECHANICS`.
  *
- * Elle vit désormais au SECOND niveau : FAQ, balisage, pages de fonctions.
- * Le message de premier niveau, lui, est `TRIAL_HEADLINE`.
+ * Elle vit au SECOND niveau : balisage (`RegisterAction`), pages de fonctions.
  */
 export const TRIAL_FULL: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} conseils personnalisés d’Octave, au premier des deux`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} pieces of personalized advice from Octave, whichever comes first`,
+  fr: `${TRIAL_DAYS} jours, avec ${TRIAL_RECOS} conseils personnalisés d’Octave inclus`,
+  en: `${TRIAL_DAYS} days, with ${TRIAL_RECOS} pieces of personalized advice from Octave included`,
 };
 
 /**
@@ -141,10 +166,17 @@ export const TRIAL_CTA: Record<SiteLocale, string> = {
   en: "Free trial",
 };
 
-/** Forme brève mais HONNÊTE, tient sur une ligne de réassurance. */
+/**
+ * Forme brève mais HONNÊTE, tient dans une méta-description.
+ *
+ * « et » et non plus « ou » (2026-11-06) : les deux nombres s'additionnent
+ * désormais, ils ne se font plus concurrence. « 14 jours ou 25 conseils »
+ * laisserait croire que le 25e conseil ferme l'essai, ce que l'application ne
+ * fait plus depuis le 2026-11-03.
+ */
 export const TRIAL_SHORT: Record<SiteLocale, string> = {
-  fr: `${TRIAL_DAYS} jours ou ${TRIAL_RECOS} conseils`,
-  en: `${TRIAL_DAYS} days or ${TRIAL_RECOS} pieces of advice`,
+  fr: `${TRIAL_DAYS} jours et ${TRIAL_RECOS} conseils`,
+  en: `${TRIAL_DAYS} days and ${TRIAL_RECOS} pieces of advice`,
 };
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -361,19 +393,28 @@ export const TRIAL_DAYS_ADJ: Record<SiteLocale, string> = {
  *
  * Arbitrage d'Eric maintenu dans les deux directions successives : « 14 jours »
  * est le message de premier niveau, sans astérisque qui le relativise sur
- * place. La laisse de `TRIAL_RECOS` conseils et la prolongation jusqu'à
- * `TRIAL_DAYS_MAX` jours vivent ICI, derrière une question qui les appelle et
- * un accordéon replié : personne ne les rencontre par accident, tout le monde
- * les trouve en les cherchant.
+ * place. Les `TRIAL_RECOS` conseils inclus et la prolongation jusqu'à
+ * `TRIAL_DAYS_MAX` jours vivent ICI, derrière une question qui les appelle :
+ * personne ne les rencontre par accident, tout le monde les trouve en les
+ * cherchant.
+ *
+ * ── Réécrite le 2026-11-06, sur le comportement RÉEL de l'application ──────
+ * Elle disait « les fonctionnalités du Passionné s'arrêtent au premier des
+ * deux seuils atteints : 14 jours, ou 12 conseils ». Deux erreurs depuis le
+ * 2026-11-03 : le nombre (25), et surtout la mécanique. Au 25e conseil, seuls
+ * les conseils d'Octave s'arrêtent ; le reste du Passionné continue jusqu'au
+ * bout des 14 jours (`endTrialToGratuit` n'a plus qu'une raison : « time »).
+ * C'est aussi la parole d'Éric rapportée par ai-memory le 2026-11-05 : « au
+ * 25e, seuls les conseils s'arrêtent ». Code et décision concordent.
  *
  * Les nombres sont tous dérivés, aucun n'est écrit à la main — c'est la garde
  * qui a manqué à « deux mois offerts ».
  */
 export const TRIAL_MECHANICS: Record<SiteLocale, string> = {
-  fr: `Les fonctionnalités du Passionné s’arrêtent au premier des deux seuils atteints : ${TRIAL_DAYS} jours, ou ${TRIAL_RECOS} conseils personnalisés d’Octave. Si vous en profitez beaucoup, le second peut arriver avant le premier, et vous le voyez venir dans l’application.
+  fr: `Pendant ${TRIAL_DAYS} jours, vous profitez des fonctionnalités du Passionné, avec ${TRIAL_RECOS} conseils personnalisés d’Octave inclus. Si vous les utilisez tous avant la fin, seuls les conseils d’Octave s’arrêtent : votre cave et le reste du Passionné restent à vous jusqu’au bout des ${TRIAL_DAYS} jours.
 
-Ils peuvent aussi durer plus longtemps : chaque palier de cave franchi, ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} puis ${TRIAL_BOTTLE_TIERS.at(-1)} bouteilles, ajoute ${TRIAL_TIER_BONUS_DAYS} jours, jusqu’à ${TRIAL_MAX_BONUS_DAYS} jours de plus, soit ${TRIAL_DAYS_MAX} jours au total.`,
-  en: `The Enthusiast features stop at whichever limit you reach first: ${TRIAL_DAYS} days, or ${TRIAL_RECOS} pieces of personalized advice from Octave. If you make the most of them, the second can come before the first, and you see it coming inside the app.
+Ces ${TRIAL_DAYS} jours peuvent aussi s’allonger : chaque palier de cave franchi, ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} puis ${TRIAL_BOTTLE_TIERS.at(-1)} bouteilles, ajoute ${TRIAL_TIER_BONUS_DAYS} jours, jusqu’à ${TRIAL_MAX_BONUS_DAYS} jours de plus, soit ${TRIAL_DAYS_MAX} jours au total.`,
+  en: `For ${TRIAL_DAYS} days, you enjoy the Enthusiast features, with ${TRIAL_RECOS} pieces of personalized advice from Octave included. If you use them all before the end, only Octave’s advice stops: your cellar and the rest of Enthusiast stay yours until the end of the ${TRIAL_DAYS} days.
 
-They can also last longer: every cellar milestone you pass, ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles, adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
+Those ${TRIAL_DAYS} days can also grow longer: every cellar milestone you pass, ${TRIAL_BOTTLE_TIERS.slice(0, -1).join(", ")} then ${TRIAL_BOTTLE_TIERS.at(-1)} bottles, adds ${TRIAL_TIER_BONUS_DAYS} days, up to ${TRIAL_MAX_BONUS_DAYS} extra days, for ${TRIAL_DAYS_MAX} days in all.`,
 };

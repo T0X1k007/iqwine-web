@@ -12,6 +12,8 @@ import { buildSignupUrl } from '@/lib/constants';
 import { SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { ArrowRight } from 'lucide-react';
+import SectionFaq from '@/components/sections/SectionFaq';
+import { FAQ_APOGEE } from '@/lib/faq-fonctions';
 
 /**
  * /apogee — « Vous l'avez gardée dix ans. Vous l'avez ouverte un an trop
@@ -57,11 +59,55 @@ import { ArrowRight } from 'lucide-react';
  * températures de lumière opposées PORTENT l'arc de la page.
  */
 
-/** Les trois moments, en langage humain — jamais un pourcentage. */
-const ETATS: { fr: string; en: string; position: number }[] = [
-  { fr: 'Trop jeune', en: 'Too young', position: 14 },
-  { fr: 'À son sommet', en: 'At its peak', position: 50 },
-  { fr: 'À boire sans tarder', en: 'Drink without delay', position: 86 },
+/**
+ * Les statuts, MOT POUR MOT ceux de l'application (audit du 2026-11-06, P2).
+ *
+ * Le site montrait trois états hérités (« Trop jeune / À son sommet / À boire
+ * sans tarder ») que l'app n'affiche plus. Ceux-ci sont les libellés servis en
+ * `v0.163.0` sous la carte « Fenêtre de dégustation » (`Apogee.carte.statut*`
+ * et `Apogee.carte.aBoireSansTarder` de `messages/fr.json` / `en.json`).
+ *
+ * ⚠️ EN ARBITRAGE côté app (CURRENT_STATE du 2026-11-06) : « À boire sans
+ * tarder » (deux sens) et l'anglais « Safe until ». Si l'app les change, ce
+ * tableau, `REPERES` et `FAQ_APOGEE` changent avec elle.
+ */
+const ETATS: { fr: string; en: string }[] = [
+  { fr: 'Jeune', en: 'Young' },
+  { fr: 'À boire maintenant', en: 'Drink now' },
+  { fr: 'À boire sans tarder', en: 'Drink soon' },
+  { fr: 'Au-delà de la garde estimée', en: 'Beyond its estimated ageing' },
+];
+
+/** Les repères de la carte, tels que l'app les nomme (Guide `pourquoi-apogee`). */
+const REPERES: { titre: { fr: string; en: string }; texte: { fr: string; en: string } }[] = [
+  {
+    titre: { fr: 'Début', en: 'Start' },
+    texte: {
+      fr: 'L’année à partir de laquelle le vin est prêt. Avant, il gagne à patienter.',
+      en: 'The year from which the wine is ready. Before that, it gains from waiting.',
+    },
+  },
+  {
+    titre: { fr: 'Apogée', en: 'Peak' },
+    texte: {
+      fr: 'L’année autour de laquelle il sera à son meilleur. « Vers 2028 » quand c’est une estimation, « Apogée confirmée » quand le producteur l’a publiée.',
+      en: 'The year around which it will be at its best. “Around 2028” when it’s an estimate, “Confirmed peak” when the producer has published it.',
+    },
+  },
+  {
+    titre: { fr: 'Sûr jusqu’en', en: 'Safe until' },
+    texte: {
+      fr: 'Jusqu’à quand, selon Octave, il restera vraiment bon après son apogée.',
+      en: 'Until when, in Octave’s judgment, it will stay truly good after its peak.',
+    },
+  },
+  {
+    titre: { fr: 'Garde maximale', en: 'Maximum ageing' },
+    texte: {
+      fr: 'Jusqu’où il peut tenir en théorie, bien conservé. Au-delà, il risque de décliner.',
+      en: 'How far it can hold in theory, well stored. Beyond that, it may decline.',
+    },
+  },
 ];
 
 /** La courbe du temps : elle monte, s'ouvre, redescend. Purement graphique. */
@@ -147,6 +193,25 @@ export default function ApogeeContent() {
         </div>
       </section>
 
+      {/* ══ S1b · LA RÉPONSE DIRECTE — nuit (audit du 2026-11-06, P2) ═════
+          Le titre de la page pose « Quand boire un vin ? » : la réponse est
+          ici, en tête, en moins de 80 mots, avec les libellés de l'app. */}
+      <section id="quand-boire" className="relative overflow-hidden text-foreground" style={{ background: '#150f0c' }}>
+        <div className="mx-auto max-w-[1440px] px-6 pb-4 lg:px-8">
+          <div className="mx-auto max-w-[760px] rounded-[18px] border border-or/20 bg-or/[0.04] p-6 lg:p-8">
+            <h2 className="font-[family-name:var(--font-display)] text-[26px] font-medium leading-tight sm:text-[30px]">
+              {t('Quand boire ce vin ?', 'When should I drink this wine?')}
+            </h2>
+            <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground md:text-[17px]">
+              {t(
+                'Quand il entre dans sa fenêtre de dégustation, et idéalement autour de son apogée. Pour chaque bouteille de votre cave, Octave affiche cette fenêtre en années, d’après les dates publiées par le producteur ou la fiche en magasin quand elles existent, sinon d’après son estimation pour ce vin. Un mot dit où il en est aujourd’hui : « Jeune », « À boire maintenant », « À boire sans tarder ».',
+                'When it enters its drinking window, and ideally around its peak. For every bottle in your cellar, Octave shows that window in years, based on dates published by the producer or the in-store listing when they exist, otherwise on his estimate for that wine. One word says where it stands today: “Young”, “Drink now”, “Drink soon”.',
+              )}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ══ S2 · CE QUE LE TEMPS FAIT — nuit ════════════════════════════ */}
       <section id="le-temps" className="relative overflow-hidden text-foreground" style={{ background: '#150f0c' }}>
         <div className="mx-auto max-w-[1440px] px-6 py-12 lg:px-8 lg:py-16">
@@ -205,7 +270,7 @@ export default function ApogeeContent() {
                 />
               )}
             </svg>
-            <div className="mt-4 grid grid-cols-3 gap-3">
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {ETATS.map((e, i) => (
                 <FadeInOnScroll key={e.fr} delay={0.2 + i * 0.12}>
                   <p
@@ -229,6 +294,69 @@ export default function ApogeeContent() {
               )}
             </p>
           </FadeInOnScroll>
+        </div>
+      </section>
+
+      {/* ══ S2b · LIRE LA FENÊTRE — nuit (audit du 2026-11-06, P2) ═══════
+          Les repères tels que l'app les affiche sur la carte « Fenêtre de
+          dégustation » (`components/data-viz/FenetreDegustation.tsx`, v0.163.0),
+          la pastille de source et les barres de fiabilité. On montre ce que
+          l'utilisateur VOIT, jamais comment c'est calculé. */}
+      <section id="lire-la-fenetre" className="relative overflow-hidden text-foreground" style={{ background: '#150f0c' }}>
+        <div className="mx-auto max-w-[1440px] px-6 pb-14 lg:px-8 lg:pb-16">
+          <div className="mx-auto max-w-[1000px]">
+            <FadeInOnScroll>
+              <h2
+                className="text-center font-[family-name:var(--font-display)] font-medium leading-[1.12] tracking-[-0.02em]"
+                style={{ fontSize: 'clamp(26px, 3.8vw, 44px)' }}
+              >
+                {t('Quatre repères, ', 'Four markers, ')}
+                <span className="text-or">{t('une seule fenêtre.', 'one window.')}</span>
+              </h2>
+            </FadeInOnScroll>
+            <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {REPERES.map((r, i) => (
+                <FadeInOnScroll key={r.titre.fr} delay={0.06 * i}>
+                  <div className="h-full rounded-[14px] border border-or/20 bg-or/[0.03] p-5">
+                    <h3 className="text-[11.5px] font-medium uppercase tracking-[0.2em] text-or">{t(r.titre.fr, r.titre.en)}</h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{t(r.texte.fr, r.texte.en)}</p>
+                  </div>
+                </FadeInOnScroll>
+              ))}
+            </div>
+            <div className="mt-8 grid gap-6 lg:grid-cols-2">
+              <FadeInOnScroll>
+                <div>
+                  <h3 className="font-[family-name:var(--font-display)] text-[22px] font-medium leading-snug">
+                    {t('D’où vient la fenêtre', 'Where the window comes from')}
+                  </h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+                    {t(
+                      'Une pastille le dit en haut de la carte : « Source producteur », « Source magasin » ou « Estimation iQWine ». À côté, trois petites barres disent sa fiabilité : trois quand des dates sont publiées pour ce vin, deux pour une estimation propre à ce vin, une quand elle ne repose que sur son style.',
+                      'A badge says so at the top of the card: “Producer source”, “Store source” or “iQWine estimate”. Next to it, three small bars show how reliable it is: three when dates are published for that wine, two for an estimate specific to that wine, one when it rests only on its style.',
+                    )}
+                  </p>
+                </div>
+              </FadeInOnScroll>
+              <FadeInOnScroll delay={0.08}>
+                <div>
+                  <h3 className="font-[family-name:var(--font-display)] text-[22px] font-medium leading-snug">
+                    {t('Un magnum n’est pas une bouteille', 'A magnum isn’t a bottle')}
+                  </h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+                    {t(
+                      'Un grand format évolue plus lentement : la fenêtre de chaque bouteille est estimée pour son format. Et un vin déjà bien évolué le jour où vous l’ajoutez se dit « Vin évolué, à goûter » : Octave ne vous presse pas pour lui.',
+                      'A large format evolves more slowly: each bottle’s window is estimated for its size. And a wine that is already well evolved on the day you add it reads “Evolved wine, worth tasting”: Octave doesn’t rush you with it.',
+                    )}
+                  </p>
+                </div>
+              </FadeInOnScroll>
+            </div>
+            {/* Capture à fournir par Éric (compte de démonstration) : la carte
+                « Fenêtre de dégustation » de l'app v0.163.0, avec sa pastille,
+                ses barres et « Sûr jusqu'en ». Rien n'est servi d'ici là ; la
+                capture 07-apogee-cave plus bas date d'avant ces libellés. */}
+          </div>
         </div>
       </section>
 
@@ -359,7 +487,7 @@ export default function ApogeeContent() {
                       Octave
                     </span>
                     <span className="rounded-full bg-or-jour/12 px-2.5 py-1 text-[10.5px] font-medium uppercase tracking-[0.16em] text-or-jour">
-                      {t('À son sommet', 'At its peak')}
+                      {t('À boire maintenant', 'Drink now')}
                     </span>
                   </div>
                   <div className="mt-4 flex items-center gap-4">
@@ -417,6 +545,15 @@ export default function ApogeeContent() {
         </div>
       </section>
 
+      {/* Questions de la page : visibles ET balisées en `FAQPage` par
+          `apogee/page.tsx`, même source (`FAQ_APOGEE`). */}
+      <SectionFaq
+        ton="jour"
+        items={FAQ_APOGEE}
+        surtitre={{ fr: 'Questions', en: 'Questions' }}
+        titre={{ fr: 'L’apogée, en clair.', en: 'The drinking window, made clear.' }}
+      />
+
       {/* ══ S5 · LA RÉSOLUTION — plein jour ═════════════════════════════ */}
       <section className="mouvement-jour relative">
         <div className="mx-auto max-w-[1440px] px-6 pb-14 text-center lg:px-8 lg:pb-16">
@@ -462,6 +599,13 @@ export default function ApogeeContent() {
                 className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour"
               >
                 {t('Les accords mets-vins', 'Wine pairing')}
+                <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+              </LocaleLink>
+              <LocaleLink
+                href="/guide/votre-cave#service-vin"
+                className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour"
+              >
+                {t('Servir le vin au mieux', 'Serving wine at its best')}
                 <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
               </LocaleLink>
             </div>

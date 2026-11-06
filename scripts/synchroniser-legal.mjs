@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * SYNCHRONISE les Conditions d'utilisation depuis cellier-vin — la source
- * canonique (lib/legal/legal-meta.ts y porte « SOURCE UNIQUE »).
+ * SYNCHRONISE les Conditions d'utilisation et la Politique de confidentialité
+ * depuis cellier-vin — la source canonique (lib/legal/legal-meta.ts y porte
+ * « SOURCE UNIQUE »). La Politique a rejoint ce chemin le 2026-11-06.
  *
  * ── Pourquoi ce script existe (audit du 2026-08-14) ───────────────────────
  * Le site portait une DEUXIÈME rédaction manuelle des Conditions, qui avait
@@ -103,6 +104,30 @@ if (JSON.stringify(clesFr) !== JSON.stringify(clesEn)) {
   process.exit(1);
 }
 
+/**
+ * ── LA POLITIQUE DE CONFIDENTIALITÉ, MÊME CHEMIN (audit du 2026-11-06) ────
+ * La page /confidentialite du site était la dernière rédaction légale encore
+ * recopiée à la main, avec la mention « À garder synchrone avec cellier-vin »,
+ * et elle avait dérivé comme les Conditions avant elle : l'app décrit depuis
+ * les photos, les dictées et le fournisseur d'IA (Google Gemini, aux
+ * États-Unis), le site non. Et /en/privacy servait ce texte FRANÇAIS sous
+ * une URL anglaise (constat V-16), alors que le canonique possède une
+ * version anglaise complète (`Legal.privacy` de messages/en.json).
+ *
+ * Elle passe donc par la même porte que les Conditions : clés copiées telles
+ * quelles, apostrophes courbées côté français, symétrie FR/EN exigée.
+ */
+const frPrivacy = Object.fromEntries(
+  Object.entries(fr.Legal.privacy).map(([k, v]) => [k, courbe(v)]),
+);
+const enPrivacy = { ...en.Legal.privacy };
+if (
+  JSON.stringify(Object.keys(frPrivacy).sort()) !== JSON.stringify(Object.keys(enPrivacy).sort())
+) {
+  console.error('[legal] clés Legal.privacy FR et EN asymétriques dans le canonique — corriger cellier-vin d’abord.');
+  process.exit(1);
+}
+
 // Garde-fou essai : le produit et le site doivent promettre la même règle.
 const essaiProduit = {
   days: nombre('lib/billing/plan-catalog.ts', 'TRIAL_DAYS'),
@@ -117,6 +142,84 @@ if (siteDays !== essaiProduit.days || siteRecos !== essaiProduit.recos) {
       `site ${siteDays}j/${siteRecos} recos. Aligner src/lib/trial.ts sur plan-catalog.ts.`,
   );
   process.exit(1);
+}
+
+/**
+ * ── GARDE-FOU GRILLE (audit de visibilité du 2026-11-06) ─────────────────
+ * La garde d'essai ci-dessus a laissé passer trois jours de « 12 conseils »
+ * parce que personne n'avait relancé `legal:verifier` après le changement de
+ * l'app (constat V-01). Elle est restée juste, mais elle ne gardait que
+ * l'essai. Les PRIX et les INCLUSIONS de la grille sont la même classe de
+ * promesse, recopiée de la même façon dans `src/lib/plans.ts` : ils passent
+ * désormais par la même porte.
+ *
+ * Lecture par expressions régulières, comme le reste de ce script : on lit
+ * le TEXTE des deux fichiers TS, on n'exécute rien du dépôt voisin. Le bloc
+ * d'un forfait est découpé de sa clé à la fin de son objet ; un champ
+ * introuvable est une dérive comme une autre (exception, code 1).
+ */
+function champsDuBloc(src, debut, fichier) {
+  const i = src.indexOf(debut);
+  if (i < 0) throw new Error(`bloc « ${debut} » introuvable dans ${fichier}`);
+  // Le bloc s'arrête à la première ligne qui ferme l'objet au même niveau
+  // (« }, » ou « }; »), ce qui suffit aux deux fichiers lus ici.
+  const fin = src.slice(i).search(/\n\s*\}[,;]/);
+  const bloc = src.slice(i, fin < 0 ? undefined : i + fin);
+  const lire = (nom) => {
+    const m = bloc.match(new RegExp(`\\b${nom}:\\s*(-?\\d+)`));
+    if (!m) throw new Error(`${nom} introuvable dans le bloc « ${debut} » de ${fichier}`);
+    return Number(m[1]);
+  };
+  return {
+    priceMonthlyCents: lire('priceMonthlyCents'),
+    priceYearlyCents: lire('priceYearlyCents'),
+    includedUsers: lire('includedUsers'),
+    monthlyRecommendations: lire('monthlyRecommendations'),
+    maxBottles: lire('maxBottles'),
+  };
+}
+{
+  const catalogue = readFileSync(path.join(CELLIER, 'lib/billing/plan-catalog.ts'), 'utf8');
+  const plansSite = readFileSync(path.join(RACINE, 'src/lib/plans.ts'), 'utf8');
+  // Le Gratuit de l'app n'est pas une entrée du catalogue : ses deux limites
+  // vivent dans des constantes privées (FREE_BOTTLES, FREE_RECOMMENDATIONS).
+  const constPrivee = (nom) => {
+    const m = catalogue.match(new RegExp(`const ${nom}\\s*=\\s*(\\d+)`));
+    if (!m) throw new Error(`${nom} introuvable dans lib/billing/plan-catalog.ts`);
+    return Number(m[1]);
+  };
+  const paires = [
+    // [nom lisible, bloc côté app, bloc côté site]
+    ['Passionné (STANDARD)', 'STANDARD: {', 'const STANDARD_PLAN: MarketingPlan = {'],
+    ['Premium (PRO)', 'PRO: {', 'const PREMIUM_PLAN: MarketingPlan = {'],
+  ];
+  const ecarts = [];
+  // On ne lit que la grille EN VENTE (PLAN_CATALOG), jamais les retirés.
+  const enVente = catalogue.slice(catalogue.indexOf('export const PLAN_CATALOG'));
+  for (const [nom, blocApp, blocSite] of paires) {
+    const app = champsDuBloc(enVente, blocApp, 'plan-catalog.ts');
+    const site = champsDuBloc(plansSite, blocSite, 'src/lib/plans.ts');
+    for (const cle of Object.keys(app)) {
+      if (app[cle] !== site[cle]) ecarts.push(`${nom}.${cle} : app ${app[cle]}, site ${site[cle]}`);
+    }
+  }
+  const gratuitSite = champsDuBloc(plansSite, 'export const FREE_PLAN = {', 'src/lib/plans.ts');
+  const gratuitApp = {
+    maxBottles: constPrivee('FREE_BOTTLES'),
+    monthlyRecommendations: constPrivee('FREE_RECOMMENDATIONS'),
+  };
+  for (const cle of Object.keys(gratuitApp)) {
+    if (gratuitApp[cle] !== gratuitSite[cle]) {
+      ecarts.push(`Gratuit.${cle} : app ${gratuitApp[cle]}, site ${gratuitSite[cle]}`);
+    }
+  }
+  if (ecarts.length > 0) {
+    console.error(
+      `[legal] grille divergente entre le produit et le site :\n  ${ecarts.join('\n  ')}\n` +
+        'Aligner src/lib/plans.ts sur lib/billing/plan-catalog.ts (ou l’inverse, sur décision d’Éric).',
+    );
+    process.exit(1);
+  }
 }
 
 const donnees = {
@@ -138,6 +241,7 @@ const donnees = {
   trial: essaiProduit,
   enNotice: en.Legal.enFallbackNotice,
   terms: { fr: frTerms, en: enTerms },
+  privacy: { fr: frPrivacy, en: enPrivacy },
 };
 const texte = JSON.stringify(donnees, null, 2) + '\n';
 
@@ -159,5 +263,6 @@ if (MODE_VERIFIER) {
 writeFileSync(CIBLE, texte);
 console.log(
   `[legal] généré : version ${donnees.legalVersion} (${donnees.effectiveDate}), ` +
-    `${Object.keys(frTerms).length} clés × 2 langues, depuis ${CELLIER}.`,
+    `${Object.keys(frTerms).length} clés de Conditions et ${Object.keys(frPrivacy).length} de Politique ` +
+    `× 2 langues, depuis ${CELLIER}.`,
 );

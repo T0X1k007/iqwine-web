@@ -13,6 +13,10 @@ import { buildSignupUrl } from '@/lib/constants';
 import { SIGNUP_CTA, SIGNUP_REASSURANCE } from '@/lib/trial';
 import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { ArrowRight, MapPin } from 'lucide-react';
+import SectionFaq from '@/components/sections/SectionFaq';
+import BadgesPlateformes from '@/components/ui/BadgesPlateformes';
+import { FAQ_CELLIER } from '@/lib/faq-fonctions';
+import { FREE_PLAN } from '@/lib/plans';
 
 /**
  * /cellier-intelligent — « Une cave qui se souvient. » (conception validée,
@@ -35,8 +39,10 @@ const CHEMINS: { fr: string; en: string }[] = [
   { fr: 'Photographiez l’étiquette : la fiche naît toute seule.', en: 'Photograph the label: the record writes itself.' },
   { fr: 'Scannez le code-barres, quand il y en a un.', en: 'Scan the barcode, when there is one.' },
   { fr: 'Une caisse entière ? Un seul parcours, pas six.', en: 'A whole case? One pass, not six.' },
-  { fr: 'Le reçu d’un point de vente pris en charge : tout entre d’un coup.', en: 'A supported store receipt: everything gets in at once.' },
-  { fr: 'Une cave déjà en tableur ? Elle s’importe.', en: 'A cellar already in a spreadsheet? It imports.' },
+  { fr: 'Le reçu d’un magasin pris en charge : tout entre d’un coup.', en: 'A supported store receipt: everything gets in at once.' },
+  // Audit du 2026-11-06 (P1) : l'import accepte aussi l'export d'une autre
+  // application de cave (`import-flow.tsx` l. 343 au tag v0.163.0).
+  { fr: 'Une cave déjà en tableur, ou dans une autre application ? Elle s’importe : CSV, Excel ou JSON.', en: 'A cellar already in a spreadsheet, or in another app? It imports: CSV, Excel or JSON.' },
 ];
 
 /** La vague qui allume les cases du cellier visuel (S3). */
@@ -354,6 +360,80 @@ export default function CellierContent() {
         </div>
       </section>
 
+      {/* ══ S4b · GRATUIT ET PARTOUT — retour au jour (audit 2026-11-06, P1)
+          « Gratuit » est le premier mot qu'on ajoute à « application de cave »
+          dans une recherche : la page le dit, avec les vraies limites du
+          forfait (`FREE_PLAN`, aligné sur `FREE_LIMITS` de l'app v0.163.0). */}
+      <section className="mouvement-jour relative" id="gratuit">
+        <div className="mx-auto max-w-[1440px] px-6 pt-14 lg:px-8 lg:pt-16">
+          <div className="mx-auto grid max-w-[1060px] gap-10 lg:grid-cols-2 lg:gap-14">
+            <FadeInOnScroll>
+              <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or-jour">
+                {t('Le forfait Gratuit', 'The Free plan')}
+              </p>
+              <h2
+                className="mt-3 font-[family-name:var(--font-display)] font-medium leading-[1.1] tracking-[-0.02em] text-encre"
+                style={{ fontSize: 'clamp(28px, 4vw, 44px)' }}
+              >
+                {t(`Gratuit jusqu’à ${FREE_PLAN.maxBottles} bouteilles. `, `Free up to ${FREE_PLAN.maxBottles} bottles. `)}
+                <span className="text-bordeaux-jour">{t('Sans date de fin.', 'No end date.')}</span>
+              </h2>
+              <p className="mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-encre-2">
+                {t(
+                  `Le forfait Gratuit n’expire pas et ne demande aucune carte : ${FREE_PLAN.maxBottles} bouteilles, ${FREE_PLAN.monthlyRecommendations} conseils personnalisés d’Octave par mois, une personne. Entrer, ranger ou importer vos bouteilles n’utilise aucun conseil. Pour une plus grande cave ou plus de conseils, il y a le Passionné et le Premium.`,
+                  `The Free plan never expires and asks for no card: ${FREE_PLAN.maxBottles} bottles, ${FREE_PLAN.monthlyRecommendations} pieces of personalized advice from Octave per month, one person. Adding, organizing or importing bottles never uses any advice. For a bigger cellar or more advice, there’s Enthusiast and Premium.`,
+                )}
+              </p>
+              <LocaleLink
+                href="/tarifs"
+                className="mt-5 inline-flex items-center gap-2 text-[14.5px] font-medium text-bordeaux-jour transition-colors hover:text-or-jour"
+              >
+                {t('Comparer les forfaits', 'Compare the plans')}
+                <ArrowRight size={15} strokeWidth={1.75} aria-hidden />
+              </LocaleLink>
+            </FadeInOnScroll>
+            <FadeInOnScroll delay={0.1}>
+              <p className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-or-jour">
+                {t('Partout où est votre cave', 'Wherever your cellar is')}
+              </p>
+              <h2
+                className="mt-3 font-[family-name:var(--font-display)] font-medium leading-[1.1] tracking-[-0.02em] text-encre"
+                style={{ fontSize: 'clamp(28px, 4vw, 44px)' }}
+              >
+                {t('Sur iPhone, Android ', 'On iPhone, Android ')}
+                <span className="text-bordeaux-jour">{t('et le web.', 'and the web.')}</span>
+              </h2>
+              <p className="mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-encre-2">
+                {t(
+                  'Sur l’App Store, sur Google Play au Canada, et dans votre navigateur : le même compte, la même cave. Une cave qui vit déjà ailleurs, dans un tableur ou une autre application, s’importe sans tout ressaisir.',
+                  'On the App Store, on Google Play in Canada, and in your browser: the same account, the same cellar. A cellar that already lives elsewhere, in a spreadsheet or another app, imports without retyping everything.',
+                )}
+              </p>
+              <BadgesPlateformes ton="jour" source="cellier" className="mt-6" />
+              <LocaleLink
+                href="/comparatif-applications-vin"
+                className="mt-5 inline-flex items-center gap-2 text-[14.5px] font-medium text-bordeaux-jour transition-colors hover:text-or-jour"
+              >
+                {t('Vous venez d’une autre application ?', 'Coming from another app?')}
+                <ArrowRight size={15} strokeWidth={1.75} aria-hidden />
+              </LocaleLink>
+            </FadeInOnScroll>
+          </div>
+          {/* Capture à fournir par Éric (compte de démonstration) : l'écran
+              d'import avec la correspondance des colonnes, ou le widget iOS.
+              Rien n'est servi tant que l'image n'existe pas. */}
+        </div>
+      </section>
+
+      {/* Questions de la page : visibles ET balisées en `FAQPage` par
+          `cellier-intelligent/page.tsx`, même source (`FAQ_CELLIER`). */}
+      <SectionFaq
+        ton="jour"
+        items={FAQ_CELLIER}
+        surtitre={{ fr: 'Questions', en: 'Questions' }}
+        titre={{ fr: 'Votre cave, avant de commencer.', en: 'Your cellar, before you start.' }}
+      />
+
       {/* ══ S5 · L'ACTION — retour à la lumière ═════════════════════════ */}
       <section className="mouvement-jour relative">
         <div className="mx-auto max-w-[1440px] px-6 py-14 text-center lg:px-8 lg:py-16">
@@ -378,6 +458,22 @@ export default function CellierContent() {
                   `${SIGNUP_REASSURANCE.en} · No cellar to type in by hand`,
                 )}
               </p>
+            </div>
+            <div className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-[14px]">
+              <LocaleLink
+                href="/apogee"
+                className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour"
+              >
+                {t('Quand ouvrir chaque bouteille', 'When to open each bottle')}
+                <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+              </LocaleLink>
+              <LocaleLink
+                href="/guide/votre-cave"
+                className="inline-flex items-center gap-1.5 font-medium text-bordeaux-jour transition-colors hover:text-or-jour"
+              >
+                {t('Le Guide de votre cave', 'Your cellar, the Guide')}
+                <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
+              </LocaleLink>
             </div>
           </FadeInOnScroll>
         </div>

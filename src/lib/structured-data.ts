@@ -31,14 +31,46 @@ import { BCP47, SITE_ORIGIN, absoluteUrl, type Locale } from '@/lib/locale';
 
 const SITE = SITE_ORIGIN;
 
-
+/**
+ * LES PROFILS OFFICIELS d'iQWine, déclarés en `sameAs` (audit du 2026-11-06,
+ * constat V-23).
+ *
+ * `sameAs` dit aux moteurs et aux assistants « ces comptes et ce site sont la
+ * même entité ». Sans lui, un nom aussi court qu'« iQWine » se confond avec
+ * ses homonymes. Chaque adresse a été vérifiée publiquement le 2026-11-06,
+ * et seule une adresse VÉRIFIÉE entre ici :
+ *
+ *   · Instagram @iqwineapp : 200, titre « iQWine (@iqwineapp) » ;
+ *   · TikTok @iqwine : 200, oEmbed public « iQWine », @iqwine ;
+ *   · YouTube @iQWineApp : 200, titre « iQWine », description « Octave,
+ *     votre sommelier virtuel, vous suit partout. ».
+ *
+ * ⚠️ LA PAGE FACEBOOK N'Y EST PAS, ET C'EST VOULU : son adresse
+ * (`facebook.com/1297038106827804`) répond 400 à toute lecture anonyme, on
+ * ne peut donc pas prouver d'ici qu'elle répond ni qu'elle est à iQWine.
+ * L'ajouter sur la foi d'un identifiant, c'est risquer de lier l'entité à la
+ * mauvaise page. À ajouter quand son adresse publique (`facebook.com/<nom>`)
+ * aura été confirmée par Éric.
+ */
+export const PROFILS_OFFICIELS = [
+  'https://www.instagram.com/iqwineapp/',
+  'https://www.tiktok.com/@iqwine',
+  'https://www.youtube.com/@iQWineApp',
+] as const;
 
 /**
  * L'organisation, enrichie.
  *
  * `Organization` seule ne dit rien de ce qu'on vend. On y ajoute l'éditeur
- * réel, la zone desservie et la langue — trois faits qu'un assistant reprend
+ * réel, la zone desservie et la langue, trois faits qu'un assistant reprend
  * volontiers et qu'aucune autre source de la page ne porte.
+ *
+ * ── La fondatrice, et elle seule (décision LOCKED d'Éric, 2026-09-25) ──────
+ * Mégane Bigras est la fondatrice d'iQWine ; l'idée vient d'elle. Éric
+ * l'accompagne et n'est JAMAIS présenté comme fondateur, ni ici ni ailleurs.
+ * Le nom et le rôle sont ceux que la page « Notre histoire » affiche déjà
+ * (`AProposContent`, « Fondatrice d'iQWine »), condition pour qu'un balisage
+ * décrive le contenu visible.
  */
 export function organizationLd(locale: Locale) {
   return {
@@ -53,6 +85,13 @@ export function organizationLd(locale: Locale) {
         : 'Le sommelier IA qui sait quoi ouvrir, quoi acheter et quoi commander.',
     areaServed: { '@type': 'AdministrativeArea', name: 'Québec, Canada' },
     knowsLanguage: ['fr-CA', 'en-CA'],
+    founder: {
+      '@type': 'Person',
+      name: 'Mégane Bigras',
+      jobTitle: locale === 'en' ? 'Founder of iQWine' : 'Fondatrice d’iQWine',
+      url: absoluteUrl('/notre-maison', locale),
+    },
+    sameAs: [...PROFILS_OFFICIELS],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
@@ -67,7 +106,9 @@ export function organizationLd(locale: Locale) {
  *
  * `SoftwareApplication` plutôt que `Product` : c'est ce qu'iQWine est, et le
  * type porte des propriétés que `Product` n'a pas (catégorie d'application,
- * plateforme). L'essai est déclaré par sa VRAIE règle — les deux bornes.
+ * plateforme). L'essai est déclaré par sa VRAIE règle (`TRIAL_FULL` : la
+ * durée, et les conseils inclus, qui ne la raccourcissent plus depuis le
+ * 2026-11-03).
  */
 export function softwareApplicationLd(locale: Locale) {
   /**
@@ -196,6 +237,58 @@ export function faqPageLd(locale: Locale) {
     '@context': 'https://schema.org',
     ...faqLd(locale),
   };
+}
+
+/**
+ * LE FIL D'ARIANE, en `BreadcrumbList` (audit du 2026-11-06).
+ *
+ * `FilAriane` l'affiche à l'écran depuis la v3 ; son commentaire annonçait le
+ * balisage « posé côté serveur, page par page ». Les pages touchées par le
+ * lot de contenus du 2026-11-06 le posent. Les éléments sont des chemins NUS :
+ * la langue et le slug traduit viennent d'`absoluteUrl`, comme partout.
+ */
+export function breadcrumbLd(
+  locale: Locale,
+  elements: { nom: string; chemin: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: elements.map((e, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: e.nom,
+      item: absoluteUrl(e.chemin, locale),
+    })),
+  };
+}
+
+/**
+ * Un `FAQPage` pour une page qui AFFICHE ses propres questions (Guide,
+ * Cellier, Apogée, Sommelier). Même règle que `faqLd` : le texte balisé est
+ * exactement le texte visible, lu dans la même source.
+ */
+export function faqPageDepuis(
+  locale: Locale,
+  chemin: string,
+  items: { q: Record<Locale, string>; a: Record<Locale, string> }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${absoluteUrl(chemin, locale)}#faq`,
+    inLanguage: BCP47[locale],
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.q[locale],
+      acceptedAnswer: { '@type': 'Answer', text: item.a[locale] },
+    })),
+  };
+}
+
+/** Sérialise un ou plusieurs blocs JSON-LD pour un `<script>`, sans `<` brut. */
+export function jsonLdScript(blocs: unknown): string {
+  return JSON.stringify(blocs).replace(/</g, '\\u003c');
 }
 
 /** Le nombre de jours d'essai, pour les appelants qui l'affichent. */
