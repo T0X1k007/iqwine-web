@@ -14,7 +14,7 @@ import { ArrowRight } from 'lucide-react';
  *
  * Révision du 2026-08-13 (Eric) : composition INVERSÉE par rapport au
  * mouvement 2, l'assemblage photo à GAUCHE, le récit à DROITE. L'assemblage
- * superpose la photo de la cliente au téléphone dans le point de vente
+ * superpose la photo de la cliente au téléphone en magasin
  * (ARRIÈRE-PLAN, fournie par Eric) et la carte Compagnon d'achat dessinée
  * (DEVANT, le thème clair de l'app, la preuve). Le budget est un critère réel
  * du parcours (SommelierSearch.budgetMin/Max), copy vérifié dans le code.
@@ -104,7 +104,7 @@ export default function SectionRayonMagasin() {
                   <img
                     src="/photos/lifestyle/magasin-choix-telephone.jpg"
                     alt={t(
-                      'Dans un point de vente de vins, une cliente consulte les suggestions d’Octave sur son téléphone.',
+                      'Dans un magasin de vins, une cliente consulte les suggestions d’Octave sur son téléphone.',
                       'In a wine store, a customer checks Octave’s suggestions on her phone.',
                     )}
                     width={1200}
@@ -145,7 +145,7 @@ export default function SectionRayonMagasin() {
             <FadeInOnScroll delay={0.1}>
               <p className="mt-6 max-w-[52ch] text-[16.5px] leading-relaxed text-encre-2 md:text-[17.5px]">
                 {t(
-                  'Dans un point de vente pris en charge, montrez une bouteille à Octave, ou demandez-lui par où commencer. Il connaît votre palais, les disponibilités près de vous, et votre budget.',
+                  'Dans un magasin pris en charge, montrez une bouteille à Octave, ou demandez-lui par où commencer. Il connaît votre palais, les disponibilités près de vous, et votre budget.',
                   'In a supported store, show Octave a bottle, or ask him where to start. He knows your palate, what’s available near you, and your budget.',
                 )}
               </p>

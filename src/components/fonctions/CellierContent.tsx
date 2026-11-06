@@ -35,7 +35,7 @@ const CHEMINS: { fr: string; en: string }[] = [
   { fr: 'Photographiez l’étiquette : la fiche naît toute seule.', en: 'Photograph the label: the record writes itself.' },
   { fr: 'Scannez le code-barres, quand il y en a un.', en: 'Scan the barcode, when there is one.' },
   { fr: 'Une caisse entière ? Un seul parcours, pas six.', en: 'A whole case? One pass, not six.' },
-  { fr: 'Le reçu d’un point de vente pris en charge : tout entre d’un coup.', en: 'A supported store receipt: everything gets in at once.' },
+  { fr: 'Le reçu d’un magasin pris en charge : tout entre d’un coup.', en: 'A supported store receipt: everything gets in at once.' },
   { fr: 'Une cave déjà en tableur ? Elle s’importe.', en: 'A cellar already in a spreadsheet? It imports.' },
 ];
 

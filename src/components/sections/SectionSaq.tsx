@@ -14,7 +14,7 @@ import { track, ANALYTICS_EVENTS } from '@/lib/analytics';
 /**
  * SectionSaq (#saq), le moat disponibilité locale renforcé. Octave ne
  * recommande pas dans le vide : si le vin n'est pas dans votre cave, il sait où
- * le trouver, en tablette, au point de vente le plus proche, ce soir.
+ * le trouver, en tablette, en magasin, au plus près, ce soir.
  * Disponibilités locales vérifiées, magasin par magasin, le différenciateur
  * que personne d'autre ne réunit.
  */
@@ -36,7 +36,7 @@ export default function SectionSaq() {
           </h2>
           <p className="iq-lead mt-6">
             {t(
-              "Octave ne se contente pas de recommander un vin. S'il n'est pas dans votre cave, il sait où le trouver : la bonne bouteille, en tablette, au point de vente le plus proche, et si elle est disponible ce soir.",
+              "Octave ne se contente pas de recommander un vin. S'il n'est pas dans votre cave, il sait où le trouver : la bonne bouteille, en tablette, dans le magasin le plus proche, et si elle est disponible ce soir.",
               'Octave doesn’t just recommend a wine. If it isn’t in your cellar, it knows where to find it: the right bottle, on the shelf, at the nearest store, and whether it’s available tonight.',
             )}
           </p>
@@ -51,7 +51,7 @@ export default function SectionSaq() {
           </p>
           <p className="mt-4 font-body text-[10px] tracking-[0.22em] uppercase text-foreground-faint">
             {t(
-              <>Un réseau de points de vente, partout au Québec</>,
+              <>Un réseau de magasins, partout au Québec</>,
               <>A network of stores, across Québec</>,
             )}
           </p>
@@ -87,7 +87,7 @@ export default function SectionSaq() {
             />
           </div>
 
-          {/* Artefact : point de vente réel + statut de disponibilité (sans
+          {/* Artefact : magasin réel + statut de disponibilité (sans
               quantité exacte ni horodatage, la dispo est best-effort). Le
               point animé reste un décor visuel, pas une promesse temps réel. */}
           <div className="mt-7 flex justify-center">
@@ -98,7 +98,7 @@ export default function SectionSaq() {
               </span>
               <span>
                 {t(
-                  <>Point de vente · Outremont · Disponible en tablette</>,
+                  <>En magasin · Outremont · Disponible en tablette</>,
                   <>Store · Outremont · In stock in-store</>,
                 )}
               </span>
