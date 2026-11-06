@@ -83,3 +83,32 @@ Il touche une décision d'Éric documentée dans le code (`x-default` neutre) : 
 - **Bing Webmaster Tools** : pas configuré.
 - **Sources d'acquisition App Store** : accès Analytics refusé à l'utilisateur.
 - **Statistiques d'acquisition Play** au-delà de l'aperçu sur 28 jours.
+
+## 7. Gestes effectués sur autorisation d'Éric (2026-11-06, soir)
+
+| Console | Geste | Résultat vérifié |
+|---|---|---|
+| Vercel | `iqwine-web.vercel.app` passé de « Production » à **redirection 308 vers `iqwine.ai`** | `curl https://iqwine-web.vercel.app/fr/tarifs` → 308 vers `https://iqwine.ai/fr/tarifs` ; `iqwine.ai` répond 200 ; les préversions (URL de déploiement) restent inchangées, toujours derrière l'authentification Vercel |
+| Google Play | Brouillon de la fiche **corrigé et enregistré, non publié** : FR « … disponibilité en magasin, magasin par magasin, partout au Québec, et leur prix affiché » ; EN « … in-store availability, store by store, across Québec, and their listed price ». Titre EN « iQWine – Personal Sommelier » conservé | Console : « Vos modifications ont été enregistrées » ; plus aucun « SAQ », « succursale », « point de vente » ni « bon prix » dans le brouillon FR/EN |
+| Google Play | Coordonnées (site web, courriel) : **non modifiées**. Le formulaire n'offre que « Enregistrer et publier », ce qui publierait immédiatement | En attente du GO de publication |
+| Google Play | URL de confidentialité (Contenu de l'appli) : **non modifiée**. L'enregistrement s'applique à l'appli publiée | En attente du GO |
+| App Store Connect | URL de confidentialité : **non modifiable** depuis cette page avec cet utilisateur, aucun contrôle d'édition alors que la bannière dit les autres changements « immédiatement disponibles » | À faire avec la prochaine version iOS, en même temps que les descriptions (texte prêt dans `FICHES-BOUTIQUES-CORRECTIONS.md`) |
+| Cloudflare | Claude-User : **non modifié**. Son blocage vient de la politique « Training : Disallow » (Cloudflare le classe « AI Crawler »). L'interrupteur par robot ne peut pas le lever, et le menu n'offre aucune exception | Le débloquer exigerait de toucher la politique d'entraînement, ce qu'Éric a exclu pour ce lot |
+
+### Google-CloudVertexBot : laissé bloqué
+
+Selon la documentation de Google (liste des robots courants de Google ; Agent Search de Vertex AI), il n'explore un site **qu'à la demande de son propriétaire**, pour construire un agent Vertex AI sur ce contenu, et ne sert ni à Google Search ni aux autres produits. Il n'apporte rien à notre visibilité ; le bloquer n'a aucun effet sur la recherche.
+
+### Statut de commerçant (Google Play) : accompagnement, rien de soumis
+
+- **Où** : Play Console > Gérer le compte > Détails du compte > « À propos de vous » > Statut de commerçant. Pour l'instant : « Action requise », date limite 2027-02-01.
+- **Qui** : seul le **propriétaire du compte** peut déclarer, c'est-à-dire le compte Google `admin@iqwine.ca`. La session utilisée aujourd'hui (Eric Bigras, gmail) voit le bouton grisé.
+- **Ce que demande Google** (aide Play Console, réponse 17594752) :
+  - déclarer si l'on est commerçant (EEE et Royaume-Uni) ;
+  - pour un commerçant, une autocertification de conformité aux lois locales ;
+  - pour un **compte personnel**, un **téléphone** de contact affiché publiquement, et l'**adresse** aussi affichée publiquement ;
+  - à partir du 2027-03-01, les coordonnées, le D-U-N-S et le lien vers les conditions de l'appli deviennent visibles.
+- **Enjeu** : le compte est personnel. L'adresse légale enregistrée est une adresse personnelle, et elle deviendrait publique. Une déclaration fausse (« non-commerçant » pour éviter l'affichage) expose à la suspension du compte.
+- **Décision d'Éric, avant la déclaration** :
+  - soit déclarer sur le compte personnel, en acceptant l'affichage de l'adresse et d'un téléphone ;
+  - soit passer d'abord à un **compte d'organisation** (Groupe Medtech inc., D-U-N-S requis), pour afficher les coordonnées de l'entreprise.
