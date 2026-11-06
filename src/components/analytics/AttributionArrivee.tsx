@@ -33,8 +33,10 @@ import {
  * et futurs, sans modifier leurs 27 appelants. Le clic du milieu et le menu
  * contextuel (« ouvrir dans un nouvel onglet ») sont couverts.
  *
- * Toujours actif : il ne collecte rien et n'envoie rien ailleurs que dans le
- * lien d'inscription que le visiteur choisit lui-même de suivre.
+ * Monté seulement si `NEXT_PUBLIC_ATTRIBUTION_ARRIVEE=1` (voir le layout) :
+ * il n'envoie rien ailleurs que dans le lien d'inscription que le visiteur
+ * choisit de suivre, mais l'app conserve cette source avec le compte, et la
+ * Politique doit le dire avant qu'on l'allume.
  */
 const CLE = 'iqwine.attribution';
 

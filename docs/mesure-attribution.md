@@ -50,7 +50,7 @@ La Politique servie (`src/lib/legal-terms.generated.json`, synchronisée depuis 
 - **Pourquoi pas un témoin** : la valeur ne sert qu'au clic, dans le navigateur, puis part dans le lien. `sessionStorage` n'est jamais envoyé au serveur et disparaît à la fermeture de l'onglet.
 - Un UTM explicite remplace ce qui était gardé ; un référent ne fait que combler un vide.
 - Au clic (phase de capture, y compris clic du milieu et menu contextuel), le lien d'essai reçoit cette source à la place de `utm_source=marketing`. `src` (emplacement du CTA), `plan`, `period` et `lang` ne changent pas. Sans source connue, le repli `marketing / cta / trial` est intact.
-- Ce comportement **n'est pas** derrière l'interrupteur : il ne collecte rien de nouveau côté site et alimente un champ que l'app garde déjà. Il s'active donc au déploiement de cette branche, d'où l'ajout 2 à la Politique.
+- Ce comportement est derrière son propre interrupteur, `NEXT_PUBLIC_ATTRIBUTION_ARRIVEE=1` (décision d'Éric du 2026-11-06 : aucune nouvelle collecte allumée sans validation). Il alimente un champ que l'app conserve avec le compte, d'où l'ajout 2 à la Politique, à faire avant de l'allumer.
 
 ### Boutiques (interrupteur `NEXT_PUBLIC_CAMPAGNES_BOUTIQUES=1`)
 
@@ -62,7 +62,7 @@ La Politique servie (`src/lib/legal-terms.generated.json`, synchronisée depuis 
 
 1. Mettre à jour la Politique (section 2) et documenter l'évaluation de l'art. 17.
 2. Cloudflare, Web Analytics : ajouter le site `iqwine.ai` en **installation manuelle** (ou désactiver l'injection automatique pour ce nom d'hôte) et copier le jeton du site.
-3. Vercel, projet `iqwine-web`, variables d'environnement **Production** : `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN=<jeton>`. Si les campagnes de boutique sont voulues : `NEXT_PUBLIC_CAMPAGNES_BOUTIQUES=1` et `NEXT_PUBLIC_APP_STORE_PT=<jeton fournisseur>` (App Store Connect, Analytics > Campaigns). Ces variables sont lues **au build** : redéployer.
+3. Vercel, projet `iqwine-web`, variables d'environnement **Production** : `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN=<jeton>`. Si les campagnes de boutique sont voulues : `NEXT_PUBLIC_CAMPAGNES_BOUTIQUES=1` et `NEXT_PUBLIC_APP_STORE_PT=<jeton fournisseur>` (App Store Connect, Analytics > Campaigns). Pour la source d'arrivée : `NEXT_PUBLIC_ATTRIBUTION_ARRIVEE=1`, seulement après la mise à jour de la Politique. Ces variables sont lues **au build** : redéployer.
 4. Vérifier en ligne : en-tête CSP avec les deux origines Cloudflare, balise présente, aucune erreur CSP dans la console, une visite visible dans Cloudflare sous 24 h.
 
 Éteindre : retirer la variable et redéployer. La CSP revient à l'identique.
