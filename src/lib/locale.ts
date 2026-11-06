@@ -114,6 +114,8 @@ export const SEGMENTS: Record<string, Record<Locale, string>> = {
   guide: { fr: 'guide', en: 'guide' },
   'guide/conseils-d-octave': { fr: 'guide/conseils-d-octave', en: 'guide/octave-advice' },
   'guide/votre-cave': { fr: 'guide/votre-cave', en: 'guide/your-cellar' },
+  // Une seule page comparative, honnête, datée et sourcée.
+  'comparatif-applications-vin': { fr: 'comparatif-applications-vin', en: 'wine-app-comparison' },
   // Identiques dans les deux langues : on les déclare quand même, pour que la
   // table soit la liste EXHAUSTIVE des pages et non un cas particulier.
   contact: { fr: 'contact', en: 'contact' },

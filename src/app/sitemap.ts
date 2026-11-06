@@ -38,10 +38,11 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   { path: '/accord-mets-vins', priority: 0.9, freq: 'monthly' },
   { path: '/carte-des-vins', priority: 0.9, freq: 'monthly' },
   { path: '/tarifs', priority: 0.7, freq: 'monthly' },
-  // Lot de contenus du 2026-11-06 : le Guide d'Octave.
+  // Lot de contenus du 2026-11-06 : le Guide d'Octave et le comparatif.
   { path: '/guide', priority: 0.7, freq: 'monthly' },
   { path: '/guide/conseils-d-octave', priority: 0.6, freq: 'monthly' },
   { path: '/guide/votre-cave', priority: 0.6, freq: 'monthly' },
+  { path: '/comparatif-applications-vin', priority: 0.6, freq: 'monthly' },
   { path: '/notre-maison', priority: 0.5, freq: 'yearly' },
   { path: '/contact', priority: 0.4, freq: 'yearly' },
   // L'assistance publique : peu de valeur d'acquisition, mais c'est l'adresse
