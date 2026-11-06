@@ -1,7 +1,7 @@
 import LocaleLink from '@/components/ui/LocaleLink';
 import type { Metadata } from 'next';
 import { pageMetadata, type ParamsLocale } from '@/lib/page-metadata';
-import { LEGAL_ENTITY, LEGAL_EFFECTIVE_DATE } from '@/lib/legal-meta';
+import { NOTICE_EN, textePolitique, type LangueLegale } from '@/lib/legal-terms';
 import { LegalPage, LegalSection, LegalList } from '@/components/legal/legal-ui';
 
 const TEXTES = {
@@ -23,95 +23,101 @@ export async function generateMetadata({ params }: ParamsLocale): Promise<Metada
 }
 
 /**
- * /confidentialite, Politique de confidentialité publique du site iQWine.
- * Contenu aligné sur la page canonique de l'application (Loi 25, Québec).
- * À garder synchrone avec cellier-vin.
+ * LES AJOUTS PROPRES AU SITE, et eux seuls.
+ *
+ * Le canonique décrit l'APPLICATION. Le site, lui, recueille aussi ce que
+ * l'on écrit dans son formulaire de contact, et offre la page Contact comme
+ * voie de demande. L'ancienne page manuscrite le disait ; la synchronisation
+ * ne doit pas le faire disparaître, sans quoi la Politique du site cesserait
+ * de décrire une collecte qu'il fait réellement (Loi 25, transparence).
+ *
+ * Le français reprend les phrases de l'ancienne page, à peine détachées de
+ * leur paragraphe. L'anglais est une traduction faite le 2026-11-06, À FAIRE
+ * RELIRE : ce sont les trois seules phrases de /en/privacy qui ne viennent
+ * pas du canonique.
  */
-export default function ConfidentialitePage() {
+const AJOUTS_SITE = {
+  p1: {
+    fr: 'Depuis le site, vous pouvez aussi passer par notre page ',
+    en: 'From this website, you can also use our ',
+  },
+  p1Lien: { fr: 'Contact', en: 'Contact page' },
+  p2: {
+    fr: 'Lorsque vous nous écrivez depuis le site, nous recueillons les renseignements que vous fournissez (nom, courriel, message).',
+    en: 'When you write to us from this website, we collect the information you provide (name, email, message).',
+  },
+  p3: {
+    fr: 'Les renseignements transmis depuis le site servent aussi à répondre à vos demandes.',
+    en: 'Information sent from this website is also used to answer your requests.',
+  },
+} as const;
+
+/**
+ * /confidentialite, Politique de confidentialité publique du site iQWine.
+ *
+ * ── Le texte n'est PLUS rédigé ici (audit du 2026-11-06, constat V-16) ────
+ * Il vient de `legal-terms.generated.json`, copie committée des clés
+ * `Legal.privacy.*` de cellier-vin, régénérée par `npm run legal:synchroniser`
+ * et gardée par `npm run legal:verifier`, exactement comme les Conditions.
+ *
+ * Deux défauts y ont mis fin :
+ *   1. la page manuscrite avait DÉRIVÉ du canonique : elle ignorait les
+ *      photos et dictées transmises au fournisseur d'IA, et ce fournisseur
+ *      lui-même (Google Gemini, aux États-Unis), que l'app divulgue ;
+ *   2. /en/privacy servait ce texte FRANÇAIS sous une URL anglaise, alors
+ *      que le canonique possède sa version anglaise. Elle est servie telle
+ *      quelle, avec le bandeau « la version française fait foi » que les
+ *      Conditions portent déjà (`NOTICE_EN`, lui aussi tiré du canonique).
+ *
+ * Mêmes huit sections, même ordre, mêmes titres que la page de l'app.
+ */
+export default async function ConfidentialitePage({ params }: ParamsLocale) {
+  const { locale } = await params;
+  const langue: LangueLegale = locale === 'en' ? 'en' : 'fr';
+  const t = (cle: string) => textePolitique(langue, cle);
+
   return (
-    <LegalPage
-      title="Politique de confidentialité"
-      meta={`En vigueur le ${LEGAL_EFFECTIVE_DATE} · Conforme à la Loi 25 (Québec)`}
-    >
-      <LegalSection title="Responsable de la protection des renseignements">
-        iQWine (par {LEGAL_ENTITY.legalName}), située à{' '}
-        {LEGAL_ENTITY.city}, agit à titre de responsable des renseignements
-        personnels au sens de la Loi 25. Toute demande (accès, rectification,
-        suppression, retrait du consentement, plainte) peut être transmise
-        depuis l’application (section Support) ou via notre page{' '}
-        <LocaleLink href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
-          Contact
-        </LocaleLink>
-        , et est traitée par notre responsable de la protection des
-        renseignements personnels.
+    <LegalPage title={t('h1')} meta={t('effectiveOn')} langue={langue}>
+      {langue === 'en' && (
+        <p className="mb-10 rounded-lg border border-border px-4 py-3 text-[13px] leading-relaxed text-muted-foreground">
+          {NOTICE_EN}
+        </p>
+      )}
+
+      <LegalSection title={t('p1Title')}>
+        <p>{t('p1Body')}</p>
+        <p>
+          {AJOUTS_SITE.p1[langue]}
+          <LocaleLink href="/contact" className="text-or underline underline-offset-2 hover:text-foreground">
+            {AJOUTS_SITE.p1Lien[langue]}
+          </LocaleLink>
+          .
+        </p>
       </LegalSection>
 
-      <LegalSection title="Renseignements que nous recueillons">
-        À la création du compte : nom, adresse courriel, adresse IP (sécurité).
-        À l’utilisation : données de votre cave (bouteilles, dégustations,
-        préférences) et données techniques d’usage. Lorsque vous nous écrivez
-        depuis le site, nous recueillons les renseignements que vous fournissez
-        (nom, courriel, message). Les renseignements de paiement sont traités
-        directement par notre prestataire de paiement (Stripe) et ne sont pas
-        conservés par iQWine.
+      <LegalSection title={t('p2Title')}>
+        <p>{t('p2Body')}</p>
+        <p>{AJOUTS_SITE.p2[langue]}</p>
       </LegalSection>
 
-      <LegalSection title="Finalités">
-        Fournir et améliorer le service, générer des recommandations, assurer la
-        facturation, la sécurité et le support, et répondre à vos demandes. Nous
-        ne vendons jamais vos renseignements personnels et ne les utilisons pas à
-        des fins de marketing sans votre consentement distinct.
+      <LegalSection title={t('p3Title')}>
+        <p>{t('p3Body')}</p>
+        <p>{AJOUTS_SITE.p3[langue]}</p>
       </LegalSection>
 
-      <LegalSection title="Consentement et retrait">
-        La création d’un compte requiert votre consentement explicite à la
-        présente politique et aux conditions d’utilisation, dont nous conservons
-        une preuve horodatée et versionnée. Le consentement marketing est
-        distinct et facultatif. Vous pouvez retirer votre consentement à tout
-        moment depuis vos paramètres ou en nous contactant.
+      <LegalSection title={t('p4Title')}>{t('p4Body')}</LegalSection>
+
+      <LegalSection title={t('p5Title')}>
+        {t('p5Intro')}
+        <LegalList items={[1, 2, 3, 4, 5].map((n) => t(`p5Item${n}`))} />
       </LegalSection>
 
-      <LegalSection title="Conservation des renseignements">
-        Nous conservons vos renseignements le temps nécessaire aux finalités
-        ci-dessus :
-        <LegalList
-          items={[
-            'Données de compte et de cave : tant que votre compte est actif ; anonymisées ou supprimées après la suppression du compte.',
-            'Renseignements de facturation et fiscaux : conservés pour la durée requise par nos obligations légales et comptables.',
-            'Preuves de consentement : conservées à des fins probatoires conformément à la Loi 25.',
-            'Admissibilité à l’essai gratuit : après la suppression de votre compte, nous conservons un registre minimal (adresse courriel normalisée et empreinte technique non réversible) à seule fin de prévenir l’abus des essais gratuits. Aucune adresse IP brute n’est conservée.',
-            'Journaux techniques et de sécurité : conservés pour une durée limitée.',
-          ]}
-        />
-      </LegalSection>
-
-      <LegalSection title="Communication à des tiers et hors Québec">
-        Nous faisons appel à des prestataires pour exploiter le service, dont
-        certains peuvent traiter des renseignements hors Québec : hébergement et
-        base de données, courriel transactionnel, prestataire de paiement,
-        fournisseurs d’intelligence artificielle, et observabilité (suivi des
-        erreurs et journalisation). Nous mettons en place les mesures
-        nécessaires pour que ces communications offrent une protection adéquate
-        de vos renseignements. Nous ne vendons ni ne louons vos renseignements
-        personnels.
-      </LegalSection>
-
-      <LegalSection title="Données de tiers (détaillants et sources publiques)">
-        Certaines informations relatives aux produits, aux prix, aux
-        disponibilités et aux points de vente peuvent provenir de sources
-        publiques ou de détaillants tiers. Ces données appartiennent à leurs
-        détenteurs respectifs, sont fournies à titre informatif seulement et
-        peuvent différer de celles affichées par les détaillants concernés.
-        Malgré nos efforts pour les maintenir à jour, leur exactitude, leur
-        disponibilité et leur exhaustivité ne peuvent être garanties.
-      </LegalSection>
-
-      <LegalSection title="Vos droits (Loi 25)">
-        Vous avez le droit d’accéder à vos renseignements, de les rectifier, de
-        les faire supprimer, de retirer votre consentement et de porter plainte.
-        Vous pouvez exporter vos données personnelles et supprimer votre compte
-        directement depuis vos paramètres, section confidentialité.
-      </LegalSection>
+      <LegalSection title={t('p6Title')}>{t('p6Body')}</LegalSection>
+      {/* §7 nomme « la Société des alcools du Québec (SAQ) » comme source :
+          raison sociale exigée par la divulgation, exception LOCKED au
+          vocabulaire « en magasin ». Ne pas la réécrire ici. */}
+      <LegalSection title={t('p7Title')}>{t('p7Body')}</LegalSection>
+      <LegalSection title={t('p8Title')}>{t('p8Body')}</LegalSection>
     </LegalPage>
   );
 }
