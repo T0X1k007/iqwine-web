@@ -9,33 +9,47 @@
  * restent servies en 301 et continuent d'être visitées tant que l'index n'a pas
  * été mis à jour.
  *
- * On soumet les DEUX : les nouvelles adresses (pour qu'elles soient
- * découvertes) et les anciennes (pour que le 301 soit vu et l'index remplacé).
- * Ne soumettre que les nouvelles laisserait les anciennes vivre dans l'index
- * jusqu'au prochain passage naturel.
+ * Lors de la migration, on a soumis les DEUX : les nouvelles adresses (pour
+ * qu'elles soient découvertes) et les anciennes (pour que le 301 soit vu et
+ * l'index remplacé).
+ *
+ * ── Après chaque mise en production : les canoniques seulement ───────────
+ * IndexNow attend une URL « ajoutée, modifiée ou supprimée » (indexnow.org,
+ * documentation). Une ancienne adresse redirigée n'a changé qu'une fois : la
+ * renvoyer à chaque publication ne signale rien de neuf. Elle n'est donc
+ * incluse qu'avec `--migration`, pour une prochaine migration d'adresses.
+ *
+ * Un 200 veut dire « reçu », pas « indexé ».
  *
  * ── Google n'est pas concerné ─────────────────────────────────────────────
  * Google ne participe pas à IndexNow. Pour lui, le sitemap mis à jour dans la
  * Search Console est le canal — un geste humain, dans une console.
  *
  * ── Ce que ce script ne fait jamais ───────────────────────────────────────
- * Il n'affiche pas la clé. Elle vient de l'environnement, elle est envoyée à
- * l'API, et elle n'apparaît ni dans la sortie ni dans un journal.
+ * Il n'affiche pas la clé. Elle vient de l'environnement ou, à défaut, de
+ * l'adresse publique où le site la sert déjà (le protocole l'exige en clair) ;
+ * elle est envoyée à l'API et n'apparaît ni dans la sortie ni dans un journal.
  *
- * Usage :  INDEXNOW_KEY=… node scripts/soumettre-indexnow.mjs [--essai]
+ * Usage :  npm run indexnow [-- --essai] [-- --migration]
  *          `--essai` affiche ce qui serait envoyé, sans rien envoyer.
+ *          `--migration` ajoute les anciennes adresses anglaises redirigées.
  */
 
 import { SEGMENTS } from '../src/lib/locale.ts';
 
 const ESSAI = process.argv.includes('--essai');
+const MIGRATION = process.argv.includes('--migration');
 const HOTE = 'iqwine.ai';
 const ORIGINE = `https://${HOTE}`;
-const CLE = process.env.INDEXNOW_KEY;
+let CLE = process.env.INDEXNOW_KEY;
 
 if (!CLE && !ESSAI) {
-  console.error('✗ INDEXNOW_KEY absente. Elle est posée sur Vercel ; pour un envoi');
-  console.error('  local, l’exporter dans le shell — jamais l’écrire dans un fichier.');
+  const reponseCle = await fetch(`${ORIGINE}/api/indexnow-key`);
+  if (reponseCle.ok) CLE = (await reponseCle.text()).trim();
+}
+
+if (!CLE && !ESSAI) {
+  console.error('✗ Clé IndexNow introuvable : ni INDEXNOW_KEY, ni la route publique du site.');
   process.exit(1);
 }
 
@@ -55,8 +69,9 @@ for (const [dossier, slugs] of Object.entries(SEGMENTS)) {
   urls.push(`${ORIGINE}/fr/${slugs.fr}`);
   urls.push(`${ORIGINE}/en/${slugs.en}`);
   // L'ANCIENNE adresse anglaise, quand elle a changé : c'est elle qui doit être
-  // revisitée pour que son 301 soit constaté et l'index remplacé.
-  if (slugs.en !== dossier) urls.push(`${ORIGINE}/en/${dossier}`);
+  // revisitée pour que son 301 soit constaté et l'index remplacé. Seulement
+  // lors d'une migration (voir l'en-tête).
+  if (MIGRATION && slugs.en !== dossier) urls.push(`${ORIGINE}/en/${dossier}`);
 }
 
 console.log(`→ ${urls.length} URL pour ${HOTE}`);

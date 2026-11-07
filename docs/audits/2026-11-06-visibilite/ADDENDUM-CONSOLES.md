@@ -138,3 +138,21 @@ Selon la documentation de Google (liste des robots courants de Google ; Agent Se
   - **Pas encore visible** : site Web (`https://app.iqwine.ai`) et courriel (`admin@iqwine.ca`) de la fiche, alors que la console indique `https://iqwine.ai` et `support@iqwine.ca`. À revérifier ; rien n'a été resoumis.
 - **Statut de commerçant** : l'aide Google (answer/17594752) distingue « professionnel » et « non-professionnel », un choix différent du type de compte (personnel ou organisation). Le compte Play est **personnel**. S'il est déclaré professionnel, le **téléphone et l'adresse** du titulaire deviennent publics à partir du 2027-03-01. La déclaration est réservée au propriétaire du compte. Arbitrage d'Éric requis.
 - **Captures** : non faites. L'extension Chrome n'a pas la permission sur `app.iqwine.ai`, et la connexion au compte démo de production se fait par mot de passe : Éric doit l'ouvrir lui-même.
+
+## 10. IndexNow, Claude-User, annuaires (2026-11-06 au soir)
+
+- **IndexNow** : soumission acceptée (HTTP 200) pour 53 URL : les 38 canoniques du sitemap et 15 anciennes adresses anglaises redirigées. Un 200 signifie « reçu », pas « indexé ».
+  - Les 15 anciennes adresses venaient du script écrit pour la migration des slugs anglais. Selon indexnow.org, on soumet une URL « ajoutée, modifiée ou supprimée » : une redirection ne change qu'une fois.
+  - Le script soumet maintenant les canoniques seulement ; `--migration` ajoute les anciennes.
+  - `npm run indexnow` après chaque mise en production. Ce n'est **pas automatique** : aucun déclencheur Vercel ou GitHub n'est branché.
+  - Crawler Hints (Cloudflare, gratuit) a été écarté : réglage global de la zone, qui signalerait aussi `app.iqwine.ai` et `staging.iqwine.ai`.
+- **Claude-User** : **pas d'exception possible au niveau du nom d'hôte** avec le forfait Free.
+  - Une règle personnalisée « Skip » a été créée, puis supprimée. Expression : `http.host eq "iqwine.ai"`, `cf.client.bot` (robot vérifié par Cloudflare), agent `Claude-User`, méthodes GET et HEAD.
+  - L'API de la zone montre que le blocage ne passe pas par les règles personnalisées. L'ensemble `http_request_firewall_custom` ne contenait que cette règle. Le blocage vient des réglages de robots (`ai_training: disallow`), qu'aucune option Skip documentée ne cible.
+  - Zone revenue à 0 règle personnalisée.
+  - Tests réels : GPTBot, ClaudeBot et CCBot (agents imités) reçoivent 403 sur `iqwine.ai` et `app.iqwine.ai`. Un faux Claude-User n'est pas bloqué, puisque Cloudflare vérifie par adresse IP ; ce test ne prouve donc rien sur l'exemption.
+  - Seule voie restante : l'interrupteur Claude-User d'AI Crawl Control. Il vaut pour **toute la zone**, `app.iqwine.ai` et staging compris. Arbitrage d'Éric.
+- **Annuaires** :
+  - AlternativeTo : aucune fiche iQWine (recherche du 2026-11-06).
+  - Product Hunt : vérification anti-robot de Cloudflare à l'ouverture, recherche impossible sans Éric.
+  - Aucun compte créé.
