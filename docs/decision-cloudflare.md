@@ -164,5 +164,11 @@ Le build Vercel est inchangé (210/210, chaîne qualité verte).
 - **Budget** : 0 $ (Workers Free ; les fichiers statiques ne comptent pas comme requêtes du Worker ; Workers Builds dans le quota gratuit).
 - **Constat hors migration** : Cloudflare Web Analytics est en installation automatique sur toute la zone `iqwine.ai` depuis le 2026-07-05 (balise injectée dans le HTML servi aux navigateurs, `app.` et staging compris). Cela contredit « collecte éteinte » ; à arbitrer par Éric, rien n'a été changé.
 
-**Reste pour basculer** : la route `iqwine.ai/*` vers le Worker (geste d'Éric : les modifications de zone en production sont refusées par le filtre de sécurité de la session de DATA). Après la bascule : `workers_dev: false` sur la branche, déploiement `pnpm run deploy:cloudflare` (IndexNow après chaque déploiement réussi), contrôle complet sur `https://iqwine.ai`.
+### Bascule faite le 2026-11-07
 
+- **Route `iqwine.ai/*`** vers le Worker `iqwine-web`, mode **fail open** : si le Worker échoue ou dépasse ses limites, la requête passe à l'origine Vercel, toujours en place. DNS inchangé ; `app.`, `staging.` et `www.` ne passent pas par le Worker.
+- Contrôlé sur `https://iqwine.ai` juste après : plus d'en-tête `x-vercel-id`, `verifier-routage.mjs` 210/210, les 38 URL du sitemap en 200 avec leur canonical, formulaire armé (403 sur jeton invalide), GPTBot, ClaudeBot et CCBot toujours en 403.
+- `workers_dev` et `preview_urls` refermés.
+- **Déploiement désormais** : `git push origin main:production`, comme avant. Workers Builds construit la branche `production` (`pnpm run build:cloudflare`) puis lance `pnpm run deploy:cloudflare` : wrangler, puis IndexNow sur les URL canoniques. Un échec d'IndexNow rend le build rouge sans toucher au site déjà déployé. Vercel construit la même branche et reste l'origine de secours.
+- **Retour arrière** : Worker `iqwine-web` › Domains › supprimer la route `iqwine.ai/*`. Vercel reprend aussitôt.
+- **Point de fragilité connu** : `next/font/google` télécharge les polices à chaque build ; le téléchargement a échoué 3 fois le 2026-11-07 (Vercel, Cloudflare, local), chaque fois réussi en relançant. Un build raté ne déploie rien. Correctif possible : héberger les deux polices dans le dépôt (`next/font/local`).
