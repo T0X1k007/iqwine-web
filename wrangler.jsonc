@@ -13,8 +13,12 @@
     "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page",
-    // Les chemins finissant par « / » passent d'abord par le Worker (308).
-    "run_worker_first": ["/*/"]
+    // Le Worker passe AVANT les fichiers (barre oblique finale en 308, langue,
+    // contact, IndexNow, 404), sauf pour `/_next/*`, servi directement. Une
+    // liste de motifs plus étroite (`["/*/"]`) supprime le repli vers le
+    // Worker pour les chemins sans fichier : `/`, `/tarifs` et le contact
+    // tombaient alors en 404 ou 405.
+    "run_worker_first": ["/*", "!/_next/*"]
   },
   // La clé IndexNow est PUBLIQUE par conception : le protocole exige qu'elle
   // soit servie en clair à `/<clé>.txt`. Ce n'est pas un secret.
