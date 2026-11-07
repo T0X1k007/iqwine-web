@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "verifier:routage": "node scripts/verifier-routage.mjs",
     "indexnow": "node scripts/soumettre-indexnow.mjs",
+    "test:attribution": "node --test scripts/tester-attribution.mjs",
     "legal:synchroniser": "node scripts/synchroniser-legal.mjs",
     "legal:verifier": "node scripts/synchroniser-legal.mjs --verifier",
     "vocabulaire:sonder": "node scripts/sonder-vocabulaire.mjs",

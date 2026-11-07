@@ -15,6 +15,15 @@
 // Extension explicite : ce module est aussi lu par Node sans bundler
 // (`scripts/construire-cloudflare.mjs`), qui ne la devine pas.
 import { SEGMENTS } from './locale.ts';
+import { ajoutsCspMesure } from './mesure.ts';
+
+/**
+ * L'environnement lu par l'interrupteur de mesure : celui du build (Node), ou
+ * les variables du Worker (`nodejs_compat`). Absent = mesure éteinte.
+ */
+function environnement(): Record<string, string | undefined> {
+  return typeof process !== 'undefined' && process.env ? process.env : {};
+}
 
 /**
  * Les pages dont le slug anglais DIFFÈRE du nom de dossier. Ce sont les seules
@@ -29,17 +38,22 @@ export const SLUGS_ANGLAIS = Object.entries(SEGMENTS)
  * Content Security Policy, stricte mais compatible avec Next.js, framer-motion,
  * Cloudflare Turnstile et Google Fonts. Le développement exige 'unsafe-eval'
  * pour l'overlay d'erreurs de React.
+ *
+ * Mesure d'audience (audit 2026-11-06, M-02) : `ajoutsCspMesure` rend des
+ * chaînes VIDES tant que `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` n'est pas posé.
+ * Éteinte, la CSP est identique, octet pour octet, à celle d'avant.
  */
 export function politiqueDeContenu(isDev: boolean): string {
+  const mesure = ajoutsCspMesure(environnement());
   return [
     "default-src 'self'",
     // 'unsafe-inline' requis par l'hydratation de Next et framer-motion ;
     // challenges.cloudflare.com pour le script de Turnstile.
-    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com`,
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com${mesure.script}`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob:",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "connect-src 'self' https://challenges.cloudflare.com",
+    `connect-src 'self' https://challenges.cloudflare.com${mesure.connect}`,
     "frame-src https://challenges.cloudflare.com",
     "frame-ancestors 'none'",
     "form-action 'self'",

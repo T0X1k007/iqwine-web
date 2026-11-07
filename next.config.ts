@@ -16,6 +16,12 @@ const EXPORT_CLOUDFLARE = process.env.CIBLE_HEBERGEMENT === 'cloudflare';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Interrupteur de la source d'arrivée (`AttributionArrivee`) : TOUJOURS
+  // défini, vide par défaut. Next n'inline une variable NEXT_PUBLIC_ que si
+  // elle existe au build ; absente, le test resterait une lecture à
+  // l'exécution et le code d'attribution serait téléchargé, inerte. Défini,
+  // le test devient une constante et le code mort est retiré du bundle.
+  env: { NEXT_PUBLIC_ATTRIBUTION_ARRIVEE: process.env.NEXT_PUBLIC_ATTRIBUTION_ARRIVEE ?? '' },
   poweredByHeader: false,
   ...(EXPORT_CLOUDFLARE ? { output: 'export' as const } : {}),
   images: {

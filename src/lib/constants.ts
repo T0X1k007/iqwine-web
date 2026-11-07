@@ -1,5 +1,11 @@
 import type { Locale } from './i18n';
 import { SIGNUP_CTA, SIGNUP_REASSURANCE, TRIAL_ON_SIGNUP } from '@/lib/trial';
+import {
+  construireUrlInscription,
+  lienBoutiqueAvecCampagne,
+  type Attribution,
+} from '@/lib/attribution';
+import { APP_STORE_PROVIDER_TOKEN, CAMPAGNES_BOUTIQUES } from '@/lib/mesure';
 
 /**
  * URL d'essai self-serve (app produit). Le CTA primaire mène à un essai
@@ -80,27 +86,43 @@ export const CTA_VERS_STORE = false;
 
 /**
  * Construit l'URL d'essai en propageant l'attribution vers l'app (cross-domain) :
- * UTM standard + source (emplacement du CTA) + plan/période/langue éventuels.
+ * UTM + source (emplacement du CTA) + plan/période/langue éventuels.
  * L'app cellier-vin lit ces params au signup pour boucler visiteur→essai→payant.
  * Best-effort : retombe sur APP_SIGNUP_URL nu si l'URL est invalide.
+ *
+ * ── `utm_source=marketing` n'est plus qu'un REPLI (audit 2026-11-06, M-03) ──
+ * Le rendu serveur ne connaît pas la provenance du visiteur : il écrit le
+ * repli. Le composant `AttributionArrivee` relit au clic la source gardée à
+ * l'atterrissage et la pose à sa place, par `appliquerAttribution`, la même
+ * logique que l'option `attribution` ci-dessous (`src/lib/attribution.ts`).
+ * `src` garde toujours l'emplacement du CTA.
  */
 export function buildSignupUrl(
   source: string,
-  opts?: { plan?: string; period?: 'monthly' | 'yearly'; lang?: Locale },
+  opts?: {
+    plan?: string;
+    period?: 'monthly' | 'yearly';
+    lang?: Locale;
+    attribution?: Attribution | null;
+  },
 ): string {
-  try {
-    const url = new URL(APP_SIGNUP_URL);
-    url.searchParams.set('utm_source', 'marketing');
-    url.searchParams.set('utm_medium', 'cta');
-    url.searchParams.set('utm_campaign', 'trial');
-    url.searchParams.set('src', source);
-    if (opts?.plan) url.searchParams.set('plan', opts.plan);
-    if (opts?.period) url.searchParams.set('period', opts.period);
-    if (opts?.lang) url.searchParams.set('lang', opts.lang);
-    return url.toString();
-  } catch {
-    return APP_SIGNUP_URL;
-  }
+  return construireUrlInscription(APP_SIGNUP_URL, source, opts);
+}
+
+/**
+ * Lien de boutique, avec les paramètres de campagne SI l'interrupteur
+ * `NEXT_PUBLIC_CAMPAGNES_BOUTIQUES` est posé (et, pour Apple, le jeton
+ * fournisseur). Sinon : l'URL canonique, inchangée. Les données structurées
+ * et llms.txt gardent toujours l'URL canonique : seuls les liens cliquables
+ * passent par ici.
+ */
+export function lienBoutique(boutique: 'apple' | 'google', emplacement: string): string {
+  const url = boutique === 'apple' ? APP_STORE_URL : PLAY_STORE_URL;
+  if (!url) return '';
+  return lienBoutiqueAvecCampagne(url, boutique, emplacement, {
+    appleProviderToken: APP_STORE_PROVIDER_TOKEN,
+    campagnesActives: CAMPAGNES_BOUTIQUES,
+  });
 }
 
 /**

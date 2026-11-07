@@ -6,6 +6,11 @@
  * No-op sûr si aucun provider n'est branché (aucune erreur, aucun réseau).
  *
  * Aucune PII. Les noms d'événements sont stables (cf. tableau dans la PR).
+ *
+ * Toujours sans consommateur (audit 2026-11-06, M-08) : la mesure retenue,
+ * Cloudflare Web Analytics (`src/lib/mesure.ts`), ne reçoit pas d'événements
+ * personnalisés, et Vercel les réserve à ses forfaits payants. `track()` n'y
+ * est donc pas branché ; brancher un outil ici exige un nouvel arbitrage.
  */
 
 export const ANALYTICS_EVENTS = {
