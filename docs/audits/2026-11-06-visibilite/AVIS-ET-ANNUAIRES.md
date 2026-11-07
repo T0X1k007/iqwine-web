@@ -45,3 +45,17 @@ Les comptes se créent par Éric : je n'en crée aucun.
 | Fiche Google Business Profile | **Non recommandée** : iQWine n'a pas d'adresse ouverte au public, et une adresse de domicile ne doit pas être exposée | aucun |
 
 Mesure de l'effet : liens référents et impressions de marque dans Search Console, 8 à 12 semaines après la mise en ligne.
+
+## 3. État au 2026-11-07
+
+- **AlternativeTo** : aucune fiche iQWine (recherche faite). À créer depuis le compte d'Éric. Proposer iQWine comme alternative à Vivino, CellarTracker et InVintory.
+- **Product Hunt** : distinguer deux choses.
+  - La **page produit** se crée sans date.
+  - Le **lancement** est un événement daté, qui mobilise une communauté : c'est une campagne, **non autorisée** à ce stade.
+
+  L'accès est derrière une vérification anti-robot de Cloudflare.
+- **Visuels** : captures réelles déjà publiées sur le site, `public/screenshots/` :
+  - `07-apogee-cave` : apogée ;
+  - `02-home-suggestions` : conseils d'Octave ;
+  - `05-cave-visuelle` : la cave ;
+  - `08-cellier-desktop` : le cellier sur le web.

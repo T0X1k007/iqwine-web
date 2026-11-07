@@ -255,7 +255,7 @@ Le détail par fichier est dans `BACKLOG.md`. Chaque lot passe la chaîne qualit
 | Action | Responsable proposé | Quand |
 |---|---|---|
 | Corriger les 4 fiches de boutiques (V-05) et leurs fichiers source `cellier-vin/docs/ops/*-fiche-textes.md` | Éric (console), DATA (fichiers source) | Semaine 1 |
-| Captures réelles sur un compte de démonstration : carte d'apogée v7, carte des vins en 3 bouteilles, import, « Ce qu'Octave a compris de vous », widget | Éric | 30 jours |
+| Captures réelles sur un compte de démonstration : carte d'apogée v7, carte des vins en 3 bouteilles, import, « Ce qu'Octave a compris de vous » (widget iOS retiré du périmètre par Éric, 2026-11-07 ; les pages utilisent les captures réelles déjà en ligne, `public/screenshots/`) | Éric | 30 jours |
 | Validation du texte des pages Cellier et Apogée, puis des suivantes | Éric (GO), DATA (rédaction conforme à `refonte-v3-seo.md`) | 30 et 90 jours |
 | Demande d'avis native après un conseil jugé utile | Éric (décision), session de développement de l'app | 30 jours |
 | Product Hunt, AlternativeTo | Éric | 30 jours |

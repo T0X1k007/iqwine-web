@@ -156,3 +156,52 @@ Selon la documentation de Google (liste des robots courants de Google ; Agent Se
   - AlternativeTo : aucune fiche iQWine (recherche du 2026-11-06).
   - Product Hunt : vérification anti-robot de Cloudflare à l'ouverture, recherche impossible sans Éric.
   - Aucun compte créé.
+
+## 11. Clôture du chantier (2026-11-07)
+
+### Livré et vérifié
+- **Hébergement, état réel** :
+  - DNS chez Cloudflare (`tessa`/`marek.ns.cloudflare.com`) ;
+  - Cloudflare devant, en proxy (`server: cloudflare`, `cf-ray`) ;
+  - pages servies par **Vercel** (`x-vercel-id`, `x-vercel-cache`) ;
+  - déploiement : push sur `production` vers Vercel.
+
+  Hobby est réservé à un usage non commercial : ce n'est pas notre cas.
+- **Migration vers Cloudflare, préparée et testée**, branche `hebergement/cloudflare` (`9cac2ba`, poussée) :
+  - export statique et Worker minuscule ;
+  - 210/210 en local, build Vercel inchangé (210/210, chaîne verte) ;
+  - coût 0 $.
+
+  Détail et retour arrière : `docs/decision-cloudflare.md`, section du 2026-11-07.
+- **IndexNow** : soumission initiale acceptée (200). Sur Cloudflare, `npm run deploy:cloudflare` soumet les 38 URL canoniques **après** un déploiement réussi ; un échec rend la construction rouge sans toucher au site. Les anciennes adresses ne partent qu'avec `--migration`.
+- **Mesure** : l'interrupteur de la source d'arrivée existe (`875d3b3`). Brouillons de l'évaluation des facteurs relatifs à la vie privée (EFVP) et de la Politique dans `MESURE-ACTIVATION-RECOMMANDATION.md` §5, **non validés**. Collecte éteinte.
+- **Captures** : les pages utilisent déjà des captures réelles du produit (`public/screenshots/` : apogée, suggestions d'Octave, cave, carte des vins). Aucune page n'attend d'image.
+
+### Abandonné volontairement
+- **Widget iOS** : retiré du périmètre par Éric.
+
+### Bloqué par une intervention humaine incontournable
+- **Extension Chrome déconnectée** depuis le 2026-11-07 (liste des navigateurs vide). Cela bloque tout geste en console, en particulier les trois suivants.
+- **Bascule vers Cloudflare** :
+  - authentification de déploiement : connexion GitHub de Workers Builds ou `wrangler login` (aucun jeton sur cette machine) ;
+  - secret `TURNSTILE_SECRET_KEY` à poser sur le Worker. Un secret ne se saisit pas à la place d'Éric ; sans lui, le formulaire répond 503.
+- **Claude-User**, combinaison prête et non appliquée :
+  - règle personnalisée **Block** `(http.user_agent contains "Claude-User" and http.host ne "iqwine.ai")`, qui protège `app.` et `staging.` ;
+  - puis l'interrupteur Claude-User d'AI Crawl Control sur « Allow ».
+
+  GPTBot, ClaudeBot, CCBot et la politique d'entraînement restent inchangés. Pour la preuve, il faudra lire le compteur « Allowed » de Claude-User dans AI Crawl Control ; un agent imité ne prouve rien.
+- **Annuaires** : la création de comptes est réservée à Éric.
+  - AlternativeTo : aucune fiche existante.
+  - Product Hunt : vérification anti-robot Cloudflare.
+
+  Textes prêts : `AVIS-ET-ANNUAIRES.md`. Images : `public/screenshots/`.
+- **Play, compte Organisation (Groupe Medtech inc.)** :
+  - Google fixe le type à la création du compte : il faut un nouveau compte d'organisation, puis la procédure officielle de transfert d'application ;
+  - renseignements requis : D-U-N-S (gratuit chez Dun & Bradstreet ; celui du compte Apple de Groupe Medtech inc. existe), nom légal, adresse, téléphone, courriel de développeur ni générique ni personnel ;
+  - les frais d'inscription de Google sont à confirmer à l'écran.
+
+  Date limite du statut de commerçant : 2027-02-01.
+
+### Différé pour faible ROI
+- **Crawler Hints** : réglage global de la zone, qui signalerait aussi `app.` et `staging.`.
+- **Écart de 307 sur la barre oblique finale** : se règle par une règle de zone au moment de la bascule.
