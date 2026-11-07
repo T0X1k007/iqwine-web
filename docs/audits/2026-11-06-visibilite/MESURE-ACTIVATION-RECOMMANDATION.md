@@ -57,7 +57,7 @@ Elle est déjà calculée, à côté des autres, dans `scripts/lecture/attributi
    - Vercel : `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` en Production, puis redéploiement ;
    - Cloudflare Web Analytics : site `iqwine.ai` en installation manuelle, ou injection automatique désactivée pour ce nom d'hôte, afin d'éviter un double comptage ;
    - optionnel : `NEXT_PUBLIC_CAMPAGNES_BOUTIQUES=1` et `NEXT_PUBLIC_APP_STORE_PT` (jeton de campagne App Store Connect).
-5. **Correctif à faire avant d'allumer** : sur la branche `visibilite/mesure`, la transmission de la source vers l'inscription n'a **pas** d'interrupteur. Il faut lui en ajouter un avant toute fusion.
+5. **Interrupteur de la source d'arrivée** : fait (`875d3b3`, branche `visibilite/mesure`). `NEXT_PUBLIC_ATTRIBUTION_ARRIVEE=1` le monte ; absent, rien n'est gardé ni réécrit.
 6. **App** : passer la branche `dev/attribution-acquisition` par son processus normal (Release Gate, staging, GO prod), après la mise à jour de la Politique.
 
 ## 4. Coût (Vercel : non vérifié en console pour les taxes)
@@ -66,3 +66,31 @@ Elle est déjà calculée, à côté des autres, dans `scripts/lecture/attributi
 - Vercel : le site tourne sur Hobby, que les règles d'usage de Vercel réservent à un usage non commercial. **Pro coûte 20 $ US par mois** (1 siège déployeur et 20 $ US de crédit d'usage inclus ; chaque siège déployeur de plus à 20 $ US par mois ; sièges lecteurs gratuits) ; source : [vercel.com/pricing](https://vercel.com/pricing), [docs Pro](https://vercel.com/docs/plans/pro-plan), consultés le 2026-11-06. **Aucun changement de forfait sans ton accord.**
 
 Vercel Pro, précisions : 20 $ US par mois de base (1 siège déployeur, 20 $ US de crédit d'usage), facturé en dollars US. Les taxes applicables (TPS/TVQ) ne sont pas affichées dans la documentation consultée : à confirmer à l'écran de paiement, sans s'engager. Contrôle des dépenses : « Spend Management » sur Pro (notification, webhook ou mise en pause des projets à un seuil). Aucun changement de forfait sans l'accord d'Éric.
+
+## 5. Brouillons prêts pour l'allumage (2026-11-07) : **non validés**
+
+Rien ci-dessous n'est une validation juridique. Ce sont des brouillons pour la personne responsable de la protection des renseignements personnels, à relire avant toute activation.
+
+### 5.1 Évaluation des facteurs relatifs à la vie privée (Loi 25, art. 17) : trame
+
+| Rubrique | Contenu proposé |
+|---|---|
+| Finalité | Compter les visites agrégées du site vitrine et savoir quelle source amène une inscription |
+| Données | Page vue, référent, pays, type d'appareil (Cloudflare Web Analytics, sans témoin ni empreinte) ; source d'arrivée (`utm_source` ou domaine du référent) gardée dans l'onglet (`sessionStorage`), puis transmise à l'inscription |
+| Personnes visées | Visiteurs du site ; la source n'est liée à une personne qu'à la création d'un compte |
+| Lieu | Cloudflare (États-Unis et réseau mondial), Vercel ou Cloudflare pour l'hébergement |
+| Protection équivalente | À évaluer : contrat de traitement Cloudflare (DPA), clauses types, absence d'identifiant persistant côté site |
+| Conservation | Web Analytics : 6 mois (fixé par Cloudflare) ; source au compte : durée de vie du compte |
+| Conclusion | À rédiger par le responsable, après lecture du DPA |
+
+### 5.2 Politique de confidentialité : ajouts proposés (dépôt de l'app, nouvelle `LEGAL_VERSION`)
+
+> **Mesure d'audience du site iqwine.ai.** Nous comptons les visites de notre site de façon agrégée avec Cloudflare Web Analytics, qui n'utilise ni témoin ni identifiant persistant. Nous voyons, par exemple, combien de personnes ont consulté une page, sans pouvoir savoir qui elles sont.
+>
+> **Provenance de l'inscription.** Si vous arrivez sur notre site depuis un lien de campagne ou un autre site, nous gardons cette provenance dans l'onglet de votre navigateur, le temps de votre visite. Si vous créez un compte, elle est enregistrée avec lui, pour savoir quels canaux nous font connaître. Elle n'est pas utilisée pour vous profiler ni pour de la publicité ciblée.
+>
+> **Prestataire hors Québec.** Cloudflare, Inc. (États-Unis) fournit la mesure d'audience.
+
+### 5.3 Ordre d'allumage (inchangé)
+
+EFVP signée, Politique publiée dans l'app, puis les interrupteurs. Rien n'est allumé.
