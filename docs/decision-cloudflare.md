@@ -180,9 +180,8 @@ Le build Vercel est inchangé (210/210, chaîne qualité verte).
 - **Redirections reprises par Cloudflare** (règles de redirection, forfait gratuit), à la place de Vercel :
   - `www.iqwine.ai` vers `https://iqwine.ai` + chemin, 308, requête conservée ;
   - `http://iqwine.ai` vers `https://`, 308. Lacune trouvée au passage : depuis la bascule, le Worker répondait 200 en `http`.
-  - Zone `iqwine.ca` : règle `iqwine.ca` et `www.iqwine.ca` vers `https://iqwine.ai` + chemin, 308, prête. Elle ne s'applique **pas encore** : ces deux enregistrements sont en « DNS only » vers Vercel, et le passage en « Proxied » est refusé à DATA par le filtre de sa session.
+  - Zone `iqwine.ca` : règle `iqwine.ca` et `www.iqwine.ca` vers `https://iqwine.ai` + chemin, 308, active depuis le 2026-11-07 : les deux enregistrements sont passés en « Proxied » (geste fait par DATA dans le tableau de bord, sur autorisation explicite d'Éric). Vérifié : 308 vers `iqwine.ai` avec chemin et requête conservés, en http comme en https, `server: cloudflare`, sans `x-vercel-id`.
 - **Dépendances Vercel restantes** :
-  - `iqwine.ca` et `www.iqwine.ca` : redirection servie par Vercel tant que les deux enregistrements ne sont pas proxifiés ;
   - l'enregistrement DNS de l'apex `iqwine.ai` vise encore Vercel. Il ne sert plus à rien en fail closed ; c'est le retour arrière. À remplacer par une cible sans origine (`AAAA 100::`, proxifiée) au moment de supprimer le projet Vercel, pour ne pas laisser un CNAME orphelin.
 - **Retour arrière** : remettre la route en fail open ou la supprimer ; supprimer les deux règles de redirection de la zone `iqwine.ai`.
 - **Polices** : hébergées dans le dépôt depuis `fdf66b0` (`public/polices/`, licences OFL jointes). Le build ne télécharge plus rien chez Google.
