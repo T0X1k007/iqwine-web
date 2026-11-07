@@ -1,7 +1,7 @@
 # Mesure : définition d'activation et démarches avant activation
 
 Préparé le 2026-11-06. **Toute nouvelle collecte reste désactivée.**
-- Site, branche `visibilite/mesure` : l'interrupteur `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` est absent, rien n'est chargé et la CSP est inchangée.
+- Site : le code de mesure et d'attribution est **intégré à `main` et publié** depuis le 2026-11-07 (`b03372b`), interrupteurs éteints. Variables absentes : aucune balise, aucune origine ajoutée à la CSP, aucun stockage, liens d'inscription et de boutique inchangés (vérifié en production). Intégrer le code n'a rien allumé : l'activation reste une décision séparée, aux prérequis du §3.
 - App, branche `dev/attribution-acquisition` : poussée, non fusionnée, non déployée.
 
 ## 0. DÉCISION D'ÉRIC (2026-11-06) : définition de référence
@@ -54,10 +54,10 @@ Elle est déjà calculée, à côté des autres, dans `scripts/lecture/attributi
    - `sessionStorage` du site et témoin OAuth de 30 min de l'app ;
    - finalité, durée de conservation, et Cloudflare dans les prestataires hors Québec.
 4. **Configuration, le jour de l'activation** :
-   - Vercel : `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` en Production, puis redéploiement ;
+   - Cloudflare, Worker `iqwine-web` : `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` en variable de build et dans les `vars` du Worker, puis publication (`main` vers `production`). Détail : `docs/mesure-attribution.md` §4 ;
    - Cloudflare Web Analytics : site `iqwine.ai` en installation manuelle, ou injection automatique désactivée pour ce nom d'hôte, afin d'éviter un double comptage ;
    - optionnel : `NEXT_PUBLIC_CAMPAGNES_BOUTIQUES=1` et `NEXT_PUBLIC_APP_STORE_PT` (jeton de campagne App Store Connect).
-5. **Interrupteur de la source d'arrivée** : fait (`875d3b3`, branche `visibilite/mesure`). `NEXT_PUBLIC_ATTRIBUTION_ARRIVEE=1` le monte ; absent, rien n'est gardé ni réécrit.
+5. **Interrupteur de la source d'arrivée** : fait (`875d3b3`, intégré à `main` par `b03372b`). `NEXT_PUBLIC_ATTRIBUTION_ARRIVEE=1` le monte ; absent, rien n'est gardé ni réécrit.
 6. **App** : passer la branche `dev/attribution-acquisition` par son processus normal (Release Gate, staging, GO prod), après la mise à jour de la Politique.
 
 ## 4. Coût (Vercel : non vérifié en console pour les taxes)
@@ -102,3 +102,11 @@ EFVP signée, Politique publiée dans l'app, puis les interrupteurs. Rien n'est 
 - **Non touché** : journaux de sécurité (Security Events, AI Crawl Control) et journaux techniques du Worker (Workers Logs).
 - **Données déjà recueillies** : elles restent dans Cloudflare jusqu'à leur expiration (6 mois). Rien n'a été effacé.
 
+
+## 7. Code intégré, collecte toujours éteinte (2026-11-07)
+
+- `visibilite/mesure` fusionnée dans `main` (`b03372b`), publiée en production, puis supprimée (locale et GitHub).
+- Les ajouts CSP passent par `lib/regles-de-bord` (export Cloudflare et Worker). L'interrupteur d'attribution est une constante au build : éteint, son code n'est même pas dans le bundle.
+- Preuve en production, navigateur sans tête, arrivée avec `utm_source` et référent Google, sur 4 pages : aucune requête de mesure (Cloudflare, Google, Vercel) ; seuls hôtes tiers, ceux de Turnstile sur la page contact ; aucun témoin, `sessionStorage` et `localStorage` vides ; lien d'inscription au repli `utm_source=marketing` ; CSP sans origine de mesure ; routage 210/210.
+- Restent dans le bundle, préexistants et inertes : le module Google Analytics de `@next/third-parties` (monté seulement si `NEXT_PUBLIC_GA_ID`, absent) et le témoin de langue, posé seulement au clic du sélecteur de langue.
+- Application : aucune dépendance. Éteint, le site envoie exactement les mêmes paramètres qu'avant ; la branche `dev/attribution-acquisition` de l'app (OAuth Google et Apple, lecture SQL) reste non fusionnée et ne sert qu'à l'allumage.
