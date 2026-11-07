@@ -102,6 +102,16 @@ export default {
   async fetch(requete: Request, env: Env): Promise<Response> {
     const url = new URL(requete.url);
 
+    // Barre oblique finale : 308 vers l'adresse sans barre, comme Vercel
+    // (`trailingSlash: false`). Sans ce passage, Cloudflare répondrait 307
+    // (`html_handling`), une redirection temporaire. `run_worker_first` fait
+    // passer ces chemins ici avant les fichiers.
+    if (url.pathname !== '/' && url.pathname.endsWith('/')) {
+      const cible = new URL(url);
+      cible.pathname = url.pathname.replace(/\/+$/, '') || '/';
+      return securiser(redirection(cible, 308));
+    }
+
     if (url.pathname === '/api/contact') {
       if (requete.method !== 'POST') return securiser(new Response(null, { status: 405 }));
       // Sans secret, `verifierTurnstile` laisserait tout passer. Sur Vercel ce
