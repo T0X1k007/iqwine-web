@@ -62,6 +62,8 @@ export default tseslint.config(
       // vraies — et un rapport qu'on ne peut plus lire ne sert plus à rien.
       '.open-next/**',
       '.wrangler/**',
+      // L'export statique pour Cloudflare (`npm run build:cloudflare`), généré.
+      'out/**',
       'node_modules/**',
       'next-env.d.ts',
       'eslint.config.mjs',

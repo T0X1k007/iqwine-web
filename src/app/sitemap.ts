@@ -55,6 +55,9 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
 type Entry = MetadataRoute.Sitemap[number];
 type Freq = Entry['changeFrequency'];
 
+// Généré une fois à la construction (requis par l'export statique de Cloudflare).
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 

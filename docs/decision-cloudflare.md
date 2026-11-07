@@ -99,3 +99,70 @@ Les deux conditions qui la rendraient raisonnable :
    2026-07-01 en export statique.
 
 Aujourd'hui, ni l'une ni l'autre.
+
+## 2026-11-07 : la question est rouverte, et la condition 2 est remplie
+
+**Pourquoi rouvrir.** Les règles de Vercel réservent Hobby à un usage
+« non commercial et personnel » ; tout usage commercial exige Pro (20 $ US par
+mois), qu'Éric refuse. iQWine vend des abonnements : Hobby ne convient pas.
+
+**Ce qui a changé depuis août.** Toutes les pages sont prérendues. La tentative
+d'août faisait tourner le serveur Next entier dans le Worker (OpenNext). Cette
+fois, le site est un **export statique** servi comme fichiers, sans exécuter de
+code. Le Worker ne fait plus que ce que faisait le middleware, en une fraction de
+milliseconde :
+
+| Requête | Qui répond |
+| --- | --- |
+| page, image, `robots.txt`, `sitemap.xml`, `llms.txt` | fichier statique, **sans** Worker |
+| ancien slug anglais, `/recevoir`, `/recherche` | `_redirects` (308), **sans** Worker |
+| `/`, `/tarifs`, `/octave` (sans langue) | Worker : logique de `src/middleware.ts` |
+| `POST /api/contact` | Worker : `lib/relais-contact` (partagé avec Vercel) |
+| `/<clé>.txt` | Worker : clé IndexNow (publique) |
+| le reste | page 404, statut 404 |
+
+**Vérifié en local (`wrangler dev`)** :
+- `verifier-routage.mjs` : 210/210, comme le build Vercel ;
+- en-têtes de sécurité, types (`image/png` pour les images de partage, `text/markdown` pour `llms.txt`), page 404 et clé IndexNow identiques ;
+- `<head>`, canonical, hreflang et liens identiques à la production.
+
+Un seul écart : une barre oblique finale (`/fr/tarifs/`) reçoit un 307 du service de fichiers, au lieu d'un 308. Une règle de redirection de zone à 308 le corrige au moment de la bascule.
+
+**Fichiers.**
+- `scripts/construire-cloudflare.mjs` (`npm run build:cloudflare`) ;
+- `cloudflare/worker.ts`, `wrangler.jsonc` ;
+- `src/lib/regles-de-bord.ts` : CSP et redirections, une seule source pour les deux hébergements ;
+- `src/lib/relais-contact.ts` ;
+- `.env.production` : clé Turnstile **publique** seulement.
+
+Le build Vercel est inchangé (210/210, chaîne qualité verte).
+
+**Coût** : 0 $. Plan Workers gratuit : fichiers statiques illimités, 100 000 appels de Worker par jour, et le Worker n'est appelé que pour les cas ci-dessus.
+
+### Bascule et retour arrière
+
+1. Workers Builds (Git), dépôt `iqwine-web` :
+   - branche de production `production` ;
+   - construction : `npm run build:cloudflare` ;
+   - déploiement : `npm run deploy:cloudflare` (wrangler, puis IndexNow ; un échec d'IndexNow rend la construction rouge sans toucher au site déjà déployé) ;
+   - les autres branches donnent des préversions.
+2. Secret du Worker `TURNSTILE_SECRET_KEY`. Sans lui, le Worker **refuse** le formulaire (503) plutôt que de l'ouvrir aux robots.
+3. Route du Worker `iqwine.ai/*`, avec l'enregistrement DNS actuel inchangé, puis règle de redirection de zone pour la barre oblique finale.
+4. Contrôle : `verifier-routage.mjs https://iqwine.ai`, en-têtes, formulaire.
+5. **Retour arrière** : supprimer la route. Vercel reprend aussitôt la main, son déploiement n'est pas touché. Le projet Vercel n'est supprimé qu'après validation.
+
+### État réel au 2026-11-07 (après-midi)
+
+- **Worker `iqwine-web` créé** par Workers Builds, sur la liaison GitHub déjà existante du compte : aucune nouvelle autorisation GitHub.
+  - Branche de production : `hebergement/cloudflare`. Construction : `pnpm run build:cloudflare`. Déploiement : `npx wrangler deploy`. Préversions de branches désactivées.
+  - Jeton de construction créé par Cloudflare (« iqwine-web build token ») : il reste chez Cloudflare.
+- **Secret `TURNSTILE_SECRET_KEY` posé** sur le Worker par l'API Cloudflare, depuis le widget existant `iqwine-site-public` (domaine `iqwine.ai`, le même que sur Vercel). La valeur n'a jamais transité par le terminal, un journal ou la conversation. Contrôle : un jeton invalide reçoit 403 « Vérification anti-robot échouée », comme sur Vercel.
+- **Validation sur `iqwine-web.eric-fe8.workers.dev`** :
+  - `verifier-routage.mjs` : 210/210, comme `https://iqwine.ai` ;
+  - les 38 URL du sitemap : même statut, titre, H1, meta, canonical, hreflang, JSON-LD et en-têtes de sécurité. Seul écart : l'empreinte `?…` des URL d'image de partage ;
+  - barre oblique finale : 308 dans le Worker, comme Vercel (`run_worker_first: ["/*", "!/_next/*"]` : le Worker passe avant les fichiers, sauf `/_next`). Aucune règle de zone n'est donc nécessaire. Formulaire : 403 sur jeton invalide, le secret est bien lu.
+- **Budget** : 0 $ (Workers Free ; les fichiers statiques ne comptent pas comme requêtes du Worker ; Workers Builds dans le quota gratuit).
+- **Constat hors migration** : Cloudflare Web Analytics est en installation automatique sur toute la zone `iqwine.ai` depuis le 2026-07-05 (balise injectée dans le HTML servi aux navigateurs, `app.` et staging compris). Cela contredit « collecte éteinte » ; à arbitrer par Éric, rien n'a été changé.
+
+**Reste pour basculer** : la route `iqwine.ai/*` vers le Worker (geste d'Éric : les modifications de zone en production sont refusées par le filtre de sécurité de la session de DATA). Après la bascule : `workers_dev: false` sur la branche, déploiement `pnpm run deploy:cloudflare` (IndexNow après chaque déploiement réussi), contrôle complet sur `https://iqwine.ai`.
+

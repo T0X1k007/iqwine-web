@@ -1,0 +1,32 @@
+{
+  // Le site iqwine.ai sur Cloudflare : des fichiers statiques (`out/`, cf.
+  // `npm run build:cloudflare`) et un Worker minuscule (`cloudflare/worker.ts`).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iqwine-web",
+  "main": "cloudflare/worker.ts",
+  "compatibility_date": "2026-10-01",
+  // `process.env` alimenté par les variables et secrets du Worker : c'est ce
+  // que lisent `lib/turnstile` et `lib/relais-contact`, partagés avec Vercel.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page",
+    // Le Worker passe AVANT les fichiers (barre oblique finale en 308, langue,
+    // contact, IndexNow, 404), sauf pour `/_next/*`, servi directement. Une
+    // liste de motifs plus étroite (`["/*/"]`) supprime le repli vers le
+    // Worker pour les chemins sans fichier : `/`, `/tarifs` et le contact
+    // tombaient alors en 404 ou 405.
+    "run_worker_first": ["/*", "!/_next/*"]
+  },
+  // La clé IndexNow est PUBLIQUE par conception : le protocole exige qu'elle
+  // soit servie en clair à `/<clé>.txt`. Ce n'est pas un secret.
+  "vars": { "INDEXNOW_KEY": "a37d27ce1e8e1932e969e104d12c5202" },
+  // Le site est servi par la route iqwine.ai/* (zone iqwine.ai, mode « fail
+  // open » : si le Worker échoue, la requête passe à l'origine Vercel). Pas
+  // d'adresse *.workers.dev, qui doublerait le site.
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true }
+}
