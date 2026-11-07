@@ -156,7 +156,7 @@ Le build Vercel est inchangé (210/210, chaîne qualité verte).
 - **Worker `iqwine-web` créé** par Workers Builds, sur la liaison GitHub déjà existante du compte : aucune nouvelle autorisation GitHub.
   - Branche de production : `hebergement/cloudflare`. Construction : `pnpm run build:cloudflare`. Déploiement : `npx wrangler deploy`. Préversions de branches désactivées.
   - Jeton de construction créé par Cloudflare (« iqwine-web build token ») : il reste chez Cloudflare.
-- **Secret `TURNSTILE_SECRET_KEY` posé** sur le Worker par l'API Cloudflare, depuis le widget existant `iqwine-site-public` (domaine `iqwine.ai`, le même que sur Vercel). La valeur n'a jamais transité par le terminal, un journal ou la conversation. Contrôle : un jeton invalide reçoit 403 « Vérification anti-robot échouée », comme sur Vercel.
+- **Secret `TURNSTILE_SECRET_KEY` posé** sur le Worker par l'API Cloudflare, depuis le widget existant `iqwine-site-public` (domaine `iqwine.ai`, le même que sur Vercel). La valeur n'a jamais transité par le terminal, un journal ou la conversation. Contrôle : un jeton invalide reçoit 403 « Vérification anti-robot échouée », comme sur Vercel. Parcours valide prouvé le 2026-11-07 : essai contrôlé « ESSAI TECHNIQUE DATA » (adresse `support@iqwine.ca`, message marqué « à ignorer »), case cochée par Éric, réponse « Merci, message reçu. » sur `iqwine.ai/fr/contact` servi par le Worker.
 - **Validation sur `iqwine-web.eric-fe8.workers.dev`** :
   - `verifier-routage.mjs` : 210/210, comme `https://iqwine.ai` ;
   - les 38 URL du sitemap : même statut, titre, H1, meta, canonical, hreflang, JSON-LD et en-têtes de sécurité. Seul écart : l'empreinte `?…` des URL d'image de partage ;
