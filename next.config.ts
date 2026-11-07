@@ -1,21 +1,23 @@
 import type { NextConfig } from 'next';
-// La table des slugs est IMPORTÉE, jamais recopiée. Deux listes de routes qui
-// dérivent l'une de l'autre, c'est une redirection qui pointe dans le vide le
-// jour où l'on en ajoute une seule d'un côté.
-import { SEGMENTS } from './src/lib/locale';
+// La table des slugs et les règles de bord sont IMPORTÉES, jamais recopiées :
+// l'export Cloudflare (`scripts/construire-cloudflare.mjs`) lit les mêmes.
+import { SLUGS_ANGLAIS, enTetesDeSecurite, redirectionsPermanentes } from './src/lib/regles-de-bord';
 
 /**
- * Les pages dont le slug anglais DIFFÈRE du nom de dossier. Ce sont les seules
- * qui demandent une réécriture et une redirection ; `contact` et `beta`, dont
- * le mot est le même dans les deux langues, n'ont besoin de rien.
+ * ── DEUX CIBLES DE CONSTRUCTION ────────────────────────────────────────────
+ * Par défaut, Vercel : serveur Next, middleware, réécritures, redirections.
+ * Avec `CIBLE_HEBERGEMENT=cloudflare`, un EXPORT STATIQUE (`out/`) que
+ * Cloudflare sert sans exécuter Next ; le Worker `cloudflare/worker.ts` reprend
+ * la négociation de langue et les deux routes serveur. Les en-têtes,
+ * réécritures et redirections n'existent pas dans un export : ils deviennent
+ * `_headers`, copies de pages et `_redirects`.
  */
-const SLUGS_ANGLAIS = Object.entries(SEGMENTS)
-  .filter(([dossier, slugs]) => slugs.en !== dossier)
-  .map(([dossier, slugs]) => ({ dossier, en: slugs.en }));
+const EXPORT_CLOUDFLARE = process.env.CIBLE_HEBERGEMENT === 'cloudflare';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  ...(EXPORT_CLOUDFLARE ? { output: 'export' as const } : {}),
   images: {
     /**
      * ── L'OPTIMISEUR N'EST PLUS UTILISÉ, ET ON LE DIT (2026-08-03) ────────
@@ -38,68 +40,9 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   async headers() {
-    // Content Security Policy — strict but compatible with Next.js +
-    // framer-motion + Cloudflare Turnstile (CAPTCHA) + Google Fonts.
-    // Dev mode requires 'unsafe-eval' for React error overlay / sourcemaps.
+    // Content Security Policy et en-têtes de sécurité : `lib/regles-de-bord`.
     const isDev = process.env.NODE_ENV !== 'production';
-    const devScriptExtras = isDev ? " 'unsafe-eval'" : '';
-
-    const csp = [
-      "default-src 'self'",
-      // 'unsafe-inline' required for Next.js hydration + framer-motion animations
-      // challenges.cloudflare.com required for Turnstile script
-      `script-src 'self' 'unsafe-inline'${devScriptExtras} https://challenges.cloudflare.com`,
-      // Google Fonts stylesheets
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob:",
-      // Google Fonts font files
-      "font-src 'self' data: https://fonts.gstatic.com",
-      // Turnstile calls /siteverify and loads its widget from challenges.cloudflare.com
-      "connect-src 'self' https://challenges.cloudflare.com",
-      // Turnstile renders inside an iframe
-      "frame-src https://challenges.cloudflare.com",
-      "frame-ancestors 'none'",
-      "form-action 'self'",
-      "base-uri 'self'",
-      "object-src 'none'",
-      // ── PAS d'upgrade-insecure-requests EN DEV (2026-08-12) ──────────────
-      // Le serveur de dev se consulte en HTTP pur via Tailscale
-      // (http://100.x.x.x:3020). Cette directive force alors CHAQUE asset vers
-      // https://100.x.x.x:3020 — qui n'écoute pas en TLS : la page arrive nue,
-      // sans CSS ni images. `localhost` y échappe (origine « de confiance »
-      // pour Chrome), c'est pourquoi le bug n'apparaît QUE depuis une autre
-      // machine. En production, derrière Cloudflare, la directive reste.
-      ...(isDev ? [] : ['upgrade-insecure-requests']),
-    ].join('; ');
-
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          { key: 'X-Frame-Options', value: 'DENY' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          // HSTS jamais en dev : si le site est un jour consulté via un NOM
-          // (MagicDNS Tailscale), un HSTS de deux ans épinglerait ce nom en
-          // HTTPS dans le navigateur — irrécupérable côté serveur.
-          ...(isDev
-            ? []
-            : [
-                {
-                  key: 'Strict-Transport-Security',
-                  value: 'max-age=63072000; includeSubDomains; preload',
-                },
-              ]),
-          { key: 'Content-Security-Policy', value: csp },
-          {
-            key: 'Permissions-Policy',
-            value:
-              'camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()',
-          },
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-        ],
-      },
-    ];
+    return [{ source: '/(.*)', headers: enTetesDeSecurite(isDev) }];
   },
   /**
    * ── INDEXNOW : LE FICHIER DE CLÉ DOIT VIVRE À LA RACINE ──────────────────
@@ -232,43 +175,19 @@ const nextConfig: NextConfig = {
      * ce qui lui donne lui aussi la négociation et un seul saut.
      */
 
-    return [
-      ...SLUGS_ANGLAIS.map(({ dossier, en }) => ({
-        source: `/en/${dossier}`,
-        destination: `${ORIGIN}/en/${en}`,
-        permanent: true,
-      })),
-
-      /**
-       * ── /recevoir ABSORBÉE par /accord-mets-vins (Eric, 2026-08-13) ────
-       * Son contenu (le menu accordé service par service) vit désormais dans
-       * la section « Recevoir » de la page Accords. Les trois anciennes
-       * adresses localisées reçoivent leur redirection permanente ; le chemin
-       * nu `/recevoir` passe par l'ALIAS du middleware (négociation de
-       * langue, un seul saut). Le dossier `app/[locale]/recevoir` demeure
-       * mais n'est plus joignable — il sera purgé en fin de phase 2.
-       */
-      { source: '/fr/recevoir', destination: `${ORIGIN}/fr/accord-mets-vins`, permanent: true },
-      { source: '/en/recevoir', destination: `${ORIGIN}/en/wine-pairing`, permanent: true },
-      { source: '/en/entertaining', destination: `${ORIGIN}/en/wine-pairing`, permanent: true },
-
-      /**
-       * ── /recherche ABSORBÉE par /choisir-un-vin (Eric, 2026-08-14) ─────
-       * L'ancien pilier (cave + proximité) vit désormais dans la section
-       * « près de vous » de la page Choisir un vin. Trois anciennes adresses
-       * localisées : le slug public anglais (/en/search), le nom de dossier
-       * (/en/recherche, qui aurait sinon enchaîné DEUX sauts via la règle
-       * dérivée de SEGMENTS, désormais disparue avec l'entrée), et le
-       * français. Le chemin nu /recherche passe par l'ALIAS du middleware
-       * (négociation de langue, un seul saut). Le dossier
-       * app/[locale]/recherche demeure mais n'est plus joignable — purge en
-       * fin de phase 2, avec /recevoir.
-       */
-      { source: '/fr/recherche', destination: `${ORIGIN}/fr/choisir-un-vin`, permanent: true },
-      { source: '/en/recherche', destination: `${ORIGIN}/en/how-to-choose-wine`, permanent: true },
-      { source: '/en/search', destination: `${ORIGIN}/en/how-to-choose-wine`, permanent: true },
-    ];
+    // La liste (anciens slugs anglais, /recevoir absorbée par
+    // /accord-mets-vins le 2026-08-13, /recherche absorbée par /choisir-un-vin
+    // le 2026-08-14) vit dans `lib/regles-de-bord`, partagée avec Cloudflare.
+    return redirectionsPermanentes(ORIGIN).map((r) => ({ ...r, permanent: true }));
   },
 };
+
+// Un export statique n'a ni en-têtes, ni réécritures, ni redirections : Next
+// refuserait de construire. Cloudflare les reçoit sous une autre forme.
+if (EXPORT_CLOUDFLARE) {
+  delete nextConfig.headers;
+  delete nextConfig.rewrites;
+  delete nextConfig.redirects;
+}
 
 export default nextConfig;

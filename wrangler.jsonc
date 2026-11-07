@@ -1,0 +1,24 @@
+{
+  // Le site iqwine.ai sur Cloudflare : des fichiers statiques (`out/`, cf.
+  // `npm run build:cloudflare`) et un Worker minuscule (`cloudflare/worker.ts`).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iqwine-web",
+  "main": "cloudflare/worker.ts",
+  "compatibility_date": "2026-10-01",
+  // `process.env` alimenté par les variables et secrets du Worker : c'est ce
+  // que lisent `lib/turnstile` et `lib/relais-contact`, partagés avec Vercel.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  // La clé IndexNow est PUBLIQUE par conception : le protocole exige qu'elle
+  // soit servie en clair à `/<clé>.txt`. Ce n'est pas un secret.
+  "vars": { "INDEXNOW_KEY": "a37d27ce1e8e1932e969e104d12c5202" },
+  // Les adresses *.workers.dev doubleraient le site sans canonical propre.
+  "workers_dev": false,
+  "preview_urls": true,
+  "observability": { "enabled": true }
+}

@@ -12,6 +12,9 @@ import type { MetadataRoute } from 'next';
  * theme_color = noir-cave brand (matches navbar transparente au top).
  * background_color = même couleur pour cohérence splash screen sans flash.
  */
+// Généré une fois à la construction (requis par l'export statique de Cloudflare).
+export const dynamic = 'force-static';
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'iQWine, L\'intelligence privée de votre cave',

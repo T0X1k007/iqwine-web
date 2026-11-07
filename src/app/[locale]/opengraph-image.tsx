@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { CORMORANT_500ITALIC, CORMORANT_600, HANKEN_500 } from '../_og-fonts/polices';
+import { LOCALES } from '@/lib/locale';
 
 /**
  * Image Open Graph de marque (1200×630), partage social premium.
@@ -33,6 +34,12 @@ import { CORMORANT_500ITALIC, CORMORANT_600, HANKEN_500 } from '../_og-fonts/pol
  *
  * `twitter-image.tsx` réexporte ce module (même typo/visuel summary_large_image).
  */
+// L'image ne dépend que de la langue : elle est générée une fois à la
+// construction. Obligatoire pour l'export statique de Cloudflare.
+export const dynamic = 'force-static';
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
 export const alt = 'iQWine, Votre sommelier personnel, propulsé par Octave';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
