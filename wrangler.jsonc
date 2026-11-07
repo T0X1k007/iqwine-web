@@ -17,8 +17,10 @@
   // La clé IndexNow est PUBLIQUE par conception : le protocole exige qu'elle
   // soit servie en clair à `/<clé>.txt`. Ce n'est pas un secret.
   "vars": { "INDEXNOW_KEY": "a37d27ce1e8e1932e969e104d12c5202" },
-  // Les adresses *.workers.dev doubleraient le site sans canonical propre.
-  "workers_dev": false,
+  // VALIDATION AVANT BASCULE : l'adresse *.workers.dev sert à tester le Worker
+  // avant que la route iqwine.ai/* existe. Les pages y portent la canonical
+  // iqwine.ai. À remettre à `false` dans le commit de bascule.
+  "workers_dev": true,
   "preview_urls": true,
   "observability": { "enabled": true }
 }
