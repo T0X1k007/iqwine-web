@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Hanken_Grotesk } from 'next/font/google';
+import { preload } from 'react-dom';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import '../polices.css';
 import '../globals.css';
 import { TRIAL_SHORT } from '@/lib/trial';
 import { notFound } from 'next/navigation';
@@ -12,9 +13,9 @@ import { LOCALES, isLocale, BCP47, SITE_ORIGIN } from '@/lib/locale';
 import { pageMetadata } from '@/lib/page-metadata';
 
 /**
- * Fonts via next/font/google : auto-self-host, auto-preload critique,
- * zero CLS sur fonts (size-adjust + fallback metric matching), zéro FOUT.
- * Élimine le @import url Google Fonts qui bloque le first paint.
+ * Polices hébergées dans le dépôt (`app/polices.css`, `public/polices/`),
+ * depuis le 2026-11-07 : `next/font/google` les téléchargeait à chaque build et
+ * le téléchargement échouait parfois. Mêmes fichiers, mêmes graisses.
  *
  * Direction éditoriale alignée cellier-vin (lib/fonts.ts), iQWine VISUAL 2.0 :
  *   - Display = Cormorant Garamond (serif magazine luxe, italic disponible)
@@ -22,23 +23,17 @@ import { pageMetadata } from '@/lib/page-metadata';
  *   - Body = Hanken Grotesk (sans humaniste chaud, remplace Inter)
  *     → labels, boutons, captions, prose, eyebrows
  *   - Mono = pile système (JetBrains Mono retiré, aligné app, perf)
+ *
+ * Préchargés : les fichiers que `next/font` préchargeait déjà (latin et latin
+ * étendu de Cormorant, droit et italique ; latin de Hanken).
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '600'], // 700 inutilisé, retiré (perf police mobile)
-  style: ['normal', 'italic'],
-  display: 'swap',
-  variable: '--font-cormorant',
-  fallback: ['Georgia', 'Times New Roman', 'serif'],
-});
-
-const hanken = Hanken_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'swap',
-  variable: '--font-hanken',
-  fallback: ['-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-});
+const POLICES_PRECHARGEES = [
+  '/polices/cormorant-garamond-latin.woff2',
+  '/polices/cormorant-garamond-latin-ext.woff2',
+  '/polices/cormorant-garamond-italique-latin.woff2',
+  '/polices/cormorant-garamond-italique-latin-ext.woff2',
+  '/polices/hanken-grotesk-latin.woff2',
+];
 
 /**
  * Données structurées site-wide (Organization + WebSite), éligibilité rich
@@ -146,11 +141,14 @@ export default async function RootLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
+  for (const href of POLICES_PRECHARGEES) {
+    preload(href, { as: 'font', type: 'font/woff2', crossOrigin: '' });
+  }
+
   return (
     <html
       lang={BCP47[locale]}
       suppressHydrationWarning
-      className={`${cormorant.variable} ${hanken.variable}`}
     >
       <body>
         {/*

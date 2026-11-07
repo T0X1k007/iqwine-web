@@ -81,6 +81,11 @@ const enTetes = [
   '/_next/static/*',
   '  Cache-Control: public, max-age=31536000, immutable',
   '',
+  // Polices du dépôt (`app/polices.css`) : un nom stable, un an de cache. Un
+  // jour où un fichier change, il change aussi de nom.
+  '/polices/*',
+  '  Cache-Control: public, max-age=31536000, immutable',
+  '',
   // Les images de partage n'ont pas d'extension : sans type déclaré, elles
   // seraient servies comme un fichier binaire quelconque.
   ...['fr', 'en'].flatMap((l) => [

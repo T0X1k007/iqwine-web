@@ -42,7 +42,14 @@ const nextConfig: NextConfig = {
   async headers() {
     // Content Security Policy et en-têtes de sécurité : `lib/regles-de-bord`.
     const isDev = process.env.NODE_ENV !== 'production';
-    return [{ source: '/(.*)', headers: enTetesDeSecurite(isDev) }];
+    return [
+      { source: '/(.*)', headers: enTetesDeSecurite(isDev) },
+      // Polices du dépôt (`app/polices.css`) : même cache que sur Cloudflare.
+      {
+        source: '/polices/:fichier*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+    ];
   },
   /**
    * ── INDEXNOW : LE FICHIER DE CLÉ DOIT VIVRE À LA RACINE ──────────────────
