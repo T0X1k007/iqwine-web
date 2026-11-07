@@ -205,3 +205,24 @@ Selon la documentation de Google (liste des robots courants de Google ; Agent Se
 ### Différé pour faible ROI
 - **Crawler Hints** : réglage global de la zone, qui signalerait aussi `app.` et `staging.`.
 - **Écart de 307 sur la barre oblique finale** : se règle par une règle de zone au moment de la bascule.
+
+## 12. Décision d'Éric (2026-11-07) : Claude-User reste bloqué
+
+**Objectif** : être référencé, tout en limitant la récupération directe du site pour des analyses concurrentielles.
+
+**Configuration voulue, vérifiée le 2026-11-07** (API Cloudflare et AI Crawl Control) :
+- **Claude-User** : bloqué (politique « Training : Disallow », Cloudflare le classe « AI Crawler »).
+- **ClaudeBot**, GPTBot, CCBot et les autres « AI Crawler » : bloqués sur toute la zone, `app.` et staging compris. Agents imités GPTBot, ClaudeBot et CCBot : 403 sur `iqwine.ai` et `app.iqwine.ai`.
+- **Claude-SearchBot** : autorisé (« AI Search »). `robots.txt` reste `Allow: /`.
+- Règles personnalisées de la zone : **0**.
+
+**Chantier de déblocage arrêté.** Une règle Block (id `a347f38f…`), qui reproduisait le blocage avec une exception Claude-User sur `iqwine.ai`, a existé quelques minutes. Le passage de « Training » à « Allow » n'a jamais été fait, donc l'exception n'a jamais pris effet. La règle a été supprimée, ce qui ramène la zone à son état antérieur.
+
+**Portée réelle.** Cette configuration réduit la récupération *directe* par l'agent de Claude. Ce n'est **pas** une protection contre la copie : le contenu public reste lisible par tout navigateur, et quelqu'un peut le copier ou le transmettre lui-même à une IA. La section §9 ci-dessus et le §8 de l'annexe 3 (« Claude-User : autoriser ») sont remplacés par cette décision.
+
+**Revue de divulgation des pages publiques** (2026-11-07). Pages lues en production : Sommelier IA (FR, EN), dont « Octave vérifiable », Guide (FR, EN), Fonctions, Comparatif, Accueil et `llms.txt`. Fragments JavaScript du Sommelier également examinés.
+- Aucun prompt, secret, nom de fournisseur de modèle, seuil, pondération, chemin interne ou donnée privée.
+- Les textes décrivent le résultat garanti, jamais la mécanique (règle « montrer le résultat, jamais la mécanique »).
+- Cartes de code source (`.map`), `.env` et `.git/config` : 404.
+- Les liens vers `app.iqwine.ai` sont les boutons « Commencer » et « Se connecter », comme prévu.
+- Aucune correction requise ; les explications commerciales restent intactes.
