@@ -127,3 +127,14 @@ Selon la documentation de Google (liste des robots courants de Google ; Agent Se
 - **Search Console** : indexation demandée pour `/fr/sommelier-ia`, `/fr/tarifs`, `/fr/cellier-intelligent`, `/fr/apogee` (4 confirmations « Indexation demandée »). La canonique choisie par Google reste « Page en double » **tant que Google n'a pas réexploré** : à confirmer dans 2 à 6 semaines.
 - **Google Play** : 5 modifications **en cours d'examen** (fiche FR, nom, description courte et description EN, politique `https://iqwine.ai/fr/confidentialite`). Coordonnées publiées : `support@iqwine.ca`, `https://iqwine.ai`. Déclaration IA : icône et image de présentation étiquetées, sur indication d'Éric. Aucune autre modification en attente.
 - **Non fait** : Bing (prochaine étape), captures (compte de démonstration), Claude-User (exception ciblée à étudier), statut de commerçant (décision d'Éric).
+
+## 9. Bing, Play et statut de commerçant (GO d'Éric, 2026-11-06 au soir)
+
+- **Bing** : `public/BingSiteAuth.xml` (jeton identique à celui de la propriété `https://iqwine.ai/` dans Bing) publié par `518157b`, `production` = `main`. Chaîne locale verte avant publication (typecheck, lint, build). Le fichier répond 200 en `application/xml`. Vérification par fichier XML : **réussie**, le tableau de bord est accessible. Sitemap `https://iqwine.ai/sitemap.xml` **resoumis** le 2026-11-07 UTC, statut « Processing » ; Bing comptait 22 URL depuis le 2026-08-02, le sitemap actuel en contient 38.
+- **Google Play, fiche publique** :
+  - **Soumis** : 5 modifications le 2026-11-06.
+  - **Approuvé** : la console affiche « Dernière publication le 6 novembre 2026 » et plus aucune modification en attente.
+  - **Visible** : titres « iQWine – Sommelier personnel » et « Personal Sommelier », nouveaux paragraphes « magasin par magasin » et « store by store », politique `https://iqwine.ai/fr/confidentialite`.
+  - **Pas encore visible** : site Web (`https://app.iqwine.ai`) et courriel (`admin@iqwine.ca`) de la fiche, alors que la console indique `https://iqwine.ai` et `support@iqwine.ca`. À revérifier ; rien n'a été resoumis.
+- **Statut de commerçant** : l'aide Google (answer/17594752) distingue « professionnel » et « non-professionnel », un choix différent du type de compte (personnel ou organisation). Le compte Play est **personnel**. S'il est déclaré professionnel, le **téléphone et l'adresse** du titulaire deviennent publics à partir du 2027-03-01. La déclaration est réservée au propriétaire du compte. Arbitrage d'Éric requis.
+- **Captures** : non faites. L'extension Chrome n'a pas la permission sur `app.iqwine.ai`, et la connexion au compte démo de production se fait par mot de passe : Éric doit l'ouvrir lui-même.
