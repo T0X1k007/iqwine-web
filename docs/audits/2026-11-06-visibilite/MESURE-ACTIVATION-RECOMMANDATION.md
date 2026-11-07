@@ -94,3 +94,11 @@ Rien ci-dessous n'est une validation juridique. Ce sont des brouillons pour la p
 ### 5.3 Ordre d'allumage (inchangé)
 
 EFVP signée, Politique publiée dans l'app, puis les interrupteurs. Rien n'est allumé.
+
+## 6. Écart constaté et corrigé (2026-11-07)
+
+- **Constat** : Cloudflare Web Analytics était en installation automatique sur toute la zone `iqwine.ai` depuis le 2026-07-05 (site `iqwine.ai`, jeton `e492d9…`). La balise était injectée dans les pages servies aux navigateurs sur `iqwine.ai`, `www.`, `app.` et `mos.`. L'affirmation du §3.1 (« ne mesure aujourd'hui que le staging ») était fausse, et la décision « collecte éteinte » n'était pas appliquée.
+- **Correction** : mesure du site désactivée (`enabled: false`) le 2026-11-07 vers 14:50 UTC. Vérifié ensuite, avec un agent de navigateur : aucune balise `cloudflareinsights` (ni Google, ni Vercel) sur `iqwine.ai`, `app.`, `mos.` et `staging.`.
+- **Non touché** : journaux de sécurité (Security Events, AI Crawl Control) et journaux techniques du Worker (Workers Logs).
+- **Données déjà recueillies** : elles restent dans Cloudflare jusqu'à leur expiration (6 mois). Rien n'a été effacé.
+

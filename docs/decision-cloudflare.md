@@ -172,3 +172,19 @@ Le build Vercel est inchangé (210/210, chaîne qualité verte).
 - **Déploiement désormais** : `git push origin main:production`, comme avant. Workers Builds construit la branche `production` (`pnpm run build:cloudflare`) puis lance `pnpm run deploy:cloudflare` : wrangler, puis IndexNow sur les URL canoniques. Un échec d'IndexNow rend le build rouge sans toucher au site déjà déployé. Vercel construit la même branche et reste l'origine de secours.
 - **Retour arrière** : Worker `iqwine-web` › Domains › supprimer la route `iqwine.ai/*`. Vercel reprend aussitôt.
 - **Point de fragilité connu** : `next/font/google` télécharge les polices à chaque build ; le téléchargement a échoué 3 fois le 2026-11-07 (Vercel, Cloudflare, local), chaque fois réussi en relançant. Un build raté ne déploie rien. Correctif possible : héberger les deux polices dans le dépôt (`next/font/local`).
+
+### Autonomie vis-à-vis de Vercel (2026-11-07, fin de journée)
+
+- **Fail open, vérifié** : selon la documentation Cloudflare (« Workers limits », section *Daily requests*) et le champ d'API `request_limit_fail_open`, ce mode ne couvre **que** le dépassement du quota gratuit de 100 000 requêtes par jour (erreur 1027). Il ne couvre ni une exception du Worker (1101) ni un dépassement de temps processeur (1102). La phrase « si le Worker échoue, Vercel prend le relais » écrite plus haut était donc fausse.
+- **Route passée en fail closed** : Vercel ne reçoit plus aucune requête de `iqwine.ai`. Un dépassement de quota donnerait l'erreur 1027 au lieu de la page servie par Vercel ; à notre trafic, ce quota est très loin.
+- **Redirections reprises par Cloudflare** (règles de redirection, forfait gratuit), à la place de Vercel :
+  - `www.iqwine.ai` vers `https://iqwine.ai` + chemin, 308, requête conservée ;
+  - `http://iqwine.ai` vers `https://`, 308. Lacune trouvée au passage : depuis la bascule, le Worker répondait 200 en `http`.
+  - Zone `iqwine.ca` : règle `iqwine.ca` et `www.iqwine.ca` vers `https://iqwine.ai` + chemin, 308, prête. Elle ne s'applique **pas encore** : ces deux enregistrements sont en « DNS only » vers Vercel, et le passage en « Proxied » est refusé à DATA par le filtre de sa session.
+- **Dépendances Vercel restantes** :
+  - `iqwine.ca` et `www.iqwine.ca` : redirection servie par Vercel tant que les deux enregistrements ne sont pas proxifiés ;
+  - l'enregistrement DNS de l'apex `iqwine.ai` vise encore Vercel. Il ne sert plus à rien en fail closed ; c'est le retour arrière. À remplacer par une cible sans origine (`AAAA 100::`, proxifiée) au moment de supprimer le projet Vercel, pour ne pas laisser un CNAME orphelin.
+- **Retour arrière** : remettre la route en fail open ou la supprimer ; supprimer les deux règles de redirection de la zone `iqwine.ai`.
+- **Polices** : hébergées dans le dépôt depuis `fdf66b0` (`public/polices/`, licences OFL jointes). Le build ne télécharge plus rien chez Google.
+- **IndexNow, réponse réelle lue dans les journaux de build** : 2026-11-07 14:14 UTC et 14:54 UTC, « → 38 URL pour iqwine.ai », puis « ✓ IndexNow : 200 — accepté ».
+
