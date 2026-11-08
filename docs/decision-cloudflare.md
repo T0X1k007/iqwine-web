@@ -170,7 +170,7 @@ Le build Vercel est inchangé (210/210, chaîne qualité verte).
 - Contrôlé sur `https://iqwine.ai` juste après : plus d'en-tête `x-vercel-id`, `verifier-routage.mjs` 210/210, les 38 URL du sitemap en 200 avec leur canonical, formulaire armé (403 sur jeton invalide), GPTBot, ClaudeBot et CCBot toujours en 403.
 - `workers_dev` et `preview_urls` refermés.
 - **Déploiement désormais** : `git push origin main:production`, comme avant. Workers Builds construit la branche `production` (`pnpm run build:cloudflare`) puis lance `pnpm run deploy:cloudflare` : wrangler, puis IndexNow sur les URL canoniques. Un échec d'IndexNow rend le build rouge sans toucher au site déjà déployé. Vercel construit la même branche et reste l'origine de secours.
-- **Retour arrière** : Worker `iqwine-web` › Domains › supprimer la route `iqwine.ai/*`. Vercel reprend aussitôt.
+- **Retour arrière** (caduc depuis le 2026-11-08, Vercel supprimé) : Worker `iqwine-web` › Domains › supprimer la route `iqwine.ai/*`.
 - **Point de fragilité connu** : `next/font/google` télécharge les polices à chaque build ; le téléchargement a échoué 3 fois le 2026-11-07 (Vercel, Cloudflare, local), chaque fois réussi en relançant. Un build raté ne déploie rien. Correctif possible : héberger les deux polices dans le dépôt (`next/font/local`).
 
 ### Autonomie vis-à-vis de Vercel (2026-11-07, fin de journée)
@@ -181,9 +181,9 @@ Le build Vercel est inchangé (210/210, chaîne qualité verte).
   - `www.iqwine.ai` vers `https://iqwine.ai` + chemin, 308, requête conservée ;
   - `http://iqwine.ai` vers `https://`, 308. Lacune trouvée au passage : depuis la bascule, le Worker répondait 200 en `http`.
   - Zone `iqwine.ca` : règle `iqwine.ca` et `www.iqwine.ca` vers `https://iqwine.ai` + chemin, 308, active depuis le 2026-11-07 : les deux enregistrements sont passés en « Proxied » (geste fait par DATA dans le tableau de bord, sur autorisation explicite d'Éric). Vérifié : 308 vers `iqwine.ai` avec chemin et requête conservés, en http comme en https, `server: cloudflare`, sans `x-vercel-id`.
-- **Dépendances Vercel restantes** :
-  - l'enregistrement DNS de l'apex `iqwine.ai` vise encore Vercel. Il ne sert plus à rien en fail closed ; c'est le retour arrière. À remplacer par une cible sans origine (`AAAA 100::`, proxifiée) au moment de supprimer le projet Vercel, pour ne pas laisser un CNAME orphelin.
-- **Retour arrière** : remettre la route en fail open ou la supprimer ; supprimer les deux règles de redirection de la zone `iqwine.ai`.
+- **Vercel retiré le 2026-11-08**, à la demande d'Éric : projet `iqwine-web` supprimé, domaines `iqwine.ai` et `iqwine.ca` retirés de l'équipe Vercel (le projet `iqforge-web` et ses domaines n'ont pas été touchés). Vérifié juste après : 7 adresses (apex, `www`, `http`, `iqwine.ca`, `www.iqwine.ca`) servies ou redirigées par Cloudflare, routage 210/210, 38/38 URL du sitemap en 200 avec la bonne canonique.
+- **Plus de retour arrière vers Vercel.** En cas de panne, on corrige le Worker et on republie (`main` vers `production`), ou on revient à un déploiement précédent dans Workers › Deployments.
+- **Enregistrements DNS inertes** : l'apex `iqwine.ai`, `iqwine.ca` et `www.iqwine.ca` visent encore des cibles Vercel, mais en proxy : la route du Worker et les règles de redirection répondent avant toute origine, qui n'est jamais contactée. Les remplacer par `AAAA 100::` exige de supprimer puis recréer chaque enregistrement ; quelques secondes sans réponse DNS peuvent être gardées en cache négatif jusqu'à 30 min par certains résolveurs. Gain purement esthétique : à faire seulement par l'API en lot (opération atomique), pas à la main.
 - **Polices** : hébergées dans le dépôt depuis `fdf66b0` (`public/polices/`, licences OFL jointes). Le build ne télécharge plus rien chez Google.
 - **IndexNow, réponse réelle lue dans les journaux de build** : 2026-11-07 14:14 UTC et 14:54 UTC, « → 38 URL pour iqwine.ai », puis « ✓ IndexNow : 200 — accepté ».
 
