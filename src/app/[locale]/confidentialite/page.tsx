@@ -109,7 +109,7 @@ export default async function ConfidentialitePage({ params }: ParamsLocale) {
 
       <LegalSection title={t('p5Title')}>
         {t('p5Intro')}
-        <LegalList items={[1, 2, 3, 4, 5].map((n) => t(`p5Item${n}`))} />
+        <LegalList items={[1, 2, 3, 4, 5, 6, 7].map((n) => t(`p5Item${n}`))} />
       </LegalSection>
 
       <LegalSection title={t('p6Title')}>{t('p6Body')}</LegalSection>
