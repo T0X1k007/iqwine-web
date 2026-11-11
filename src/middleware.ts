@@ -106,6 +106,8 @@ export function middleware(req: NextRequest): NextResponse {
       path: '/',
       maxAge: LOCALE_COOKIE_MAX_AGE,
       sameSite: 'lax',
+      // Jamais en clair (Mozilla Observatory, 2026-11-11) : HSTS protège déjà, Secure le dit.
+      secure: true,
     });
   }
   return res;

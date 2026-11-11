@@ -76,7 +76,7 @@ function langue(requete: Request, url: URL): Response | null {
   if (!isLocale(memorise)) {
     r.headers.append(
       'Set-Cookie',
-      `${LOCALE_COOKIE}=${choisie}; Path=/; Max-Age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`,
+      `${LOCALE_COOKIE}=${choisie}; Path=/; Max-Age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax; Secure`,
     );
   }
   return r;

@@ -49,7 +49,7 @@ export default function LanguageToggle() {
    */
   function memoriser(cible: Locale) {
     if (typeof document === 'undefined') return;
-    document.cookie = `${LOCALE_COOKIE}=${cible}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`;
+    document.cookie = `${LOCALE_COOKIE}=${cible}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax; Secure`;
   }
 
   return (

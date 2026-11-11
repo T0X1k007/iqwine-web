@@ -76,6 +76,10 @@ export function enTetesDeSecurite(isDev: boolean): { key: string; value: string 
     { key: 'X-Frame-Options', value: 'DENY' },
     { key: 'X-Content-Type-Options', value: 'nosniff' },
     { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+    // Les ressources du site ne se chargent que depuis iqwine.ai et ses sous-domaines
+    // (Mozilla Observatory, 2026-11-11). Les aperçus des réseaux, lus par leurs serveurs, ne
+    // sont pas concernés : la règle ne vaut que pour les navigateurs.
+    { key: 'Cross-Origin-Resource-Policy', value: 'same-site' },
     // HSTS jamais en dev : si le site est un jour consulté via un NOM
     // (MagicDNS Tailscale), un HSTS de deux ans épinglerait ce nom en
     // HTTPS dans le navigateur, irrécupérable côté serveur.
