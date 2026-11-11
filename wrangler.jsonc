@@ -22,7 +22,11 @@
   },
   // La clé IndexNow est PUBLIQUE par conception : le protocole exige qu'elle
   // soit servie en clair à `/<clé>.txt`. Ce n'est pas un secret.
-  "vars": { "INDEXNOW_KEY": "a37d27ce1e8e1932e969e104d12c5202" },
+  "vars": {
+    "INDEXNOW_KEY": "a37d27ce1e8e1932e969e104d12c5202",
+    // Même jeton PUBLIC que .env.production : le Worker calcule la CSP de ses réponses avec lui.
+    "NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN": "e492d90632ee43d9b0d73d500732174a"
+  },
   // Le site est servi par la route iqwine.ai/* (zone iqwine.ai, mode « fail
   // open » : si le Worker échoue, la requête passe à l'origine Vercel). Pas
   // d'adresse *.workers.dev, qui doublerait le site.

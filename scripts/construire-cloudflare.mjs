@@ -23,13 +23,32 @@
  * Usage :  npm run build:cloudflare
  */
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdtempSync, renameSync, rmSync, writeFileSync, cpSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync, cpSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SLUGS_ANGLAIS, enTetesDeSecurite, redirectionsPermanentes } from '../src/lib/regles-de-bord.ts';
 
 const RACINE = new URL('..', import.meta.url).pathname;
 const OUT = join(RACINE, 'out');
+
+/**
+ * LES VALEURS PUBLIQUES DE `.env.production` VALENT AUSSI POUR `_headers` (2026-11-11).
+ *
+ * Next lit `.env.production` dans le processus qui construit les pages, pas dans celui-ci :
+ * la balise de mesure partait dans le HTML, mais la CSP de `_headers`, calculée ici, ne
+ * voyait pas le jeton et aurait bloqué la balise. On recopie donc ce fichier dans
+ * l'environnement de ce script, sans jamais remplacer une variable déjà posée (une
+ * variable de build Cloudflare garde la priorité, comme sous Next).
+ */
+function chargerEnvProduction() {
+  const fichier = join(RACINE, '.env.production');
+  if (!existsSync(fichier)) return;
+  for (const ligne of readFileSync(fichier, 'utf8').split('\n')) {
+    const m = ligne.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/);
+    if (m && process.env[m[1]] === undefined) process.env[m[1]] = m[2];
+  }
+}
+chargerEnvProduction();
 
 // ── 1. Construire, avec les fichiers serveur mis de côté ─────────────────────
 const aPart = mkdtempSync(join(tmpdir(), 'iqwine-cloudflare-'));
