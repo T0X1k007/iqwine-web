@@ -80,12 +80,14 @@ export function enTetesDeSecurite(isDev: boolean): { key: string; value: string 
     // (Mozilla Observatory, 2026-11-11). Les aperçus des réseaux, lus par leurs serveurs, ne
     // sont pas concernés : la règle ne vaut que pour les navigateurs.
     { key: 'Cross-Origin-Resource-Policy', value: 'same-site' },
+    // Sans `preload` (décision d'Éric du 2026-11-11) : aucune inscription à la liste
+    // préchargée des navigateurs, difficile à annuler et étendue à tous les sous-domaines.
     // HSTS jamais en dev : si le site est un jour consulté via un NOM
     // (MagicDNS Tailscale), un HSTS de deux ans épinglerait ce nom en
     // HTTPS dans le navigateur, irrécupérable côté serveur.
     ...(isDev
       ? []
-      : [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' }]),
+      : [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' }]),
     { key: 'Content-Security-Policy', value: politiqueDeContenu(isDev) },
     {
       key: 'Permissions-Policy',
